@@ -1,0 +1,149 @@
+/* || General styling */
+body {
+	background-color: #121212;
+}
+body.solved {
+	transition: all 6s;
+	background-color: #dfdfdf;
+}
+
+a:link, a:visited {
+	color: #00bbbb;
+}
+.solved a:link, .solved a:visited {
+	color: #dfdfdf;
+}
+a:hover {
+	color: #00dddd;
+	text-shadow: 0 0 1px #aaaa00;
+}
+
+code.answer {
+	color: #ef5d5d;
+}
+.solved code.answer {
+	color: #dfdfdf;
+}
+strong {
+	color: #dda500;
+}
+.solved strong {
+	color: #dfdfdf;
+}
+
+/* || Specific puzzle elements */
+.flavortext {
+	font-style: italic;
+}
+.solved .flavortext {
+	color: #112211;
+}
+.solved #title {
+	color: #112211;
+}
+
+.emoji-link:hover {
+	text-shadow: 0 0 0.4em #eeee44;
+}
+
+/* || Top-level containers */
+
+#status span {
+	color: #cbd083;
+}
+#status span.navitem {
+	border-bottom: 2px dotted #999999;
+}
+
+#puzzlehead {
+	margin-top: 3px;
+	border: 2px dashed #aaaaaa;
+	border-radius: 12px;
+	padding-top: 20px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 25px;
+}
+
+#content {
+	color: #dfdfdf;
+}
+
+#acknowledgments {
+	color: #999999;
+	text-align: left;
+	font-size: 14px;
+}
+.solved #acknowledgments {
+	color: #dfdfdf;
+}
+
+#acknowledgments a:link, #acknowledgments a:visited {
+	color: #779999;
+}
+.solved #acknowledgments a:link, .solved #acknowledgments a:visited {
+	color: #dfdfdf;
+}
+
+/* || Answer checker */
+#answerchecker {
+	text-align: center;
+}
+#answer {
+	height: 48px;
+	width: 500px;
+	font-family: Inconsolata, monospace;
+	font-size: 160%;
+	text-align: center;
+	padding: 3px;
+	background-color: #121212;
+	color: #dfdfdf;
+	margin: 0 auto;
+}
+.solved #answer {
+	background-color: #565656;
+}
+
+#percent {
+	font-size: 120%;
+	font-family: sans-serif;
+	color: #dfdfdf;
+	visibility: hidden;
+}
+#wrong {
+	transition: all 2s;
+}
+
+div.prizeholder {
+	position: relative;
+}
+#prize {
+	display: none;
+	visibility: hidden;
+	font-size: 340%;
+	text-decoration: none !important;
+	opacity: 0;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	left: 50%;
+	top: 100px;
+	transition: all 2s;
+	transition-delay: 0.2s;
+}
+.solved #prize {
+	visibility: visible;
+	opacity: 1;
+}
+
+div.icons {
+	font-size: 160%;
+}
+span.icon {
+	display: none;
+}
+span.icon-placeholder {
+	visibility: hidden;
+}
+span.name {
+	color: #ff985a;
+}

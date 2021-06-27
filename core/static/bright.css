@@ -1,0 +1,81 @@
+body {
+	background-color: #efefef;
+}
+
+#container {
+	color: #010501;
+}
+
+a:link, a:visited
+{
+	color: #2188e0;
+}
+a:hover {
+	color: #006b57;
+	text-shadow: 0 0 1px #2188e0;
+}
+
+code.answer {
+	color: #bc1111;
+}
+
+#status span {
+	color: #878c49;
+}
+#status span.navitem {
+	border-bottom: 1px dotted #666666;
+}
+
+.emoji-link:hover { /* back button */
+	text-shadow: 0 0 13px #ee6666;
+	text-decoration: none;
+}
+#door {
+	font-size: 128px;
+	text-align: center;
+	display: block;
+}
+.reason {
+	color: #2c1fcd;
+}
+span.name {
+	color: #d93636;
+}
+
+h3.courage-plus-plus {
+	font-family: sans-serif;
+	font-weight: 900;
+	font-size: 25px;
+	color: #006700;
+	text-align: center;
+}
+
+hr.solution-divider {
+	margin: 30px 0;
+}
+
+div.fourthwall {
+	font-size: 17px;
+	max-width: 680px;
+	border: 3px dotted;
+	padding: 4px 16px;
+	margin: 16px auto;
+	text-align: justify;
+}
+
+#solution {
+	color: #1f0042;
+	border-color: #990000;
+}
+
+#notes {
+	color: #006633;
+	border-color: #000077;
+}
+
+code {
+	color: #550022;
+}
+strong {
+	color: #000077;
+}
