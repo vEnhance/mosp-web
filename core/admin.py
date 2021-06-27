@@ -17,7 +17,7 @@ class UnitAdmin(admin.ModelAdmin):
 @admin.register(models.Puzzle)
 class PuzzleAdmin(admin.ModelAdmin):
 	list_display = ('title', 'slug', 'icon', 'place',
-			'visible_when_unlocked', 'unlock_date',
+			'force_visibility', 'unlock_date',
 			'unlock_threshold', 'courage_bounty',)
 	search_fields = ('id', 'name', 'round__name', 'hunt__name')
 	list_filter = ('unit', 'unit__hunt')

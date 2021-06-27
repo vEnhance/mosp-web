@@ -59,9 +59,6 @@ class Puzzle(models.Model):
 			blank = True,
 			)
 
-	visible_when_unlocked = models.BooleanField(
-			help_text = "Show the puzzle on the index when unlocked?",
-			default = True)
 	unlock_threshold = models.IntegerField(
 			default = 0,
 			help_text = "Amount of courage needed to unlock"
@@ -69,6 +66,10 @@ class Puzzle(models.Model):
 	unlock_date = models.DateTimeField(
 			null = True,
 			help_text = "When the puzzle can be unlocked"
+			)
+	force_visibility = models.BooleanField(
+			null = True,
+			help_text = "If True, always show; if False, always hide"
 			)
 
 	courage_bounty = models.IntegerField(
