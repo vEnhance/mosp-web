@@ -58,6 +58,9 @@ class Puzzle(models.Model):
 			help_text = "The location associated to this puzzle",
 			blank = True,
 			)
+	place_slug = models.SlugField(
+			help_text = "Slug for the location in the map"
+			)
 
 	unlock_threshold = models.IntegerField(
 			default = 0,
