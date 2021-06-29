@@ -1,0 +1,5 @@
+Django>=3.2.4
+django-stubs>=1.7.0
+type-ast>=1.4.3
+Markdown>=3.3.4
+types-markdown>=3.3.0
