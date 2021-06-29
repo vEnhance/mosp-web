@@ -1,5 +1,4 @@
 from django.db import models
-import markdown
 # Create your models here.
 
 
