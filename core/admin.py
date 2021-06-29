@@ -8,16 +8,10 @@ class HuntAdmin(admin.ModelAdmin):
 	list_display = ('number', 'name', 'start_date', 'visible')
 	search_fields = ('name',)
 
-@admin.register(models.Unit)
-class UnitAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'hunt')
-	search_fields = ('id', 'name', 'hunt__name')
-	list_filter = ('hunt',)
-
 @admin.register(models.Puzzle)
 class PuzzleAdmin(admin.ModelAdmin):
-	list_display = ('title', 'slug', 'icon', 'place',
+	list_display = ('title', 'slug', 'is_meta',
 			'force_visibility', 'unlock_date',
 			'unlock_threshold', 'courage_bounty',)
-	search_fields = ('id', 'name', 'round__name', 'hunt__name')
-	list_filter = ('unit', 'unit__hunt')
+	search_fields = ('id', 'name', 'parent__name', 'hunt__name')
+	list_filter = ('is_meta', 'parent', 'hunt',)
