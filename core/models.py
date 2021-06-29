@@ -22,7 +22,18 @@ class Hunt(models.Model):
 	def get_absolute_url(self):
 		return '/'
 
+class RoundManager(models.Manager):
+	def get_queryset(self):
+		return super().get_queryset().filter(parent__isnull=True)
+class PuzzleManager(models.Manager):
+	def get_queryset(self):
+		return super().get_queryset().filter(parent__isnull=False)
+
 class Puzzle(models.Model):
+	objects = models.Manager()
+	puzzles = PuzzleManager()
+	rounds = RoundManager()
+
 	title = models.CharField(max_length = 80)
 	hunt = models.ForeignKey(Hunt,
 			help_text = "The hunt that this puzzle belongs to",
@@ -119,8 +130,40 @@ class Puzzle(models.Model):
 	def get_absolute_url(self):
 		raise NotImplementedError("To be written")
 
+class Hint(models.Model):
+	cost = models.PositiveSmallIntegerField(
+			help_text = "The cost of the hint (patience)")
+	question = models.CharField(max_length = 120,
+			help_text = "The question that the hint is for.")
+	answer = models.CharField(max_length = 120,
+			help_text = "The content of the hint.")
+	time_until = models.PositiveSmallIntegerField(
+			help_text = "Minutes until the hint is visible.")
+
 class Token(models.Model):
 	uuid = models.UUIDField(
 			primary_key = True,
 			default = uuid.uuid4,
 			editable = False)
+	name = models.CharField(max_length = 128,
+			help_text = "Who are you?")
+	hints_obtained = models.ManyToManyField(Hint,
+			help_text = "Hints purchased by this token")
+
+class Solve(models.Model):
+	token = models.ForeignKey(Token,
+			help_text = "The token this solve attempt is for",
+			on_delete = models.CASCADE)
+	puzzle = models.ForeignKey(Puzzle,
+			on_delete = models.CASCADE)
+	answer_guesses = models.TextField(
+			help_text = "Newline separated list of answer guesses"
+			)
+	unlocked_on = models.DateTimeField(
+			help_text = "When this puzzle was unlocked",
+			null = True
+			)
+	solved_on = models.DateTimeField(
+			help_text = "When this puzzle was solved",
+			null = True
+			)
