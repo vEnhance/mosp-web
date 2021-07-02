@@ -137,7 +137,7 @@ class Hint(models.Model):
 			help_text = "The question that the hint is for.")
 	answer = models.CharField(max_length = 120,
 			help_text = "The content of the hint.")
-	time_until = models.PositiveSmallIntegerField(
+	minutes_until_unlock = models.PositiveSmallIntegerField(
 			help_text = "Minutes until the hint is visible.")
 
 class Token(models.Model):
