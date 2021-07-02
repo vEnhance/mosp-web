@@ -151,6 +151,7 @@ span.navitem:hover div.tooltip {
 	margin: 0 auto;
 	position: relative;
 	margin-bottom: 20px;
+	padding: 10px 10px 10px 10px;
 }
 
 /* Shared classes */
@@ -246,6 +247,7 @@ div.strong-emph em {
 
 h1, h2 {
 	text-align: center;
+	font-weight: bold;
 }
 
 h1, h2, h3, h4, h5, h6 {

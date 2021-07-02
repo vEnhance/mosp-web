@@ -1,0 +1,33 @@
+{% load crispy_forms_tags %}
+
+<form action="{{ target|default:request.path }}" method="post" class="form">
+{% csrf_token %}
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger" role="alert">
+	<p>The following errors were thrown:</p>
+	<ul>
+	{% for err in form.non_field_errors %}
+	<li>{{ err }}</li>
+	{% endfor %}
+	</ul>
+</div>
+{% endif %}
+
+	<table class="table form-table">
+		{% for hidden in form.hidden_fields %}
+		{{ hidden }}
+		{% endfor %}
+
+		{% for field in form.visible_fields %}
+		<tr><td>{{ field|as_crispy_field }}</td></tr>
+		{% endfor %}
+
+		<tr><td>
+			<button type="submit"
+				class="btn {{ btn_class|default:"btn-success"}}">
+				{{ submit_name|default:"Submit" }}
+			</button>
+		</td></tr>
+	</table>
+</form>

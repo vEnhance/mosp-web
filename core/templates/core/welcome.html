@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load mkd %}
+{% block title %}Hello{% endblock %}
+
+{% block content %}
+<h1>Welcome</h1>
+
+<p>What should I call you?</p>
+
+{% include "generic-form.html" %}
+
+{% endblock %}

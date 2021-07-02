@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% load mkd %}
+{% block title %}MOSP: A Light Novel{% endblock %}
 
 {% block content %}
 <h1>MOSP: A Light Novel</h1>
+
+<p>Welcome back, {{ token.name }}.</p>
 
 {% for hunt in hunt_list %}
 <h2>Chapter {{ hunt.number }}:
