@@ -43,6 +43,15 @@ $(function() {
           salt : i,
           puzzle_slug : puzzle_slug,
         }, (result) => {
+          if (!result) {
+            Swal.fire({
+              title : "Something went wrong",
+              text : "That answer should have been accepted, but wasn't. "
+                + "Please contact Evan so we can debug this issue",
+              icon : 'error',
+            });
+            return;
+          }
           if (result.correct == 1) {
             target_url = result.url;
           } else if (result.correct > 0) {
@@ -50,6 +59,13 @@ $(function() {
               title : "Stay determined...",
               text : result.message,
               icon : 'success',
+            });
+          } else {
+            Swal.fire({
+              title : "Something went wrong",
+              text : "That answer should have been accepted, but wasn't. "
+                + "Please contact Evan so we can debug this issue",
+              icon : 'error',
             });
           }
         }, 'json');

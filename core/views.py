@@ -147,4 +147,3 @@ def ajax(request) -> JsonResponse:
 			'correct' : 0,
 			})
 	return JsonResponse({}, status=400)
-	# TODO webhook ig
