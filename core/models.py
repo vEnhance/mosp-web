@@ -8,11 +8,13 @@ class Hunt(models.Model):
 			help_text = "The number of the hunt",
 			unique = True)
 	name = models.CharField(max_length = 80,
-			help_text = "The name of this hunt.")
+			help_text = "The name of this hunt.",
+			blank = True)
 	authors = models.CharField(max_length = 255,
 			help_text = "The credits for this hunt.")
 	description = models.TextField(
-			help_text = "The text to display for this hunt.")
+			help_text = "The text to display for this hunt.",
+			blank = True)
 	start_date = models.DateTimeField(
 			help_text = "When the hunt can be started.")
 	visible = models.BooleanField(
