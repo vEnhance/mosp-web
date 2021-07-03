@@ -117,7 +117,7 @@ span.navitem:hover, span.navitem:hover span {
 span.navitem:hover span {
 	text-shadow: 0 0 16px #eeee44;
 }
-span.navitem div.tooltip {
+span.navitem div.navbar-tooltip {
 	display: none;
 	position: absolute;
 	right: 0;
@@ -130,19 +130,19 @@ span.navitem div.tooltip {
 	color: #072229;
 	font-weight: normal;
 }
-span.navitem div.tooltip div.tooltip-header {
+span.navitem div.navbar-tooltip div.tooltip-header {
 	color: #8f2222;
 	font-size: 16px;
 	font-weight: bold;
 }
-#courage div.tooltip {
+#courage div.navbar-tooltip {
 	width: 120px;
 }
-#patience div.tooltip {
+#patience div.navbar-tooltip {
 	width: 90px;
 }
 
-span.navitem:hover div.tooltip {
+span.navitem:hover div.navbar-tooltip {
 	display: block;
 }
 
@@ -151,7 +151,6 @@ span.navitem:hover div.tooltip {
 	margin: 0 auto;
 	position: relative;
 	margin-bottom: 20px;
-	padding: 10px 10px 10px 10px;
 }
 
 /* Shared classes */

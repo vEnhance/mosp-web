@@ -22,22 +22,24 @@ class TokenGatedListView(ListView):
 		uuid = self.request.COOKIES.get('uuid', None)
 		if not uuid:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
+		self.token = models.Token.objects.get(uuid=uuid)
 		return super().dispatch(request, *args, **kwargs)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		if 'uuid' in self.request.COOKIES:
-			context['token'] = models.Token.objects.get(uuid=self.request.COOKIES['uuid'])
+			context['token'] = self.token
 		return context
 class TokenGatedDetailView(DetailView):
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
 		uuid = self.request.COOKIES.get('uuid', None)
 		if not uuid:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
+		self.token = models.Token.objects.get(uuid=uuid)
 		return super().dispatch(request, *args, **kwargs)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		if 'uuid' in self.request.COOKIES:
-			context['token'] = models.Token.objects.get(uuid=self.request.COOKIES['uuid'])
+			context['token'] = self.token
 		return context
 
 class HuntList(TokenGatedListView):
@@ -59,16 +61,22 @@ class HuntList(TokenGatedListView):
 		if 'uuid' not in request.COOKIES:
 			return render(request, 'core/welcome.html', {'form' : form})
 		else:
+			self.token = models.Token.objects.get(
+					uuid=request.COOKIES.get('uuid'))
 			return self.get(request, *args, **kwargs)
 
-class RoundList(TokenGatedListView):
-	"""List of all the rounds in a given hunt"""
-	context_object_name = "round_list"
-	template_name = "core/round_list.html"
-	model = models.Round
+class RoundUnlockableList(TokenGatedListView):
+	"""List of all the top-level rounds in a given hunt"""
+	context_object_name = "round_unlockable_list"
+	template_name = "core/round_unlockable_list.html"
+	model = models.Unlockable
 	def get_queryset(self):
 		self.hunt = models.Hunt.objects.get(**self.kwargs)
-		return models.Round.objects.filter(unlockable__hunt = self.hunt)
+		queryset = models.Unlockable.objects.filter(
+				hunt = self.hunt,
+				parent__isnull = True).select_related('round')
+		queryset = models.get_viewable(queryset, self.token)
+		return queryset
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['hunt'] = self.hunt
@@ -80,7 +88,10 @@ class UnlockableList(TokenGatedListView):
 	model = models.Unlockable
 	def get_queryset(self):
 		self.round = models.Round.objects.get(**self.kwargs)
-		return models.Unlockable.objects.filter(parent = self.round.unlockable)
+		return models.get_viewable(
+				models.Unlockable.objects.filter(
+					parent = self.round.unlockable
+				), self.token)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round

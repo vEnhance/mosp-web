@@ -8,6 +8,7 @@ const audio = new Audio('https://github.com/vEnhance/dotfiles/blob/main/noisemak
 audio.volume = 0.6;
 
 $(function() {
+
   // Assign relevant metadata
   $('#prize').css('display', 'block');
   let active = false;
@@ -27,12 +28,22 @@ $(function() {
     }
   }
 
+  const err = () => {
+    Swal.fire({
+      title : "Something went wrong",
+      text : "That answer should have been accepted, but wasn't. "
+        + "Please contact Evan so we can debug this issue",
+      icon : 'error',
+    });
+  }
+  $(document).ajaxError(err);
+
   async function guessSalt(t : number, answer : string) {
     $("#percent").html(t+"%");
     for (let i = 111*t; i < 111*(t+1); i++) {
       const g = 'MOSP_LIGHT_NOVEL_' + answer + i;
       const hash = await SHA(g);
-      if (i == 5350) {
+      if (i == 2498) {
         console.log(g);
         console.log(hash);
       }
@@ -43,13 +54,8 @@ $(function() {
           salt : i,
           puzzle_slug : puzzle_slug,
         }, (result) => {
-          if (!result) {
-            Swal.fire({
-              title : "Something went wrong",
-              text : "That answer should have been accepted, but wasn't. "
-                + "Please contact Evan so we can debug this issue",
-              icon : 'error',
-            });
+          if (!result || !result.correct) {
+            err();
             return;
           }
           if (result.correct == 1) {
@@ -61,14 +67,9 @@ $(function() {
               icon : 'success',
             });
           } else {
-            Swal.fire({
-              title : "Something went wrong",
-              text : "That answer should have been accepted, but wasn't. "
-                + "Please contact Evan so we can debug this issue",
-              icon : 'error',
-            });
+            err();
           }
-        }, 'json');
+        }, 'json').fail(err);
       }
     }
     if (t < 100) {

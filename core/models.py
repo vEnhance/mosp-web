@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q, OuterRef, Exists
 from django.urls import reverse_lazy
 from django.utils import timezone
 import uuid
@@ -27,7 +28,7 @@ class Hunt(models.Model):
 	def __str__(self):
 		return self.name
 	def get_absolute_url(self):
-		return reverse_lazy('round-list', args=(self.volume_number,))
+		return reverse_lazy('round-unlockable-list', args=(self.volume_number,))
 
 class Unlockable(models.Model):
 	hunt = models.ForeignKey(Hunt,
@@ -228,6 +229,11 @@ class Token(models.Model):
 			help_text = "Hints purchased by this token")
 	def __str__(self):
 		return self.name
+	@property
+	def firstname(self):
+		if not ' ' in self.name:
+			return self.name
+		return self.name[:self.name.index(' ')]
 	def get_courage(self):
 		return Solve.objects.filter(token = self, solved_on__isnull = False)\
 				.aggregate(courage = models.Sum('unlockable__courage_bounty'))['courage']\
@@ -244,3 +250,30 @@ class Token(models.Model):
 			).exists():
 				return False
 		return self.get_courage() >= u.unlock_courage_threshold
+
+def get_unlockable(queryset, token):
+	courage = token.get_courage()
+	queryset = queryset.filter(unlock_courage_threshold__lte=courage)
+	queryset = queryset.exclude(unlock_date__isnull = True,
+			unlock_date__gt = timezone.now())
+	queryset = queryset.exclude(Q(unlock_needs__isnull = False),
+			~Exists(
+				Solve.objects.filter(
+					token=token,
+					unlockable=OuterRef('unlock_needs'),
+					solved_on__isnull = True,
+					)
+				)
+			)
+	return queryset
+def get_viewable(queryset, token):
+	unlockable = get_unlockable(queryset, token)
+	unlockable = unlockable.exclude(Q(force_visibility=False),
+			~Exists(
+				Solve.objects.filter(
+					token=token,
+					unlockable=OuterRef('pk')
+					)
+				)
+			)
+	return unlockable.union(queryset.filter(force_visibility=True))

@@ -2,6 +2,18 @@
 {% load mkd %}
 {% load static %}
 
+{% block leftnav %}
+<span id="back" class="navbar">
+	{% if unlockable.parent %}
+	<a class="emoji-link" href="{{ unlockable.parent.round.get_absolute_url }}">🗺️</a>
+	{% else %}
+	<a class="emoji-link" href="{{ unlockable.hunt.get_absolute_url }}">🌍</a>
+	{% endif %}
+	<span class="name">{{ token.firstname }}</span>
+	</span>
+</span>
+{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "bright.css" %}">
 {% endblock %}
@@ -9,12 +21,48 @@
 {% block title %}{{ unlockable.name }}{% endblock %}
 
 {% block content %}
-<h1>{{ unlockable.name }}</h1>
+{% with u=unlockable %}
+<h1>{{ u.name }}</h1>
 
-gj you unlocked something ig
+{% if u.is_puzzle %}
+	{{ u.puzzle.pre_solve_story|mkd }}
+{% endif %}
+<hr />
+{% if locked %}
+	<h1>
+	{% if u.parent.round %}
+	<a id="door" class="emoji-link"
+		href="{{u.parent.round.get_absolute_url}}">🔒</a>
+	{% else %}
+	<a id="door" class="emoji-link"
+		 href="{{ u.hunt.get_absolute_url }}">🔒</a>
+	{% endif %}
+	</h1>
+	<p>
+	This will unlock
+	{% if u.unlock_date %}on {{ u.unlock_date|date }}{% endif %}
+	if
+	{% if u.unlock_needs %}
+		{{ u.unlock_needs.puzzle.name }} is completed
+		{% if u.unlock_courage_threshold > 0 %}
+		and you have at least {{ u.unlock_courage_threshold }}💜
+		{% endif %}
+	{% else %}
+		you have at least {{ u.unlock_courage_threshold }}💜.
+	{% endif %}
+{% else %}
+	{% if u.is_puzzle %}
+	<h1>
+	<a id="door" class="emoji-link"
+		href="{{ u.puzzle.get_absolute_url }}">🚪</a>
+	</h1>
+	{% else %}
+	<h1>
+	<a id="door" class="emoji-link"
+		 href="{{ u.round.get_absolute_url }}">🚪</a>
+	</h1>
+	{% endif %}
+{% endif %}
 
-{{ locked }}
-
-{{ new }}
-
+{% endwith %}
 {% endblock %}

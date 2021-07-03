@@ -25,13 +25,12 @@ Evan
 <link rel="mask-icon" href="//web.evanchen.cc/icons/safari-pinned-tab.svg" color="#5bbad5">
 <link rel="shortcut icon" href="//web.evanchen.cc/icons/favicon.ico">
 
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
-
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata" />
 <link rel="stylesheet" type="text/css" href="{% static 'common.css' %}" />
 
+{% block palette %}
+<link rel="stylesheet" type="text/css" href="{% static 'bright.css' %}" />
+{% endblock %}
 {% block css %}
 {% endblock %}
 <meta name="msapplication-config" content="//web.evanchen.cc/icons/browserconfig.xml">
@@ -49,19 +48,44 @@ MathJax = {
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
 {% block header %}
 {% endblock %}
 <script data-main="/static/main.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
 </head>
 <body>
+
 <div id="container">
-	<div id="content">
-	{% block content %}
-	{% endblock %}
-	</div>
-	{% block acknowledgments %}
-	{% endblock %}
+<div id="content">
+{% block leftnav %}
+{% endblock %}
+
+{% block rightnav %}
+<span id="status" class="navbar">
+	<span class="navitem" id="courage">
+		💜<span id="courage_value">{{ token.get_courage }}</span>
+		<div class="navbar-tooltip">
+			<div class="tooltip-header">Courage</div>
+			Gain 💜 with <br>solved puzzles.
+		</div>
+	</span>
+	<span class="navitem" id="patience">
+		💛<span id="patience_value">{{ token.get_patience }}</span>
+		<div class="navbar-tooltip">
+			<div class="tooltip-header">Patience</div>
+			Gain 💛 over time.
+		</div>
+	</span>
+</span>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
 </div>
+{% block acknowledgments %}
+{% endblock %}
+</div>
+
 </body>
 </html>

@@ -6,11 +6,13 @@
 <h1>{{ hunt.volume_number }}. {{ hunt.name }}</h1>
 
 <table class="table">
-{% for round in round_list %}
+{% for unlockable in round_unlockable_list %}
+{% with round=unlockable.round %}
 <tr>
 <th>Chapter {{ round.chapter_number }}</th>
-<td><a href="{{round.get_absolute_url}}">{{round.name}}</a></td>
+<td><a href="{{round.unlockable.get_absolute_url}}">{{round.name}}</a></td>
 </tr>
+{% endwith %}
 {% endfor %}
 </table>
 

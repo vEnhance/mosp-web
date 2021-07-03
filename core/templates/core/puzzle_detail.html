@@ -20,6 +20,13 @@ const hashes = [
 
 {% block title %}{{ puzzle.name }}{% endblock %}
 
+{% block leftnav %}
+<span id="back" class="navbar">
+	<a class="emoji-link" href="{{ puzzle.unlockable.parent.round.get_absolute_url }}">🗺️</a>
+	<span class="name">{{ token.firstname }}</span>
+</span>
+{% endblock %}
+
 {% block content %}
 <h1>{{ puzzle.name }}</h1>
 <div class="flavortext">

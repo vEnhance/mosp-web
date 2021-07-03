@@ -2,10 +2,20 @@
 {% load mkd %}
 {% block title %}{{ round.name }}{% endblock %}
 
+{% block leftnav %}
+<span id="back" class="navbar">
+	{% if round.unlockable.parent %}
+	<a class="emoji-link" href="{{ round.unlockable.parent.round.get_absolute_url }}">🗺️</a>
+	{% else %}
+	<a class="emoji-link" href="{{ round.unlockable.hunt.get_absolute_url}}">🌍</a>
+	{% endif %}
+	<span class="name">{{ token.firstname }}</span>
+	</span>
+</span>
+{% endblock %}
+
 {% block content %}
 <h1>{{ round.name }}</h1>
-
-
 <table class="table">
 {% for u in unlockable_list %}
 <tr>
