@@ -72,8 +72,19 @@ class Unlockable(models.Model):
 			help_text = "Amount of courage obtained by solving",
 			default = 25,
 			)
+	@property
+	def is_puzzle(self):
+		return hasattr(self, 'puzzle')
+	@property
+	def is_round(self):
+		return hasattr(self, 'round')
 	def __str__(self):
-		return self.name
+		if self.is_puzzle:
+			return '[P] ' + self.name
+		elif self.is_round:
+			return '[R] ' + self.name
+		else:
+			return self.name
 
 class Puzzle(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
@@ -81,9 +92,9 @@ class Puzzle(models.Model):
 			null = True, blank = True,
 			on_delete = models.SET_NULL)
 	title = models.CharField(max_length = 80)
-	is_meta = models.BooleanField(
-			help_text = "Whether this is a metapuzzle",
-			default = False)
+	slug = models.SlugField(
+			help_text = "The slug for the puzzle",
+			)
 	answer = models.CharField(max_length = 80,
 			help_text = "Display answer to the puzzle",
 			)
@@ -91,6 +102,9 @@ class Puzzle(models.Model):
 			help_text = "A random number from 0000 to 9999",
 			default = 0
 			)
+	is_meta = models.BooleanField(
+			help_text = "Whether this is a metapuzzle",
+			default = False)
 	content = models.TextField(
 			help_text = "Markdown for the puzzle content",
 			blank = True,
@@ -114,9 +128,6 @@ class Puzzle(models.Model):
 	puzzle_head = models.TextField(
 			help_text = "Extra HTML to include in <head>",
 			blank = True,
-			)
-	slug = models.SlugField(
-			help_text = "The slug for the puzzle",
 			)
 	def __str__(self):
 		return self.title
