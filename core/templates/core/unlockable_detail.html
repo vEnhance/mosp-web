@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load mkd %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "bright.css" %}">
+{% endblock %}
+
+{% block title %}{{ unlockable.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ unlockable.name }}</h1>
+
+gj you unlocked something ig
+
+{{ locked }}
+
+{{ new }}
+
+{% endblock %}

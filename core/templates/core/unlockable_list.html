@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load mkd %}
+{% block title %}{{ round.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ round.name }}</h1>
+
+
+<table class="table">
+{% for u in unlockable_list %}
+<tr>
+	<td>{{ u.icon }}<a href="{{u.get_absolute_url}}">{{ u.name }}</a></td>
+	{% if u.is_puzzle %}
+	<td>
+	<a href="{{u.puzzle.get_absolute_url}}">
+		{{u.puzzle.name}}</a>
+	</td>
+	{% elif u.is_round %}
+	<th>
+	<a href="{{round.get_absolute_url}}">
+		{{round.name}}</a>
+	</th>
+	{% else %}
+	<td></td>
+	{% endif %}
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

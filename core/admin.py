@@ -25,3 +25,14 @@ class UnlockableAdmin(admin.ModelAdmin):
 	list_display = ('id', 'name', 'hunt', 'slug', 'parent',)
 	search_fields = ('id', 'name', 'hunt', 'slug', 'parent__name', 'parent__slug',)
 	list_filter = ('parent', 'hunt',)
+
+@admin.register(models.Solve)
+class SolveAdmin(admin.ModelAdmin):
+	list_display = ('token', 'unlockable', 'unlocked_on', 'solved_on',)
+	search_fields = ('token__name', 'unlockable__name',)
+	list_filter = ('unlockable__hunt',)
+
+@admin.register(models.Token)
+class TokenAdmin(admin.ModelAdmin):
+	list_display = ('uuid', 'name',)
+	search_fields = ('uuid', 'name',)

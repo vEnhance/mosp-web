@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse_lazy
+from django.utils import timezone
 import uuid
 # Create your models here.
 
@@ -47,7 +48,7 @@ class Unlockable(models.Model):
 			blank = True,
 			)
 
-	unlock_threshold = models.IntegerField(
+	unlock_courage_threshold = models.IntegerField(
 			default = 0,
 			help_text = "Amount of courage needed to unlock"
 			)
@@ -85,6 +86,8 @@ class Unlockable(models.Model):
 			return '[R] ' + self.name
 		else:
 			return self.name
+	def get_absolute_url(self):
+		return reverse_lazy('unlockable-detail', args=(self.slug,))
 
 class Puzzle(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
@@ -141,7 +144,8 @@ class Round(models.Model):
 			on_delete = models.SET_NULL)
 	name = models.CharField(max_length = 80)
 	chapter_number = models.CharField(max_length = 80,
-			help_text = "Chapter number/etc. for flavor")
+			help_text = "Chapter number/etc. for flavor",
+			unique = True)
 	slug = models.SlugField(
 			help_text = "The slug for the round",
 			)
@@ -149,7 +153,7 @@ class Round(models.Model):
 			help_text = "Any text to show in the round page",
 			blank = True)
 	def get_absolute_url(self):
-		return reverse_lazy('puzzle-list', args=(self.slug,))
+		return reverse_lazy('unlockable-list', args=(self.chapter_number,))
 	def __str__(self):
 		return self.name
 
@@ -164,6 +168,24 @@ class Hint(models.Model):
 	minutes_until_unlock = models.PositiveSmallIntegerField(
 			help_text = "Minutes until the hint is visible")
 
+class Solve(models.Model):
+	token = models.ForeignKey('Token',
+			help_text = "The token this solve attempt is for",
+			on_delete = models.CASCADE)
+	unlockable = models.ForeignKey(Unlockable,
+			on_delete = models.CASCADE)
+	answer_guesses = models.TextField(
+			help_text = "Newline separated list of answer guesses"
+			)
+	unlocked_on = models.DateTimeField(
+			help_text = "When this puzzle or round was unlocked",
+			auto_now_add = True,
+			)
+	solved_on = models.DateTimeField(
+			help_text = "When this puzzle or round was solved",
+			null = True
+			)
+
 class Token(models.Model):
 	uuid = models.UUIDField(
 			primary_key = True,
@@ -174,22 +196,22 @@ class Token(models.Model):
 	hints_obtained = models.ManyToManyField(Hint,
 			help_text = "Hints purchased by this token")
 	def __str__(self):
-		return str(self.uuid)
-
-class Solve(models.Model):
-	token = models.ForeignKey(Token,
-			help_text = "The token this solve attempt is for",
-			on_delete = models.CASCADE)
-	puzzle = models.ForeignKey(Puzzle,
-			on_delete = models.CASCADE)
-	answer_guesses = models.TextField(
-			help_text = "Newline separated list of answer guesses"
-			)
-	unlocked_on = models.DateTimeField(
-			help_text = "When this puzzle was unlocked",
-			auto_now_add = True,
-			)
-	solved_on = models.DateTimeField(
-			help_text = "When this puzzle was solved",
-			null = True
-			)
+		return self.name
+	def get_courage(self):
+		return Solve.objects.filter(
+				token = self, solved_on__isnull = False
+				).aggregate(
+				courage = models.Sum('unlockable__courage_bounty')
+				)['courage'] or 0
+	
+	def can_unlock(self, u : Unlockable):
+		if u.unlock_date is not None:
+			if u.unlock_date > timezone.now():
+				return False
+		if u.unlock_needs is not None:
+			if not Solve.objects.filter(
+				token = self,
+				unlockable = u.unlock_needs,
+			).exists():
+				return False
+		return self.get_courage() >= u.unlock_courage_threshold
