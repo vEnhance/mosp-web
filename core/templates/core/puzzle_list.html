@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load mkd %}
+{% block title %}{{ round.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ round.title }}</h1>
+
+{% for puzzle in puzzle_list %}
+<p><a href="{{puzzle.get_absolute_url}}">{{puzzle.title}}</a></p>
+{% endfor %}
+
+{% endblock %}

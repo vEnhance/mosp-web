@@ -59,28 +59,30 @@ class HuntList(TokenGatedListView):
 class RoundList(TokenGatedListView):
 	"""List of all the rounds in a given hunt"""
 	context_object_name = "round_list"
-	model = models.Puzzle
+	template_name = "core/round_list.html"
+	model = models.Round
 	def get_queryset(self):
-		current_hunt = models.Hunt.objects.get(
-				pk = self.kwargs['pk']
-				)
-		return models.Puzzle.rounds.filter(
-				hunt = current_hunt
-				)
+		self.hunt = models.Hunt.objects.get(**self.kwargs)
+		return models.Round.objects.filter(hunt = self.hunt)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['hunt'] = self.hunt
+		print(context)
+		return context
 
 class PuzzleList(TokenGatedListView):
 	"""List of all the puzzles in a given round"""
-	context_object_name = "round_list"
+	context_object_name = "puzzle_list"
 	model = models.Puzzle
 	def get_queryset(self):
-		current_round = models.Puzzle.rounds.get(
-				pk = self.kwargs['pk']
-				)
-		return models.Puzzle.puzzles.filter(
-				parent = current_round
-				)
+		self.round = models.Round.objects.get(**self.kwargs)
+		return models.Puzzle.objects.filter(parent = self.round)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['round'] = self.round
+		return context
 
-class PuzzleView(TokenGatedDetailView):
+class PuzzleDetail(TokenGatedDetailView):
 	"""Shows a puzzle"""
 	model = models.Puzzle
-
+	context_object_name = "puzzle"

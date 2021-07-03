@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load mkd %}
+{% block title %}{{ hunt.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ hunt.name }}</h1>
+
+{% for round in round_list %}
+<p><a href="{{round.get_absolute_url}}">{{round.title}}</a></p>
+{% endfor %}
+
+{% endblock %}

@@ -25,59 +25,26 @@ class Hunt(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy('round-list', args=(self.number,))
 
-class RoundManager(models.Manager):
-	def get_queryset(self):
-		return super().get_queryset().filter(parent__isnull=True)
-class PuzzleManager(models.Manager):
-	def get_queryset(self):
-		return super().get_queryset().filter(parent__isnull=False)
-
-class Puzzle(models.Model):
-	objects = models.Manager()
-	puzzles = PuzzleManager()
-	rounds = RoundManager()
-
-	title = models.CharField(max_length = 80)
+class Unlockable(models.Model):
 	hunt = models.ForeignKey(Hunt,
-			help_text = "The hunt that this puzzle belongs to",
+			help_text = "The hunt this unlockable belongs to",
 			on_delete = models.CASCADE,
 			)
-	parent = models.ForeignKey('Puzzle',
-			help_text = "Specifies a parent round. ",
+	parent = models.ForeignKey('Unlockable',
+			help_text = "Specifies a parent unlockable. ",
 			null = True,
 			on_delete = models.SET_NULL,
 			related_name = 'children',
 			)
-	is_round = models.BooleanField(
-			help_text = "Whether this is a round container.",
-			default = False)
-	is_meta = models.BooleanField(
-			help_text = "Whether this is a metapuzzle.",
-			default = False)
-
+	name = models.CharField(max_length=80,
+			help_text = "The name for this unlockable (e.g. place on map).",
+			)
 	slug = models.SlugField(
-			help_text = "The slug for the puzzle or round.",
+			help_text = "The slug for the unlockable.",
 			)
-	answer = models.CharField(max_length = 80,
-			help_text = "Display answer to the puzzle " \
-					"Should be blank for rounds",
-			blank = True,
-			)
-	answer_salt = models.SmallIntegerField(
-			help_text = "A random number from 0000 to 9999",
-			default = 0
-			)
-
 	icon = models.CharField(max_length = 5,
-			help_text = "The icon associated to this puzzle",
+			help_text = "Emoji for this unlockable.",
 			blank = True,
-			)
-	place = models.CharField(max_length = 80,
-			help_text = "The location associated to this puzzle",
-			blank = True,
-			)
-	place_slug = models.SlugField(
-			help_text = "Slug for the location in the map"
 			)
 
 	unlock_threshold = models.IntegerField(
@@ -86,23 +53,41 @@ class Puzzle(models.Model):
 			)
 	unlock_date = models.DateTimeField(
 			null = True,
-			help_text = "When the puzzle can be unlocked."
+			blank = True,
+			help_text = "When the unlockable can be unlocked."
 			)
-	unlock_needs = models.ForeignKey('Puzzle',
+	unlock_needs = models.ForeignKey('Unlockable',
 			help_text = "If this is nonempty, "
-				"then unlock only when the target puzzle or round is done.",
+				"then unlock only when the target is done.",
 			null = True,
 			on_delete = models.SET_NULL,
 			related_name = 'blocked_on',
 			)
 	force_visibility = models.BooleanField(
 			null = True,
-			help_text = "If True, always show; if False, always hide."
+			blank = True,
+			help_text = "Always show or hide"
 			)
-
 	courage_bounty = models.IntegerField(
 			help_text = "Amount of courage obtained by solving.",
 			default = 25,
+			)
+
+class Puzzle(models.Model):
+	unlockable = models.OneToOneField(Unlockable,
+			help_text = "Associated unlockable for this puzzle.",
+			null = True,
+			on_delete = models.CASCADE)
+	title = models.CharField(max_length = 80)
+	is_meta = models.BooleanField(
+			help_text = "Whether this is a metapuzzle.",
+			default = False)
+	answer = models.CharField(max_length = 80,
+			help_text = "Display answer to the puzzle",
+			)
+	answer_salt = models.SmallIntegerField(
+			help_text = "A random number from 0000 to 9999",
+			default = 0
 			)
 	content = models.TextField(
 			help_text = "Markdown for the puzzle content.",
@@ -126,15 +111,29 @@ class Puzzle(models.Model):
 			)
 	puzzle_head = models.TextField(
 			help_text = "Extra HTML to include in <head>",
+			blank = True,
+			)
+	slug = models.SlugField(
+			help_text = "The slug for the puzzle.",
 			)
 
-	def __str__(self):
-		return self.title
+class Round(models.Model):
+	unlockable = models.OneToOneField(Unlockable,
+			help_text = "Associated unlockable for this round.",
+			null = True,
+			on_delete = models.SET_NULL)
+	title = models.CharField(max_length = 80)
+	label_number = models.CharField(max_length = 80,
+			help_text = "Chapter number/etc. for flavor")
+	content = models.TextField(
+			help_text = "Any text to show in the round page",
+			blank = True)
+	slug = models.SlugField(
+			help_text = "The slug for the round.",
+			)
 	def get_absolute_url(self):
-		if self.is_round:
-			return reverse_lazy('puzzle-list', args=(self.slug,))
-		else:
-			return reverse_lazy('puzzle-view', args=(self.slug,))
+		return reverse_lazy('puzzle-list', args=(self.slug,))
+
 
 class Hint(models.Model):
 	cost = models.PositiveSmallIntegerField(

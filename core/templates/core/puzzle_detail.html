@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load mkd %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "dark.css" %}">
+{% endblock %}
+{% block header %}
+{{ puzzle.puzzle_head|safe %}
+{% endblock %}
+{% block title %}{{ puzzle.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ puzzle.name }}</h1>
+
+{{ puzzle.content|mkd }}
+{% endblock %}
