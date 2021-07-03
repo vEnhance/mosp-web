@@ -198,25 +198,18 @@ class Hint(models.Model):
 	minutes_until_unlock = models.PositiveSmallIntegerField(
 			help_text = "Minutes until the hint is visible")
 
-class Solve(models.Model):
+class Attempt(models.Model):
 	token = models.ForeignKey('Token',
-			help_text = "The token this solve attempt is for",
+			help_text = "The token this attempt is for",
 			on_delete = models.CASCADE)
 	unlockable = models.ForeignKey(Unlockable,
 			on_delete = models.CASCADE)
-	answer_guesses = models.TextField(
-			help_text = "Newline separated list of answer guesses"
-			)
-	unlocked_on = models.DateTimeField(
-			help_text = "When this puzzle or round was unlocked",
-			auto_now_add = True,
-			)
-	solved_on = models.DateTimeField(
-			help_text = "When this puzzle or round was solved",
-			null = True
-			)
-	class Meta:
-		unique_together = ('token', 'unlockable')
+	status = models.SmallIntegerField(
+			choices = (
+				(-1, "Found"),
+				( 0, "Unlocked"),
+				( 1, "Solved"),
+			), default = -1)
 
 class Token(models.Model):
 	uuid = models.UUIDField(
@@ -227,6 +220,9 @@ class Token(models.Model):
 			help_text = "Who are you?")
 	hints_obtained = models.ManyToManyField(Hint,
 			help_text = "Hints purchased by this token")
+	attempts = models.ManyToManyField(Unlockable, through=Attempt,
+			help_text = "Attempts attached to this token")
+
 	def __str__(self):
 		return self.name
 	@property
@@ -235,7 +231,7 @@ class Token(models.Model):
 			return self.name
 		return self.name[:self.name.index(' ')]
 	def get_courage(self):
-		return Solve.objects.filter(token = self, solved_on__isnull = False)\
+		return self.attempts.filter(status=1)\
 				.aggregate(courage = models.Sum('unlockable__courage_bounty'))['courage']\
 				or 0
 	
@@ -251,29 +247,8 @@ class Token(models.Model):
 				return False
 		return self.get_courage() >= u.unlock_courage_threshold
 
-def get_unlockable(queryset, token):
-	courage = token.get_courage()
-	queryset = queryset.filter(unlock_courage_threshold__lte=courage)
-	queryset = queryset.exclude(unlock_date__isnull = True,
-			unlock_date__gt = timezone.now())
-	queryset = queryset.exclude(Q(unlock_needs__isnull = False),
-			~Exists(
-				Solve.objects.filter(
-					token=token,
-					unlockable=OuterRef('unlock_needs'),
-					solved_on__isnull = True,
-					)
-				)
-			)
-	return queryset
 def get_viewable(queryset, token):
-	unlockable = get_unlockable(queryset, token)
-	unlockable = unlockable.exclude(Q(force_visibility=False),
-			~Exists(
-				Solve.objects.filter(
-					token=token,
-					unlockable=OuterRef('pk')
-					)
-				)
-			)
-	return unlockable.union(queryset.filter(force_visibility=True))
+	courage = token.get_courage()
+	queryset = queryset.annotate()
+
+

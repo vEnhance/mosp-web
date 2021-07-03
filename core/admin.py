@@ -16,9 +16,9 @@ class UnlockableInline(admin.TabularInline):
 	model = models.Unlockable
 	fields = ('name', 'hunt', 'slug',)
 	extra = 2
-class SolveInline(admin.TabularInline):
-	model = models.Solve
-	fields = ('unlockable', 'unlocked_on', 'solved_on',)
+class AttemptInline(admin.TabularInline):
+	model = models.Attempt
+	fields = ('unlockable', 'solved_on',)
 	extra = 0
 
 @admin.register(models.Puzzle)
@@ -40,9 +40,9 @@ class UnlockableAdmin(admin.ModelAdmin):
 	search_fields = ('id', 'name', 'hunt', 'slug', 'parent__name', 'parent__slug',)
 	list_filter = ('parent', 'hunt',)
 
-@admin.register(models.Solve)
-class SolveAdmin(admin.ModelAdmin):
-	list_display = ('token', 'unlockable', 'unlocked_on', 'solved_on',)
+@admin.register(models.Attempt)
+class AttemptAdmin(admin.ModelAdmin):
+	list_display = ('token', 'unlockable', 'status',)
 	search_fields = ('token__name', 'unlockable__name',)
 	list_filter = ('unlockable__hunt',)
 
@@ -50,7 +50,7 @@ class SolveAdmin(admin.ModelAdmin):
 class TokenAdmin(admin.ModelAdmin):
 	list_display = ('uuid', 'name',)
 	search_fields = ('uuid', 'name',)
-	inlines = (SolveInline,)
+	inlines = (AttemptInline,)
 
 @admin.register(models.SaltedAnswer)
 class SaltedAnswerAdmin(admin.ModelAdmin):
