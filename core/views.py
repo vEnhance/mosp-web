@@ -63,7 +63,7 @@ class RoundList(TokenGatedListView):
 	model = models.Round
 	def get_queryset(self):
 		self.hunt = models.Hunt.objects.get(**self.kwargs)
-		return models.Round.objects.filter(hunt = self.hunt)
+		return models.Round.objects.filter(unlockable__hunt = self.hunt)
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['hunt'] = self.hunt
@@ -76,7 +76,7 @@ class PuzzleList(TokenGatedListView):
 	model = models.Puzzle
 	def get_queryset(self):
 		self.round = models.Round.objects.get(**self.kwargs)
-		return models.Puzzle.objects.filter(parent = self.round)
+		return models.Puzzle.objects.filter(unlockable__parent = self.round)
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round

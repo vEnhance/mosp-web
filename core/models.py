@@ -8,18 +8,18 @@ class Hunt(models.Model):
 			help_text = "The number of the hunt",
 			unique = True)
 	name = models.CharField(max_length = 80,
-			help_text = "The name of this hunt.",
+			help_text = "The name of this hunt",
 			blank = True)
 	authors = models.CharField(max_length = 255,
-			help_text = "The credits for this hunt.")
+			help_text = "The credits for this hunt")
 	description = models.TextField(
-			help_text = "The text to display for this hunt.",
+			help_text = "The text to display for this hunt",
 			blank = True)
 	start_date = models.DateTimeField(
-			help_text = "When the hunt can be started.")
+			help_text = "When the hunt can be started")
 	visible = models.BooleanField(
 			help_text = "Whether the hunt is visible to people; "
-			"use false if you're just testing.")
+			"use false if you're just testing")
 	def __str__(self):
 		return self.name
 	def get_absolute_url(self):
@@ -31,34 +31,34 @@ class Unlockable(models.Model):
 			on_delete = models.CASCADE,
 			)
 	parent = models.ForeignKey('Unlockable',
-			help_text = "Specifies a parent unlockable. ",
+			help_text = "Specifies a parent unlockable",
 			null = True,
 			on_delete = models.SET_NULL,
 			related_name = 'children',
 			)
 	name = models.CharField(max_length=80,
-			help_text = "The name for this unlockable (e.g. place on map).",
+			help_text = "The name for this unlockable (e.g. place on map)",
 			)
 	slug = models.SlugField(
-			help_text = "The slug for the unlockable.",
+			help_text = "The slug for the unlockable",
 			)
 	icon = models.CharField(max_length = 5,
-			help_text = "Emoji for this unlockable.",
+			help_text = "Emoji for this unlockable",
 			blank = True,
 			)
 
 	unlock_threshold = models.IntegerField(
 			default = 0,
-			help_text = "Amount of courage needed to unlock."
+			help_text = "Amount of courage needed to unlock"
 			)
 	unlock_date = models.DateTimeField(
 			null = True,
 			blank = True,
-			help_text = "When the unlockable can be unlocked."
+			help_text = "When the unlockable can be unlocked"
 			)
 	unlock_needs = models.ForeignKey('Unlockable',
 			help_text = "If this is nonempty, "
-				"then unlock only when the target is done.",
+				"then unlock only when the target is done",
 			null = True,
 			on_delete = models.SET_NULL,
 			related_name = 'blocked_on',
@@ -69,18 +69,18 @@ class Unlockable(models.Model):
 			help_text = "Always show or hide"
 			)
 	courage_bounty = models.IntegerField(
-			help_text = "Amount of courage obtained by solving.",
+			help_text = "Amount of courage obtained by solving",
 			default = 25,
 			)
 
 class Puzzle(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
-			help_text = "Associated unlockable for this puzzle.",
+			help_text = "Associated unlockable for this puzzle",
 			null = True,
 			on_delete = models.CASCADE)
 	title = models.CharField(max_length = 80)
 	is_meta = models.BooleanField(
-			help_text = "Whether this is a metapuzzle.",
+			help_text = "Whether this is a metapuzzle",
 			default = False)
 	answer = models.CharField(max_length = 80,
 			help_text = "Display answer to the puzzle",
@@ -90,11 +90,11 @@ class Puzzle(models.Model):
 			default = 0
 			)
 	content = models.TextField(
-			help_text = "Markdown for the puzzle content.",
+			help_text = "Markdown for the puzzle content",
 			blank = True,
 			)
 	solution = models.TextField(
-			help_text = "Markdown for the puzzle solution.",
+			help_text = "Markdown for the puzzle solution",
 			blank = True,
 			)
 	author_notes = models.TextField(
@@ -114,12 +114,12 @@ class Puzzle(models.Model):
 			blank = True,
 			)
 	slug = models.SlugField(
-			help_text = "The slug for the puzzle.",
+			help_text = "The slug for the puzzle",
 			)
 
 class Round(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
-			help_text = "Associated unlockable for this round.",
+			help_text = "Associated unlockable for this round",
 			null = True,
 			on_delete = models.SET_NULL)
 	title = models.CharField(max_length = 80)
@@ -129,7 +129,7 @@ class Round(models.Model):
 			help_text = "Any text to show in the round page",
 			blank = True)
 	slug = models.SlugField(
-			help_text = "The slug for the round.",
+			help_text = "The slug for the round",
 			)
 	def get_absolute_url(self):
 		return reverse_lazy('puzzle-list', args=(self.slug,))
@@ -139,11 +139,11 @@ class Hint(models.Model):
 	cost = models.PositiveSmallIntegerField(
 			help_text = "The cost of the hint (patience)")
 	question = models.CharField(max_length = 120,
-			help_text = "The question that the hint is for.")
+			help_text = "The question that the hint is for")
 	answer = models.CharField(max_length = 120,
-			help_text = "The content of the hint.")
+			help_text = "The content of the hint")
 	minutes_until_unlock = models.PositiveSmallIntegerField(
-			help_text = "Minutes until the hint is visible.")
+			help_text = "Minutes until the hint is visible")
 
 class Token(models.Model):
 	uuid = models.UUIDField(
