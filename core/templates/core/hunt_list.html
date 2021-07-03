@@ -10,7 +10,7 @@
 {% for hunt in hunt_list %}
 <h2>Volume {{ hunt.volume_number }}:
 	<a href="{{ hunt.get_absolute_url }}">{{ hunt.name }}</a></h2>
-<p>{{ hunt.description|mkd }}</p>
+{{ hunt.description|mkd }}
 {% endfor %}
 
 {% endblock %}

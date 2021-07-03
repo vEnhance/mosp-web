@@ -1,5 +1,6 @@
 import SHA from './sha';
 import Swal from 'sweetalert2';
+import err from './ajaxCrash';
 
 declare const puzzle_slug: string;
 declare const hashes: [hash: string];
@@ -8,7 +9,6 @@ const audio = new Audio('https://github.com/vEnhance/dotfiles/blob/main/noisemak
 audio.volume = 0.6;
 
 $(function() {
-
   // Assign relevant metadata
   $('#prize').css('display', 'block');
   let active = false;
@@ -28,16 +28,6 @@ $(function() {
     }
   }
 
-  const err = () => {
-    Swal.fire({
-      title : "Something went wrong",
-      text : "That answer should have been accepted, but wasn't. "
-        + "Please contact Evan so we can debug this issue",
-      icon : 'error',
-    });
-  }
-  $(document).ajaxError(err);
-
   async function guessSalt(t : number, answer : string) {
     $("#percent").html(t+"%");
     for (let i = 111*t; i < 111*(t+1); i++) {
@@ -49,7 +39,7 @@ $(function() {
       }
       if (hashes.includes(hash)) {
         $.post('/ajax', {
-          action : 'submit_correct',
+          action : 'guess',
           guess : answer,
           salt : i,
           puzzle_slug : puzzle_slug,

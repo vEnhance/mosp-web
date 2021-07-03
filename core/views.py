@@ -2,68 +2,59 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
-from django.forms import ModelForm
 from django.utils import timezone
 from . import models
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from django.views.decorators.csrf import csrf_exempt
 
 Context = Dict[str, Any]
 
-class SetNameForm(ModelForm):
-	class Meta:
-		model = models.Token
-		fields = ('name',)
-
 # vvv amazing code, so much for DRY
 # maybe i should take paul graham's advice and switch to lisp
 class TokenGatedListView(ListView):
+	redirect_if_no_token = True
+	token = None
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
 		uuid = self.request.COOKIES.get('uuid', None)
 		if not uuid:
+			self.token = None
+		else:
+			try:
+				self.token = models.Token.objects.get(uuid=uuid)
+			except models.Token.DoesNotExist:
+				self.token = None
+		if self.token is None and self.redirect_if_no_token:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
-		self.token = models.Token.objects.get(uuid=uuid)
 		return super().dispatch(request, *args, **kwargs)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
-		if 'uuid' in self.request.COOKIES:
-			context['token'] = self.token
+		context['token'] = self.token
 		return context
 class TokenGatedDetailView(DetailView):
+	redirect_if_no_token = True
+	token = None
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
 		uuid = self.request.COOKIES.get('uuid', None)
 		if not uuid:
+			self.token = None
+		else:
+			try:
+				self.token = models.Token.objects.get(uuid=uuid)
+			except models.Token.DoesNotExist:
+				self.token = None
+		if self.token is None and self.redirect_if_no_token:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
-		self.token = models.Token.objects.get(uuid=uuid)
 		return super().dispatch(request, *args, **kwargs)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
-		if 'uuid' in self.request.COOKIES:
-			context['token'] = self.token
+		context['token'] = self.token
 		return context
 
 class HuntList(TokenGatedListView):
 	"""Top-level list of all the hunts"""
 	context_object_name = "hunt_list"
 	model = models.Hunt
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
-		if request.method == 'POST':
-			form = SetNameForm(request.POST)
-			if form.is_valid():
-				token = form.save()
-				response = self.get(request, *args, **kwargs)
-				response.set_cookie(key = 'uuid', value = token.uuid,
-						expires = timezone.now() + timezone.timedelta(weeks = 1000)
-						)
-				return response
-		else:
-			form = SetNameForm()
-		if 'uuid' not in request.COOKIES:
-			return render(request, 'core/welcome.html', {'form' : form})
-		else:
-			self.token = models.Token.objects.get(
-					uuid=request.COOKIES.get('uuid'))
-			return self.get(request, *args, **kwargs)
+	redirect_if_no_token = False
 
 class RoundUnlockableList(TokenGatedListView):
 	"""List of all the top-level rounds in a given hunt"""
@@ -126,18 +117,20 @@ class UnlockableDetail(TokenGatedDetailView):
 		context['new'] = not is_prev_unlocked
 		return context
 
-
 @csrf_exempt
 def ajax(request) -> JsonResponse:
 	if request.method != 'POST':
 		return JsonResponse({'error' : "☕"}, status = 418)
-	print(request.POST)
-	token = models.Token.objects.get(uuid=request.COOKIES['uuid'])
+	token : Optional[models.Token]
+	try:
+		token = models.Token.objects.get(uuid=request.COOKIES['uuid'])
+	except models.Token.DoesNotExist:
+		token = None
 	action = request.POST.get('action')
-	puzzle = models.Puzzle.objects.get(slug = request.POST.get('puzzle_slug'))
-	s = models.Solve.objects.get(token=token, unlockable=puzzle.unlockable)
-	guess = request.POST.get('guess')
-	if action == 'submit_correct':
+	if action == 'guess':
+		puzzle = models.Puzzle.objects.get(slug = request.POST.get('puzzle_slug'))
+		s = models.Solve.objects.get(token=token, unlockable=puzzle.unlockable)
+		guess = request.POST.get('guess')
 		salt = request.POST.get('salt')
 		a = models.SaltedAnswer.objects.get(puzzle = puzzle, salt = salt)
 		if not a.equals(guess):
@@ -151,10 +144,12 @@ def ajax(request) -> JsonResponse:
 				})
 		else:
 			return JsonResponse({'correct' : 0.5, 'message' : a.message})
-	elif action == 'submit_wrong':
-		s.answer_guesses += guess.replace('\n', '')[0:80] + '\n'
-		s.save()
-		return JsonResponse({
-			'correct' : 0,
-			})
+	elif action == 'log':
+		# TODO implement
+		raise NotImplementedError('TODO log')
+	elif action == 'new_name':
+		token = models.Token(name = request.POST['name'])
+		token.save()
+		return JsonResponse({'uuid' : token.uuid})
+
 	return JsonResponse({}, status=400)

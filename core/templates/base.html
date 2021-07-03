@@ -48,8 +48,20 @@ MathJax = {
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
+
+{% if token %}
+<script type="text/javascript">
+const token_uuid = "{{ token.uuid }}";
+</script>
+{% else %}
+<script type="text/javascript">
+const token_uuid = null;
+</script>
+{% endif %}
+
 {% block header %}
 {% endblock %}
 <script data-main="/static/main.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
@@ -89,3 +101,6 @@ MathJax = {
 
 </body>
 </html>
+<!--
+	vim: ft=htmldjango
+-->

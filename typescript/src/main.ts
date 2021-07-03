@@ -10,5 +10,6 @@ require.config({
 require([
   "sweetalert2",
   "sha",
+  "checkname",
   "grader"
 ]);
