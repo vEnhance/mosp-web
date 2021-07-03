@@ -85,9 +85,9 @@ class Unlockable(models.Model):
 		return hasattr(self, 'round')
 	def __str__(self):
 		if self.is_puzzle:
-			return '[P] ' + self.name
+			return '🧩' + self.name
 		elif self.is_round:
-			return '[R] ' + self.name
+			return '⭕' + self.name
 		else:
 			return self.name
 	def get_absolute_url(self):
@@ -102,6 +102,8 @@ class Puzzle(models.Model):
 	slug = models.SlugField(
 			help_text = "The slug for the puzzle",
 			)
+	display_answer = models.CharField(max_length = 128,
+			help_text = "Display answer for the puzzle")
 	is_meta = models.BooleanField(
 			help_text = "Whether this is a metapuzzle",
 			default = False)
@@ -221,6 +223,9 @@ class Attempt(models.Model):
 				( 0, "Unlocked"),
 				( 1, "Solved"),
 			), default = -1)
+	def __str__(self):
+		verb : str = self.get_status_display().lower() # type: ignore
+		return f'{self.token} {verb} {self.unlockable.name}'
 
 class Token(models.Model):
 	uuid = models.UUIDField(
@@ -256,7 +261,12 @@ class Token(models.Model):
 			if u.unlock_date > timezone.now():
 				return False
 		if u.unlock_needs is not None:
-			return self.has_solved(u.unlock_needs)
+			if hasattr(u, 'rstatus'):
+				if u.rstatus != 1: # type: ignore
+					return False
+			else:
+				if not self.has_solved(u.unlock_needs):
+					return False
 		return self.get_courage() >= u.unlock_courage_threshold
 
 	def can_view(self, u : Unlockable) -> bool:
@@ -268,18 +278,21 @@ class Token(models.Model):
 			return self.can_unlock(u)
 
 	def has_unlocked(self, u : Unlockable) -> bool:
+		if hasattr(self, 'ustatus'):
+			return self.ustatus is not None # type: ignore
 		return Attempt.objects.filter(
 			token = self,
 			unlockable = u,
 			status__gte = 0
 		).exists()
 	def has_solved(self, u : Unlockable) -> bool:
+		if hasattr(self, 'ustatus'):
+			return self.ustatus == 1 # type: ignore
 		return Attempt.objects.filter(
 			token = self,
 			unlockable = u,
 			status = 1
 		).exists()
-
 
 def get_viewable(queryset : models.QuerySet, token : Token):
 	courage = token.get_courage()

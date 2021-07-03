@@ -19,19 +19,33 @@
 <table class="table">
 {% for u in unlockable_list %}
 <tr>
-	<td>{{ u.icon }}<a href="{{u.get_absolute_url}}">{{ u.name }}</a></td>
+	<td>{{ u.icon }}
+		<a class="place" href="{{u.get_absolute_url}}">{{ u.name }}</a>
+	</td>
 	{% if token|has_unlocked:u %}
 		{% if u.is_puzzle %}
 		<td>
 		<a href="{{u.puzzle.get_absolute_url}}">{{u.puzzle.name}}</a>
 		</td>
+		{% if token|has_solved:u %}
+			<td><a href="{{u.puzzle.get_solution_url}}">
+				<code>{{ puzzle.display_answer }}</code>
+			</a></td>
+		{% else %}
+			<td><em>Not solved</em></td>
+		{% endif %}
+
 		{% elif u.is_round %}
-		<th>
-		<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a>
+		<th colspan="2">
+			<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a>
 		</th>
 		{% endif %}
+	{% elif token|can_unlock:u %}
+		<td><em>Unlocked!</em></td>
+		<td></td>
 	{% else %}
 		<td><em>Locked</em></td>
+		<td></td>
 	{% endif %}
 </tr>
 {% endfor %}

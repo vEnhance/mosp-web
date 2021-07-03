@@ -66,6 +66,7 @@ class RoundUnlockableList(TokenGatedListView):
 		queryset = models.Unlockable.objects.filter(
 				hunt = self.hunt,
 				parent__isnull = True).select_related('round')
+		assert self.token is not None
 		queryset = models.get_viewable(queryset, self.token)
 		return queryset
 	def get_context_data(self, **kwargs) -> Context:
@@ -115,7 +116,7 @@ class UnlockableDetail(TokenGatedDetailView):
 		attempt, _ = models.Attempt.objects.get_or_create(
 						unlockable = u, token = token
 						)
-		is_prev_unlocked = (attempt.status == -1)
+		is_prev_unlocked = (attempt.status >= 0)
 		if is_prev_unlocked is False and can_unlock:
 			attempt.status = 0
 			attempt.save()

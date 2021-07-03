@@ -9,8 +9,10 @@
 {% for unlockable in round_unlockable_list %}
 {% with round=unlockable.round %}
 <tr>
-<th>Chapter {{ round.chapter_number }}</th>
-<td><a href="{{round.unlockable.get_absolute_url}}">{{round.name}}</a></td>
+<td>Chapter
+<a href="{{ round.unlockable.get_absolute_url }}">{{ round.chapter_number }}</a>
+</td>
+<td><a href="{{round.get_absolute_url}}">{{round.name}}</a></td>
 </tr>
 {% endwith %}
 {% endfor %}

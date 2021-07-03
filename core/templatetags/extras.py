@@ -1,7 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
 from .. import models
-from typing import Optional
 import markdown
 
 register = template.Library()
@@ -32,3 +31,11 @@ def emoji_link(href : str, emoji : str) -> str:
 @register.filter
 def has_unlocked(token : models.Token, u : models.Unlockable) -> bool:
 	return token.has_unlocked(u)
+
+@register.filter
+def has_solved(token : models.Token, u : models.Unlockable) -> bool:
+	return token.has_solved(u)
+
+@register.filter
+def can_unlock(token : models.Token, u : models.Unlockable) -> bool:
+	return token.can_unlock(u)
