@@ -108,11 +108,13 @@ class UnlockableDetail(TokenGatedDetailView):
 		token = context['token']
 		u = self.object # type: ignore
 		can_unlock = token.can_unlock(u)
-		is_prev_unlocked = models.Solve.objects.filter(
+		attempt, _ = models.Attempt.objects.get_or_create(
 						unlockable = u, token = token
-						).exists()
+						)
+		is_prev_unlocked = (attempt.status == -1)
 		if is_prev_unlocked is False and can_unlock:
-			models.Solve(unlockable=u, token=token).save()
+			attempt.status = 0
+			attempt.save()
 		context['locked'] = not can_unlock
 		context['new'] = not is_prev_unlocked
 		return context
@@ -129,21 +131,21 @@ def ajax(request) -> JsonResponse:
 	action = request.POST.get('action')
 	if action == 'guess':
 		puzzle = models.Puzzle.objects.get(slug = request.POST.get('puzzle_slug'))
-		s = models.Solve.objects.get(token=token, unlockable=puzzle.unlockable)
 		guess = request.POST.get('guess')
 		salt = request.POST.get('salt')
-		a = models.SaltedAnswer.objects.get(puzzle = puzzle, salt = salt)
-		if not a.equals(guess):
+		sa = models.SaltedAnswer.objects.get(puzzle = puzzle, salt = salt)
+		if not sa.equals(guess):
 			return JsonResponse({'correct' : 0})
-		elif a.is_final:
-			s.solved_on = timezone.now()
-			s.save()
+		elif sa.is_final:
+			models.Attempt.objects.filter(
+					token=token, unlockable=puzzle.unlockable
+					).update(status=1)
 			return JsonResponse({
 				'correct' : 1,
 				'url' : reverse_lazy('solution-detail', args=(puzzle.slug,)),
 				})
 		else:
-			return JsonResponse({'correct' : 0.5, 'message' : a.message})
+			return JsonResponse({'correct' : 0.5, 'message' : sa.message})
 	elif action == 'log':
 		# TODO implement
 		raise NotImplementedError('TODO log')

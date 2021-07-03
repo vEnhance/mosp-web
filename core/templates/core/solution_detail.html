@@ -1,19 +1,14 @@
 {% extends 'base.html' %}
-{% load mkd %}
+{% load extras %}
 {% load static %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "bright.css" %}">
 {% endblock %}
 
-{% block title %}Solution: {{ puzzle.name }}{% endblock %}
+{% block title %}Solved: {{ puzzle.name }}{% endblock %}
 
 {% block content %}
-<h1>Solution: {{ puzzle.name }}</h1>
-{{ puzzle.content|mkd }}
-
-hello
-
-{{ token.name }}
+<h1>{{ puzzle.name }}</h1>
 
 {% endblock %}

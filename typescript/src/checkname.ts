@@ -78,7 +78,6 @@ function randomChoice(arr : string[]) : string {
 }
 
 $(() => {
-  console.log("this should do something wtf");
   if (token_uuid === null) {
     Swal.fire({
       title: "Greetings",

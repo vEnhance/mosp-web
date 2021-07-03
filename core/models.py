@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q, OuterRef, Exists
+from django.db.models import Prefetch, Q
 from django.urls import reverse_lazy
 from django.utils import timezone
 import uuid
@@ -162,8 +162,8 @@ class SaltedAnswer(models.Model):
 	@property
 	def normalized_answer(self) -> str:
 		return normalize(self.display_answer)
-	def equals(self, other):
-		return self.normalized_answer == normalize(self.display_answer)
+	def equals(self, other : str):
+		return self.normalized_answer == normalize(other)
 	class Meta:
 		unique_together = ('puzzle', 'salt',)
 
@@ -230,25 +230,59 @@ class Token(models.Model):
 		if not ' ' in self.name:
 			return self.name
 		return self.name[:self.name.index(' ')]
-	def get_courage(self):
-		return self.attempts.filter(status=1)\
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self._courage = Attempt.objects.filter(token=self, status=1)\
 				.aggregate(courage = models.Sum('unlockable__courage_bounty'))['courage']\
 				or 0
-	
+
+	def get_courage(self):
+		return self._courage
+
 	def can_unlock(self, u : Unlockable):
 		if u.unlock_date is not None:
 			if u.unlock_date > timezone.now():
 				return False
 		if u.unlock_needs is not None:
-			if not Solve.objects.filter(
+			if hasattr(u, 'token_attempts'):
+				if len(u.token_attempts) == 0 or u.token_attempts[0].status < 1: # type: ignore
+					return False
+			elif not Attempt.objects.filter(
 				token = self,
 				unlockable = u.unlock_needs,
+				status = 1,
 			).exists():
 				return False
 		return self.get_courage() >= u.unlock_courage_threshold
 
-def get_viewable(queryset, token):
+	def can_view(self, u : Unlockable):
+		if u.force_visibility is True:
+			return True
+		elif u.force_visibility is False:
+			return False
+		else:
+			return self.can_unlock(u)
+
+	def has_unlocked(self, u : Unlockable):
+		if hasattr(u, 'token_attempts'):
+			return len(u.token_attempts) > 0 # type: ignore
+		else:
+			return Attempt.objects.filter(
+				token = self,
+				unlockable = u.unlock_needs,
+			).exists()
+
+def get_viewable(queryset : models.QuerySet, token : Token):
 	courage = token.get_courage()
-	queryset = queryset.annotate()
-
-
+	queryset = queryset.prefetch_related(
+			Prefetch('attempt_set',
+				queryset = Attempt.objects.filter(token=token),
+				to_attr = 'token_attempts',
+				))
+	queryset = queryset.exclude(force_visibility=False,
+			attempt__isnull=True)
+	queryset = queryset.exclude(Q(force_visibility__isnull=True),
+			Q(unlock_date__gt = timezone.now())
+			| Q(unlock_courage_threshold__gt = courage))
+	return queryset

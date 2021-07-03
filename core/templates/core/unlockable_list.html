@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load mkd %}
+{% load extras %}
 {% block title %}{{ round.name }}{% endblock %}
 
 {% block leftnav %}
@@ -20,18 +20,22 @@
 {% for u in unlockable_list %}
 <tr>
 	<td>{{ u.icon }}<a href="{{u.get_absolute_url}}">{{ u.name }}</a></td>
-	{% if u.is_puzzle %}
-	<td>
-	<a href="{{u.puzzle.get_absolute_url}}">
-		{{u.puzzle.name}}</a>
-	</td>
-	{% elif u.is_round %}
-	<th>
-	<a href="{{round.get_absolute_url}}">
-		{{round.name}}</a>
-	</th>
+	{% if token|has_unlocked:u %}
+		{% if u.is_puzzle %}
+		<td>
+		<a href="{{u.puzzle.get_absolute_url}}">
+			{{u.puzzle.name}}</a>
+		</td>
+		{% elif u.is_round %}
+		<th>
+		<a href="{{round.get_absolute_url}}">
+			{{round.name}}</a>
+		</th>
+		{% else %}
+		<td>????</td>
+		{% endif %}
 	{% else %}
-	<td></td>
+		<td><em>Locked</em></td>
 	{% endif %}
 </tr>
 {% endfor %}
