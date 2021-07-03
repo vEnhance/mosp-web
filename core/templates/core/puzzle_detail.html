@@ -8,16 +8,49 @@
 
 {% block header %}
 {{ puzzle.puzzle_head|safe }}
+<script type="text/javascript">
+const puzzle_slug = "{{ puzzle.slug }}";
+const hashes = [
+	{% for hash in puzzle.target_hashes %}
+	"{{ hash }}",
+	{% endfor %}
+];
+</script>
 {% endblock %}
 
 {% block title %}{{ puzzle.name }}{% endblock %}
 
 {% block content %}
 <h1>{{ puzzle.name }}</h1>
-{{ puzzle.content|mkd }}
-
-hello
-
-{{ token.name }}
-
+<div class="flavortext">
+	{{ puzzle.flavor_text|mkd }}
+</div>
+<div id="puzzlehead">
+	<div id="answerchecker">
+	<div class="icons">
+		<span class="icon-placeholder">❌</span>
+		<span class="icon" id="thinking">🤔</span>
+		<span class="icon" id="wrong">❌</span>
+		<span class="icon" id="correct">✅</span>
+		<span class="icon-placeholder">❌</span>
+	</div>
+	<p><input id="answer" type="text" /></p>
+	<div class="percentholder">
+		<span id="percent">0%</span>
+	</div>
+	<div class="prizeholder">
+		<a id="prize" href="">🔑</a>
+	</div>
+	</div>
+</div>
+<div id="puzzlecontent">
+	{{ puzzle.content|mkd }}
+</div>
+{% endblock %}
+{% block acknowledgments %}
+{% if puzzle.acknowledgments %}
+<div id="acknowledgments">
+	{{ puzzle.acknowledgments }}
+</div>
+{% endif %}
 {% endblock %}

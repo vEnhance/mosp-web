@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "sweetalert2": "^11.0.18"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.5"
+  }
+}

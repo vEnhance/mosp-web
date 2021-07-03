@@ -2,6 +2,9 @@ from django.db import models
 from django.urls import reverse_lazy
 from django.utils import timezone
 import uuid
+import random
+from .utils import sha, normalize
+
 # Create your models here.
 
 class Hunt(models.Model):
@@ -98,13 +101,6 @@ class Puzzle(models.Model):
 	slug = models.SlugField(
 			help_text = "The slug for the puzzle",
 			)
-	answer = models.CharField(max_length = 80,
-			help_text = "Display answer to the puzzle",
-			)
-	answer_salt = models.SmallIntegerField(
-			help_text = "A random number from 0000 to 9999",
-			default = 0
-			)
 	is_meta = models.BooleanField(
 			help_text = "Whether this is a metapuzzle",
 			default = False)
@@ -136,6 +132,39 @@ class Puzzle(models.Model):
 		return reverse_lazy('puzzle-detail', args=(self.slug,))
 	def __str__(self):
 		return self.name
+	@property
+	def target_hashes(self):
+		return [sa.hash for sa in self.salted_answers.all()] # type: ignore
+
+def _rand():
+	return random.randrange(0, 10**4)
+class SaltedAnswer(models.Model):
+	puzzle = models.ForeignKey(Puzzle,
+			on_delete = models.CASCADE,
+			related_name = 'salted_answers')
+	display_answer = models.CharField(max_length = 80,
+			help_text = "Display answer to the puzzle",
+			)
+	salt = models.SmallIntegerField(
+			help_text = "A random number from 0000 to 9999",
+			default = _rand,
+			)
+	message = models.CharField(max_length=256,
+			help_text = "For partial answers, the nudge to provide solvers.",
+			blank = True)
+	@property
+	def is_final(self):
+		return self.message == ''
+	@property
+	def hash(self) -> str:
+		return sha('MOSP_LIGHT_NOVEL_' + self.normalized_answer + str(self.salt))
+	@property
+	def normalized_answer(self) -> str:
+		return normalize(self.display_answer)
+	def equals(self, other):
+		return self.normalized_answer == normalize(self.display_answer)
+	class Meta:
+		unique_together = ('puzzle', 'salt',)
 
 class Round(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
@@ -144,7 +173,7 @@ class Round(models.Model):
 			on_delete = models.SET_NULL)
 	name = models.CharField(max_length = 80)
 	chapter_number = models.CharField(max_length = 80,
-			help_text = "Chapter number/etc. for flavor",
+			help_text = "Chapter number for flavor",
 			unique = True)
 	slug = models.SlugField(
 			help_text = "The slug for the round",
@@ -185,6 +214,8 @@ class Solve(models.Model):
 			help_text = "When this puzzle or round was solved",
 			null = True
 			)
+	class Meta:
+		unique_together = ('token', 'unlockable')
 
 class Token(models.Model):
 	uuid = models.UUIDField(
@@ -198,11 +229,9 @@ class Token(models.Model):
 	def __str__(self):
 		return self.name
 	def get_courage(self):
-		return Solve.objects.filter(
-				token = self, solved_on__isnull = False
-				).aggregate(
-				courage = models.Sum('unlockable__courage_bounty')
-				)['courage'] or 0
+		return Solve.objects.filter(token = self, solved_on__isnull = False)\
+				.aggregate(courage = models.Sum('unlockable__courage_bounty'))['courage']\
+				or 0
 	
 	def can_unlock(self, u : Unlockable):
 		if u.unlock_date is not None:

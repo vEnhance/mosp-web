@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 from django.forms import ModelForm
+from django.utils import timezone
 from . import models
 from typing import Any, Dict
+from django.views.decorators.csrf import csrf_exempt
+
 Context = Dict[str, Any]
 
 class SetNameForm(ModelForm):
@@ -47,7 +50,9 @@ class HuntList(TokenGatedListView):
 			if form.is_valid():
 				token = form.save()
 				response = self.get(request, *args, **kwargs)
-				response.set_cookie(key = 'uuid', value = token.uuid)
+				response.set_cookie(key = 'uuid', value = token.uuid,
+						expires = timezone.now() + timezone.timedelta(weeks = 1000)
+						)
 				return response
 		else:
 			form = SetNameForm()
@@ -109,3 +114,37 @@ class UnlockableDetail(TokenGatedDetailView):
 		context['locked'] = not can_unlock
 		context['new'] = not is_prev_unlocked
 		return context
+
+
+@csrf_exempt
+def ajax(request) -> JsonResponse:
+	if request.method != 'POST':
+		return JsonResponse({'error' : "☕"}, status = 418)
+	print(request.POST)
+	token = models.Token.objects.get(uuid=request.COOKIES['uuid'])
+	action = request.POST.get('action')
+	puzzle = models.Puzzle.objects.get(slug = request.POST.get('puzzle_slug'))
+	s = models.Solve.objects.get(token=token, unlockable=puzzle.unlockable)
+	guess = request.POST.get('guess')
+	if action == 'submit_correct':
+		salt = request.POST.get('salt')
+		a = models.SaltedAnswer.objects.get(puzzle = puzzle, salt = salt)
+		if not a.equals(guess):
+			return JsonResponse({'correct' : 0})
+		elif a.is_final:
+			s.solved_on = timezone.now()
+			s.save()
+			return JsonResponse({
+				'correct' : 1,
+				'url' : reverse_lazy('solution-detail', args=(puzzle.slug,)),
+				})
+		else:
+			return JsonResponse({'correct' : 0.5, 'message' : a.message})
+	elif action == 'submit_wrong':
+		s.answer_guesses += guess.replace('\n', '')[0:80] + '\n'
+		s.save()
+		return JsonResponse({
+			'correct' : 0,
+			})
+	return JsonResponse({}, status=400)
+	# TODO webhook ig

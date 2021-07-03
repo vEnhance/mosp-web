@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "allowJs": true,
+    "outDir": "./typescript/out/",
+    "target": "ES2019",
+    "module": "AMD",
+    "moduleResolution": "node",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "sourceMap": true,
+    "inlineSources": true,
+    "baseUrl" : "./typescript/src"
+  },
+
+  "include": [
+    "./typescript/src/**.ts",
+  ]
+}
