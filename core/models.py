@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Prefetch, Q
+from django.db.models import Q, Max
 from django.urls import reverse_lazy
 from django.utils import timezone
 import uuid
@@ -66,7 +66,7 @@ class Unlockable(models.Model):
 				"then unlock only when the target is done",
 			null = True, blank = True,
 			on_delete = models.SET_NULL,
-			related_name = 'blocked_on',
+			related_name = 'blocking',
 			)
 	force_visibility = models.BooleanField(
 			null = True,
@@ -129,8 +129,19 @@ class Puzzle(models.Model):
 			help_text = "Extra HTML to include in <head>",
 			blank = True,
 			)
+	post_solve_image_path = models.CharField(max_length = 240,
+			help_text = "Static path to the post-solve image",
+			blank = True
+			)
+	post_solve_image_alt = models.TextField(
+			help_text = "Static path to the post-solve image",
+			blank = True
+			)
+
 	def get_absolute_url(self):
 		return reverse_lazy('puzzle-detail', args=(self.slug,))
+	def get_parent_url(self):
+		return self.unlockable.parent.round.get_absolute_url()
 	def __str__(self):
 		return self.name
 	@property
@@ -240,23 +251,15 @@ class Token(models.Model):
 	def get_courage(self):
 		return self._courage
 
-	def can_unlock(self, u : Unlockable):
+	def can_unlock(self, u : Unlockable) -> bool:
 		if u.unlock_date is not None:
 			if u.unlock_date > timezone.now():
 				return False
 		if u.unlock_needs is not None:
-			if hasattr(u, 'token_attempts'):
-				if len(u.token_attempts) == 0 or u.token_attempts[0].status < 1: # type: ignore
-					return False
-			elif not Attempt.objects.filter(
-				token = self,
-				unlockable = u.unlock_needs,
-				status = 1,
-			).exists():
-				return False
+			return self.has_solved(u.unlock_needs)
 		return self.get_courage() >= u.unlock_courage_threshold
 
-	def can_view(self, u : Unlockable):
+	def can_view(self, u : Unlockable) -> bool:
 		if u.force_visibility is True:
 			return True
 		elif u.force_visibility is False:
@@ -264,25 +267,41 @@ class Token(models.Model):
 		else:
 			return self.can_unlock(u)
 
-	def has_unlocked(self, u : Unlockable):
-		if hasattr(u, 'token_attempts'):
-			return len(u.token_attempts) > 0 # type: ignore
-		else:
-			return Attempt.objects.filter(
-				token = self,
-				unlockable = u.unlock_needs,
-			).exists()
+	def has_unlocked(self, u : Unlockable) -> bool:
+		return Attempt.objects.filter(
+			token = self,
+			unlockable = u,
+			status__gte = 0
+		).exists()
+	def has_solved(self, u : Unlockable) -> bool:
+		return Attempt.objects.filter(
+			token = self,
+			unlockable = u,
+			status = 1
+		).exists()
+
 
 def get_viewable(queryset : models.QuerySet, token : Token):
 	courage = token.get_courage()
-	queryset = queryset.prefetch_related(
-			Prefetch('attempt_set',
-				queryset = Attempt.objects.filter(token=token),
-				to_attr = 'token_attempts',
-				))
-	queryset = queryset.exclude(force_visibility=False,
-			attempt__isnull=True)
+	queryset = queryset.select_related(
+			'puzzle',
+			'round',
+			'unlock_needs')
+	queryset = queryset.annotate(
+			ustatus = Max('attempt__status',
+				filter = Q(attempt__token = token)
+				),
+			rstatus = Max('unlock_needs__attempt__status',
+				filter = Q(unlock_needs__attempt__token = token)
+				),
+			)
+	queryset = queryset.exclude(Q(force_visibility=False),
+			Q(ustatus__isnull=True) | Q(ustatus__lt=1)
+			)
 	queryset = queryset.exclude(Q(force_visibility__isnull=True),
 			Q(unlock_date__gt = timezone.now())
-			| Q(unlock_courage_threshold__gt = courage))
+			| Q(unlock_courage_threshold__gt = courage)
+			| (Q(unlock_needs__isnull=False)
+				& (Q(rstatus__isnull=True) |
+					Q(rstatus__lt=1))))
 	return queryset

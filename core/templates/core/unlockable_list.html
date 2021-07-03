@@ -23,16 +23,12 @@
 	{% if token|has_unlocked:u %}
 		{% if u.is_puzzle %}
 		<td>
-		<a href="{{u.puzzle.get_absolute_url}}">
-			{{u.puzzle.name}}</a>
+		<a href="{{u.puzzle.get_absolute_url}}">{{u.puzzle.name}}</a>
 		</td>
 		{% elif u.is_round %}
 		<th>
-		<a href="{{round.get_absolute_url}}">
-			{{round.name}}</a>
+		<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a>
 		</th>
-		{% else %}
-		<td>????</td>
 		{% endif %}
 	{% else %}
 		<td><em>Locked</em></td>

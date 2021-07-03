@@ -79,10 +79,14 @@ class UnlockableList(TokenGatedListView):
 	model = models.Unlockable
 	def get_queryset(self):
 		self.round = models.Round.objects.get(**self.kwargs)
+		assert self.token is not None
 		return models.get_viewable(
 				models.Unlockable.objects.filter(
 					parent = self.round.unlockable
-				), self.token)
+				), self.token)\
+				.select_related('puzzle', 'round')\
+				.order_by('puzzle__is_meta',
+						'puzzle__name', 'round__name', )
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round

@@ -10,5 +10,36 @@
 
 {% block content %}
 <h1>{{ puzzle.name }}</h1>
+<h3 class="courage-plus-plus">Solved! 💜 += 
+	{{ puzzle.unlockable.courage_bounty }};</h3>
+<div id="content">
+{{ puzzle.post_solve_story|default:"No story yet."|mkd }}
+<hr />
+
+<div>
+	<div class="caption">Click the image to continue.</div>
+	{% if post_solve_image_path %}
+	<a id="door" class="img-link"
+		href="{{ puzzle.get_parent_url }}"
+		title="{{ puzzle.post_solve_image_alt }}">
+		<img src="{% static puzzle.post_solve_image_path %}"
+			alt="{{puzzle.post_solve_image_alt}}">
+	</a>
+	{% else %}
+	<h1>{{ puzzle.get_parent_url|emoji_link:"🏆" }}</h1>
+	{% endif %}
+</div>
+
+<hr class="solution-divider" />
+<div id="solution" class="fourthwall">
+<h1>Solution to {{ puzzle.name }}</h1>
+{{ puzzle.solution|default:"No solution."|mkd }}
+</div>
+{% if puzzle.author_notes %}
+<div id="notes" class="fourthwall">
+<h2>Author Notes</h2>
+{{ puzzle.author_notes|mkd }}
+</div>
+{% endif %}
 
 {% endblock %}
