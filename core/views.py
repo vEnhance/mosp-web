@@ -81,6 +81,7 @@ class UnlockableList(TokenGatedListView):
 	def get_queryset(self):
 		self.round = models.Round.objects.get(**self.kwargs)
 		assert self.token is not None
+		assert self.token.can_unlock(self.round.unlockable)
 		return models.get_viewable(
 				models.Unlockable.objects.filter(
 					parent = self.round.unlockable
@@ -97,12 +98,24 @@ class PuzzleDetail(TokenGatedDetailView):
 	"""Shows a puzzle"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
+	def dispatch(self, request : HttpRequest, *args, **kwargs):
+		ret = super().dispatch(request, *args, **kwargs)
+		assert self.token is not None
+		u = self.object.unlockable # type: ignore
+		assert self.token.has_unlocked(u)
+		return ret
 
 class SolutionDetail(TokenGatedDetailView):
 	"""Shows a solution"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
-	template_name = "core/solution_detail.html"
+	template_name = 'core/solution_detail.html'
+	def dispatch(self, request : HttpRequest, *args, **kwargs):
+		ret = super().dispatch(request, *args, **kwargs)
+		assert self.token is not None
+		u = self.object.unlockable # type: ignore
+		assert self.token.has_solved(u)
+		return ret
 
 class UnlockableDetail(TokenGatedDetailView):
 	model = models.Unlockable

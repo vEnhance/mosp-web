@@ -270,3 +270,16 @@ table.table code {
 	font-weight: normal;
 }
 
+table.table tt {
+	font-family: Inconsolata, Consolas, monaco, monospace;
+	white-space: pre;
+	color: #50036f;
+	font-size: 14px;
+	vertical-align: middle;
+}
+a.place:link, a.place:visited {
+	font-size: 16px;
+	font-style: italic;
+	color: #0000cc;
+	vertical-align: middle;
+}

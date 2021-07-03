@@ -29,9 +29,11 @@ def emoji_link(href : str, emoji : str) -> str:
 	return mark_safe(f'<a class="emoji-link" href="{href}">{emoji}</a>')
 
 @register.filter
+def has_found(token : models.Token, u : models.Unlockable) -> bool:
+	return token.has_found(u)
+@register.filter
 def has_unlocked(token : models.Token, u : models.Unlockable) -> bool:
 	return token.has_unlocked(u)
-
 @register.filter
 def has_solved(token : models.Token, u : models.Unlockable) -> bool:
 	return token.has_solved(u)

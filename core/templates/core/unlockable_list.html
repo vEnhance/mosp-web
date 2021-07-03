@@ -29,7 +29,7 @@
 		</td>
 		{% if token|has_solved:u %}
 			<td><a href="{{u.puzzle.get_solution_url}}">
-				<code>{{ puzzle.display_answer }}</code>
+				<code>{{ u.puzzle.display_answer }}</code>
 			</a></td>
 		{% else %}
 			<td><em>Not solved</em></td>

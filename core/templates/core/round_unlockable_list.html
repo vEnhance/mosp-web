@@ -7,14 +7,20 @@
 
 <table class="table">
 {% for unlockable in round_unlockable_list %}
-{% with round=unlockable.round %}
-<tr>
-<td>Chapter
-<a href="{{ round.unlockable.get_absolute_url }}">{{ round.chapter_number }}</a>
-</td>
-<td><a href="{{round.get_absolute_url}}">{{round.name}}</a></td>
-</tr>
-{% endwith %}
+	{% with round=unlockable.round %}
+	<tr>
+	<td>Chapter
+	<a href="{{ round.unlockable.get_absolute_url }}">{{ round.chapter_number }}</a>
+	</td>
+	{% if token|has_found:round.unlockable %}
+	<td><a href="{{round.get_absolute_url}}">{{round.name}}</a></td>
+	{% elif token|can_unlock:round.unlockable %}
+	<td><em>Unlocked!</em></td>
+	{% else %}
+	<td><em>Locked</em></td>
+	{% endif %}
+	</tr>
+	{% endwith %}
 {% endfor %}
 </table>
 

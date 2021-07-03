@@ -111,24 +111,41 @@ class Puzzle(models.Model):
 			help_text = "Markdown for the puzzle content",
 			blank = True,
 			)
-	solution = models.TextField(
-			help_text = "Markdown for the puzzle solution",
-			blank = True,
-			)
-	author_notes = models.TextField(
-			help_text = "Markdown for the author's notes",
-			blank = True,
-			)
-	post_solve_story = models.TextField(
-			help_text = "Markdown for the post-solve story",
-			blank = True,
-			)
 	pre_solve_story = models.TextField(
 			help_text = "Markdown for the pre-solve story",
 			blank = True,
 			)
 	puzzle_head = models.TextField(
 			help_text = "Extra HTML to include in <head>",
+			blank = True,
+			)
+	def get_absolute_url(self):
+		return reverse_lazy('puzzle-detail', args=(self.slug,))
+	def get_solution_url(self):
+		return reverse_lazy('solution-detail', args=(self.slug,))
+	def get_parent_url(self):
+		return self.unlockable.parent.round.get_absolute_url()
+	def __str__(self):
+		return self.name
+	@property
+	def target_hashes(self):
+		return [sa.hash for sa in self.salted_answers.all()] # type: ignore
+
+class Solution(models.Model):
+	puzzle = models.OneToOneField(Puzzle,
+			help_text = "The puzzle this is a solution for",
+			on_delete = models.CASCADE
+			)
+	post_solve_story = models.TextField(
+			help_text = "Markdown for the post-solve story",
+			blank = True,
+			)
+	solution_text = models.TextField(
+			help_text = "Markdown for the puzzle solution",
+			blank = True,
+			)
+	author_notes = models.TextField(
+			help_text = "Markdown for the author's notes",
 			blank = True,
 			)
 	post_solve_image_path = models.CharField(max_length = 240,
@@ -139,16 +156,8 @@ class Puzzle(models.Model):
 			help_text = "Static path to the post-solve image",
 			blank = True
 			)
-
-	def get_absolute_url(self):
-		return reverse_lazy('puzzle-detail', args=(self.slug,))
-	def get_parent_url(self):
-		return self.unlockable.parent.round.get_absolute_url()
-	def __str__(self):
-		return self.name
-	@property
-	def target_hashes(self):
-		return [sa.hash for sa in self.salted_answers.all()] # type: ignore
+	def get_solution_url(self):
+		return reverse_lazy('solution-detail', args=(self.puzzle.slug,))
 
 def _rand():
 	return random.randrange(0, 10**4)
@@ -277,6 +286,13 @@ class Token(models.Model):
 		else:
 			return self.can_unlock(u)
 
+	def has_found(self, u : Unlockable) -> bool:
+		if hasattr(self, 'ustatus'):
+			return self.ustatus is not None # type: ignore
+		return Attempt.objects.filter(
+			token = self,
+			unlockable = u,
+		).exists()
 	def has_unlocked(self, u : Unlockable) -> bool:
 		if hasattr(self, 'ustatus'):
 			return self.ustatus is not None # type: ignore
