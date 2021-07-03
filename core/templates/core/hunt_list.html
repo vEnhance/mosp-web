@@ -8,7 +8,7 @@
 <p>Welcome back, {{ token.name }}.</p>
 
 {% for hunt in hunt_list %}
-<h2>Volume {{ hunt.number }}:
+<h2>Volume {{ hunt.volume_number }}:
 	<a href="{{ hunt.get_absolute_url }}">{{ hunt.name }}</a></h2>
 <p>{{ hunt.description|mkd }}</p>
 {% endfor %}

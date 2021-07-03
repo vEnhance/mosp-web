@@ -67,7 +67,6 @@ class RoundList(TokenGatedListView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['hunt'] = self.hunt
-		print(context)
 		return context
 
 class PuzzleList(TokenGatedListView):
@@ -76,7 +75,7 @@ class PuzzleList(TokenGatedListView):
 	model = models.Puzzle
 	def get_queryset(self):
 		self.round = models.Round.objects.get(**self.kwargs)
-		return models.Puzzle.objects.filter(unlockable__parent = self.round)
+		return models.Puzzle.objects.filter(unlockable__parent = self.round.unlockable)
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round
@@ -86,3 +85,7 @@ class PuzzleDetail(TokenGatedDetailView):
 	"""Shows a puzzle"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		print(context)
+		return context

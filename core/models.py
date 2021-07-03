@@ -4,8 +4,8 @@ import uuid
 # Create your models here.
 
 class Hunt(models.Model):
-	number = models.SmallIntegerField(
-			help_text = "The number of the hunt",
+	volume_number = models.CharField(max_length = 80,
+			help_text = "The volume number corresponding to this hunt",
 			unique = True)
 	name = models.CharField(max_length = 80,
 			help_text = "The name of this hunt",
@@ -23,7 +23,7 @@ class Hunt(models.Model):
 	def __str__(self):
 		return self.name
 	def get_absolute_url(self):
-		return reverse_lazy('round-list', args=(self.number,))
+		return reverse_lazy('round-list', args=(self.volume_number,))
 
 class Unlockable(models.Model):
 	hunt = models.ForeignKey(Hunt,
@@ -91,7 +91,7 @@ class Puzzle(models.Model):
 			help_text = "Associated unlockable for this puzzle",
 			null = True, blank = True,
 			on_delete = models.SET_NULL)
-	title = models.CharField(max_length = 80)
+	name = models.CharField(max_length = 80)
 	slug = models.SlugField(
 			help_text = "The slug for the puzzle",
 			)
@@ -129,27 +129,29 @@ class Puzzle(models.Model):
 			help_text = "Extra HTML to include in <head>",
 			blank = True,
 			)
+	def get_absolute_url(self):
+		return reverse_lazy('puzzle-detail', args=(self.slug,))
 	def __str__(self):
-		return self.title
+		return self.name
 
 class Round(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
 			help_text = "Associated unlockable for this round",
 			null = True, blank = True,
 			on_delete = models.SET_NULL)
-	title = models.CharField(max_length = 80)
-	label_number = models.CharField(max_length = 80,
+	name = models.CharField(max_length = 80)
+	chapter_number = models.CharField(max_length = 80,
 			help_text = "Chapter number/etc. for flavor")
-	content = models.TextField(
-			help_text = "Any text to show in the round page",
-			blank = True)
 	slug = models.SlugField(
 			help_text = "The slug for the round",
 			)
+	content = models.TextField(
+			help_text = "Any text to show in the round page",
+			blank = True)
 	def get_absolute_url(self):
 		return reverse_lazy('puzzle-list', args=(self.slug,))
 	def __str__(self):
-		return self.title
+		return self.name
 
 
 class Hint(models.Model):
@@ -171,6 +173,8 @@ class Token(models.Model):
 			help_text = "Who are you?")
 	hints_obtained = models.ManyToManyField(Hint,
 			help_text = "Hints purchased by this token")
+	def __str__(self):
+		return str(self.uuid)
 
 class Solve(models.Model):
 	token = models.ForeignKey(Token,

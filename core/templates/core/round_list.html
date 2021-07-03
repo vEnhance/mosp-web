@@ -3,10 +3,15 @@
 {% block title %}{{ hunt.name }}{% endblock %}
 
 {% block content %}
-<h1>{{ hunt.name }}</h1>
+<h1>{{ hunt.volume_number }}. {{ hunt.name }}</h1>
 
+<table class="table">
 {% for round in round_list %}
-<p><a href="{{round.get_absolute_url}}">{{round.title}}</a></p>
+<tr>
+<th>Chapter {{ round.chapter_number }}</th>
+<td><a href="{{round.get_absolute_url}}">{{round.name}}</a></td>
+</tr>
 {% endfor %}
+</table>
 
 {% endblock %}

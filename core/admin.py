@@ -5,18 +5,18 @@ from . import models
 
 @admin.register(models.Hunt)
 class HuntAdmin(admin.ModelAdmin):
-	list_display = ('number', 'name', 'start_date', 'visible')
+	list_display = ('volume_number', 'name', 'start_date', 'visible')
 	search_fields = ('name',)
 
 @admin.register(models.Puzzle)
 class PuzzleAdmin(admin.ModelAdmin):
-	list_display = ('title', 'slug', 'is_meta', 'unlockable',)
+	list_display = ('name', 'slug', 'is_meta', 'unlockable',)
 	search_fields = ('id', 'name', 'unlockable__parent__name', 'unlockbale__hunt__name')
 	list_filter = ('is_meta', 'unlockable__parent', 'unlockable__hunt',)
 
 @admin.register(models.Round)
 class RoundAdmin(admin.ModelAdmin):
-	list_display = ('title', 'slug',)
+	list_display = ('chapter_number', 'name', 'slug',)
 	search_fields = ('id', 'name', 'slug', 'unlockable__parent__name', 'unlockbale__hunt__name')
 	list_filter = ('unlockable__parent', 'unlockable__hunt',)
 
