@@ -32,7 +32,7 @@ class Unlockable(models.Model):
 			)
 	parent = models.ForeignKey('Unlockable',
 			help_text = "Specifies a parent unlockable",
-			null = True,
+			null = True, blank = True,
 			on_delete = models.SET_NULL,
 			related_name = 'children',
 			)
@@ -59,7 +59,7 @@ class Unlockable(models.Model):
 	unlock_needs = models.ForeignKey('Unlockable',
 			help_text = "If this is nonempty, "
 				"then unlock only when the target is done",
-			null = True,
+			null = True, blank = True,
 			on_delete = models.SET_NULL,
 			related_name = 'blocked_on',
 			)
@@ -72,12 +72,14 @@ class Unlockable(models.Model):
 			help_text = "Amount of courage obtained by solving",
 			default = 25,
 			)
+	def __str__(self):
+		return self.name
 
 class Puzzle(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
 			help_text = "Associated unlockable for this puzzle",
-			null = True,
-			on_delete = models.CASCADE)
+			null = True, blank = True,
+			on_delete = models.SET_NULL)
 	title = models.CharField(max_length = 80)
 	is_meta = models.BooleanField(
 			help_text = "Whether this is a metapuzzle",
@@ -116,11 +118,13 @@ class Puzzle(models.Model):
 	slug = models.SlugField(
 			help_text = "The slug for the puzzle",
 			)
+	def __str__(self):
+		return self.title
 
 class Round(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
 			help_text = "Associated unlockable for this round",
-			null = True,
+			null = True, blank = True,
 			on_delete = models.SET_NULL)
 	title = models.CharField(max_length = 80)
 	label_number = models.CharField(max_length = 80,
@@ -133,6 +137,8 @@ class Round(models.Model):
 			)
 	def get_absolute_url(self):
 		return reverse_lazy('puzzle-list', args=(self.slug,))
+	def __str__(self):
+		return self.title
 
 
 class Hint(models.Model):
