@@ -187,7 +187,7 @@ class Solve(models.Model):
 			)
 	unlocked_on = models.DateTimeField(
 			help_text = "When this puzzle was unlocked",
-			null = True
+			auto_now_add = True,
 			)
 	solved_on = models.DateTimeField(
 			help_text = "When this puzzle was solved",
