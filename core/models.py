@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 import uuid
 # Create your models here.
 
@@ -20,7 +21,7 @@ class Hunt(models.Model):
 	def __str__(self):
 		return self.name
 	def get_absolute_url(self):
-		return '/'
+		return reverse_lazy('round-list', args=(self.number,))
 
 class RoundManager(models.Manager):
 	def get_queryset(self):
@@ -40,17 +41,17 @@ class Puzzle(models.Model):
 			on_delete = models.CASCADE,
 			)
 	parent = models.ForeignKey('Puzzle',
-			help_text = "If this is nonempty, specifies a parent. " \
-					"If null, then this puzzle is really a round.",
+			help_text = "Specifies a parent round. ",
 			null = True,
 			on_delete = models.SET_NULL,
 			related_name = 'children',
 			)
+	is_round = models.BooleanField(
+			help_text = "Whether this is a round container.",
+			default = False)
 	is_meta = models.BooleanField(
-			help_text = "Whether this is a metapuzzle.")
-	@property
-	def is_round(self) -> bool:
-		return self.parent == None
+			help_text = "Whether this is a metapuzzle.",
+			default = False)
 
 	slug = models.SlugField(
 			help_text = "The slug for the puzzle or round.",
@@ -87,7 +88,7 @@ class Puzzle(models.Model):
 			)
 	unlock_needs = models.ForeignKey('Puzzle',
 			help_text = "If this is nonempty, "
-				"then unlock only when the target puzzle is done.",
+				"then unlock only when the target puzzle or round is done.",
 			null = True,
 			on_delete = models.SET_NULL,
 			related_name = 'blocked_on',
@@ -128,7 +129,10 @@ class Puzzle(models.Model):
 	def __str__(self):
 		return self.title
 	def get_absolute_url(self):
-		raise NotImplementedError("To be written")
+		if self.is_round:
+			return reverse_lazy('puzzle-list', args=(self.slug,))
+		else:
+			return reverse_lazy('puzzle-view', args=(self.slug,))
 
 class Hint(models.Model):
 	cost = models.PositiveSmallIntegerField(

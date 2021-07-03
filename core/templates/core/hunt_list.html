@@ -8,11 +8,9 @@
 <p>Welcome back, {{ token.name }}.</p>
 
 {% for hunt in hunt_list %}
-<h2>Chapter {{ hunt.number }}:
+<h2>Volume {{ hunt.number }}:
 	<a href="{{ hunt.get_absolute_url }}">{{ hunt.name }}</a></h2>
 <p>{{ hunt.description|mkd }}</p>
-<p class="hunt-footer">Written by {{ hunt.authors }}
-on {{ hunt.start_date }}.</p>
 {% endfor %}
 
 {% endblock %}
