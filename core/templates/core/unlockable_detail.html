@@ -2,16 +2,12 @@
 {% load extras %}
 {% load static %}
 
-{% block leftnav %}
-<span id="back" class="navbar">
-	{% if unlockable.parent %}
-	<a class="emoji-link" href="{{ unlockable.parent.round.get_absolute_url }}">🗺️</a>
-	{% else %}
-	<a class="emoji-link" href="{{ unlockable.hunt.get_absolute_url }}">🌍</a>
-	{% endif %}
-	<span class="name">{{ token.firstname }}</span>
-	</span>
-</span>
+{% block backnav %}
+{% if unlockable.parent %}
+<a class="emoji-link" href="{{ unlockable.parent.round.get_absolute_url }}">🗺️</a>
+{% else %}
+<a class="emoji-link" href="{{ unlockable.hunt.get_absolute_url }}">🌍</a>
+{% endif %}
 {% endblock %}
 
 {% block css %}

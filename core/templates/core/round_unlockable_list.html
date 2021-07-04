@@ -3,12 +3,6 @@
 {% load static %}
 {% block title %}{{ hunt.name }}{% endblock %}
 
-{% block leftnav %}
-<span id="back" class="navbar">
-	<a class="emoji-link" href="{% url "hunt-list" %}">🔝</a>
-</span>
-{% endblock %}
-
 {% block content %}
 <h1>{{ hunt.volume_number }}. {{ hunt.name }}</h1>
 

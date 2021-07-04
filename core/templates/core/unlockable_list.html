@@ -3,22 +3,20 @@
 {% block title %}Chapter {{ round.chapter_number }}:
 {{ round.name }}{% endblock %}
 
-{% block leftnav %}
-<span id="back" class="navbar">
-	{% if round.unlockable.parent %}
-	<a class="emoji-link" href="{{ round.unlockable.parent.round.get_absolute_url }}">🗺️</a>
-	{% else %}
-	<a class="emoji-link" href="{{ round.unlockable.hunt.get_absolute_url}}">🌍</a>
-	{% endif %}
-	<span class="name">{{ token.firstname }}</span>
-	</span>
-</span>
+{% block backnav %}
+{% if round.unlockable.parent %}
+<a class="emoji-link" href="{{ round.unlockable.parent.round.get_absolute_url }}">🗺️</a>
+{% else %}
+<a class="emoji-link" href="{{ round.unlockable.hunt.get_absolute_url}}">🌍</a>
+{% endif %}
 {% endblock %}
 
 {% block content %}
 <h1>Chapter {{ round.chapter_number }}</h1>
 <h3><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h3>
 {{ round.round_text|mkd }}
+
+<hr />
 
 <table class="table">
 {% for u in unlockable_list %}

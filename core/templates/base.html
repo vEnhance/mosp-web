@@ -71,6 +71,14 @@ const token_uuid = null;
 <div id="container">
 <div id="content">
 {% block leftnav %}
+<span id="back" class="navbar">
+	{% block backnav %}
+	<a class="emoji-link" href="/">🔝</a>
+	{% endblock %}
+	<span class="name">{{ token.firstname }}</span>
+	</span>
+</span>
+
 {% endblock %}
 
 {% block rightnav %}
