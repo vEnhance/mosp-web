@@ -24,7 +24,12 @@ class Hunt(models.Model):
 			help_text = "When the hunt can be started")
 	visible = models.BooleanField(
 			help_text = "Whether the hunt is visible to people; "
-			"use false if you're just testing")
+			"use false if you're just testing",
+			default = False)
+	allow_skip = models.BooleanField(
+			help_text = "Whether to allow `skip puzzle`",
+			default = False)
+
 	def __str__(self):
 		return self.name
 	def get_absolute_url(self):
