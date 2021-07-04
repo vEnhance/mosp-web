@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "allowJs": true,
-    "outDir": "./typescript/out/",
+    "outDir": "./typescripts/out/",
     "target": "ES2019",
     "module": "AMD",
     "moduleResolution": "node",
@@ -14,10 +14,10 @@
 
     "sourceMap": true,
     "inlineSources": true,
-    "baseUrl" : "./typescript/src"
+    "baseUrl" : "./typescripts/src"
   },
 
   "include": [
-    "./typescript/src/**.ts",
+    "./typescripts/src/**.ts"
   ]
 }

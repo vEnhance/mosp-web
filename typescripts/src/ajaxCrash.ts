@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-export default function err() => {
+export default function err() {
   Swal.fire({
     title : "Something went wrong",
     text : "Please contact Evan so we can debug this issue",
