@@ -60,12 +60,12 @@ class Unlockable(models.Model):
 
 	unlock_courage_threshold = models.IntegerField(
 			default = 0,
-			help_text = "Amount of courage needed to unlock"
+			help_text = "Amount of courage needed to unlock",
 			)
 	unlock_date = models.DateTimeField(
 			null = True,
 			blank = True,
-			help_text = "When the unlockable can be unlocked"
+			help_text = "When the unlockable can be unlocked",
 			)
 	unlock_needs = models.ForeignKey('Unlockable',
 			help_text = "If this is nonempty, "
@@ -77,11 +77,13 @@ class Unlockable(models.Model):
 	force_visibility = models.BooleanField(
 			null = True,
 			blank = True,
-			help_text = "Always show or hide"
+			help_text = "Always show or hide",
+			verbose_name = "Show",
 			)
 	courage_bounty = models.IntegerField(
 			help_text = "Amount of courage obtained by solving",
 			default = 25,
+			verbose_name = "Bounty",
 			)
 	@property
 	def is_puzzle(self):
@@ -89,13 +91,27 @@ class Unlockable(models.Model):
 	@property
 	def is_round(self):
 		return hasattr(self, 'round')
-	def __str__(self):
-		if self.is_puzzle:
-			return '🧩' + self.name
-		elif self.is_round:
-			return '⭕' + self.name
+	@property
+	def prereqs_summary(self):
+		s = f'{self.unlock_courage_threshold}💜'
+		if self.unlock_date:
+			s += '@' + self.unlock_date.isoformat()
+		if self.unlock_needs:
+			s += '/' + self.unlock_needs.slug
+		return s
+	@property
+	def parent_abbrv(self):
+		if self.is_round:
+			return f'Vol {self.hunt.volume_number}'
+		elif self.parent is not None:
+			if self.parent.is_round:
+				return f'Ch {self.parent.round.chapter_number}'
+			return str(self.parent)
 		else:
-			return self.name
+			return None
+
+	def __str__(self):
+		return self.slug
 	def get_absolute_url(self):
 		return reverse_lazy('unlockable-detail', args=(self.slug,))
 
@@ -242,7 +258,9 @@ class Attempt(models.Model):
 			), default = -1)
 	def __str__(self):
 		verb : str = self.get_status_display().lower() # type: ignore
-		return f'{self.token} {verb} {self.unlockable.name}'
+		return f'{self.token.pk} {verb}'
+	class Meta:
+		unique_together = ('token', 'unlockable',)
 
 class Token(models.Model):
 	uuid = models.UUIDField(
