@@ -3,3 +3,7 @@ db.sqlite3
 .venv
 node_modules/
 typescript/out
+*-sm.png
+*-sm.png
+*-sm.jpg
+*.xcf
