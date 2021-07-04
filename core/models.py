@@ -285,7 +285,6 @@ class Token(models.Model):
 			return False
 		else:
 			return self.can_unlock(u)
-
 	def has_found(self, u : Unlockable) -> bool:
 		if hasattr(u, 'ustatus'):
 			return u.ustatus is not None # type: ignore
@@ -295,7 +294,7 @@ class Token(models.Model):
 		).exists()
 	def has_unlocked(self, u : Unlockable) -> bool:
 		if hasattr(u, 'ustatus'):
-			return u.ustatus is not None # type: ignore
+			return u.ustatus == 0 or u.ustatus == 1 # type: ignore
 		return Attempt.objects.filter(
 			token = self,
 			unlockable = u,

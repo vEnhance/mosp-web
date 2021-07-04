@@ -33,6 +33,7 @@ def has_found(token : models.Token, u : models.Unlockable) -> bool:
 	return token.has_found(u)
 @register.filter
 def has_unlocked(token : models.Token, u : models.Unlockable) -> bool:
+	print(token, u, token.has_unlocked(u))
 	return token.has_unlocked(u)
 @register.filter
 def has_solved(token : models.Token, u : models.Unlockable) -> bool:

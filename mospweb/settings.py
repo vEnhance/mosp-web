@@ -74,6 +74,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mospweb.wsgi.application'
 
+#LOGGING = {
+#	'version': 1,
+#	'disable_existing_loggers': False,
+#	'handlers': {
+#		'file': {
+#			'level': 'DEBUG',
+#			'class': 'logging.FileHandler',
+#			'filename': 'sql.log',
+#		},
+#	},
+#	'loggers': {
+#		'django.db.backends': {
+#			'handlers': ['file'],
+#			'level': 'DEBUG',
+#			'propagate': True,
+#		},
+#	},
+#}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

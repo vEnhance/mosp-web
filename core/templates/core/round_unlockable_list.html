@@ -12,7 +12,7 @@
 	<td>Chapter
 	<a href="{{ round.unlockable.get_absolute_url }}">{{ round.chapter_number }}</a>
 	</td>
-	{% if token|has_found:round.unlockable %}
+	{% if token|has_unlocked:round.unlockable %}
 	<td><a href="{{round.get_absolute_url}}">{{round.name}}</a></td>
 	{% elif token|can_unlock:round.unlockable %}
 	<td><em>Unlocked!</em></td>
