@@ -9,14 +9,20 @@
 <p>Welcome back, {{ token.name }}.</p>
 
 {% for hunt in hunt_list %}
+<hr />
+<div class="item-container">
 {% if hunt.thumbnail_path %}
-<div class="thumbnail-container">
-	<img src="{% static hunt.thumbnail_path %}" class="thumbnail">
+<div class="item-thumbnail-container">
+	<a class="img-link" href="{{ hunt.get_absolute_url }}">
+	<img src="{% static hunt.thumbnail_path %}" class="item-thumbnail">
+	</a>
 </div>
 {% endif %}
-<h3>Volume {{ hunt.volume_number }}:
-	<a href="{{ hunt.get_absolute_url }}">{{ hunt.name }}</a></h3>
+<div class="item-listing">
+<h3>Volume {{ hunt.volume_number }}: {{ hunt.name }}</h3>
 {{ hunt.description|mkd }}
+</div>
+</div>
 {% endfor %}
 
 {% endblock %}

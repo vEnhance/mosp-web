@@ -86,7 +86,7 @@ div.codehilite code {
 /* || Body */
 body {
 	font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-	font-size: 22px;
+	font-size: 20px;
 }
 
 /* || ID'ed elements */
@@ -100,10 +100,10 @@ body {
 #status {
 	position: absolute;
 	right: 0;
-	transform: translate(0, 18px);
+	transform: translate(0, 8px);
 }
 span.navbar {
-	transform: translate(0, 10px);
+	transform: translate(0, 4px);
 }
 #status span.navitem {
 	font-size: 21px;
@@ -255,6 +255,10 @@ h1, h2 {
 h1, h2, h3, h4, h5, h6 {
 	font-family: Perpetua,Baskerville,Big Caslon,Palatino Linotype,Palatino,URW Palladio L,Nimbus Roman No9 L,serif; 
 }
+h3, h4, h5, h6 {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
 
 
 code.language-text, code.language-c, code.language-python {
@@ -287,14 +291,17 @@ a.place:link, a.place:visited {
 	vertical-align: middle;
 }
 
-div.backstory {
-	float: right;
-}
-#container div.thumbnail-container {
-	float: left;
+#container div.item-thumbnail-container {
 	width: 144px;
-	margin-right: 10px;
+	margin-right: 16px;
+	display: inline-block;
 }
-#container img.thumbnail {
+#container img.item-thumbnail {
 	width: 128px;
+}
+#container div.item-listing {
+	display: inline-block;
+}
+#container div.item-container {
+	display: flex;
 }
