@@ -55,6 +55,8 @@ class HuntList(TokenGatedListView):
 	context_object_name = "hunt_list"
 	model = models.Hunt
 	redirect_if_no_token = False
+	def get_queryset(self):
+		return models.Hunt.objects.filter(visible = True)
 
 class RoundUnlockableList(TokenGatedListView):
 	"""List of all the top-level rounds in a given hunt"""
