@@ -225,8 +225,14 @@ class Round(models.Model):
 			help_text = "The slug for the round",
 			unique = True,
 			)
-	content = models.TextField(
+	summary_text = models.TextField(
 			help_text = "Any text to show in the round page",
+			blank = True)
+	intro_story_text = models.TextField(
+			help_text = "Markdown for the pre-entry story",
+			blank = True)
+	round_text = models.TextField(
+			help_text = "Markdown for content in the round page",
 			blank = True)
 	def get_absolute_url(self):
 		return reverse_lazy('unlockable-list', args=(self.chapter_number,))
@@ -350,9 +356,10 @@ def get_viewable(queryset : models.QuerySet, token : Token):
 				),
 			)
 	queryset = queryset.exclude(Q(force_visibility=False),
-			Q(ustatus__isnull=True) | Q(ustatus__lt=1)
+			Q(ustatus__isnull=True) | Q(ustatus__lt=0)
 			)
 	queryset = queryset.exclude(Q(force_visibility__isnull=True),
+			Q(ustatus__isnull=True),
 			Q(unlock_date__gt = timezone.now())
 			| Q(unlock_courage_threshold__gt = courage)
 			| (Q(unlock_needs__isnull=False)

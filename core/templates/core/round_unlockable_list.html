@@ -5,23 +5,28 @@
 {% block content %}
 <h1>{{ hunt.volume_number }}. {{ hunt.name }}</h1>
 
-<table class="table">
 {% for unlockable in round_unlockable_list %}
-	{% with round=unlockable.round %}
-	<tr>
-	<td>Chapter
-	<a href="{{ round.unlockable.get_absolute_url }}">{{ round.chapter_number }}</a>
-	</td>
-	{% if token|has_unlocked:round.unlockable %}
-	<td><a href="{{round.get_absolute_url}}">{{round.name}}</a></td>
-	{% elif token|can_unlock:round.unlockable %}
-	<td><em>Unlocked!</em></td>
+<hr />
+{% with round=unlockable.round %}
+{% if token|has_unlocked:round.unlockable %}
+	<h3>Chapter {{ round.chapter_number }}:
+		<a href="{{ round.get_absolute_url }}">{{ round.name }}</a>
+		<div class="backstory">
+			<a href="{{ round.unlockable.get_absolute_url }}">(Intro Scene)</a>
+		</div>
+	</h3>
+	{{ round.summary_text }}
+{% else %}
+	<h4>Chapter {{ round.chapter_number }} (unlocked!)</h4>
+	{% if token|can_unlock:round.unlockable %}
+	<p><a href="{{ round.unlockable.get_absolute_url }}">Open chapter</a>
 	{% else %}
-	<td><em>Locked</em></td>
+	This chapter is locked for now.
+	<p><a href="{{ round.unlockable.get_absolute_url }}">
+		See unlock requirements.</a></p>
 	{% endif %}
-	</tr>
-	{% endwith %}
+{% endif %}
+{% endwith %}
 {% endfor %}
-</table>
 
 {% endblock %}

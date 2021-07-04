@@ -283,3 +283,7 @@ a.place:link, a.place:visited {
 	color: #0000cc;
 	vertical-align: middle;
 }
+
+div.backstory {
+	float: right;
+}

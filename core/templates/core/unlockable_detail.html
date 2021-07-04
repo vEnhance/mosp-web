@@ -26,6 +26,10 @@
 
 {% if u.is_puzzle %}
 	{{ u.puzzle.pre_solve_story|mkd }}
+{% elif u.is_round %}
+	{{ u.round.intro_story_text|mkd }}
+{% else %}
+	Click below to proceed.
 {% endif %}
 <hr />
 {% if locked %}

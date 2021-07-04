@@ -83,7 +83,7 @@ class UnlockableList(TokenGatedListView):
 	def get_queryset(self):
 		self.round = models.Round.objects.get(**self.kwargs)
 		assert self.token is not None
-		assert self.token.can_unlock(self.round.unlockable)
+		assert self.token.has_unlocked(self.round.unlockable)
 		return models.get_viewable(
 				models.Unlockable.objects.filter(
 					parent = self.round.unlockable
