@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'core',
-	'bootstrap4',
-	'crispy_forms',
 	'typescript',
 ]
 
