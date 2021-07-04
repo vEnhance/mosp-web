@@ -9,3 +9,5 @@ class Page(models.Model):
 			help_text = "Markdown content for the page")
 	slug = models.SlugField(unique = True,
 			help_text = "The slug for the page")
+	def __str__(self):
+		return self.title
