@@ -51,6 +51,7 @@ class Unlockable(models.Model):
 			)
 	slug = models.SlugField(
 			help_text = "The slug for the unlockable",
+			unique = True,
 			)
 	icon = models.CharField(max_length = 5,
 			help_text = "Emoji for this unlockable",
@@ -106,6 +107,7 @@ class Puzzle(models.Model):
 	name = models.CharField(max_length = 80)
 	slug = models.SlugField(
 			help_text = "The slug for the puzzle",
+			unique = True,
 			)
 	display_answer = models.CharField(max_length = 128,
 			help_text = "Display answer for the puzzle")
@@ -205,6 +207,7 @@ class Round(models.Model):
 			unique = True)
 	slug = models.SlugField(
 			help_text = "The slug for the round",
+			unique = True,
 			)
 	content = models.TextField(
 			help_text = "Any text to show in the round page",
