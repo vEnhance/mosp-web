@@ -24,6 +24,7 @@ class AttemptInline(admin.TabularInline):
 @admin.register(models.Puzzle)
 class PuzzleAdmin(admin.ModelAdmin):
 	list_display = ('name', 'slug', 'is_meta', 'unlockable',)
+	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'unlockable__parent__name', 'unlockbale__hunt__name')
 	list_filter = ('is_meta', 'unlockable__parent', 'unlockable__hunt',)
 	inlines = (SaltedAnswerInline,)
@@ -31,18 +32,21 @@ class PuzzleAdmin(admin.ModelAdmin):
 @admin.register(models.Round)
 class RoundAdmin(admin.ModelAdmin):
 	list_display = ('chapter_number', 'name', 'slug',)
+	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'slug', 'unlockable__parent__name', 'unlockbale__hunt__name')
 	list_filter = ('unlockable__parent', 'unlockable__hunt',)
 
 @admin.register(models.Unlockable)
 class UnlockableAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'hunt', 'slug', 'parent',)
+	list_display = ('id', 'name', 'slug', 'parent', 'hunt',)
+	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'hunt', 'slug', 'parent__name', 'parent__slug',)
 	list_filter = ('parent', 'hunt',)
 
 @admin.register(models.Attempt)
 class AttemptAdmin(admin.ModelAdmin):
 	list_display = ('token', 'unlockable', 'status',)
+	list_display_links = ('token', 'unlockable',)
 	search_fields = ('token__name', 'unlockable__name',)
 	list_filter = ('unlockable__hunt',)
 
@@ -51,7 +55,14 @@ class TokenAdmin(admin.ModelAdmin):
 	list_display = ('uuid', 'name',)
 	search_fields = ('uuid', 'name',)
 	inlines = (AttemptInline,)
+	list_display_links = ('uuid', 'name',)
+
+@admin.register(models.Solution)
+class SolutionAdmin(admin.ModelAdmin):
+	list_display = ('puzzle', 'post_solve_image_path', 'post_solve_image_alt',)
+	search_fields = ('puzzle__name', 'post_solve_story', 'solution_text', 'author_notes',)
 
 @admin.register(models.SaltedAnswer)
 class SaltedAnswerAdmin(admin.ModelAdmin):
 	list_display = ('puzzle', 'salt',)
+	list_display_links = ('puzzle',)
