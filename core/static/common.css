@@ -151,6 +151,7 @@ span.navitem:hover div.navbar-tooltip {
 
 #container {
 	max-width: 800px;
+	min-width: 555px;
 	margin: 0 auto;
 	position: relative;
 	margin-bottom: 20px;
@@ -292,8 +293,7 @@ a.place:link, a.place:visited {
 }
 
 #container div.item-thumbnail-container {
-	width: 144px;
-	margin-right: 16px;
+	width: 25%;
 	display: inline-block;
 }
 #container img.item-thumbnail {
@@ -301,6 +301,7 @@ a.place:link, a.place:visited {
 }
 #container div.item-listing {
 	display: inline-block;
+	width: 75%;
 }
 #container div.item-container {
 	display: flex;
