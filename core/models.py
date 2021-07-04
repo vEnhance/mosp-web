@@ -287,23 +287,23 @@ class Token(models.Model):
 			return self.can_unlock(u)
 
 	def has_found(self, u : Unlockable) -> bool:
-		if hasattr(self, 'ustatus'):
-			return self.ustatus is not None # type: ignore
+		if hasattr(u, 'ustatus'):
+			return u.ustatus is not None # type: ignore
 		return Attempt.objects.filter(
 			token = self,
 			unlockable = u,
 		).exists()
 	def has_unlocked(self, u : Unlockable) -> bool:
-		if hasattr(self, 'ustatus'):
-			return self.ustatus is not None # type: ignore
+		if hasattr(u, 'ustatus'):
+			return u.ustatus is not None # type: ignore
 		return Attempt.objects.filter(
 			token = self,
 			unlockable = u,
 			status__gte = 0
 		).exists()
 	def has_solved(self, u : Unlockable) -> bool:
-		if hasattr(self, 'ustatus'):
-			return self.ustatus == 1 # type: ignore
+		if hasattr(u, 'ustatus'):
+			return u.ustatus == 1 # type: ignore
 		return Attempt.objects.filter(
 			token = self,
 			unlockable = u,
