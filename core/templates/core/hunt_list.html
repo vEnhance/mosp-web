@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load extras %}
 {% block title %}MOSP: A Light Novel{% endblock %}
 
@@ -8,6 +9,11 @@
 <p>Welcome back, {{ token.name }}.</p>
 
 {% for hunt in hunt_list %}
+{% if hunt.thumbnail_path %}
+<div class="thumbnail-container">
+	<img src="{% static hunt.thumbnail_path %}" class="thumbnail">
+</div>
+{% endif %}
 <h3>Volume {{ hunt.volume_number }}:
 	<a href="{{ hunt.get_absolute_url }}">{{ hunt.name }}</a></h3>
 {{ hunt.description|mkd }}

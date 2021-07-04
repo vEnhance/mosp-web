@@ -1,15 +1,26 @@
 {% extends 'base.html' %}
 {% load extras %}
+{% load static %}
 {% block title %}{{ hunt.name }}{% endblock %}
+
+{% block leftnav %}
+<span id="back" class="navbar">
+	<a class="emoji-link" href="{% url "hunt-list" %}">🔝</a>
+</span>
+{% endblock %}
 
 {% block content %}
 <h1>{{ hunt.volume_number }}. {{ hunt.name }}</h1>
-<p><a href="/">Back to top</a></p>
 
 {% for unlockable in round_unlockable_list %}
 <hr />
 {% with round=unlockable.round %}
 {% if token|has_unlocked:round.unlockable %}
+	{% if round.thumbnail_path %}
+	<div class="thumbnail-container">
+		<img src="{% static round.thumbnail_path %}" class="thumbnail">
+	</div>
+	{% endif %}
 	<h3>Chapter {{ round.chapter_number }}:
 		<a href="{{ round.get_absolute_url }}">{{ round.name }}</a>
 		<div class="backstory">

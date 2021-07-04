@@ -29,6 +29,9 @@ class Hunt(models.Model):
 	allow_skip = models.BooleanField(
 			help_text = "Whether to allow `skip puzzle`",
 			default = False)
+	thumbnail_path = models.CharField(max_length = 80,
+			help_text = "Static argument for thumbnail image",
+			blank = True)
 
 	def __str__(self):
 		return self.name
@@ -225,6 +228,9 @@ class Round(models.Model):
 			help_text = "The slug for the round",
 			unique = True,
 			)
+	thumbnail_path = models.CharField(max_length = 80,
+			help_text = "Static argument for thumbnail image",
+			blank = True)
 	summary_text = models.TextField(
 			help_text = "Any text to show in the round page",
 			blank = True)

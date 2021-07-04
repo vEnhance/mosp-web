@@ -100,7 +100,10 @@ body {
 #status {
 	position: absolute;
 	right: 0;
-	transform: translate(0, 7px);
+	transform: translate(0, 18px);
+}
+span.navbar {
+	transform: translate(0, 10px);
 }
 #status span.navitem {
 	font-size: 21px;
@@ -286,4 +289,12 @@ a.place:link, a.place:visited {
 
 div.backstory {
 	float: right;
+}
+#container div.thumbnail-container {
+	float: left;
+	width: 144px;
+	margin-right: 10px;
+}
+#container img.thumbnail {
+	width: 128px;
 }
