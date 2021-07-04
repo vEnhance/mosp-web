@@ -6,6 +6,7 @@ from . import models
 @admin.register(models.Hunt)
 class HuntAdmin(admin.ModelAdmin):
 	list_display = ('volume_number', 'name', 'start_date', 'visible')
+	list_display_links = ('volume_number', 'name',)
 	search_fields = ('name',)
 
 class SaltedAnswerInline(admin.TabularInline):
@@ -26,7 +27,7 @@ class PuzzleAdmin(admin.ModelAdmin):
 	list_display = ('name', 'slug', 'is_meta', 'unlockable',)
 	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'unlockable__parent__name', 'unlockbale__hunt__name')
-	list_filter = ('is_meta', 'unlockable__parent', 'unlockable__hunt',)
+	list_filter = ('is_meta', 'unlockable__hunt',)
 	inlines = (SaltedAnswerInline,)
 
 @admin.register(models.Round)
@@ -34,14 +35,16 @@ class RoundAdmin(admin.ModelAdmin):
 	list_display = ('chapter_number', 'name', 'slug',)
 	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'slug', 'unlockable__parent__name', 'unlockbale__hunt__name')
-	list_filter = ('unlockable__parent', 'unlockable__hunt',)
+	list_filter = ('unlockable__hunt',)
 
 @admin.register(models.Unlockable)
 class UnlockableAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'slug', 'icon', 'courage_bounty', 'force_visibility', 'parent',)
+	list_display = ('name', 'slug', 'icon', 'courage_bounty', 
+			'force_visibility', 'parent_abbrv', 'prereqs_summary')
 	list_display_links = ('name', 'slug')
 	search_fields = ('id', 'name', 'hunt', 'slug', 'parent__name', 'parent__slug',)
-	list_filter = ('parent', 'hunt',)
+	list_filter = ('hunt',)
+	list_select_related = ('parent', 'hunt', 'round', 'parent__round',)
 
 @admin.register(models.Attempt)
 class AttemptAdmin(admin.ModelAdmin):
