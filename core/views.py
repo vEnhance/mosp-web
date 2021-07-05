@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -15,11 +16,12 @@ Context = Dict[str, Any]
 
 # vvv amazing code, so much for DRY
 # maybe i should take paul graham's advice and switch to lisp
-class TokenGatedListView(ListView):
+
+class TokenGatedView:
 	redirect_if_no_token = True
 	token = None
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
-		uuid = self.request.COOKIES.get('uuid', None)
+	def check_token(self, request : HttpRequest):
+		uuid = request.COOKIES.get('uuid', None)
 		if not uuid:
 			self.token = None
 		else:
@@ -29,26 +31,20 @@ class TokenGatedListView(ListView):
 				self.token = None
 		if self.token is None and self.redirect_if_no_token:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
-		return super().dispatch(request, *args, **kwargs)
+		return None
+
+class TokenGatedListView(TokenGatedView, ListView):
+	def dispatch(self, request : HttpRequest, *args, **kwargs):
+		return super().check_token(request) or \
+				super().dispatch(request, *args, **kwargs)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['token'] = self.token
 		return context
-class TokenGatedDetailView(DetailView):
-	redirect_if_no_token = True
-	token = None
+class TokenGatedDetailView(TokenGatedView, DetailView):
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
-		uuid = self.request.COOKIES.get('uuid', None)
-		if not uuid:
-			self.token = None
-		else:
-			try:
-				self.token = models.Token.objects.get(uuid=uuid)
-			except models.Token.DoesNotExist:
-				self.token = None
-		if self.token is None and self.redirect_if_no_token:
-			return HttpResponseRedirect(reverse_lazy('hunt-list'))
-		return super().dispatch(request, *args, **kwargs)
+		return super().check_token(request) or \
+				super().dispatch(request, *args, **kwargs)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['token'] = self.token
@@ -143,6 +139,15 @@ class UnlockableDetail(TokenGatedDetailView):
 		context['new'] = not is_prev_unlocked
 		return context
 
+
+class TokenDetailView(DetailView):
+	model = models.Token
+	context_object_name = "token"
+class TokenUpdateView(UpdateView):
+	model = models.Token
+	context_object_name = "token"
+	fields = ('category', 'content', 'description',)
+
 @csrf_exempt
 def ajax(request) -> JsonResponse:
 	if request.method != 'POST':
@@ -180,19 +185,16 @@ def ajax(request) -> JsonResponse:
 		raise NotImplementedError('TODO log')
 
 	elif action == 'get_token':
-		def strip_nonalpha(s : str):
-			return re.sub(r'\W+', '', s.lower())
 		name = request.POST['name']
-		reduced_name = strip_nonalpha(name)
+		reduced_name = models.Token.reduce(name)
 		force_new = request.POST['force_new']
 		passphrase = request.POST['passphrase']
 		print(request.POST)
 		if passphrase != '':
-			h = sha(strip_nonalpha(passphrase))
 			try:
 				token = models.Token.objects.get(
-						reduced_name = strip_nonalpha(name),
-						hashed_passphrase = h)
+						reduced_name = models.Token.reduce(name),
+						reduced_passphrase = models.Token.reduce(passphrase))
 			except models.Token.DoesNotExist:
 				return JsonResponse({'outcome' : 'wrong'})
 			else:
@@ -210,8 +212,7 @@ def ajax(request) -> JsonResponse:
 					random.choice(big_color_list)
 			token = models.Token.objects.create(
 					name = name,
-					reduced_name = strip_nonalpha(name),
-					hashed_passphrase = sha(strip_nonalpha(colorname))
+					passphrase = colorname,
 					)
 			return JsonResponse({
 				'outcome': 'success',

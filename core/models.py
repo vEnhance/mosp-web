@@ -2,8 +2,11 @@ from django.db import models
 from django.db.models import Q, Max
 from django.urls import reverse_lazy
 from django.utils import timezone
-import uuid
+
 import random
+import re
+import uuid
+
 from .utils import sha, normalize
 
 # Create your models here.
@@ -302,15 +305,27 @@ class Token(models.Model):
 	name = models.CharField(max_length = 128,
 			help_text = "Who are you?")
 	reduced_name = models.CharField(max_length = 128,
-			help_text = "Name with only [a-z][0-9] characters.")
+			help_text = "Name with only [a-z0-9] characters.")
 	hints_obtained = models.ManyToManyField(Hint,
 			help_text = "Hints purchased by this token")
 	attempts = models.ManyToManyField(Unlockable, through=Attempt,
 			help_text = "Attempts attached to this token")
-	hashed_passphrase = models.CharField(max_length = 256,
-			help_text = "Hashed passphrase")
+	passphrase = models.CharField(max_length = 256,
+			verbose_name = "Magic word",
+			help_text = "Magic word needed for a different account")
+	reduced_passphrase = models.CharField(max_length = 256,
+			help_text = "Passphrasew ith only [a-z0-9] characters")
 	class Meta:
-		unique_together = ('reduced_name', 'hashed_passphrase')
+		unique_together = ('reduced_name', 'reduced_passphrase')
+
+	@staticmethod
+	def reduce(s : str):
+		return re.sub(r'\W+', '', s.lower())
+	def save(self, *args, **kwargs):
+		self.reduced_name = self.reduce(self.name)
+		self.reduced_passphrase = self.reduce(self.name)
+		super().save(*args, **kwargs)
+	
 
 	def __str__(self):
 		return self.name
