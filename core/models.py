@@ -268,6 +268,26 @@ class Attempt(models.Model):
 				( 0, "Unlocked"),
 				( 1, "Solved"),
 			), default = -1)
+	found_on = models.DateTimeField(
+			help_text = "When the unlockable is found",
+			blank = True, null = True
+			)
+	unlocked_on = models.DateTimeField(
+			help_text = "When the unlockable is unlocked",
+			blank = True, null = True
+			)
+	solved_on = models.DateTimeField(
+			help_text = "When the unlockable is unlocked",
+			blank = True, null = True
+			)
+	def save(self, *args, **kwargs):
+		if self.status >= -1 and self.found_on is None:
+			self.found_on = timezone.now()
+		if self.status >= 0 and self.unlocked_on is None:
+			self.unlocked_on = timezone.now()
+		if self.status >= 1 and self.unlocked_on is None:
+			self.solved_on = timezone.now()
+		super().save(*args, **kwargs)
 	def __str__(self):
 		verb : str = self.get_status_display().lower() # type: ignore
 		return f'{self.token.pk} {verb}'
