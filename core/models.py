@@ -307,7 +307,8 @@ class Token(models.Model):
 	reduced_name = models.CharField(max_length = 128,
 			help_text = "Name with only [a-z0-9] characters.")
 	hints_obtained = models.ManyToManyField(Hint,
-			help_text = "Hints purchased by this token")
+			help_text = "Hints purchased by this token",
+			blank = True)
 	attempts = models.ManyToManyField(Unlockable, through=Attempt,
 			help_text = "Attempts attached to this token")
 	passphrase = models.CharField(max_length = 256,
@@ -327,7 +328,7 @@ class Token(models.Model):
 		return re.sub(r'\W+', '', s.lower())
 	def save(self, *args, **kwargs):
 		self.reduced_name = self.reduce(self.name)
-		self.reduced_passphrase = self.reduce(self.name)
+		self.reduced_passphrase = self.reduce(self.passphrase)
 		super().save(*args, **kwargs)
 
 	def __str__(self):

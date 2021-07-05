@@ -115,7 +115,7 @@ function main(
             title: "Enter passphrase",
             text: "Please enter your passphrase below",
             input: 'text',
-            icon: 'question',
+            icon: 'info',
           }).then((result) => {
             if (result.isConfirmed) {
               main(name, false, result.value);
@@ -163,7 +163,7 @@ function getName() {
     title: "Hello hello hey",
     text: "What should I call you?",
     input: 'text',
-    icon: 'question',
+    icon: 'info',
     confirmButtonText: 'Set name',
   }).then((result) =>  {
     if (result.isConfirmed) {
