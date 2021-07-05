@@ -1,16 +1,14 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy
-from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from typing import Any, Dict, Optional
 import random
-import re
 
 from . import models
 from .colormap import big_color_list
-from .utils import sha
 
 Context = Dict[str, Any]
 
@@ -26,7 +24,7 @@ class TokenGatedView:
 			self.token = None
 		else:
 			try:
-				self.token = models.Token.objects.get(uuid=uuid)
+				self.token = models.Token.objects.get(uuid=uuid, enabled=True)
 			except models.Token.DoesNotExist:
 				self.token = None
 		if self.token is None and self.redirect_if_no_token:
@@ -146,7 +144,13 @@ class TokenDetailView(DetailView):
 class TokenUpdateView(UpdateView):
 	model = models.Token
 	context_object_name = "token"
-	fields = ('category', 'content', 'description',)
+	fields = ('name', 'passphrase',)
+
+def token_disable(uuid) -> HttpResponse:
+	token = models.Token.objects.get(uuid=uuid)
+	token.enabled = False
+	token.save()
+	return HttpResponseRedirect('/')
 
 @csrf_exempt
 def ajax(request) -> JsonResponse:
@@ -156,7 +160,8 @@ def ajax(request) -> JsonResponse:
 	token : Optional[models.Token]
 	try:
 		assert 'uuid' in request.COOKIES
-		token = models.Token.objects.get(uuid=request.COOKIES['uuid'])
+		token = models.Token.objects.get(uuid=request.COOKIES['uuid'],
+				enabled=True)
 	except models.Token.DoesNotExist:
 		token = None
 	except AssertionError:
@@ -194,7 +199,8 @@ def ajax(request) -> JsonResponse:
 			try:
 				token = models.Token.objects.get(
 						reduced_name = models.Token.reduce(name),
-						reduced_passphrase = models.Token.reduce(passphrase))
+						reduced_passphrase = models.Token.reduce(passphrase),
+						enabled = True)
 			except models.Token.DoesNotExist:
 				return JsonResponse({'outcome' : 'wrong'})
 			else:

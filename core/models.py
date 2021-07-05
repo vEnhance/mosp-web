@@ -315,6 +315,10 @@ class Token(models.Model):
 			help_text = "Magic word needed for a different account")
 	reduced_passphrase = models.CharField(max_length = 256,
 			help_text = "Passphrasew ith only [a-z0-9] characters")
+	enabled = models.BooleanField(
+			help_text = "Turn off to prevent the token from being used",
+			default = True,
+			)
 	class Meta:
 		unique_together = ('reduced_name', 'reduced_passphrase')
 
@@ -325,7 +329,6 @@ class Token(models.Model):
 		self.reduced_name = self.reduce(self.name)
 		self.reduced_passphrase = self.reduce(self.name)
 		super().save(*args, **kwargs)
-	
 
 	def __str__(self):
 		return self.name
