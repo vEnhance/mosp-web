@@ -8,9 +8,10 @@
 {% block content %}
 <h1>MOSP: A Light Novel</h1>
 
+{% if token %}
 <p>Welcome back,
-<span class="name firstname">{{ token.firstname|default:"Anonymous" }}</span>.
-</p>
+<span class="name firstname">{{ token.firstname }}</span>.</p>
+{% endif %}
 
 {% for hunt in hunt_list %}
 <hr />
