@@ -9,5 +9,8 @@ urlpatterns = [
 	path(r'chapter/<str:chapter_number>', views.UnlockableList.as_view(), name='unlockable-list'),
 	path(r'volume/<str:volume_number>', views.RoundUnlockableList.as_view(), name='round-unlockable-list'),
 	path(r'unlock/<str:slug>', views.UnlockableDetail.as_view(), name='unlockable-detail'),
+	path(r'profile/<str:pk>', views.TokenDetailView.as_view(), name='token-detail'),
+	path(r'update/<str:pk>', views.TokenUpdateView.as_view(), name='token-update'),
+	path(r'destroy/<str:pk>', views.token_disable, name='token-disable'),
 	path(r'ajax', views.ajax, name='ajax'),
 	]

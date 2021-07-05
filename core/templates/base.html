@@ -75,8 +75,11 @@ const token_uuid = null;
 	{% block backnav %}
 	<a class="emoji-link" href="/">🔝</a>
 	{% endblock %}
+	{% if token %}
+	<a href="{% url "token-detail" token.uuid %}">
 	<span class="name">{{ token.firstname }}</span>
-	</span>
+	</a>
+	{% endif %}
 </span>
 
 {% endblock %}

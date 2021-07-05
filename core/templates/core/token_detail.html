@@ -1,4 +1,4 @@
-{% extends 'base.hmtl' %}
+{% extends 'base.html' %}
 {% block title %}{% if token.enabled %}{{ token.name }}{% else %}Not Found{% endif %}{% endblock %}
 
 {% block content %}
@@ -8,17 +8,23 @@
 it will automatically restore all your progress,
 without needing to enter a magic word.</p>
 
-<h2>Profile
-	<a class="emoji-link" href="{% url "token-update" %}">✏️</a>
-</h2>
+<h2>Profile</h2>
 <ul>
-	<li>Full name: `{{ token.name }}`.</li>
-	<li>Magic word: `{{ token.passphrase }}`.</li>
+	<li>Full name: <code>{{ token.name }}</code></li>
+	<li>Magic word: <code>{{ token.passphrase }}</code></li>
+	<li><a class="emoji-link" href="{% url "token-update" token.uuid %}">✏️ Edit</a></li>
 </ul>
 <h2>Danger zone</h2>
 <ul>
-	<li><a id="cleartoken" href="javascript:void(0)">Switch profile</a></li>
-	<li><a href="{% url "token-disable" %}">Delete token</a></li>
+	<li><a id="cleartoken" href="javascript:void(0)">Unlink profile</a>
+	<p>This will return you to the homepage where
+	you can select a new name and start afresh.
+	You can still access your previous progress
+	if you type the same name and magic word.</p>
+	</li>
+	<li><a href="{% url "token-disable" token.uuid %}">Destroy profile</a>
+	<p>What it sounds like. Irreversible once clicked.</p>
+	</li>
 </ul>
 {% else %}
 <p>This token is deleted.</p>

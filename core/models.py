@@ -312,7 +312,7 @@ class Token(models.Model):
 			help_text = "Attempts attached to this token")
 	passphrase = models.CharField(max_length = 256,
 			verbose_name = "Magic word",
-			help_text = "Magic word needed for a different account")
+			help_text = "Magic word needed to retrieve progress")
 	reduced_passphrase = models.CharField(max_length = 256,
 			help_text = "Passphrasew ith only [a-z0-9] characters")
 	enabled = models.BooleanField(
@@ -332,6 +332,9 @@ class Token(models.Model):
 
 	def __str__(self):
 		return self.name
+	def get_absolute_url(self):
+		return reverse_lazy('token-detail', args=(self.uuid,))
+
 	@property
 	def firstname(self):
 		if not ' ' in self.name:
