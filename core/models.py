@@ -306,20 +306,32 @@ class Token(models.Model):
 			help_text = "Who are you?")
 	reduced_name = models.CharField(max_length = 128,
 			help_text = "Name with only [a-z0-9] characters.")
+	passphrase = models.CharField(max_length = 256,
+			verbose_name = "Magic word",
+			help_text = "Magic word needed to retrieve progress")
+	reduced_passphrase = models.CharField(max_length = 256,
+			help_text = "Passphrase with only [a-z0-9] characters")
+
+	permission = models.PositiveSmallIntegerField(
+			help_text = "Whether this token has any elevated permissions",
+			choices = (
+				(0, "Normal user"),
+				(20, "Testsolver"),
+				(40, "Bestsolver"),
+				(60, "Editor"),
+				(80, "Admin"),
+				(100, "Evan Chen"),
+			), default = 0)
+	enabled = models.BooleanField(
+			help_text = "Turn off to prevent the token from being used",
+			default = True,
+			)
+
 	hints_obtained = models.ManyToManyField(Hint,
 			help_text = "Hints purchased by this token",
 			blank = True)
 	attempts = models.ManyToManyField(Unlockable, through=Attempt,
 			help_text = "Attempts attached to this token")
-	passphrase = models.CharField(max_length = 256,
-			verbose_name = "Magic word",
-			help_text = "Magic word needed to retrieve progress")
-	reduced_passphrase = models.CharField(max_length = 256,
-			help_text = "Passphrasew ith only [a-z0-9] characters")
-	enabled = models.BooleanField(
-			help_text = "Turn off to prevent the token from being used",
-			default = True,
-			)
 	class Meta:
 		unique_together = ('reduced_name', 'reduced_passphrase')
 

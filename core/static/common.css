@@ -93,10 +93,11 @@ body {
 
 #back { /* Back button (actually a map sometimes) */
 	text-decoration: none;
-	font-size: 32px;
 	position: absolute;
 }
-
+#back .emoji-link {
+	font-size: 32px;
+}
 #status {
 	position: absolute;
 	right: 0;

@@ -76,9 +76,14 @@ const token_uuid = null;
 	<a class="emoji-link" href="/">🔝</a>
 	{% endblock %}
 	{% if token %}
+	{% if token.permission >= 60 %}
+	<a class="emoji-link" href="/admin">🏸</a>
+	{% endif %}
+	{% spaceless %}
 	<a href="{% url "token-detail" token.uuid %}">
 	<span class="name">{{ token.firstname }}</span>
 	</a>
+	{% endspaceless %}
 	{% endif %}
 </span>
 
