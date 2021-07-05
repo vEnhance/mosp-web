@@ -9,8 +9,8 @@
 {% for unlockable in round_unlockable_list %}
 <hr />
 {% with round=unlockable.round %}
-<div class="item-container">
 {% if token|has_unlocked:round.unlockable %}
+<div class="item-container">
 	{% if round.thumbnail_path %}
 	<div class="item-thumbnail-container">
 		<a class="img-link" href="{{ round.get_absolute_url }}">
@@ -30,6 +30,7 @@
 	</h4>
 	{{ round.summary_text }}
 	</div>
+</div>
 {% else %}
 	<p><b>Chapter {{ round.chapter_number }} (unlocked!)</b></p>
 	{% if token|can_unlock:round.unlockable %}
@@ -41,7 +42,6 @@
 	{% endif %}
 {% endif %}
 {% endwith %}
-</div>
 {% endfor %}
 
 {% endblock %}
