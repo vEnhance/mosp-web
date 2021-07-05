@@ -1,11 +1,15 @@
-from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
-from django.utils import timezone
-from . import models
-from typing import Any, Dict, Optional
 from django.views.decorators.csrf import csrf_exempt
+
+from typing import Any, Dict, Optional
+import random
+import re
+
+from . import models
+from .colormap import big_color_list
+from .utils import sha
 
 Context = Dict[str, Any]
 
@@ -143,11 +147,16 @@ class UnlockableDetail(TokenGatedDetailView):
 def ajax(request) -> JsonResponse:
 	if request.method != 'POST':
 		return JsonResponse({'error' : "☕"}, status = 418)
+
 	token : Optional[models.Token]
 	try:
+		assert 'uuid' in request.COOKIES
 		token = models.Token.objects.get(uuid=request.COOKIES['uuid'])
 	except models.Token.DoesNotExist:
 		token = None
+	except AssertionError:
+		token = None
+
 	action = request.POST.get('action')
 	if action == 'guess':
 		puzzle = models.Puzzle.objects.get(slug = request.POST.get('puzzle_slug'))
@@ -166,12 +175,49 @@ def ajax(request) -> JsonResponse:
 				})
 		else:
 			return JsonResponse({'correct' : 0.5, 'message' : sa.message})
-	elif action == 'log':
-		# TODO implement
-		raise NotImplementedError('TODO log')
-	elif action == 'new_name':
-		token = models.Token(name = request.POST['name'])
-		token.save()
-		return JsonResponse({'uuid' : token.uuid})
 
-	return JsonResponse({}, status=400)
+	elif action == 'log':
+		raise NotImplementedError('TODO log')
+
+	elif action == 'get_token':
+		def strip_nonalpha(s : str):
+			return re.sub(r'\W+', '', s.lower())
+		name = request.POST['name']
+		force_new = request.POST['force_new']
+		passphrase = request.POST['passphrase']
+		print(request.POST)
+		if passphrase != '':
+			h = sha(strip_nonalpha(passphrase))
+			try:
+				token = models.Token.objects.get(
+						name = name,
+						hashed_passphrase = h)
+			except models.Token.DoesNotExist:
+				return JsonResponse({'outcome' : 'wrong'})
+			else:
+				return JsonResponse({
+					'outcome' : 'success',
+					'uuid' : token.uuid,
+					'new' : False,
+					})
+		elif force_new == 'false' and \
+				models.Token.objects.filter(name = name).exists():
+			return JsonResponse({'outcome' : 'exists'})
+		else:
+			hexcode, tone, colorname = \
+					random.choice(big_color_list)
+			token = models.Token.objects.create(
+					name = name,
+					hashed_passphrase = sha(strip_nonalpha(colorname))
+					)
+			return JsonResponse({
+				'outcome': 'success',
+				'uuid' : token.uuid,
+				'new' : True,
+				'hexcode' : hexcode,
+				'tone' : tone,
+				'colorname' : colorname,
+				})
+
+	return JsonResponse({'message' :
+		f'No such method {action}'}, status=400)

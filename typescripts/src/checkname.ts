@@ -77,26 +77,108 @@ function randomChoice(arr : string[]) : string {
   return arr[Math.floor(arr.length * Math.random())];
 }
 
+function main(
+  name: string,
+  force_new : boolean,
+  passphrase? : string,
+) {
+  $.post('/ajax', {
+    action : 'get_token',
+    name : name,
+    force_new : force_new,
+    passphrase : passphrase || '',
+  }, (result) => {
+    if (result.outcome === 'success') {
+      setCookie('uuid', result.uuid);
+      Swal.fire({
+        title: result.new
+          ? `Nice to meet you, ${name}!`
+          : `Welcome back, ${name}!`,
+        html : result.new
+          ? `To load your progress on a different device, `
+          + `use the following passphrase: `
+          + makeColorDiv(result.hexcode, result.tone, result.colorname)
+          : `It's nice to see you again.`,
+        icon: 'success'
+      });
+    } else if (result.outcome === 'exists') {
+      Swal.fire({
+        title: "Do I know you?",
+        text: "I remember someone with this name. Is it you?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Enter passphrase",
+            text: "Please enter your passphrase below",
+            input: 'text',
+            icon: 'question',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              main(name, false, result.value);
+            }
+          });
+        } else {
+          main(name, true); // create new token with this name
+        }
+      });
+    } else if (result.outcome === 'wrong') {
+      Swal.fire({
+        title: "That is not the correct passphrase",
+        icon: 'error',
+        text: "Try again or use a different account name",
+        input: 'text',
+        showDenyButton: true,
+        confirmButtonText: "Retry",
+        denyButtonText: "Start over",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          main(name, false, result.value);
+        } else if (result.isDenied) {
+          getName();
+        }
+      });
+    }
+  });
+}
+
+function makeColorDiv(
+  hexcode : string,
+  tone : string,
+  colorname : string
+): string {
+  return `<div style="background-color:#${hexcode};
+    width:250px;
+    margin:2px auto;
+  ">
+  <h2 style="color:${tone};">${colorname}</h2>
+  </div>`;
+}
+
+function getName() {
+  Swal.fire({
+    title: "Hello hello hey",
+    text: "What should I call you?",
+    input: 'text',
+    icon: 'question',
+    confirmButtonText: 'Set name',
+  }).then((result) =>  {
+    if (result.isConfirmed) {
+      const name = (
+        result.value
+        || "Anonymous " + randomChoice(animals)
+      );
+      main(name, false);
+    }
+  });
+}
+
+
 $(() => {
   if (token_uuid === null) {
-    Swal.fire({
-      title: "Greetings",
-      text: "What should I call you?",
-      input: 'text',
-      icon: 'question',
-      confirmButtonText: 'Set name',
-    }).then((result: any) =>  {
-        const name = (
-          result.value
-          || "Anonymous " + randomChoice(animals)
-        );
-        $.post('/ajax', {
-          action : 'new_name',
-          name : name
-        }, (result) => {
-          setCookie('uuid', result.uuid);
-        });
-      }
-    );
+    getName();
   }
 });

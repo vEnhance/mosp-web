@@ -206,7 +206,7 @@ class SaltedAnswer(models.Model):
 		return self.message == ''
 	@property
 	def hash(self) -> str:
-		return sha('MOSP_LIGHT_NOVEL_' + self.normalized_answer + str(self.salt))
+		return sha(self.normalized_answer + str(self.salt))
 	@property
 	def normalized_answer(self) -> str:
 		return normalize(self.display_answer)
@@ -285,6 +285,10 @@ class Token(models.Model):
 			help_text = "Hints purchased by this token")
 	attempts = models.ManyToManyField(Unlockable, through=Attempt,
 			help_text = "Attempts attached to this token")
+	hashed_passphrase = models.CharField(max_length = 256,
+			help_text = "Hashed passphrase")
+	class Meta:
+		unique_together = ('name', 'hashed_passphrase')
 
 	def __str__(self):
 		return self.name
