@@ -10,7 +10,7 @@
 
 {% if token %}
 <p>Welcome back,
-<span class="name firstname">{{ token.firstname }}</span>.</p>
+<span class="name fullname">{{ token.name }}</span>.</p>
 {% endif %}
 
 {% for hunt in hunt_list %}
