@@ -281,6 +281,8 @@ class Token(models.Model):
 			editable = False)
 	name = models.CharField(max_length = 128,
 			help_text = "Who are you?")
+	reduced_name = models.CharField(max_length = 128,
+			help_text = "Name with only [a-z][0-9] characters.")
 	hints_obtained = models.ManyToManyField(Hint,
 			help_text = "Hints purchased by this token")
 	attempts = models.ManyToManyField(Unlockable, through=Attempt,
@@ -288,7 +290,7 @@ class Token(models.Model):
 	hashed_passphrase = models.CharField(max_length = 256,
 			help_text = "Hashed passphrase")
 	class Meta:
-		unique_together = ('name', 'hashed_passphrase')
+		unique_together = ('reduced_name', 'hashed_passphrase')
 
 	def __str__(self):
 		return self.name

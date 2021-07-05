@@ -183,6 +183,7 @@ def ajax(request) -> JsonResponse:
 		def strip_nonalpha(s : str):
 			return re.sub(r'\W+', '', s.lower())
 		name = request.POST['name']
+		reduced_name = strip_nonalpha(name)
 		force_new = request.POST['force_new']
 		passphrase = request.POST['passphrase']
 		print(request.POST)
@@ -190,7 +191,7 @@ def ajax(request) -> JsonResponse:
 			h = sha(strip_nonalpha(passphrase))
 			try:
 				token = models.Token.objects.get(
-						name = name,
+						reduced_name = strip_nonalpha(name),
 						hashed_passphrase = h)
 			except models.Token.DoesNotExist:
 				return JsonResponse({'outcome' : 'wrong'})
@@ -200,14 +201,16 @@ def ajax(request) -> JsonResponse:
 					'uuid' : token.uuid,
 					'new' : False,
 					})
-		elif force_new == 'false' and \
-				models.Token.objects.filter(name = name).exists():
+		elif force_new == 'false' and models.Token.objects.filter(
+				reduced_name = reduced_name
+				).exists():
 			return JsonResponse({'outcome' : 'exists'})
 		else:
 			hexcode, tone, colorname = \
 					random.choice(big_color_list)
 			token = models.Token.objects.create(
 					name = name,
+					reduced_name = strip_nonalpha(name),
 					hashed_passphrase = sha(strip_nonalpha(colorname))
 					)
 			return JsonResponse({

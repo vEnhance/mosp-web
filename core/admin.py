@@ -19,7 +19,7 @@ class UnlockableInline(admin.TabularInline):
 	extra = 2
 class AttemptInline(admin.TabularInline):
 	model = models.Attempt
-	fields = ('unlockable', 'solved_on',)
+	fields = ('unlockable', 'status',)
 	extra = 0
 
 @admin.register(models.Puzzle)
