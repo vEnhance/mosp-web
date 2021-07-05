@@ -141,6 +141,7 @@ class UnlockableDetail(TokenGatedDetailView):
 class TokenDetailView(DetailView):
 	model = models.Token
 	context_object_name = "token"
+
 class TokenUpdateView(UpdateView):
 	model = models.Token
 	context_object_name = "token"
@@ -194,7 +195,6 @@ def ajax(request) -> JsonResponse:
 		reduced_name = models.Token.reduce(name)
 		force_new = request.POST['force_new']
 		passphrase = request.POST['passphrase']
-		print(request.POST)
 		if passphrase != '':
 			try:
 				token = models.Token.objects.get(

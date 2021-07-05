@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import { setCookie } from './cookie';
+import { setCookie, deleteCookie } from './cookie';
 declare const token_uuid : string | null;
 
 const animals = [
@@ -100,6 +100,8 @@ function main(
           + makeColorDiv(result.hexcode, result.tone, result.colorname)
           : `It's nice to see you again.`,
         icon: 'success'
+      }).then((result) => {
+        window.location.reload();
       });
     } else if (result.outcome === 'exists') {
       Swal.fire({
@@ -180,5 +182,11 @@ function getName() {
 $(() => {
   if (token_uuid === null) {
     getName();
+  } else {
+    setCookie('uuid', token_uuid);
   }
+  $("#cleartoken").on('click', () => {
+    deleteCookie('uuid');
+    window.location.replace('/');
+  });
 });

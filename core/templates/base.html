@@ -52,15 +52,13 @@ MathJax = {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
 
+<script type="text/javascript">
 {% if token %}
-<script type="text/javascript">
 const token_uuid = "{{ token.uuid }}";
-</script>
 {% else %}
-<script type="text/javascript">
 const token_uuid = null;
-</script>
 {% endif %}
+</script>
 
 {% block header %}
 {% endblock %}
