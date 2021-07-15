@@ -3,6 +3,7 @@ from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Count
 
 from typing import Any, Dict, Optional
 from . import models
@@ -81,10 +82,9 @@ class RoundUnlockableList(TokenGatedListView):
 		assert self.token is not None
 		if cheating is True:
 			assert self.hunt.allow_cheat(self.token)
-			return queryset
 		else:
 			queryset = models.get_viewable(queryset, self.token)
-			return queryset
+		return queryset
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['hunt'] = self.hunt
@@ -102,12 +102,12 @@ class UnlockableList(TokenGatedListView):
 		queryset = models.Unlockable.objects.filter(
 				parent = self.round.unlockable)
 		if cheating is True:
-			assert self.hunt.allow_cheat(self.token)
+			assert self.round.unlockable.hunt.allow_cheat(self.token)
 		else:
 			queryset = models.get_viewable(queryset, self.token)
+		queryset = queryset.annotate(round_exists=Count('round'))
 		return queryset.select_related('puzzle', 'round')\
-				.order_by('puzzle__is_meta',
-						'puzzle__name', 'round__name',)
+				.order_by('round_exists', 'puzzle__is_meta', 'name',)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round
