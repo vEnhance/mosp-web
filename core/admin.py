@@ -55,8 +55,8 @@ class AttemptAdmin(admin.ModelAdmin):
 
 @admin.register(models.Token)
 class TokenAdmin(admin.ModelAdmin):
-	list_display = ('uuid', 'name', 'passphrase', 'enabled', 'permission',)
-	search_fields = ('uuid', 'name', 'pasphrase',)
+	list_display = ('uuid', 'name', 'enabled', 'permission',)
+	search_fields = ('uuid', 'name', )
 	inlines = (AttemptInline,)
 	list_display_links = ('uuid', 'name',)
 
