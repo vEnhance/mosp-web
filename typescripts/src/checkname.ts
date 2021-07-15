@@ -91,17 +91,20 @@ function main(
     if (result.outcome === 'success') {
       setCookie('uuid', result.uuid);
       Swal.fire({
-        title: result.new
-          ? `Nice to meet you, ${name}!`
-          : `Welcome back, ${name}!`,
-        html : result.new
-          ? `To load your progress on a different device, `
-          + `use the following passphrase: `
-          + makeColorDiv(result.hexcode, result.tone, result.colorname)
-          : `It's nice to see you again.`,
-        icon: 'success'
+        title: `Nice to meet you, ${name}!`,
+        text : `Do you want attach your Discord account `
+          + `to save your progress across devices `
+          + `and access post-solve channels?`,
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
       }).then((result) => {
-        window.location.reload();
+        if (result.isConfirmed) {
+          window.location.replace('/accounts/discord/login?process=login');
+        } else {
+          window.location.reload();
+        }
       });
     } else if (result.outcome === 'exists') {
       Swal.fire({
@@ -113,51 +116,13 @@ function main(
         cancelButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
-            title: "Enter passphrase",
-            text: "Please enter your passphrase below",
-            input: 'text',
-            icon: 'info',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              main(name, false, result.value);
-            }
-          });
+          window.location.replace('/accounts/discord/login/?process=login');
         } else {
           main(name, true); // create new token with this name
         }
       });
-    } else if (result.outcome === 'wrong') {
-      Swal.fire({
-        title: "That is not the correct passphrase",
-        icon: 'error',
-        text: "Try again or use a different account name",
-        input: 'text',
-        showDenyButton: true,
-        confirmButtonText: "Retry",
-        denyButtonText: "Start over",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          main(name, false, result.value);
-        } else if (result.isDenied) {
-          getName();
-        }
-      });
     }
   });
-}
-
-function makeColorDiv(
-  hexcode : string,
-  tone : string,
-  colorname : string
-): string {
-  return `<div style="background-color:#${hexcode};
-    width:250px;
-    margin:2px auto;
-  ">
-  <h2 style="color:${tone};">${colorname}</h2>
-  </div>`;
 }
 
 function getName() {
@@ -177,7 +142,6 @@ function getName() {
     }
   });
 }
-
 
 $(() => {
   if (token_uuid === null) {

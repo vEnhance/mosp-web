@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+PRODUCTION = False # for now
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -23,10 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-cl2(@(eiq)(vn&8&j34j$^0vdays0-0&j)wd44vfnpu&tdd7b5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not PRODUCTION
 
-from typing import List
-ALLOWED_HOSTS : List[str] = []
+if PRODUCTION:
+	ALLOWED_HOSTS = ['mosp.evanchen.cc']
+else:
+	ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -39,14 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-	'allauth',
-	'allauth.account',
-	'allauth.socialaccount',
-	'allauth.socialaccount.providers.discord',
-	'core',
-	'info',
-	'typescripts',
-	'data2021',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.discord',
+    'core',
+    'info',
+    'typescripts',
+    'data2021',
 ]
 
 MIDDLEWARE = [
@@ -130,10 +133,13 @@ AUTHENTICATION_BACKENDS = [
 		'django.contrib.auth.backends.ModelBackend',
 		'allauth.account.auth_backends.AuthenticationBackend',
 		]
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if PRODUCTION:
+	ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

@@ -12,21 +12,21 @@ Thus, you could bookmark this page for safekeeping.</p>
 <h2>Profile</h2>
 <ul>
 	<li>Full name: <code>{{ token.name }}</code></li>
-	<li>Magic word: <code>{{ token.passphrase }}</code></li>
-	<li><a class="emoji-link" href="{% url "token-update" token.uuid %}">✏️ Edit</a></li>
+	<li><a class="emoji-link" href="{% url "token-update" token.uuid %}">✏️ Edit name</a></li>
 </ul>
 <h2>Danger zone</h2>
 <ul>
-	<li><a id="cleartoken" href="javascript:void(0)">Unlink profile</a>
+	<li><a id="cleartoken" href="{% url "account_logout" %}">Log out of profile</a>
 	<p>This will return you to the homepage where
-	you can select a new name and start afresh.
-	You can still access your previous progress
-	if you type the same name and magic word.</p>
+	you can select a new name and start afresh,
+	as if you opened a new computer.
+	Your progress is still attached to your user account.</p>
 	</li>
 	<li><a href="{% url "token-disable" token.uuid %}">Destroy profile</a>
 	<p>What it sounds like. Irreversible once clicked.</p>
 	</li>
 </ul>
+
 {% else %}
 <p>This token is deleted.</p>
 {% endif %}

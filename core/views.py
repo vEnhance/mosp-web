@@ -5,10 +5,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonRes
 from django.views.decorators.csrf import csrf_exempt
 
 from typing import Any, Dict, Optional
-import random
-
 from . import models
-from .colormap import big_color_list
 
 Context = Dict[str, Any]
 
@@ -20,13 +17,22 @@ class TokenGatedView:
 	token = None
 	def check_token(self, request : HttpRequest):
 		uuid = request.COOKIES.get('uuid', None)
-		if not uuid:
-			self.token = None
-		else:
+		if uuid is not None:
 			try:
 				self.token = models.Token.objects.get(uuid=uuid, enabled=True)
 			except models.Token.DoesNotExist:
 				self.token = None
+			else:
+				if request.user.is_authenticated and self.token.user is None:
+					self.token.user = request.user
+					self.token.save()
+		elif request.user.is_authenticated:
+			try:
+				self.token = models.Token.objects.get(user = request.user)
+			except models.Token.DoesNotExist:
+				self.token = None
+		else:
+			self.token = None
 		if self.token is None and self.redirect_if_no_token:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
 		return None
@@ -145,11 +151,12 @@ class TokenDetailView(DetailView):
 class TokenUpdateView(UpdateView):
 	model = models.Token
 	context_object_name = "token"
-	fields = ('name', 'passphrase',)
+	fields = ('name', )
 
 def token_disable(uuid) -> HttpResponse:
 	token = models.Token.objects.get(uuid=uuid)
 	token.enabled = False
+	token.user = None
 	token.save()
 	return HttpResponseRedirect('/')
 
@@ -194,39 +201,16 @@ def ajax(request) -> JsonResponse:
 		name = request.POST['name']
 		reduced_name = models.Token.reduce(name)
 		force_new = request.POST['force_new']
-		passphrase = request.POST['passphrase']
-		if passphrase != '':
-			try:
-				token = models.Token.objects.get(
-						reduced_name = models.Token.reduce(name),
-						reduced_passphrase = models.Token.reduce(passphrase),
-						enabled = True)
-			except models.Token.DoesNotExist:
-				return JsonResponse({'outcome' : 'wrong'})
-			else:
-				return JsonResponse({
-					'outcome' : 'success',
-					'uuid' : token.uuid,
-					'new' : False,
-					})
-		elif force_new == 'false' and models.Token.objects.filter(
+		if force_new == 'false' and models.Token.objects.filter(
 				reduced_name = reduced_name
 				).exists():
 			return JsonResponse({'outcome' : 'exists'})
 		else:
-			hexcode, tone, colorname = \
-					random.choice(big_color_list)
-			token = models.Token.objects.create(
-					name = name,
-					passphrase = colorname,
-					)
+			token = models.Token(name = name)
+			token.save()
 			return JsonResponse({
 				'outcome': 'success',
 				'uuid' : token.uuid,
-				'new' : True,
-				'hexcode' : hexcode,
-				'tone' : tone,
-				'colorname' : colorname,
 				})
 
 	return JsonResponse({'message' :
