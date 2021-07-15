@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'info',
     'typescripts',
     'data2021',
+    'mospweb',
 ]
 
 MIDDLEWARE = [

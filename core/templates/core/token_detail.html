@@ -4,9 +4,9 @@
 {% block content %}
 {% if token.enabled %}
 <h1>{{ token.firstname }}</h1>
-<p>If you load this page,
+<p>If you load this URL,
 it will automatically restore all your progress,
-without needing to enter a magic word.
+without needing to login.
 Thus, you could bookmark this page for safekeeping.</p>
 
 <h2>Profile</h2>
@@ -14,6 +14,14 @@ Thus, you could bookmark this page for safekeeping.</p>
 	<li>Full name: <code>{{ token.name }}</code></li>
 	<li><a class="emoji-link" href="{% url "token-update" token.uuid %}">✏️ Edit name</a></li>
 </ul>
+<h2>Discord</h2>
+{% if token.user %}
+<p>You are currently logged in with username <tt>{{ user.username }}</tt>.</p>
+{% else %}
+<p>There is no Discord attached to this token.</p>
+<p>You can <a href="/accounts/discord/login?process=login">link your Discord account</a>.</p>
+{% endif %}
+
 <h2>Danger zone</h2>
 <ul>
 	<li><a id="cleartoken" href="{% url "account_logout" %}">Log out of profile</a>
