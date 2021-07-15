@@ -25,7 +25,9 @@ class TokenGatedView:
 			else:
 				if request.user.is_authenticated \
 						and self.token.user is None \
-						and not models.Token.objects.filter(user = request.user, enabled = True).exists():
+						and not models.Token.objects.filter(
+								user = request.user, enabled = True
+								).exists():
 					self.token.user = request.user
 					self.token.save()
 		elif request.user.is_authenticated:
@@ -71,13 +73,18 @@ class RoundUnlockableList(TokenGatedListView):
 	template_name = "core/round_unlockable_list.html"
 	model = models.Unlockable
 	def get_queryset(self):
+		cheating = self.kwargs.pop('cheating')
 		self.hunt = models.Hunt.objects.get(**self.kwargs)
 		queryset = models.Unlockable.objects.filter(
 				hunt = self.hunt,
 				parent__isnull = True).select_related('round')
 		assert self.token is not None
-		queryset = models.get_viewable(queryset, self.token)
-		return queryset
+		if cheating is True:
+			assert self.hunt.allow_cheat(self.token)
+			return queryset
+		else:
+			queryset = models.get_viewable(queryset, self.token)
+			return queryset
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['hunt'] = self.hunt
@@ -88,16 +95,19 @@ class UnlockableList(TokenGatedListView):
 	context_object_name = "unlockable_list"
 	model = models.Unlockable
 	def get_queryset(self):
+		cheating = self.kwargs.pop('cheating')
 		self.round = models.Round.objects.get(**self.kwargs)
 		assert self.token is not None
 		assert self.token.has_unlocked(self.round.unlockable)
-		return models.get_viewable(
-				models.Unlockable.objects.filter(
-					parent = self.round.unlockable
-				), self.token)\
-				.select_related('puzzle', 'round')\
+		queryset = models.Unlockable.objects.filter(
+				parent = self.round.unlockable)
+		if cheating is True:
+			assert self.hunt.allow_cheat(self.token)
+		else:
+			queryset = models.get_viewable(queryset, self.token)
+		return queryset.select_related('puzzle', 'round')\
 				.order_by('puzzle__is_meta',
-						'puzzle__name', 'round__name', )
+						'puzzle__name', 'round__name',)
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round

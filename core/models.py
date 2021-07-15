@@ -42,6 +42,13 @@ class Hunt(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy('round-unlockable-list', args=(self.volume_number,))
 
+	def allow_cheat(self, token : 'Token'):
+		if self.allow_skip is True:
+			return True
+		elif token.permission >= 40:
+			return True
+		return False
+
 class Unlockable(models.Model):
 	hunt = models.ForeignKey(Hunt,
 			help_text = "The hunt this unlockable belongs to",
