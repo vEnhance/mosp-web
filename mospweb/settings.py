@@ -35,9 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
+	'allauth',
+	'allauth.account',
+	'allauth.socialaccount',
+	'allauth.socialaccount.providers.discord',
 	'core',
 	'info',
 	'typescripts',
@@ -121,7 +126,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+AUTHENTICATION_BACKENDS = [
+		'django.contrib.auth.backends.ModelBackend',
+		'allauth.account.auth_backends.AuthenticationBackend',
+		]
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
