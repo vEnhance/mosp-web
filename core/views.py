@@ -16,12 +16,6 @@ class TokenGatedView:
 	redirect_if_no_token = True
 	token = None
 	def check_token(self, request : HttpRequest):
-		if request.user.is_authenticated:
-			try:
-				self.token = models.Token.objects.get(user = request.user, enabled=True)
-				return None
-			except models.Token.DoesNotExist:
-				pass
 		uuid = request.COOKIES.get('uuid', None)
 		if uuid is not None:
 			try:
@@ -29,9 +23,17 @@ class TokenGatedView:
 			except models.Token.DoesNotExist:
 				self.token = None
 			else:
-				if request.user.is_authenticated and self.token.user is None:
+				if request.user.is_authenticated \
+						and self.token.user is None \
+						and not models.Token.objects.filter(user = request.user, enabled = True).exists():
 					self.token.user = request.user
 					self.token.save()
+		elif request.user.is_authenticated:
+			try:
+				self.token = models.Token.objects.get(user = request.user, enabled=True)
+				return None
+			except models.Token.DoesNotExist:
+				pass
 		else:
 			self.token = None
 		if self.token is None and self.redirect_if_no_token:

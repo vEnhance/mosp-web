@@ -151,6 +151,5 @@ $(() => {
   }
   $("#cleartoken").on('click', () => {
     deleteCookie('uuid');
-    window.location.replace('/');
   });
 });
