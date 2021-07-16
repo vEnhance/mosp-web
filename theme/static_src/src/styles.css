@@ -6,9 +6,17 @@
   a.emoji-link {
     @apply no-underline;
   }
-  .navbar-tooltip {
-    @apply hidden group-hover:inline;
-    @apply absolute text-sm bg-green-300 p-1 right-4 top-9 w-36 rounded-lg max-w-max drop-shadow-md;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold m-1;
+  }
+  h1, h2 {
+    @apply text-center m-4 mx-auto block;
+  }
+  h1 {
+    @apply text-2xl md:text-4xl;
+  }
+  h2 {
+    @apply text-xl md:text-3xl;
   }
 }
 /* vim: ft = sass */

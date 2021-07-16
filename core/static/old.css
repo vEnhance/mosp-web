@@ -299,3 +299,9 @@ code {
 strong {
 	color: #000077;
 }
+
+/* || Body */
+body {
+	font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+	font-size: 20px;
+}
