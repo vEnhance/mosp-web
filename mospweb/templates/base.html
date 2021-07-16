@@ -18,7 +18,11 @@ Evan
 {% load static %}
 <html>
 <head>
+
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <link rel="apple-touch-icon" sizes="180x180" href="//web.evanchen.cc/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" href="//web.evanchen.cc/icons/favicon-32x32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="//web.evanchen.cc/icons/favicon-16x16.png" sizes="16x16">
@@ -73,8 +77,10 @@ const token_uuid = null;
 </head>
 <body>
 
-<div id="container">
+<div id="container" class="container max-w-5xl mx-auto">
 <div id="content">
+<nav class="shadow-lg">
+<div class="flex justify-between">
 {% block leftnav %}
 <span id="back" class="navbar">
 	{% block backnav %}
@@ -95,23 +101,25 @@ const token_uuid = null;
 {% endblock %}
 
 {% block rightnav %}
-<span id="status" class="navbar">
-	<span class="navitem" id="courage">
+<span id="status">
+	<span class="relative group" id="courage">
 		💜<span id="courage_value">{{ token.get_courage }}</span>
 		<div class="navbar-tooltip">
-			<div class="tooltip-header">Courage</div>
+			<div class="font-bold text-red-800">Courage</div>
 			Gain 💜 with <br>solved puzzles.
 		</div>
 	</span>
-	<span class="navitem" id="patience">
+	<span class="relative group" id="patience">
 		💛<span id="patience_value">{{ token.get_patience }}</span>
 		<div class="navbar-tooltip">
-			<div class="tooltip-header">Patience</div>
+			<div class="font-bold text-red-800">Patience</div>
 			Gain 💛 over time.
 		</div>
 	</span>
 </span>
 {% endblock %}
+</div>
+</nav>
 
 {% block content %}
 {% endblock %}
