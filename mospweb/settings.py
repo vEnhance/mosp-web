@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.discord',
+    'tailwind',
+    'theme',
     'core',
     'info',
     'typescripts',
@@ -141,6 +143,9 @@ if PRODUCTION:
 	ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = ['127.0.0.1',]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

@@ -14,6 +14,7 @@ Dear MOPper:
 Evan
 :wq -->
 
+{% load tailwind_tags %}
 {% load static %}
 <html>
 <head>
@@ -26,11 +27,17 @@ Evan
 <link rel="shortcut icon" href="//web.evanchen.cc/icons/favicon.ico">
 
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata" />
+{% if settings.PRODUCTION %}
+{% tailwind_preload_css %}
+{% endif %}
+{% tailwind_css %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'common.css' %}" />
 
 {% block palette %}
 <link rel="stylesheet" type="text/css" href="{% static 'bright.css' %}" />
 {% endblock %}
+
 {% block css %}
 {% endblock %}
 <meta name="msapplication-config" content="//web.evanchen.cc/icons/browserconfig.xml">
