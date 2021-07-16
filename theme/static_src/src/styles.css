@@ -18,5 +18,8 @@
   h2 {
     @apply text-xl md:text-3xl;
   }
+  a.img-link:hover {
+    @apply ring-4 ring-yellow-100;
+  }
 }
 /* vim: ft = sass */

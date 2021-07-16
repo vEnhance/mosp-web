@@ -10,24 +10,24 @@
 
 {% if token %}
 <p>Welcome back,
-<span class="name fullname">{{ token.name }}</span>.</p>
+<span class="text-yellow-700">{{ token.name }}</span>.</p>
 {% endif %}
 
+<div class="text-center">
 {% for hunt in hunt_list %}
-<hr />
-<div class="item-container">
-{% if hunt.thumbnail_path %}
-<div class="item-thumbnail-container">
-	<a class="img-link" href="{{ hunt.get_absolute_url }}">
-	<img src="{% static hunt.thumbnail_path %}" class="item-thumbnail">
-	</a>
+<div class="inline-block w-64 h-64 my-2 text-center text-gray-100 rounded-lg group">
+<a href="{{ hunt.get_absolute_url }}">
+<div class="absolute z-0 w-64 h-64 rounded-lg group-hover:brightness-50 group-hover:grayscale"
+	style="background-image: url({% static hunt.thumbnail_path %}); background-size: cover;">
 </div>
-{% endif %}
-<div class="item-listing">
-<h3>Volume {{ hunt.volume_number }}: {{ hunt.name }}</h3>
-{{ hunt.description|mkd }}
+<div class="absolute z-10 hidden w-64 h-64 p-3 group-hover:block">
+<h1>Volume {{ hunt.volume_number }}</h1>
+<h2>{{ hunt.name }}</h2>
+<span class="text-sm">{{ hunt.description|mkd }}</span>
 </div>
+</a>
 </div>
 {% endfor %}
+</div>
 
 {% endblock %}

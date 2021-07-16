@@ -77,7 +77,7 @@ const token_uuid = null;
 </head>
 <body>
 
-<div id="container" class="container max-w-5xl mx-auto">
+<div id="container" class="container max-w-4xl mx-auto">
 <div id="content">
 <nav class="flex justify-between text-lg shadow-lg">
 {% block leftnav %}
@@ -91,7 +91,7 @@ const token_uuid = null;
 	{% endif %}
 	{% spaceless %}
 	<a href="{% url "token-detail" token.uuid %}">
-	<span class="name">{{ token.firstname }}</span>
+	<span class="italic text-yellow-600">{{ token.firstname }}</span>
 	</a>
 	{% endspaceless %}
 	{% endif %}
@@ -103,14 +103,14 @@ const token_uuid = null;
 <span id="status">
 	<span class="relative group" id="courage">
 		💜<span id="courage_value">{{ token.get_courage }}</span>
-		<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-4 top-9 w-36 max-w-max drop-shadow-md">
+		<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
 			<div class="font-bold text-red-800">Courage</div>
 			Gain 💜 with <br>solved puzzles.
 		</div>
 	</span>
 	<span class="relative group" id="patience">
 		💛<span id="patience_value">{{ token.get_patience }}</span>
-		<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-4 top-9 w-36 max-w-max drop-shadow-md">
+		<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
 			<div class="font-bold text-red-800">Patience</div>
 			Gain 💛 over time.
 		</div>
