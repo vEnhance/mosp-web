@@ -13,10 +13,13 @@
     @apply text-center m-4 mx-auto block;
   }
   h1 {
-    @apply text-2xl md:text-4xl;
+    @apply text-3xl md:text-5xl;
   }
   h2 {
     @apply text-xl md:text-3xl;
+  }
+  a {
+    @apply text-blue-500;
   }
   a.img-link:hover {
     @apply ring-4 ring-yellow-100;

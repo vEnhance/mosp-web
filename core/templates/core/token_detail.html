@@ -9,12 +9,6 @@ it will automatically restore all your progress,
 without needing to login.
 Thus, you could bookmark this page for safekeeping.</p>
 
-<h2>Profile</h2>
-<ul>
-	<li>Full name: <code>{{ token.name }}</code></li>
-	<li><a class="emoji-link" href="{% url "token-update" token.uuid %}">✏️ Edit name</a></li>
-</ul>
-<h2>Discord</h2>
 {% if token.user %}
 <p>You are currently logged in with username <tt>{{ user.username }}</tt>.</p>
 {% else %}
@@ -22,18 +16,22 @@ Thus, you could bookmark this page for safekeeping.</p>
 <p>You can <a href="/accounts/discord/login?process=login">link your Discord account</a>.</p>
 {% endif %}
 
-<h2>Danger zone</h2>
-<ul>
-	<li><a id="deltoken" href="{% url "account_logout" %}">Log out of profile</a>
-	<p>This will return you to the homepage where
-	you can select a new name and start afresh,
-	as if you opened a new computer.
+<h2>Actions</h2>
+<div class="container text-center">
+<div class="inline-block w-1/4 text-left align-top">
+	<p><a href="{% url "token-update" token.uuid %}">Change name</a></p>
+	<p>Tired of being called the same name all your life?</p>
+</div>
+<div class="inline-block w-1/4 text-left align-top">
+	<p><a id="deltoken" href="{% url "account_logout" %}">Log out of profile</a></p>
+	<p>As if you opened a new computer.
 	Your progress is still attached to your Discord account.</p>
-	</li>
-	<li><a href="{% url "token-disable" token.uuid %}">Destroy profile</a>
+</div>
+<div class="inline-block w-1/4 text-left align-top">
+	<p><a href="{% url "token-disable" token.uuid %}">Destroy profile</a></p>
 	<p>What it sounds like. Irreversible once clicked.</p>
-	</li>
-</ul>
+</div>
+</div>
 
 {% else %}
 <p>This token is deleted.</p>
