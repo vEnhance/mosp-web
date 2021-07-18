@@ -31,10 +31,10 @@
 {% if locked %}
 	<h1>
 	{% if u.parent.round %}
-	<a id="door" class="emoji-link"
+	<a id="door" class="text-6xl emoji-link"
 		href="{{u.parent.round.get_absolute_url}}">🔒</a>
 	{% else %}
-	<a id="door" class="emoji-link"
+	<a id="door" class="text-6xl emoji-link"
 		 href="{{ u.hunt.get_absolute_url }}">🔒</a>
 	{% endif %}
 	</h1>
@@ -51,17 +51,10 @@
 		you have at least {{ u.unlock_courage_threshold }}💜.
 	{% endif %}
 {% else %}
-	{% if u.is_puzzle %}
 	<h1>
-	<a id="door" class="emoji-link"
-		href="{{ u.puzzle.get_absolute_url }}">🚪</a>
+	<a id="door" class="text-6xl emoji-link"
+		href="{{ u.puzzle.get_absolute_url|default:u.round.get_absolute_url }}">🚪</a>
 	</h1>
-	{% else %}
-	<h1>
-	<a id="door" class="emoji-link"
-		 href="{{ u.round.get_absolute_url }}">🚪</a>
-	</h1>
-	{% endif %}
 {% endif %}
 
 {% endwith %}

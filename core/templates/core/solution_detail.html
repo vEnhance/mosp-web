@@ -24,7 +24,8 @@
 		href="{{ puzzle.get_parent_url }}"
 		title="{{ solution.post_solve_image_alt }}">
 		<img src="{% static solution.post_solve_image_path %}"
-			alt="{{solution..post_solve_image_alt}}">
+			alt="{{solution..post_solve_image_alt}}"
+			class="w-5/6">
 	</a>
 	{% else %}
 	<h1>{{puzzle.get_parent_url|emoji_link:"🏆" }}</h1>
