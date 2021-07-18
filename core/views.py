@@ -18,19 +18,22 @@ class TokenGatedView:
 	token = None
 	def check_token(self, request : HttpRequest):
 		uuid = request.COOKIES.get('uuid', None)
+		print(uuid)
 		if uuid is not None:
 			try:
 				self.token = models.Token.objects.get(uuid=uuid, enabled=True)
 			except models.Token.DoesNotExist:
 				self.token = None
-			else:
-				if request.user.is_authenticated \
-						and self.token.user is None \
-						and not models.Token.objects.filter(
-								user = request.user, enabled = True
-								).exists():
-					self.token.user = request.user
-					self.token.save()
+			if request.user.is_authenticated:
+				try:
+					old_token = models.Token.objects.get(user = request.user, enabled = True)
+					if self.token is None:
+						self.token = old_token
+				except models.Token.DoesNotExist:
+					if self.token is not None:
+						self.token.user = request.user
+						self.token.save()
+
 		elif request.user.is_authenticated:
 			try:
 				self.token = models.Token.objects.get(user = request.user, enabled=True)
