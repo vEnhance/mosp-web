@@ -89,26 +89,6 @@ span.name {
 	transform: translate(-1px, -5px);
 	word-wrap: normal;
 }
-table {
-	margin: 0 auto;
-}
-table td, table th {
-	padding-top: 3px;
-	padding-bottom: 3px;
-	padding-right: 8px;
-	padding-left: 8px;
-	vertical-align: bottom;
-}
-table.table th {
-	text-align: left;
-}
-table.table {
-	width: 100%;
-	margin-bottom: 10px;
-	border-collapse: collapse;
-	border-spacing: 4px 11px;
-	font-size: 18px;
-}
 
 /* || General elements */
 a:link {
@@ -131,19 +111,6 @@ div.strong-emph em {
 	border: 1px solid #cc3333;
 	padding: 0 4px;
 }
-
-#container img {
-	width: 512px;
-	display: block;
-	margin: 0 auto;
-	border: 3px solid #bbbbbb;
-	border-radius: 5px;
-}
-#container img.inline {
-	display: inline;
-	margin: 10px 10px;
-}
-
 
 #container a.img-link:hover > img {
 	box-shadow: 0px 0px 35px #dddd33;

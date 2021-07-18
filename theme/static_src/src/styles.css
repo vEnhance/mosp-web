@@ -21,8 +21,17 @@
   a {
     @apply text-blue-500;
   }
-  a.img-link:hover {
-    @apply ring-4 ring-yellow-100;
+  p {
+    @apply my-3;
+  }
+  hr {
+    @apply my-4;
+  }
+  ul {
+    @apply list-disc list-outside pl-4;
+  }
+  ol {
+    @apply list-decimal list-outside pl-4;
   }
 }
-/* vim: ft = sass */
+/* vim: ft=sass */
