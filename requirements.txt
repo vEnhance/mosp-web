@@ -6,3 +6,4 @@ django_reversion>=3.0.9
 requests>=2.25.1
 django-allauth>=0.45.0
 django-tailwind>=2.2.0
+crispy-tailwind>=0.5.0

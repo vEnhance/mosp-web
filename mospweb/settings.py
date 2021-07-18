@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.discord',
     'tailwind',
+	'crispy_forms',
+	'crispy_tailwind',
     'theme',
     'core',
     'info',
@@ -54,6 +56,8 @@ INSTALLED_APPS = [
     'data2021',
     'mospweb',
 ]
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACKE = "tailwind"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

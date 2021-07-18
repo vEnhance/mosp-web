@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
+{% load tailwind_filters %}
 {% block title %}{% if token.enabled %}{{ token.name }}{% else %}Not Found{% endif %}{% endblock %}
 
-{% block content %}
 
-{# TODO try tailwind, and use that for this form #}
+{% block content %}
 {% if token.enabled %}
 <h1>{{ token.firstname }}</h1>
 <form action="{{ request.path }}" method="post">
 {% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
+{{ form|crispy }}
+<input class="btn btn-gray" type="submit" value="Submit" />
 </form>
 {% else %}
 <p>This token is deleted.</p>
