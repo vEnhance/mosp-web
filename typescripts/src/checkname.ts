@@ -149,7 +149,7 @@ $(() => {
   } else {
     setCookie('uuid', token_uuid);
   }
-  $("#cleartoken").on('click', () => {
+  $("#deltoken").on('click', () => {
     deleteCookie('uuid');
   });
 });
