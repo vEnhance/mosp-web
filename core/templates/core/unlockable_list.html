@@ -18,19 +18,43 @@
 
 <hr />
 
-<table class="table">
+<table class="table-fixed mx-auto w-4/5">
+<thead>
+	<tr>
+		<td class="w-1/12"></td>
+		<th class="w-3/12 text-left">Location</th>
+		<th class="w-4/12 text-left">Title</th>
+		<th class="w-4/12 text-left">Answer</th>
+	</tr>
+</thead>
+<tbody>
 {% for u in unlockable_list %}
-<tr>
-	<td>{{ u.icon }}
-		<a class="place" href="{{u.get_absolute_url}}">{{ u.name }}</a>
-	</td>
+<tr class="{% spaceless %}
+{% if token|has_unlocked:u %}
+	{% if u.puzzle %}
+		{% if token|has_solved:u %}
+		bg-green-100
+		{% else %}
+		bg-yellow-100
+		{% endif %}
+	{% else %}
+		bg-gray-100
+	{% endif %}
+{% elif token|can_unlock:u %}
+	bg-blue-100
+{% else %}
+	bg-grey-100
+{% endif %}
+{% endspaceless %}">
+	<td class="w-1/12">{{ u.icon }}</td>
+	<td class="w-3/12"><a class="place" href="{{u.get_absolute_url}}">{{ u.name }}</a></td>
 	{% if token|has_unlocked:u %}
 		{% if u.is_puzzle %}
-		<td>
+		<td class="w-4/12">
 		<a href="{{u.puzzle.get_absolute_url}}">{{u.puzzle.name}}</a>
 		</td>
 		{% if token|has_solved:u %}
-			<td><a href="{{u.puzzle.get_solution_url}}">
+			<td class="w-4/12"><a href="{{u.puzzle.get_solution_url}}">
 				<code>{{ u.puzzle.display_answer }}</code>
 			</a></td>
 		{% else %}
@@ -38,19 +62,24 @@
 		{% endif %}
 
 		{% elif u.is_round %}
-		<th colspan="2">
+		<th colspan="2" class="w-8/12 text-left">
 			<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a>
 		</th>
+		{% else %}
+		<td colspan="2" class="w-8/12 italic">
+			Not yet ready.
+		</td>
 		{% endif %}
 	{% elif token|can_unlock:u %}
-		<td><em>Unlocked!</em></td>
-		<td></td>
+		<td class="w-4/12 italic">Unlocked!</td>
+		<td class="w-4/12"></td>
 	{% else %}
-		<td><em>Locked</em></td>
-		<td></td>
+		<td class="w-4/12 italic">Locked</td>
+		<td class="w-4/12"></td>
 	{% endif %}
 </tr>
 {% endfor %}
+</tbody>
 </table>
 
 {% endblock %}
