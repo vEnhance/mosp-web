@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -47,8 +48,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.discord',
     'tailwind',
-	'crispy_forms',
-	'crispy_tailwind',
+    'crispy_forms',
+    'crispy_tailwind',
+    'puzzle_editing',
     'theme',
     'core',
     'info',
@@ -174,3 +176,10 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# for puzzlord
+import datetime
+import random
+SITE_PASSWORD = random.randbytes(64)
+HUNT_TIME = datetime.datetime(2022, 6, 7, 18, 0, 0,
+		tzinfo = datetime.timezone.utc)
