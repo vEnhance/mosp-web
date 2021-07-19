@@ -134,7 +134,17 @@ class SolutionDetail(TokenGatedDetailView):
 		ret = super().dispatch(request, *args, **kwargs)
 		assert self.token is not None
 		u = self.object.unlockable # type: ignore
-		assert self.token.has_solved(u)
+		cheating = kwargs.pop('cheating')
+		if cheating is True:
+			assert u.hunt.allow_cheat(self.token)
+			attempt, _ = models.Attempt.objects.get_or_create(
+					unlockable = u,
+					token = self.token)
+			if attempt.status != 1:
+				attempt.status = 1
+				attempt.save()
+		else:
+			assert self.token.has_solved(u)
 		return ret
 
 class UnlockableDetail(TokenGatedDetailView):
@@ -175,7 +185,7 @@ def token_disable(uuid) -> HttpResponse:
 	return HttpResponseRedirect('/')
 
 @csrf_exempt
-def ajax(request) -> JsonResponse:
+def ajax(request : HttpRequest) -> JsonResponse:
 	if request.method != 'POST':
 		return JsonResponse({'error' : "☕"}, status = 418)
 
