@@ -29,6 +29,7 @@ class PuzzleAdmin(admin.ModelAdmin):
 	search_fields = ('id', 'name', 'unlockable__parent__name', 'unlockbale__hunt__name')
 	list_filter = ('is_meta', 'unlockable__hunt',)
 	inlines = (SaltedAnswerInline,)
+	autocomplete_fields = ('unlockable',)
 
 @admin.register(models.Round)
 class RoundAdmin(admin.ModelAdmin):
@@ -36,6 +37,7 @@ class RoundAdmin(admin.ModelAdmin):
 	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'slug', 'unlockable__parent__name', 'unlockbale__hunt__name')
 	list_filter = ('unlockable__hunt',)
+	autocomplete_fields = ('unlockable',)
 
 @admin.register(models.Unlockable)
 class UnlockableAdmin(admin.ModelAdmin):
@@ -45,6 +47,7 @@ class UnlockableAdmin(admin.ModelAdmin):
 	search_fields = ('id', 'name', 'hunt', 'slug', 'parent__name', 'parent__slug',)
 	list_filter = ('hunt', 'parent__round',)
 	list_select_related = ('parent', 'hunt', 'round', 'parent__round',)
+	autocomplete_fields = ('hunt', 'parent', 'unlock_needs',)
 
 @admin.register(models.Attempt)
 class AttemptAdmin(admin.ModelAdmin):
@@ -52,6 +55,7 @@ class AttemptAdmin(admin.ModelAdmin):
 	list_display_links = ('token', 'unlockable',)
 	search_fields = ('token__name', 'unlockable__name',)
 	list_filter = ('unlockable__hunt',)
+	autocomplete_fields = ('token', 'unlockable',)
 
 @admin.register(models.Token)
 class TokenAdmin(admin.ModelAdmin):
@@ -59,13 +63,16 @@ class TokenAdmin(admin.ModelAdmin):
 	search_fields = ('uuid', 'name', )
 	inlines = (AttemptInline,)
 	list_display_links = ('uuid', 'name',)
+	autocomplete_fields = ('user',)
 
 @admin.register(models.Solution)
 class SolutionAdmin(admin.ModelAdmin):
 	list_display = ('puzzle', 'post_solve_image_path', 'post_solve_image_alt',)
 	search_fields = ('puzzle__name', 'post_solve_story', 'solution_text', 'author_notes',)
+	autocomplete_fields = ('puzzle',)
 
 @admin.register(models.SaltedAnswer)
 class SaltedAnswerAdmin(admin.ModelAdmin):
 	list_display = ('puzzle', 'salt',)
 	list_display_links = ('puzzle',)
+	autocomplete_fields = ('puzzle',)
