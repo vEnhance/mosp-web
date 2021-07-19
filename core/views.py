@@ -10,9 +10,6 @@ from . import models
 
 Context = Dict[str, Any]
 
-# vvv amazing code, so much for DRY
-# maybe i should take paul graham's advice and switch to lisp
-
 class TokenGatedView:
 	redirect_if_no_token = True
 	token = None
@@ -46,6 +43,8 @@ class TokenGatedView:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
 		return None
 
+# vvv amazing code, so much for DRY
+# maybe i should take paul graham's advice and switch to lisp
 class TokenGatedListView(TokenGatedView, ListView):
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
 		return super().check_token(request) or \
@@ -150,14 +149,14 @@ class UnlockableDetail(TokenGatedDetailView):
 		attempt, _ = models.Attempt.objects.get_or_create(
 						unlockable = u, token = token
 						)
-		is_prev_unlocked = (attempt.status >= 0)
-		if is_prev_unlocked is False and can_unlock:
-			attempt.status = 0
-			attempt.save()
 		context['locked'] = not can_unlock
-		context['new'] = not is_prev_unlocked
+		context['new'] = attempt.status < 0
+		if can_unlock and u.story_only is True and attempt.status < 1:
+			attempt.status = 1
+			attempt.save()
+		elif can_unlock and attempt.status < 0:
+			attempt.status = 0
 		return context
-
 
 class TokenDetailView(DetailView):
 	model = models.Token
