@@ -74,7 +74,9 @@ class Unlockable(models.Model):
 	story_only = models.BooleanField(
 			help_text = "If this unlockable is story only",
 			default = False)
-
+	sort_order = models.SmallIntegerField(
+			help_text = "An integer to sort this unlockable by in the listing",
+			default = 50)
 	unlock_courage_threshold = models.IntegerField(
 			default = 0,
 			help_text = "Amount of courage needed to unlock",
@@ -137,6 +139,9 @@ class Unlockable(models.Model):
 		return self.slug
 	def get_absolute_url(self):
 		return reverse_lazy('unlockable-detail', args=(self.slug,))
+
+	class Meta:
+		ordering = ('sort_order',)
 
 class Puzzle(models.Model):
 	unlockable = models.OneToOneField(Unlockable,

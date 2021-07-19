@@ -109,8 +109,7 @@ class UnlockableList(TokenGatedListView):
 		else:
 			queryset = models.get_viewable(queryset, self.token)
 		queryset = queryset.annotate(round_exists=Count('round'))
-		return queryset.select_related('puzzle', 'round')\
-				.order_by('round_exists', 'puzzle__is_meta', 'name',)
+		return queryset.select_related('puzzle', 'round')
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round
