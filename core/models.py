@@ -71,6 +71,9 @@ class Unlockable(models.Model):
 			help_text = "Emoji for this unlockable",
 			blank = True,
 			)
+	story_only = models.BooleanField(
+			help_text = "If this unlockable is story only",
+			default = False)
 
 	unlock_courage_threshold = models.IntegerField(
 			default = 0,
@@ -123,6 +126,12 @@ class Unlockable(models.Model):
 			return str(self.parent)
 		else:
 			return None
+	@property
+	def _icon(self):
+		if self.story_only:
+			return 'Story'
+		else:
+			return self.icon or '?'
 
 	def __str__(self):
 		return self.slug

@@ -32,14 +32,14 @@ class PuzzleAdmin(admin.ModelAdmin):
 
 @admin.register(models.Round)
 class RoundAdmin(admin.ModelAdmin):
-	list_display = ('chapter_number', 'name', 'slug',)
+	list_display = ('chapter_number', 'name', 'slug', 'show_chapter_number')
 	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'slug', 'unlockable__parent__name', 'unlockbale__hunt__name')
 	list_filter = ('unlockable__hunt',)
 
 @admin.register(models.Unlockable)
 class UnlockableAdmin(admin.ModelAdmin):
-	list_display = ('name', 'slug', 'icon', 'courage_bounty', 
+	list_display = ('name', 'slug', '_icon', 'courage_bounty',
 			'force_visibility', 'parent_abbrv', 'prereqs_summary')
 	list_display_links = ('name', 'slug')
 	search_fields = ('id', 'name', 'hunt', 'slug', 'parent__name', 'parent__slug',)
