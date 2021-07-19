@@ -50,7 +50,7 @@
 	{% endif %}
 {% else %}
 	Solution to be written later.
-	<h1>{{ puzzle.unlockable.get_finished_url|emoji_link:"🏆" }}</h1>
+	<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>
 {% endif %}
 {% endwith %}
 {% endblock %}
