@@ -11,7 +11,7 @@ class HuntAdmin(admin.ModelAdmin):
 
 class SaltedAnswerInline(admin.TabularInline):
 	model = models.SaltedAnswer
-	fields = ('display_answer', 'salt', 'message',)
+	fields = ('display_answer', 'salt', 'message', 'is_correct', 'is_canonical')
 	extra = 2
 class UnlockableInline(admin.TabularInline):
 	model = models.Unlockable
@@ -47,7 +47,7 @@ class UnlockableAdmin(admin.ModelAdmin):
 	search_fields = ('id', 'name', 'slug',)
 	list_filter = ('hunt', 'parent',)
 	list_select_related = ('parent', 'hunt', 'round',)
-	autocomplete_fields = ('hunt', 'parent', 'unlock_needs',)
+	autocomplete_fields = ('hunt', 'parent', 'unlock_needs', 'on_solve_link_to',)
 
 @admin.register(models.Attempt)
 class AttemptAdmin(admin.ModelAdmin):
@@ -73,6 +73,7 @@ class SolutionAdmin(admin.ModelAdmin):
 
 @admin.register(models.SaltedAnswer)
 class SaltedAnswerAdmin(admin.ModelAdmin):
-	list_display = ('puzzle', 'salt',)
+	list_display = ('puzzle', 'salt', 'is_correct', 'is_canonical',)
 	list_display_links = ('puzzle',)
+	list_filter = ('is_correct', 'is_canonical',)
 	autocomplete_fields = ('puzzle',)

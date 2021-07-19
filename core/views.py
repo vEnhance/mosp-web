@@ -199,7 +199,7 @@ def ajax(request) -> JsonResponse:
 		sa = models.SaltedAnswer.objects.get(puzzle = puzzle, salt = salt)
 		if not sa.equals(guess):
 			return JsonResponse({'correct' : 0})
-		elif sa.is_final:
+		elif sa.is_correct:
 			models.Attempt.objects.filter(
 					token=token, unlockable=puzzle.unlockable
 					).update(status=1)

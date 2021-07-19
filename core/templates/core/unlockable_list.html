@@ -69,7 +69,7 @@ Chapter {{ round.chapter_number }}:
 			</td>
 			{% if token|has_solved:u %}
 				<td class="w-4/12"><a href="{{u.puzzle.get_solution_url}}">
-					<code>{{ u.puzzle.display_answer }}</code>
+					<code>{{ u.puzzle.answer }}</code>
 				</a></td>
 			{% else %}
 				<td class="w-4/12"><em>Not solved</em></td>

@@ -179,8 +179,6 @@ class Puzzle(models.Model):
 			help_text = "The slug for the puzzle",
 			unique = True,
 			)
-	display_answer = models.CharField(max_length = 128,
-			help_text = "Display answer for the puzzle")
 	is_meta = models.BooleanField(
 			help_text = "Whether this is a metapuzzle",
 			default = False)
@@ -207,6 +205,9 @@ class Puzzle(models.Model):
 	@property
 	def target_hashes(self):
 		return [sa.hash for sa in self.salted_answers.all()] # type: ignore
+	@property
+	def answer(self):
+		return self.salted_answers.get(is_canonical=True).display_answer # type: ignore
 
 class Solution(models.Model):
 	puzzle = models.OneToOneField(Puzzle,
@@ -252,11 +253,14 @@ class SaltedAnswer(models.Model):
 			default = _rand,
 			)
 	message = models.CharField(max_length=256,
-			help_text = "For partial answers, the nudge to provide solvers.",
+			help_text = "For partial answers, the nudge to provide solvers",
 			blank = True)
-	@property
-	def is_final(self):
-		return self.message == ''
+	is_correct = models.BooleanField(
+			help_text = "Make an answer correct; solver marks as correct if seen.",
+			default = True)
+	is_canonical = models.BooleanField(
+			help_text = "Make this the answer printed by the website for solvers",
+			default = True)
 	@property
 	def hash(self) -> str:
 		return sha(self.normalized_answer + str(self.salt))
@@ -267,6 +271,8 @@ class SaltedAnswer(models.Model):
 		return self.normalized_answer == normalize(other)
 	class Meta:
 		unique_together = ('puzzle', 'salt',)
+	def __str__(self):
+		return self.display_answer
 
 class Round(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
