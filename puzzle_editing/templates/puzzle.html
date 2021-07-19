@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "puzzlord_base.html" %}
 {% load user_list %}
 {% load comment_list %}
 {% load markdown %}
@@ -246,7 +246,7 @@ function nextpage(e){
 		if (event.keyCode == 74)  {% if next_unread_puzzle_id %}location="{% url 'puzzle' next_unread_puzzle_id %}"; {% else %}alert("You have no more unread spoiled puzzles.");{% endif%}
 
 		// on press "h", go home
-		if (event.keyCode == 72)  location="{% url 'index' %}";
+		if (event.keyCode == 72)  location="{% url 'puzzlord-index' %}";
 
 		// on press "m", scroll to the bottom of the page
 		if (event.keyCode == 77) window.scrollTo(0,document.body.scrollHeight);
