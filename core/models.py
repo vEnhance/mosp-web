@@ -233,8 +233,11 @@ class Round(models.Model):
 			on_delete = models.SET_NULL)
 	name = models.CharField(max_length = 80)
 	chapter_number = models.CharField(max_length = 80,
-			help_text = "Chapter number for flavor",
+			help_text = "Chapter identifier for the database",
 			unique = True)
+	show_chapter_number = models.BooleanField(
+			help_text = "Whether the chapter should be numbered on screen",
+			default = True)
 	slug = models.SlugField(
 			help_text = "The slug for the round",
 			unique = True,
