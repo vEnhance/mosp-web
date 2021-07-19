@@ -9,7 +9,7 @@ Chapter {{ round.chapter_number }}:
 
 {% block backnav %}
 {% if round.unlockable.parent %}
-<a class="emoji-link" href="{{ round.unlockable.parent.round.get_absolute_url }}">🗺️</a>
+<a class="emoji-link" href="{{ round.unlockable.parent.get_absolute_url }}">🗺️</a>
 {% else %}
 <a class="emoji-link" href="{{ round.unlockable.hunt.get_absolute_url}}">🌍</a>
 {% endif %}

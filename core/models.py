@@ -54,8 +54,8 @@ class Unlockable(models.Model):
 			help_text = "The hunt this unlockable belongs to",
 			on_delete = models.CASCADE,
 			)
-	parent = models.ForeignKey('Unlockable',
-			help_text = "Specifies a parent unlockable",
+	parent = models.ForeignKey('Round',
+			help_text = "Specifies a parent round",
 			null = True, blank = True,
 			on_delete = models.SET_NULL,
 			related_name = 'children',
@@ -112,17 +112,30 @@ class Unlockable(models.Model):
 			verbose_name = "Bounty",
 			)
 
-	on_solve_link_to = models.ForeignKey('Unlockable',
-			help_text = "When solved, link to this instead",
+	on_solve_link_to = models.ForeignKey('Round',
+			help_text = "When solved, link to this round instead",
 			null = True, blank = True,
 			on_delete = models.SET_NULL,
 			related_name = 'redirected_by')
 
+	def get_finished_url(self, token) -> str:
+		if self.on_solve_link_to is None:
+			if self.parent is None:
+				return self.hunt.get_absolute_url()
+			else:
+				return self.parent.get_absolute_url()
+		elif self.on_solve_link_to.unlockable is None:
+			return self.hunt.get_absolute_url() # wtf
+		elif token.has_unlocked(self.on_solve_link_to.unlockable):
+			return self.on_solve_link_to.unlockable.get_absolute_url()
+		else:
+			return self.on_solve_link_to.get_absolute_url()
+
 	@property
-	def is_puzzle(self):
+	def is_puzzle(self) -> bool:
 		return hasattr(self, 'puzzle')
 	@property
-	def is_round(self):
+	def is_round(self) -> bool:
 		return hasattr(self, 'round')
 	@property
 	def prereqs_summary(self):
@@ -138,8 +151,6 @@ class Unlockable(models.Model):
 		if self.is_round:
 			return f'Vol {self.hunt.volume_number}'
 		elif self.parent is not None:
-			if self.parent.is_round:
-				return f'Ch {self.parent.round.chapter_number}'
 			return str(self.parent)
 		else:
 			return None
@@ -190,7 +201,7 @@ class Puzzle(models.Model):
 	def get_solution_url(self):
 		return reverse_lazy('solution-detail', args=(self.slug,))
 	def get_parent_url(self):
-		return self.unlockable.parent.round.get_absolute_url()
+		return self.unlockable.parent.get_absolute_url()
 	def __str__(self):
 		return self.name
 	@property

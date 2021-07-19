@@ -42,11 +42,11 @@ class RoundAdmin(admin.ModelAdmin):
 @admin.register(models.Unlockable)
 class UnlockableAdmin(admin.ModelAdmin):
 	list_display = ('name', 'slug', '_icon', 'force_visibility',
-			'sort_order', '_parent', 'prereqs_summary')
+			'sort_order', 'parent', 'prereqs_summary')
 	list_display_links = ('name', 'slug')
 	search_fields = ('id', 'name', 'slug',)
-	list_filter = ('hunt', 'parent__round',)
-	list_select_related = ('parent', 'hunt', 'round', 'parent__round',)
+	list_filter = ('hunt', 'parent',)
+	list_select_related = ('parent', 'hunt', 'round',)
 	autocomplete_fields = ('hunt', 'parent', 'unlock_needs',)
 
 @admin.register(models.Attempt)

@@ -102,7 +102,7 @@ class UnlockableList(TokenGatedListView):
 		assert self.token is not None
 		assert self.token.has_unlocked(self.round.unlockable)
 		queryset = models.Unlockable.objects.filter(
-				parent = self.round.unlockable)
+				parent = self.round)
 		if cheating is True:
 			assert self.round.unlockable.hunt.allow_cheat(self.token)
 		else:

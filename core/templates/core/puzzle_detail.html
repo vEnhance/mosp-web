@@ -21,7 +21,7 @@ const hashes = [
 {% block title %}{{ puzzle.name }}{% endblock %}
 
 {% block backnav %}
-<a class="emoji-link" href="{{ puzzle.unlockable.parent.round.get_absolute_url }}">🗺️</a>
+<a class="emoji-link" href="{{ puzzle.unlockable.parent.get_absolute_url }}">🗺️</a>
 {% endblock %}
 
 {% block content %}

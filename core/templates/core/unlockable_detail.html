@@ -4,7 +4,7 @@
 
 {% block backnav %}
 {% if unlockable.parent %}
-<a class="emoji-link" href="{{ unlockable.parent.round.get_absolute_url }}">🗺️</a>
+<a class="emoji-link" href="{{ unlockable.parent.get_absolute_url }}">🗺️</a>
 {% else %}
 <a class="emoji-link" href="{{ unlockable.hunt.get_absolute_url }}">🌍</a>
 {% endif %}
@@ -26,9 +26,9 @@
 <hr />
 {% if locked %}
 	<h1>
-	{% if u.parent.round %}
+	{% if u.parent %}
 	<a id="door" class="text-6xl emoji-link"
-		href="{{u.parent.round.get_absolute_url}}">🔒</a>
+		href="{{u.parent.get_absolute_url}}">🔒</a>
 	{% else %}
 	<a id="door" class="text-6xl emoji-link"
 		 href="{{ u.hunt.get_absolute_url }}">🔒</a>
@@ -49,7 +49,17 @@
 {% else %}
 	<h1>
 	<a id="door" class="text-6xl emoji-link"
-		href="{{ u.puzzle.get_absolute_url|default:u.round.get_absolute_url }}">🚪</a>
+		 href="{% spaceless %}
+			{% if u.story_only %}
+				{{ u.get_finished_url }}
+			{% elif u.puzzle %}
+				{{ u.puzzle.get_absolute_url }}
+			{% elif u.round %}
+				{{ u.round.get_absolute_url }}
+			{% else %}
+				/TODO
+			{% endif %}
+			{% endspaceless %}">🚪</a>
 	</h1>
 {% endif %}
 
