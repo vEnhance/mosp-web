@@ -183,10 +183,6 @@ class Puzzle(models.Model):
 			help_text = "Markdown for the puzzle content",
 			blank = True,
 			)
-	pre_solve_story = models.TextField(
-			help_text = "Markdown for the pre-solve story",
-			blank = True,
-			)
 	puzzle_head = models.TextField(
 			help_text = "Extra HTML to include in <head>",
 			blank = True,
