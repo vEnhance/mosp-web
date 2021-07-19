@@ -24,14 +24,14 @@
 		<div class="text-sm italic text-purple-700">Click the image to continue.</div>
 		{% if solution.post_solve_image_path %}
 		<a id="door" class="img-link"
-			href="{{ puzzle.get_finished_url }}"
+			href="{{ token|get_finished_url:puzzle.unlockable }}"
 			title="{{ solution.post_solve_image_alt }}">
 			<img src="{% static solution.post_solve_image_path %}"
-				alt="{{solution..post_solve_image_alt}}"
+				alt="{{solution.post_solve_image_alt}}"
 				class="w-11/12">
 		</a>
 		{% else %}
-		<h1>{{ puzzle.get_finished_url|emoji_link:"🏆" }}</h1>
+		<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>
 		{% endif %}
 	</div>
 

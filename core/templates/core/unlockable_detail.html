@@ -51,7 +51,7 @@
 	<a id="door" class="text-6xl emoji-link"
 		 href="{% spaceless %}
 			{% if u.story_only %}
-				{{ u.get_finished_url }}
+				{{ token|get_finished_url:u }}
 			{% elif u.puzzle %}
 				{{ u.puzzle.get_absolute_url }}
 			{% elif u.round %}

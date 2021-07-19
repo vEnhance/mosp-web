@@ -37,7 +37,9 @@ def has_unlocked(token : models.Token, u : models.Unlockable) -> bool:
 @register.filter
 def has_solved(token : models.Token, u : models.Unlockable) -> bool:
 	return token.has_solved(u)
-
 @register.filter
 def can_unlock(token : models.Token, u : models.Unlockable) -> bool:
 	return token.can_unlock(u)
+@register.filter
+def get_finished_url(token : models.Token, u : models.Unlockable) -> str:
+	return u.get_finished_url(token)
