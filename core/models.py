@@ -60,23 +60,29 @@ class Unlockable(models.Model):
 			on_delete = models.SET_NULL,
 			related_name = 'children',
 			)
-	name = models.CharField(max_length=80,
-			help_text = "The name for this unlockable (e.g. place on map)",
-			)
+
 	slug = models.SlugField(
 			help_text = "The slug for the unlockable",
 			unique = True,
+			)
+	name = models.CharField(max_length=80,
+			help_text = "The name for this unlockable (e.g. place on map)",
 			)
 	icon = models.CharField(max_length = 5,
 			help_text = "Emoji for this unlockable",
 			blank = True,
 			)
-	story_only = models.BooleanField(
-			help_text = "If this unlockable is story only",
-			default = False)
 	sort_order = models.SmallIntegerField(
 			help_text = "An integer to sort this unlockable by in the listing",
 			default = 50)
+
+	story_only = models.BooleanField(
+			help_text = "If this unlockable is story only",
+			default = False)
+	intro_story_text = models.TextField(
+			help_text = "Markdown for the pre-entry story",
+			blank = True)
+
 	unlock_courage_threshold = models.IntegerField(
 			default = 0,
 			help_text = "Amount of courage needed to unlock",
@@ -93,6 +99,7 @@ class Unlockable(models.Model):
 			on_delete = models.SET_NULL,
 			related_name = 'blocking',
 			)
+
 	force_visibility = models.BooleanField(
 			null = True,
 			blank = True,
@@ -104,6 +111,13 @@ class Unlockable(models.Model):
 			default = 25,
 			verbose_name = "Bounty",
 			)
+
+	on_solve_link_to = models.ForeignKey('Unlockable',
+			help_text = "When solved, link to this instead",
+			null = True, blank = True,
+			on_delete = models.SET_NULL,
+			related_name = 'redirected_by')
+
 	@property
 	def is_puzzle(self):
 		return hasattr(self, 'puzzle')
@@ -264,9 +278,6 @@ class Round(models.Model):
 			blank = True)
 	summary_text = models.TextField(
 			help_text = "Any text to show in the round page",
-			blank = True)
-	intro_story_text = models.TextField(
-			help_text = "Markdown for the pre-entry story",
 			blank = True)
 	round_text = models.TextField(
 			help_text = "Markdown for content in the round page",

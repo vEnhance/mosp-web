@@ -20,12 +20,8 @@
 {% with u=unlockable %}
 <h1>{{ u.name }}</h1>
 
-{% if u.is_puzzle %}
-	{{ u.puzzle.pre_solve_story|mkd }}
-{% elif u.is_round %}
-	{{ u.round.intro_story_text|mkd }}
-{% else %}
-	Click below to proceed.
+{% if not locked %}
+{{ u.intro_story_text|mkd }}
 {% endif %}
 <hr />
 {% if locked %}
