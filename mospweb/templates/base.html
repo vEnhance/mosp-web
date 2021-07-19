@@ -77,55 +77,60 @@ const token_uuid = null;
 </head>
 <body>
 
-<div id="container" class="container max-w-3xl mx-auto mt-2 lg:max-w-4xl">
-<div id="content">
-<nav class="flex justify-between text-xl shadow-lg">
-{% block leftnav %}
-<span id="back" class="font-size-md">
-	{% block backnav %}
-	<a class="emoji-link" href="/">🔝</a>
+<div id="container" class="container flex flex-col max-w-3xl min-h-screen py-2 mx-auto lg:max-w-4xl">
+<div id="content" class="flex-1">
+	<nav class="flex justify-between text-xl shadow-lg">
+	{% block leftnav %}
+	<span id="back" class="font-size-md">
+		{% block backnav %}
+		<a class="emoji-link" href="/">🔝</a>
+		{% endblock %}
+		{% if token %}
+		{% if request.user.is_staff or token.permission >= 60 %}
+		<a class="emoji-link" href="/admin">🏸</a>
+		{% endif %}
+		{% spaceless %}
+		<a href="{% url "token-detail" token.uuid %}">
+		<span class="italic text-yellow-600">{{ token.firstname }}</span>
+		</a>
+		{% endspaceless %}
+		{% endif %}
+	</span>
+
 	{% endblock %}
-	{% if token %}
-	{% if request.user.is_staff or token.permission >= 60 %}
-	<a class="emoji-link" href="/admin">🏸</a>
-	{% endif %}
-	{% spaceless %}
-	<a href="{% url "token-detail" token.uuid %}">
-	<span class="italic text-yellow-600">{{ token.firstname }}</span>
-	</a>
-	{% endspaceless %}
-	{% endif %}
-</span>
 
-{% endblock %}
-
-{% block rightnav %}
-<span id="status">
-	<span class="relative group" id="courage">
-		💜<span id="courage_value">{{ token.get_courage }}</span>
-		<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
-			<div class="font-bold text-red-800">Courage</div>
-			Gain 💜 with <br>solved puzzles.
-		</div>
+	{% block rightnav %}
+	<span id="status">
+		<span class="relative group" id="courage">
+			💜<span id="courage_value">{{ token.get_courage }}</span>
+			<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
+				<div class="font-bold text-red-800">Courage</div>
+				Gain 💜 with <br>solved puzzles.
+			</div>
+		</span>
+		<span class="relative group" id="patience">
+			💛<span id="patience_value">{{ token.get_patience }}</span>
+			<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
+				<div class="font-bold text-red-800">Patience</div>
+				Gain 💛 over time.
+			</div>
+		</span>
 	</span>
-	<span class="relative group" id="patience">
-		💛<span id="patience_value">{{ token.get_patience }}</span>
-		<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
-			<div class="font-bold text-red-800">Patience</div>
-			Gain 💛 over time.
-		</div>
-	</span>
-</span>
-{% endblock %}
-</nav>
+	{% endblock %}
+	</nav>
 
-<div class="max-w-2xl mx-auto">
-{% block content %}
-{% endblock %}
+	<div class="max-w-2xl mx-auto">
+	{% block content %}
+	{% endblock %}
+	</div>
+	{% block acknowledgments %}
+	{% endblock %}
+</div> {# end content #}
+
+<div class="container bottom-0 max-w-3xl mx-auto mt-2 italic text-gray-400 lg:max-w-4xl font-lg">
+	<hr />&copy; 2021, MOP Puzzle Hunt
 </div>
-</div>
-{% block acknowledgments %}
-{% endblock %}
+
 </div>
 
 </body>

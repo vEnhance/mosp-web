@@ -21,9 +21,6 @@ class Hunt(models.Model):
 			blank = True)
 	authors = models.CharField(max_length = 255,
 			help_text = "The credits for this hunt")
-	description = models.TextField(
-			help_text = "The text to display for this hunt",
-			blank = True)
 	start_date = models.DateTimeField(
 			help_text = "When the hunt can be started")
 	visible = models.BooleanField(
@@ -292,9 +289,6 @@ class Round(models.Model):
 			)
 	thumbnail_path = models.CharField(max_length = 80,
 			help_text = "Static argument for thumbnail image",
-			blank = True)
-	summary_text = models.TextField(
-			help_text = "Any text to show in the round page",
 			blank = True)
 	round_text = models.TextField(
 			help_text = "Markdown for content in the round page",

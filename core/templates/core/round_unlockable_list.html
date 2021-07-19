@@ -7,11 +7,10 @@
 <h1>{{ hunt.volume_number }}. {{ hunt.name }}</h1>
 
 {% for unlockable in round_unlockable_list %}
-<hr />
 {% with round=unlockable.round %}
 <div class="container w-3/4 mx-auto my-5 border-2 border-green-500 rounded-xl hover:ring-green-300 hover:ring-4">
 <div class="relative flex flex-col items-center rounded-lg md:flex-row md:shadow-xl md:h-72">
-	<div class="relative z-0 order-1 w-full overflow-hidden rounded-lg md:order-2 md:w-2/5 h-80 md:h-full md:rounded-none md:rounded-r-lg">
+	<div class="relative z-0 order-1 w-full overflow-hidden rounded-lg md:order-2 md:w-2/5 h-72 md:h-full md:rounded-none md:rounded-r-lg">
 		<a class="img-link" href="{{ round.unlockable.get_absolute_url }}">
 		<div class="absolute inset-0 object-fill object-center w-full h-full bg-blue-400 bg-bottom bg-cover bg-opacity-30"
 			style="background-image: url( {% static round.thumbnail_path %}); background-blend-mode: multiply;">
@@ -25,18 +24,11 @@
 		</svg>
 		</a>
 	</div>
-	<div class="z-10 flex items-center order-2 w-full h-full -mt-6 md:order-1 md:w-3/5 md:mt-0">
+	<div class="z-10 flex items-center order-2 w-full h-64 -mt-6 md:order-1 md:w-3/5 md:mt-0">
 		<a class="flex items-baseline mt-3" href="{{ round.unlockable.get_absolute_url }}">
 		<div class="h-full p-8 mx-2 bg-white rounded-lg shadow-xl md:pr-18 md:pl-14 md:py-12 md:mx-0 md:rounded-none md:rounded-l-lg md:shadow-none">
 			<h4 class="hidden text-xl text-gray-600 md:block">Chapter {{ round.chapter_number }}</h4>
 			<h3 class="hidden text-2xl font-bold text-gray-800 md:block">{{ round.name }}</h3>
-			<p class="mb-2 text-left text-gray-600">
-			{% if token|can_unlock:round.unlockable %}
-			{{ round.summary_text }}
-			{% else %}
-			This chapter is locked right now.
-			{% endif %}
-			</p>
 			<p>
 			{% if token|can_unlock:round.unlockable %}
 			<span>Open chapter</span>
