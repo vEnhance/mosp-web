@@ -30,7 +30,7 @@
 		<div class="h-full p-8 mx-2 bg-white rounded-lg shadow-xl md:pr-18 md:pl-14 md:py-12 md:mx-0 md:rounded-none md:rounded-l-lg md:shadow-none">
 			<h4 class="hidden text-xl text-gray-600 md:block">Chapter {{ round.chapter_number }}</h4>
 			<h3 class="hidden text-2xl font-bold text-gray-800 md:block">{{ round.name }}</h3>
-			<p class="mb-2 text-justify text-gray-600">
+			<p class="mb-2 text-left text-gray-600">
 			{% if token|can_unlock:round.unlockable %}
 			{{ round.summary_text }}
 			{% else %}
