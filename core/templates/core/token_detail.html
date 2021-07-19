@@ -18,16 +18,16 @@ Thus, you could bookmark this page for safekeeping.</p>
 
 <h2>Actions</h2>
 <div class="container">
-<div class="inline-block w-1/4 text-left align-top mx-3">
+<div class="inline-block w-full mx-auto text-left align-top sm:mx-0 sm:w-1/4">
 	<p><a class="btn btn-gray" href="{% url "token-update" token.uuid %}">Change name</a></p>
 	<p>Tired of being called the same name all your life?</p>
 </div>
-<div class="inline-block w-1/4 text-left align-top mx-3">
+<div class="inline-block w-full mx-auto text-left align-top sm:mx-1 sm:w-5/12">
 	<p><a class="btn btn-yellow" id="deltoken" href="{% url "account_logout" %}">Log out of profile</a></p>
-	<p>As if you opened a new computer.
+	<p>Like you got a new computer.
 	Your progress is still attached to your Discord account.</p>
 </div>
-<div class="inline-block w-1/4 text-left align-top mx-3">
+<div class="inline-block w-full mx-auto text-left align-top sm:mx-0 sm:w-1/4">
 	<p><a class="btn btn-red" href="{% url "token-disable" token.uuid %}">Destroy profile</a></p>
 	<p>What it sounds like. Irreversible once clicked.</p>
 </div>
