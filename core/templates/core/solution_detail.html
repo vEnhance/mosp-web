@@ -11,24 +11,24 @@
 {% block content %}
 {% with solution=puzzle.solution %}
 <h1>{{ puzzle.name }}</h1>
-<h3 class="courage-plus-plus">Solved! 💜 += 
-	{{ puzzle.unlockable.courage_bounty }};</h3>
+<h3 class="p-2 text-2xl text-center text-green-700 bg-green-100 sans ring-2 ring-green-300 rounded-3xl">
+	Solved! 💜 += {{ puzzle.unlockable.courage_bounty }};</h3>
 {% if solution %}
 <div class="container">
-<div class="text-justify md:w-3/4 mx-auto">
+<div class="mx-auto text-left md:w-11/12">
 {{ solution.post_solve_story|default:"No story yet."|mkd }}
 </div>
 <hr />
 
 <div class="container text-center">
-	<div class="italic text-sm text-purple-700">Click the image to continue.</div>
+	<div class="text-sm italic text-purple-700">Click the image to continue.</div>
 	{% if solution.post_solve_image_path %}
 	<a id="door" class="img-link"
 		href="{{ puzzle.get_parent_url }}"
 		title="{{ solution.post_solve_image_alt }}">
 		<img src="{% static solution.post_solve_image_path %}"
 			alt="{{solution..post_solve_image_alt}}"
-			class="w-5/6">
+			class="w-11/12">
 	</a>
 	{% else %}
 	<h1>{{puzzle.get_parent_url|emoji_link:"🏆" }}</h1>
@@ -37,13 +37,13 @@
 
 <hr>
 
-<div id="solution" class="ring-2 px-5 py-2 rounded-xl ring-green-700 bg-green-50 md:w-5/6 mx-auto">
+<div id="solution" class="px-5 py-2 mx-auto ring-2 rounded-xl ring-green-700 bg-green-50 md:w-11/12">
 <h1>Solution to {{ puzzle.name }}</h1>
 {{ solution.solution_text|default:"No solution."|mkd }}
 </div>
 
 {% if solution.author_notes %}
-<div id="notes" class="ring-2 px-5 py-2 rounded-xl ring-indigo-700 bg-blue-50 md:w-5/6 mx-auto mt-8">
+<div id="notes" class="px-5 py-2 mx-auto mt-8 ring-2 rounded-xl ring-indigo-700 bg-blue-50 md:w-11/12">
 <h2>Author Notes</h2>
 {{ solution.author_notes|mkd }}
 </div>
