@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load extras %}
-{% block title %}Chapter {{ round.chapter_number }}:
-{{ round.name }}{% endblock %}
+{% block title %}{% spaceless %}
+{% if round.show_chapter_number %}
+Chapter {{ round.chapter_number }}:
+{% endif %}
+{{ round.name }}
+{% endspaceless %}{% endblock %}
 
 {% block backnav %}
 {% if round.unlockable.parent %}
@@ -12,18 +16,25 @@
 {% endblock %}
 
 {% block content %}
+
+{% if round.show_chapter_number %}
 <h1>Chapter {{ round.chapter_number }}</h1>
 <h2><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h2>
+{% else %}
+<h1><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h1>
+{% endif %}
+
+<div class="container">
 {{ round.round_text|mkd }}
+</div>
 
 <hr />
 
-<table class="table-fixed mx-auto w-4/5">
+<table class="w-full mx-auto table-fixed">
 <thead>
 	<tr>
-		<td class="w-1/12"></td>
 		<th class="w-3/12 text-left">Location</th>
-		<th class="w-4/12 text-left">Title</th>
+		<th class="w-5/12 text-left">Title</th>
 		<th class="w-4/12 text-left">Answer</th>
 	</tr>
 </thead>
@@ -46,35 +57,37 @@
 	bg-grey-100
 {% endif %}
 {% endspaceless %}">
-	<td class="w-1/12">{{ u.icon }}</td>
-	<td class="w-3/12"><a class="place" href="{{u.get_absolute_url}}">{{ u.name }}</a></td>
+	{% if u.story_only %}
+	<td class="w-3/12"></td>
+	{% else %}
+	<td class="w-3/12 text-sm"><a class="place" href="{{u.get_absolute_url}}">{{ u.icon }}{{ u.name }}</a></td>
+	{% endif %}
 	{% if token|has_unlocked:u %}
 		{% if u.is_puzzle %}
-		<td class="w-4/12">
-		<a href="{{u.puzzle.get_absolute_url}}">{{u.puzzle.name}}</a>
-		</td>
-		{% if token|has_solved:u %}
-			<td class="w-4/12"><a href="{{u.puzzle.get_solution_url}}">
-				<code>{{ u.puzzle.display_answer }}</code>
-			</a></td>
-		{% else %}
-			<td><em>Not solved</em></td>
-		{% endif %}
-
+			<td class="w-5/12">
+			<a href="{{u.puzzle.get_absolute_url}}">{{u.puzzle.name}}</a>
+			</td>
+			{% if token|has_solved:u %}
+				<td class="w-4/12"><a href="{{u.puzzle.get_solution_url}}">
+					<code>{{ u.puzzle.display_answer }}</code>
+				</a></td>
+			{% else %}
+				<td class="w-4/12"><em>Not solved</em></td>
+			{% endif %}
 		{% elif u.is_round %}
-		<th colspan="2" class="w-8/12 text-left">
-			<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a>
-		</th>
+		<th colspan="2" class="w-9/12 text-left">
+			<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a></th>
+		{% elif u.story_only %}
+		<td colspan="2" class="w-9/12 italic">
+			<a class="place" href="{{u.get_absolute_url}}">{{ u.icon }}{{ u.name }}</a></td>
 		{% else %}
-		<td colspan="2" class="w-8/12 italic">
-			Not yet ready.
-		</td>
+		<td colspan="2" class="w-9/12 italic">Not yet ready.</td>
 		{% endif %}
 	{% elif token|can_unlock:u %}
-		<td class="w-4/12 italic">Unlocked!</td>
+		<td class="w-5/12 italic">Unlocked!</td>
 		<td class="w-4/12"></td>
 	{% else %}
-		<td class="w-4/12 italic">Locked</td>
+		<td class="w-5/12 italic">Locked</td>
 		<td class="w-4/12"></td>
 	{% endif %}
 </tr>
