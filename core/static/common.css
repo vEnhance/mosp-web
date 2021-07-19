@@ -116,6 +116,23 @@ table.table {
 	margin: 10px 10px;
 }
 
+@keyframes glow-blue {
+	from { box-shadow: 0px 0px 15px #55ffff }
+	to  { box-shadow: 0px 0px 20px #6666dd }
+}
+@keyframes glow-yellow {
+	from { box-shadow: 0px 0px 35px #bbbb33 }
+	to  { box-shadow: 0px 0px 45px #eeeecc }
+}
+
+#container a.img-link > img {
+	animation-name: glow-blue;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
 #container a.img-link:hover > img {
-	box-shadow: 0px 0px 35px #dddd33;
+	animation-name: glow-yellow;
 }
