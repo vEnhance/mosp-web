@@ -26,7 +26,7 @@ class AttemptInline(admin.TabularInline):
 class PuzzleAdmin(admin.ModelAdmin):
 	list_display = ('name', 'slug', 'is_meta', 'unlockable',)
 	list_display_links = ('name', 'slug',)
-	search_fields = ('id', 'name', 'unlockable__parent__name', 'unlockbale__hunt__name')
+	search_fields = ('id', 'name', 'slug',)
 	list_filter = ('is_meta', 'unlockable__hunt',)
 	inlines = (SaltedAnswerInline,)
 	autocomplete_fields = ('unlockable',)
@@ -35,7 +35,7 @@ class PuzzleAdmin(admin.ModelAdmin):
 class RoundAdmin(admin.ModelAdmin):
 	list_display = ('chapter_number', 'name', 'slug', 'show_chapter_number')
 	list_display_links = ('name', 'slug',)
-	search_fields = ('id', 'name', 'slug', 'unlockable__parent__name', 'unlockbale__hunt__name')
+	search_fields = ('id', 'name', 'slug',)
 	list_filter = ('unlockable__hunt',)
 	autocomplete_fields = ('unlockable',)
 
@@ -44,7 +44,7 @@ class UnlockableAdmin(admin.ModelAdmin):
 	list_display = ('name', 'slug', '_icon', 'force_visibility',
 			'sort_order', '_parent', 'prereqs_summary')
 	list_display_links = ('name', 'slug')
-	search_fields = ('id', 'name', 'hunt', 'slug', 'parent__name', 'parent__slug',)
+	search_fields = ('id', 'name', 'slug',)
 	list_filter = ('hunt', 'parent__round',)
 	list_select_related = ('parent', 'hunt', 'round', 'parent__round',)
 	autocomplete_fields = ('hunt', 'parent', 'unlock_needs',)
