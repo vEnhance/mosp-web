@@ -117,9 +117,10 @@ class Unlockable(models.Model):
 			s += '@' + self.unlock_date.isoformat()
 		if self.unlock_needs:
 			s += '/' + self.unlock_needs.slug
+		s += f' ▶️▶️  (+{self.courage_bounty})'
 		return s
 	@property
-	def parent_abbrv(self):
+	def _parent(self):
 		if self.is_round:
 			return f'Vol {self.hunt.volume_number}'
 		elif self.parent is not None:
@@ -141,7 +142,7 @@ class Unlockable(models.Model):
 		return reverse_lazy('unlockable-detail', args=(self.slug,))
 
 	class Meta:
-		ordering = ('sort_order',)
+		ordering = ('sort_order', 'name',)
 
 class Puzzle(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
@@ -209,6 +210,8 @@ class Solution(models.Model):
 			)
 	def get_solution_url(self):
 		return reverse_lazy('solution-detail', args=(self.puzzle.slug,))
+	def __str__(self):
+		return f"Solution to {self.puzzle.name}"
 
 def _rand():
 	return random.randrange(0, 10**4)

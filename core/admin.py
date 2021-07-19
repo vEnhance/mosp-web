@@ -39,11 +39,11 @@ class RoundAdmin(admin.ModelAdmin):
 
 @admin.register(models.Unlockable)
 class UnlockableAdmin(admin.ModelAdmin):
-	list_display = ('name', 'slug', '_icon', 'courage_bounty',
-			'force_visibility', 'sort_order', 'parent_abbrv', 'prereqs_summary')
+	list_display = ('name', 'slug', '_icon', 'force_visibility',
+			'sort_order', '_parent', 'prereqs_summary')
 	list_display_links = ('name', 'slug')
 	search_fields = ('id', 'name', 'hunt', 'slug', 'parent__name', 'parent__slug',)
-	list_filter = ('hunt',)
+	list_filter = ('hunt', 'parent__round',)
 	list_select_related = ('parent', 'hunt', 'round', 'parent__round',)
 
 @admin.register(models.Attempt)
