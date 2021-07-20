@@ -96,14 +96,23 @@ class UnlockableList(TokenGatedListView):
 	"""List of all the unlockables in a given round"""
 	context_object_name = "unlockable_list"
 	model = models.Unlockable
-	def get_queryset(self):
-		cheating = self.kwargs.pop('cheating')
+	def dispatch(self, request : HttpRequest, *args, **kwargs):
+		self.cheating = self.kwargs.pop('cheating')
+		r = super().check_token(request) 
+		if r is not None:
+			return r
 		self.round = models.Round.objects.get(**self.kwargs)
+		if self.token is not None \
+				and self.round.unlockable is not None\
+				and not self.token.has_unlocked(self.round.unlockable):
+			return HttpResponseRedirect(self.round.unlockable.get_absolute_url())
+		return super().dispatch(request, *args, **kwargs)
+	def get_queryset(self):
 		assert self.token is not None
-		assert self.token.has_unlocked(self.round.unlockable)
+		assert self.token.can_unlock(self.round.unlockable)
 		queryset = models.Unlockable.objects.filter(
 				parent = self.round)
-		if cheating is True:
+		if self.cheating is True:
 			assert self.round.unlockable.hunt.allow_cheat(self.token)
 		else:
 			queryset = models.get_viewable(queryset, self.token)

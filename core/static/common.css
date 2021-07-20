@@ -83,6 +83,9 @@ div.codehilite code {
 }
 /* ---------- */
 
+body {
+	background-color: #f3f3e4;
+}
 table {
 	margin: 0 auto;
 }

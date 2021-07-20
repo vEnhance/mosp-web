@@ -75,7 +75,7 @@ const token_uuid = null;
 {% endblock %}
 <script data-main="/static/main.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
 </head>
-<body>
+	<body class="px-2">
 
 <div id="container" class="container flex flex-col max-w-3xl min-h-screen py-2 mx-auto lg:max-w-4xl">
 <div id="content" class="flex-1">
@@ -96,7 +96,6 @@ const token_uuid = null;
 		{% endspaceless %}
 		{% endif %}
 	</span>
-
 	{% endblock %}
 
 	{% block rightnav %}
@@ -128,7 +127,16 @@ const token_uuid = null;
 </div> {# end content #}
 
 <div class="container bottom-0 max-w-3xl mx-auto mt-2 italic text-gray-400 lg:max-w-4xl font-lg">
-	<hr />&copy; 2021, MOP Puzzle Hunt
+	<hr />
+	<div class="flex justify-between">
+		<span>
+			&copy; 2021, MOP Puzzle Hunt
+		</span>
+		<span>
+			{% block southeast %}
+			{% endblock %}
+		</span>
+	</div>
 </div>
 
 </div>
