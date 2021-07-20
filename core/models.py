@@ -224,7 +224,7 @@ class Solution(models.Model):
 			blank = True
 			)
 	post_solve_image_alt = models.TextField(
-			help_text = "Static path to the post-solve image",
+			help_text = "Alt text for the post-solve image",
 			blank = True
 			)
 	def get_solution_url(self):
