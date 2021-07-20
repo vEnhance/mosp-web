@@ -86,6 +86,10 @@ div.codehilite code {
 body {
 	background-color: #f3f3e4;
 }
+strong {
+	font-style: normal;
+	font-weight: bold;
+}
 table {
 	margin: 0 auto;
 }
@@ -150,4 +154,13 @@ a:hover {
 }
 a.noshadow, a.noshadow:hover {
 	text-shadow: 0 0 0;
+}
+
+div.strong-emph em {
+	color: #cc3333;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #eeee66;
+	border: 1px solid #cc3333;
+	padding: 0 4px;
 }

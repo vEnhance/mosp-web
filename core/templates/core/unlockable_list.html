@@ -33,10 +33,9 @@ Chapter {{ round.chapter_number }}:
 	<table class="w-full mx-auto table-fixed">
 	<thead>
 		<tr>
-			<th class="w-1/12 text-left"></th>
 			<th class="w-3/12 text-left">Location</th>
 			<th class="w-4/12 text-left">Title</th>
-			<th class="w-4/12 text-left">Answer</th>
+			<th class="w-5/12 text-left">Answer</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -67,18 +66,18 @@ Chapter {{ round.chapter_number }}:
 	{% endif %}
 	{% endspaceless %}">
 		{% if u.story_only %}
-			<td colspan="3" class="w-8/12 font-serif text-2xl text-center text-blue-700"
+			<td class="w-3/12"></td>
+			<td class="w-4/12 font-serif text-xl text-blue-700"
 				style="font-variant: small-caps;">
 				<a href="{{u.get_absolute_url}}">{{ u.name }}</a>
 			</td>
 		{% else %}
-			<td class="w-1/12">{{ u.icon }}</td>
 			<td class="w-3/12 text-sm md:text-base">
-				<a href="{{u.get_absolute_url}}">{{ u.name }}</a>
+				<a href="{{u.get_absolute_url}}">{{ u.icon }}{{ u.name }}</a>
 			</td>
 			{% if token|has_unlocked:u %}
 				{% if u.is_puzzle %}
-					<td class="w-4/12 text-sm md:text-base">
+					<td class="w-3/12 text-sm md:text-base">
 						<a href="{{u.puzzle.get_absolute_url}}">{{u.puzzle.name}}</a>
 					</td>
 				{% elif u.is_round %}
@@ -90,21 +89,23 @@ Chapter {{ round.chapter_number }}:
 				<td colspan="2" class="w-8/12 italic align-middle">Not yet ready!</td>
 				{% endif %}
 			{% elif token|can_unlock:u %}
-				<td class="w-4/12 font-bold">?</td>
+				<td class="w-3/12 font-bold">?</td>
 			{% else %}
-				<td class="w-4/12"></td>
+				<td class="w-3/12"></td>
 			{% endif %}
 		{% endif %}
 		{% if u.is_puzzle and token|has_unlocked:u %}
 			{% if token|has_solved:u %}
-				<td class="w-4/12 font-mono text-xs md:text-sm"><a href="{{u.puzzle.get_solution_url}}">{{ u.puzzle.answer }}</a></td>
+				<td class="w-5/12 font-mono text-xs md:text-sm"><a href="{{u.puzzle.get_solution_url}}">{{ u.puzzle.answer }}</a></td>
 			{% else %}
-				<td class="w-4/12"><em>Not solved</em></td>
+				<td class="w-5/12"><em>Not solved</em></td>
 			{% endif %}
+		{% elif token|has_unlocked:u %}
+			<td class="w-5/12"></td>
 		{% elif token|can_unlock:u %}
-			<td class="w-4/12 italic align-middle">Unlocked!</td>
+			<td class="w-5/12 italic align-middle">Unlocked!</td>
 		{% else %}
-			<td class="w-4/12 italic align-middle">Locked</td>
+			<td class="w-5/12 italic align-middle">Locked</td>
 		{% endif %}
 	</tr>
 	{% endfor %}

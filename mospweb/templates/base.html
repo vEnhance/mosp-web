@@ -66,8 +66,10 @@ MathJax = {
 <script type="text/javascript">
 {% if token %}
 const token_uuid = "{{ token.uuid }}";
+const solver_name = "{{ token.name }}";
 {% else %}
 const token_uuid = null;
+const solver_name = null;
 {% endif %}
 </script>
 

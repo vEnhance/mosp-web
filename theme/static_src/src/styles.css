@@ -52,6 +52,12 @@
   .btn-gray {
     @apply bg-gray-500 hover:bg-gray-700;
   }
+  code.answer {
+    @apply text-red-500;
+  }
+  blockquote {
+    @apply text-sm ml-4;
+  }
 }
 /*
   vim: ft=sass
