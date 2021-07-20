@@ -227,7 +227,7 @@ class Solution(models.Model):
 			help_text = "Alt text for the post-solve image",
 			blank = True
 			)
-	def get_solution_url(self):
+	def get_absolute_url(self):
 		return reverse_lazy('solution-detail', args=(self.puzzle.slug,))
 	def __str__(self):
 		return f"Solution to {self.puzzle.name}"
