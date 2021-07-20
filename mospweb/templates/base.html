@@ -101,13 +101,10 @@ const solver_name = null;
 	</span>
 	{% endblock %}
 
-	{% block rightnav %}
 	<span id="status">
-		{% if request.user.is_staff %}
-		{% block editlink %}
-		{% endblock %}
-		{% endif %}
+		{% block rightnav %}
 		<span class="relative ml-2 group navitem" id="courage">
+			{% spaceless %}
 			💜<span id="courage_value">{{ token.get_courage }}</span>
 			<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
 				<div class="font-bold text-black">Courage</div>
@@ -115,8 +112,9 @@ const solver_name = null;
 				Gain 💜 with <br>solved puzzles.
 				</div>
 			</div>
-		</span>
+			{% endspaceless %}</span>
 		<span class="relative ml-2 group navitem" id="patience">
+			{% spaceless %}
 			💛<span id="patience_value">{{ token.get_patience }}</span>
 			<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md ">
 				<div class="font-bold text-black">Patience</div>
@@ -124,9 +122,22 @@ const solver_name = null;
 				Gain 💛 over time.
 				</div>
 			</div>
-		</span>
+			{% endspaceless %}</span>
+		{% endblock %}
+		{% if request.user.is_staff %}
+		{% block editlink %}
+		{% endblock %}
+		{% endif %}
+		<span class="relative pl-1 ml-2 group navitem" id="info-pages">
+			{% spaceless %}
+			🛈
+			<div class="absolute hidden p-3 px-5 text-base bg-indigo-100 rounded-lg group-hover:inline -right-4 top-3 w-36 max-w-max drop-shadow-md">
+				{% for page in pages %}
+				<div class="py-1"><a href="{{ page.get_absolute_url }}">{{ page }}</a></div>
+				{% endfor %}
+			</div>
+			{% endspaceless %}</span>
 	</span>
-	{% endblock %}
 	</nav>
 
 	<div class="max-w-2xl mx-auto">

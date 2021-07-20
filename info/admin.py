@@ -5,5 +5,6 @@ from . import models
 
 @admin.register(models.Page)
 class PageAdmin(admin.ModelAdmin):
-	list_display = ('title', 'slug',)
+	list_display = ('title', 'slug', 'published', 'listed',)
 	list_display_links = ('title', 'slug',)
+	list_filter = ('published', 'listed',)
