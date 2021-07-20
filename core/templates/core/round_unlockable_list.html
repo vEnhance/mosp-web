@@ -24,7 +24,7 @@
 		</svg>
 		</a>
 	</div>
-	<div class="z-10 flex items-center order-2 w-full h-64 -mt-6 bg-white md:order-1 md:w-3/5 md:mt-0">
+	<div class="z-10 flex items-center order-2 w-full h-16 -mt-6 bg-white md:h-64 md:order-1 md:w-3/5 md:mt-0">
 		<a class="flex items-baseline mt-3 noshadow" href="{{ round.get_absolute_url }}">
 		<div class="h-full p-8 mx-2 rounded-lg shadow-xl md:pr-18 md:pl-14 md:py-12 md:mx-0 md:rounded-none md:rounded-l-lg md:shadow-none">
 			<h4 class="hidden text-xl text-gray-600 md:block">Chapter {{ round.chapter_number }}</h4>
@@ -45,4 +45,15 @@
 {% endwith %}
 {% endfor %}
 
+{% endblock %}
+
+{% block southeast %}
+{% if cheating %}
+<span class="not-italic font-bold text-red-800 bg-yellow-200">Spoilers on!
+<a href="{% url "round-unlockable-list" hunt.volume_number %}">Revert.</a>
+</span>
+{% elif token|can_cheat:hunt %}
+<a id="cheat" class="text-red-300"
+	href="{% url "round-unlockable-list-cheating" hunt.volume_number %}">Enable spoilers</a>
+{% endif %}
 {% endblock %}

@@ -114,13 +114,22 @@ Chapter {{ round.chapter_number }}:
 <hr />
 
 <p class="text-blue-400">
-↩️
-{% if round.unlockable.parent %}
-<a class="text-blue-400" href="{{ round.unlockable.parent.get_absolute_url }}">Back to previous round</a>
-{% else %}
-<a class="text-blue-400" href="{{ round.unlockable.hunt.get_absolute_url}}">Back to chapter listing</a>
-{% endif %}
+	↩️
+	{% if round.unlockable.parent %}
+	<a class="text-blue-400" href="{{ round.unlockable.parent.get_absolute_url }}">Back to previous round</a>
+	{% else %}
+	<a class="text-blue-400" href="{{ round.unlockable.hunt.get_absolute_url}}">Back to chapter listing</a>
+	{% endif %}
 </p>
+{% endblock %}
 
-
+{% block southeast %}
+{% if cheating %}
+<span class="not-italic font-bold text-red-800 bg-yellow-200">Spoilers on!
+<a href="{% url "unlockable-list" round.chapter_number %}">Revert.</a>
+</span>
+{% elif token|can_cheat:round.unlockable.hunt %}
+<a id="cheat" class="text-red-300"
+	href="{% url "unlockable-list-cheating" round.chapter_number %}">Enable spoilers</a>
+{% endif %}
 {% endblock %}

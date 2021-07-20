@@ -41,5 +41,8 @@ def has_solved(token : models.Token, u : models.Unlockable) -> bool:
 def can_unlock(token : models.Token, u : models.Unlockable) -> bool:
 	return token.can_unlock(u)
 @register.filter
+def can_cheat(token : models.Token, hunt : models.Hunt) -> bool:
+	return hunt.allow_cheat(token)
+@register.filter
 def get_finished_url(token : models.Token, u : models.Unlockable) -> str:
 	return u.get_finished_url(token)

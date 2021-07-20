@@ -51,3 +51,10 @@ const hashes = [
 	{{ puzzle.content|mkd }}
 </div>
 {% endblock %}
+
+{% block southeast %}
+{% if token|can_cheat:puzzle.unlockable.hunt %}
+<a id="cheat-show-answer" class="text-red-500 opacity-50"
+	  href="{% url "solution-detail-cheating" puzzle.slug %}">Reveal answer</a>
+{% endif %}
+{% endblock %}

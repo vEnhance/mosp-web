@@ -76,13 +76,13 @@ class RoundUnlockableList(TokenGatedListView):
 	template_name = "core/round_unlockable_list.html"
 	model = models.Unlockable
 	def get_queryset(self):
-		cheating = self.kwargs.pop('cheating')
+		self.cheating = self.kwargs.pop('cheating')
 		self.hunt = models.Hunt.objects.get(**self.kwargs)
 		queryset = models.Unlockable.objects.filter(
 				hunt = self.hunt,
 				parent__isnull = True).select_related('round')
 		assert self.token is not None
-		if cheating is True:
+		if self.cheating is True:
 			assert self.hunt.allow_cheat(self.token)
 		else:
 			queryset = models.get_viewable(queryset, self.token)
@@ -90,6 +90,7 @@ class RoundUnlockableList(TokenGatedListView):
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['hunt'] = self.hunt
+		context['cheating'] = self.cheating
 		return context
 
 class UnlockableList(TokenGatedListView):
@@ -123,6 +124,7 @@ class UnlockableList(TokenGatedListView):
 	def get_context_data(self, **kwargs) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round
+		context['cheating'] = self.cheating
 		return context
 
 class PuzzleDetail(TokenGatedDetailView):
