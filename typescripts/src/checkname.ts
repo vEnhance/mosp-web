@@ -146,7 +146,9 @@ function getName() {
 
 $(() => {
   if (token_uuid === null) {
-    getName();
+    if (window.location.pathname === '/') {
+      getName();
+    }
   } else {
     setCookie('uuid', token_uuid);
   }
