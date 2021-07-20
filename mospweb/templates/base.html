@@ -77,7 +77,8 @@ const solver_name = null;
 {% endblock %}
 <script data-main="/static/main.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
 </head>
-	<body class="px-2">
+
+<body class="px-2 text-gray-900">
 
 <div id="container" class="container flex flex-col max-w-3xl min-h-screen py-2 mx-auto lg:max-w-4xl">
 <div id="content" class="flex-1">
@@ -109,15 +110,19 @@ const solver_name = null;
 		<span class="relative group" id="courage">
 			💜<span id="courage_value">{{ token.get_courage }}</span>
 			<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
-				<div class="font-bold text-red-800">Courage</div>
+				<div class="font-bold text-black">Courage</div>
+				<div class="text-purple-900">
 				Gain 💜 with <br>solved puzzles.
+				</div>
 			</div>
 		</span>
 		<span class="relative group" id="patience">
 			💛<span id="patience_value">{{ token.get_patience }}</span>
-			<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
-				<div class="font-bold text-red-800">Patience</div>
+			<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md ">
+				<div class="font-bold text-black">Patience</div>
+				<div class="text-yellow-900">
 				Gain 💛 over time.
+				</div>
 			</div>
 		</span>
 	</span>

@@ -7,52 +7,15 @@ body.solved {
 	background-color: #dfdfdf;
 }
 
-a:link, a:visited {
-	color: #00bbbb;
-}
-.solved a:link, .solved a:visited {
-	color: #dfdfdf;
-}
-a:hover {
-	color: #00dddd;
-	text-shadow: 0 0 1px #aaaa00;
-}
-
-code.answer {
-	color: #ef5d5d;
-}
-.solved code.answer {
-	color: #dfdfdf;
-}
-strong {
-	color: #dda500;
-}
-.solved strong {
-	color: #dfdfdf;
-}
-
 /* || Specific puzzle elements */
-.flavortext {
-	font-style: italic;
-}
-.solved .flavortext {
-	color: #112211;
-}
-.solved #title {
-	color: #112211;
-}
-
 .emoji-link:hover {
 	text-shadow: 0 0 0.4em #eeee44;
 }
 
 /* || Top-level containers */
 
-#status span {
-	color: #cbd083;
-}
-#status span.navitem {
-	border-bottom: 2px dotted #999999;
+#content {
+	color: #dfdfdf;
 }
 
 #puzzlehead {
@@ -63,26 +26,6 @@ strong {
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: 25px;
-}
-
-#content {
-	color: #dfdfdf;
-}
-
-#acknowledgments {
-	color: #999999;
-	text-align: left;
-	font-size: 14px;
-}
-.solved #acknowledgments {
-	color: #dfdfdf;
-}
-
-#acknowledgments a:link, #acknowledgments a:visited {
-	color: #779999;
-}
-.solved #acknowledgments a:link, .solved #acknowledgments a:visited {
-	color: #dfdfdf;
 }
 
 /* || Answer checker */
@@ -143,7 +86,4 @@ span.icon {
 }
 span.icon-placeholder {
 	visibility: hidden;
-}
-span.name {
-	color: #ff985a;
 }

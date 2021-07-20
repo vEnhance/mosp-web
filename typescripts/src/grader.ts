@@ -90,7 +90,7 @@ $(function() {
         window.location.replace(target_url);
       }, 8000);
       $("#correct").show();
-      $("#back").hide();
+      $("#back").css('visibility', 'none');
       $("#prize").attr('href', target_url);
       $("#prize").css('z-index', '100');
       $("body").addClass('solved');

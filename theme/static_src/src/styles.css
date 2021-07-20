@@ -58,6 +58,9 @@
   blockquote {
     @apply text-sm ml-4;
   }
+  span.name {
+    @apply text-green-600;
+  }
 }
 /*
   vim: ft=sass
