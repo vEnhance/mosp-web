@@ -34,18 +34,23 @@
 		 href="{{ u.hunt.get_absolute_url }}">🔒</a>
 	{% endif %}
 	</h1>
-	<p>
-	This will unlock
+	<p class="p-2 mx-auto text-sm border-2 border-red-600 max-w-3/4 w-max rounded-2xl bg-red-50">
+	This item will unlock
 	{% if u.unlock_date %}on {{ u.unlock_date|date }}{% endif %}
 	if
 	{% if u.unlock_needs %}
-		{{ u.unlock_needs.puzzle.name }} is completed
+		<span class="font-bold text-red-900">{{ u.unlock_needs.puzzle.name }}</span>
+		is completed{% spaceless %}
 		{% if u.unlock_courage_threshold > 0 %}
 		and you have at least {{ u.unlock_courage_threshold }}💜
+		{% else %}
+		.
 		{% endif %}
+		{% endspaceless %}
 	{% else %}
 		you have at least {{ u.unlock_courage_threshold }}💜.
 	{% endif %}
+	</p>
 {% else %}
 	<h1>
 	<a id="door" class="text-6xl emoji-link"

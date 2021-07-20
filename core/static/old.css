@@ -69,9 +69,6 @@ span.navitem:hover div.navbar-tooltip {
 }
 
 /* Shared classes */
-a.emoji-link, a.emoji-link:link, a.emoji-link:visited, a.emoji-link:hover, a.emoji-link:active {
-	text-decoration: none;
-}
 .monospace {
 	font-family: Inconsolata, Consolas, monaco, monospace;
 	position: relative;
@@ -209,10 +206,6 @@ code.answer {
 	border-bottom: 1px dotted #666666;
 }
 
-.emoji-link:hover { /* back button */
-	text-shadow: 0 0 13px #ee6666;
-	text-decoration: none;
-}
 #door {
 	font-size: 128px;
 	text-align: center;

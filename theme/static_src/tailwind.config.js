@@ -56,7 +56,8 @@ module.exports = {
     variants: {
         fontFamily: {
           serif: ['Perpetua', 'Baskerville', 'Big Caslon', 'Palatino Linotype', 'Palatino', 'URW Palladio L', 'Nimbus Roman No9 L', 'serif'],
-          sans: ['Century Gothic', 'CenturyGothic', 'AppleGothic', 'sans-serif']
+          sans: ['Century Gothic', 'CenturyGothic', 'AppleGothic', 'sans-serif'],
+          mono: ['Inconsolata', 'Consolas', 'monaco', 'monospace'],
         },
         extend: {},
     },
