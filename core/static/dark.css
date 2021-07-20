@@ -8,9 +8,6 @@ body.solved {
 }
 
 /* || Specific puzzle elements */
-.emoji-link:hover {
-	text-shadow: 0 0 0.4em #eeee44;
-}
 
 /* || Top-level containers */
 
@@ -26,6 +23,10 @@ body.solved {
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: 25px;
+}
+
+span.navitem {
+	border-bottom: 2px dotted #999999
 }
 
 /* || Answer checker */
