@@ -16,8 +16,13 @@
 
 {% block title %}{{ unlockable.name }}{% endblock %}
 
+{% block editlink %}
+<a class="emoji-link" href="{% url "admin:core_unlockable_change" u.id %}">✏️</a>
+{% endblock %}
+
 {% block content %}
 {% with u=unlockable %}
+
 <h1>{{ u.name }}</h1>
 
 {% if new and u.is_puzzle %}

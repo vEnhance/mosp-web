@@ -24,8 +24,13 @@ const hashes = [
 <a class="emoji-link" href="{{ puzzle.unlockable.parent.get_absolute_url }}">🗺️</a>
 {% endblock %}
 
+{% block editlink %}
+<a class="emoji-link" href="{% url "admin:core_puzzle_change" puzzle.id %}">✏️</a>
+{% endblock %}
+
 {% block content %}
 <h1>{{ puzzle.name }}</h1>
+
 <div class="flavortext">
 	{{ puzzle.flavor_text|mkd }}
 </div>

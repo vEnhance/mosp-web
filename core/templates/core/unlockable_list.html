@@ -15,13 +15,16 @@ Chapter {{ round.chapter_number }}:
 {% endif %}
 {% endblock %}
 
-{% block content %}
+{% block editlink %}
+<a class="emoji-link" href="{% url "admin:core_round_change" round.id %}">✏️</a>
+{% endblock %}
 
+{% block content %}
 {% if round.show_chapter_number %}
-<h1>Chapter {{ round.chapter_number }}</h1>
-<h2><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h2>
+	<h1>Chapter {{ round.chapter_number }}</h1>
+	<h2><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h2>
 {% else %}
-<h1><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h1>
+	<h1><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h1>
 {% endif %}
 
 <div class="container">
