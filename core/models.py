@@ -179,6 +179,10 @@ class Puzzle(models.Model):
 	is_meta = models.BooleanField(
 			help_text = "Whether this is a metapuzzle",
 			default = False)
+	flavor_text = models.TextField(
+			help_text = "Markdown for puzzle flavor text",
+			blank = True,
+			)
 	content = models.TextField(
 			help_text = "Markdown for the puzzle content",
 			blank = True,
