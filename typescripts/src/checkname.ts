@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { setCookie, deleteCookie } from './cookie';
 declare const token_uuid : string | null;
+declare const solver_name : string | null;
 
 const animals = [
   'Canidae', 'Felidae', 'Cat', 'Cattle', 'Dog', 'Donkey', 'Goat', 'Guinea pig',
@@ -149,6 +150,13 @@ $(() => {
   } else {
     setCookie('uuid', token_uuid);
   }
+  if (solver_name !== null) {
+    const i = solver_name.indexOf(' ');
+    const first_name = (i != -1) ? solver_name.substring(0, i) : solver_name;
+    $("span.name.fullname").html(solver_name);
+    $("span.name.firstname").html(first_name);
+  }
+
   $("#deltoken").on('click', () => {
     deleteCookie('uuid');
   });
