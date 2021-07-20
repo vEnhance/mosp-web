@@ -102,6 +102,10 @@ const solver_name = null;
 	{% endblock %}
 
 	<span id="status">
+		{% if request.user.is_staff %}
+		{% block editlink %}
+		{% endblock %}
+		{% endif %}
 		{% block rightnav %}
 		<span class="relative ml-2 group navitem" id="courage">
 			{% spaceless %}
@@ -124,10 +128,6 @@ const solver_name = null;
 			</div>
 			{% endspaceless %}</span>
 		{% endblock %}
-		{% if request.user.is_staff %}
-		{% block editlink %}
-		{% endblock %}
-		{% endif %}
 		<span class="relative pl-1 ml-2 group navitem" id="info-pages">
 			{% spaceless %}
 			🛈
