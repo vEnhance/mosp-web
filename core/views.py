@@ -144,12 +144,12 @@ class SolutionDetail(TokenGatedDetailView):
 	context_object_name = "puzzle"
 	template_name = 'core/solution_detail.html'
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
+		self.cheating = kwargs.pop('cheating')
 		ret = super().dispatch(request, *args, **kwargs)
 		assert self.token is not None
 		u = self.object.unlockable # type: ignore
-		cheating = kwargs.pop('cheating')
-		if cheating is True:
-			assert u.hunt.allow_cheat(self.token)
+		if self.cheating is True:
+			assert u.hunt.allow_cheat(self.token), "can't cheat yet"
 			attempt, _ = models.Attempt.objects.get_or_create(
 					unlockable = u,
 					token = self.token)
@@ -159,6 +159,10 @@ class SolutionDetail(TokenGatedDetailView):
 		else:
 			assert self.token.has_solved(u)
 		return ret
+	def get_context_data(self, **kwargs) -> Context:
+		context = super().get_context_data(**kwargs)
+		context['cheating'] = self.cheating
+		return context
 
 class UnlockableDetail(TokenGatedDetailView):
 	model = models.Unlockable
@@ -179,6 +183,7 @@ class UnlockableDetail(TokenGatedDetailView):
 			attempt.save()
 		elif can_unlock and attempt.status < 0:
 			attempt.status = 0
+			attempt.save()
 		return context
 
 class TokenDetailView(DetailView):

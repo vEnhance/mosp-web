@@ -20,6 +20,12 @@
 {% with u=unlockable %}
 <h1>{{ u.name }}</h1>
 
+{% if not new %}
+<h3 class="p-2 font-sans text-xl text-center text-blue-700 bg-indigo-100 ring-2 ring-blue-500 rounded-3xl">
+	New puzzle unlocked!
+</h3>
+{% endif %}
+
 {% if not locked %}
 {{ u.intro_story_text|mkd }}
 {% endif %}
