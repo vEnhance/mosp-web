@@ -59,7 +59,7 @@
     @apply text-sm ml-4;
   }
   span.name {
-    @apply text-green-600;
+    @apply text-yellow-600;
   }
 }
 /*

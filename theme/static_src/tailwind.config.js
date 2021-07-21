@@ -15,6 +15,7 @@ module.exports = {
     mode: "jit",
 
     purge: [
+        '../whitelist.txt',
         /**
          * HTML. Paths to Django template files that will contain Tailwind CSS classes.
          */

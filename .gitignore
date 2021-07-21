@@ -2,7 +2,9 @@
 db.sqlite3
 .venv
 node_modules/
-typescripts/out/*
+*/out/*.d.ts
+*/out/*.js
+*/out/*.js.map
 *-sm.png
 *-sm.png
 *-sm.jpg
