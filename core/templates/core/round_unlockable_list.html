@@ -8,7 +8,7 @@
 
 {% for unlockable in round_unlockable_list %}
 {% with round=unlockable.round %}
-<div class="container w-3/4 mx-auto my-5 border-2 border-green-500 bg-gray-50 rounded-xl hover:ring-green-300 hover:ring-4">
+<div class="container w-3/4 mx-auto my-5 border-2 border-green-500 bg-gray-50 rounded-xl hover:ring-green-300 hover:ring-4 drop-shadow-2xl">
 <div class="relative flex flex-col items-center rounded-lg md:flex-row md:shadow-xl md:h-72">
 	<div class="relative z-0 order-1 w-full overflow-hidden rounded-lg md:order-2 md:w-2/5 h-72 md:h-full md:rounded-none md:rounded-r-lg">
 		<a class="img-link" href="{{ round.get_absolute_url }}">
