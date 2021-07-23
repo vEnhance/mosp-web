@@ -9,3 +9,5 @@ node_modules/
 *-sm.png
 *-sm.jpg
 *.xcf
+env
+static/

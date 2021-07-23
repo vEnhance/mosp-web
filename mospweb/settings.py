@@ -11,17 +11,22 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-PRODUCTION = False # for now
+ENV_PATH = BASE_DIR / '.env'
+if ENV_PATH.exists():
+	load_dotenv(ENV_PATH)
+
+PRODUCTION = bool(os.getenv('IS_PRODUCTION'))
+if not PRODUCTION:
+	INTERNAL_IPS = ('127.0.0.1',)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-cl2(@(eiq)(vn&8&j34j$^0vdays0-0&j)wd44vfnpu&tdd7b5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not PRODUCTION
@@ -29,7 +34,7 @@ DEBUG = not PRODUCTION
 if PRODUCTION:
 	ALLOWED_HOSTS = ['mosp.evanchen.cc']
 else:
-	ALLOWED_HOSTS = []
+	ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -119,13 +124,26 @@ WSGI_APPLICATION = 'mospweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
+if os.getenv("DATABASE_NAME"):
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.mysql',
+			'NAME' : os.getenv("DATABASE_NAME"),
+			'USER' : os.getenv("DATABASE_USER"),
+			'PASSWORD' : os.getenv("DATABASE_PASSWORD"),
+			'HOST' : os.getenv("DATABASE_HOST"),
+			'PORT' : os.getenv("DATABASE_PORT", '3306'),
+			'OPTIONS' : {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
+		},
+	}
+else:
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.sqlite3',
+			'NAME': BASE_DIR / 'db.sqlite3',
+		}
+	}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -157,7 +175,6 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
 TAILWIND_APP_NAME = 'theme'
-INTERNAL_IPS = ['127.0.0.1',]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -176,7 +193,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
+if PRODUCTION:
+	STATIC_URL = os.getenv("STATIC_URL")
+	assert STATIC_URL is not None
+	SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+	assert SECRET_KEY is not None
+else:
+	STATIC_URL = '/static/'
+	MEDIA_URL = '/media/'
+	SECRET_KEY = 'evan_chen_is_really_cool'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
