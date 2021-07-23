@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% load crispy_forms_tags %}
+{% block title %}Edit {{puzzle.name}}{% endblock %}
+{% block content %}
+
+<form action="{{ request.path }}" method="post">
+{% csrf_token %}
+{{ form|crispy }}
+<input class="btn btn-gray" type="submit" value="Update" />
+</form>
+
+{{ form.media }}
+
+{% endblock %}

@@ -3,7 +3,12 @@ from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Count
+
+class StaffRequiredMixin(PermissionRequiredMixin):
+	permission_required = 'is_staff'
+
 
 from typing import Any, Dict, Optional
 from . import models
@@ -222,8 +227,8 @@ def ajax(request : HttpRequest) -> JsonResponse:
 	action = request.POST.get('action')
 	if action == 'guess':
 		puzzle = models.Puzzle.objects.get(slug = request.POST.get('puzzle_slug'))
-		guess = request.POST.get('guess')
-		salt = request.POST.get('salt')
+		guess = request.POST.get('guess') or ''
+		salt = int(request.POST.get('salt') or 0)
 		sa = models.SaltedAnswer.objects.get(puzzle = puzzle, salt = salt)
 		if not sa.equals(guess):
 			return JsonResponse({'correct' : 0})
@@ -260,3 +265,8 @@ def ajax(request : HttpRequest) -> JsonResponse:
 
 	return JsonResponse({'message' :
 		f'No such method {action}'}, status=400)
+
+class PuzzleUpdate(UpdateView, StaffRequiredMixin):
+	model = models.Puzzle
+	context_object_name = "puzzle"
+	fields = ('name', 'flavor_text', 'content', 'puzzle_head',)

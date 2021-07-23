@@ -5,11 +5,7 @@
 {% block content %}
 {% if token.enabled %}
 <h1>{{ token.firstname }}</h1>
-<form action="{{ request.path }}" method="post">
-{% csrf_token %}
-{{ form|crispy }}
-<input class="btn btn-gray" type="submit" value="Submit" />
-</form>
+{% include "generic-form.html" with submit_name=Update %}
 {% else %}
 <p>This token is deleted.</p>
 {% endif %}

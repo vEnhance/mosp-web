@@ -34,6 +34,10 @@ urlpatterns = [
 		views.RoundUnlockableList.as_view(),
 		kwargs={'cheating' : True},
 		name='round-unlockable-list-cheating'),
+	# -- edit --
+	path(r'puzzle/<str:slug>/edit',
+		views.PuzzleUpdate.as_view(),
+		name='puzzle-update'),
 	# -- other --
 	path(r'unlock/<str:slug>',
 		views.UnlockableDetail.as_view(),
