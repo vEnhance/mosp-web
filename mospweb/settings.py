@@ -213,6 +213,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # for puzzlord
 import datetime
 import random
-SITE_PASSWORD = random.randbytes(64)
+import string
+SITE_PASSWORD = ''.join(random.choice(string.ascii_letters+string.digits) for _ in range(40))
 HUNT_TIME = datetime.datetime(2022, 6, 7, 18, 0, 0,
 		tzinfo = datetime.timezone.utc)
