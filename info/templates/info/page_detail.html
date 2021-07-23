@@ -12,7 +12,7 @@
 <h1>{{ page.title }}</h1>
 
 {% if request.user.is_staff %}
-{% if page.published %}
+{% if not page.published %}
 <div class="p-2 mx-auto text-red-900 bg-yellow-200 border-2 border-red-600 w-max rounded-xl">
 	Still in draft mode, keep writing!
 </div>

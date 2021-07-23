@@ -25,7 +25,6 @@ class TokenGatedView:
 	token = None
 	def check_token(self, request : HttpRequest):
 		uuid = request.COOKIES.get('uuid', None)
-		print(uuid)
 		if uuid is not None:
 			try:
 				self.token = models.Token.objects.get(uuid=uuid, enabled=True)
