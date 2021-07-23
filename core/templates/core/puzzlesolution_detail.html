@@ -24,12 +24,14 @@
 {% with solution=puzzle.solution %}
 <h1>{{ puzzle.name }}</h1>
 
-{% if not cheating %}
-<h3 class="p-2 font-sans text-2xl text-center text-green-700 bg-green-100 ring-2 ring-green-300 rounded-3xl">
-	Solved! 💜 += {{ puzzle.unlockable.courage_bounty }};</h3>
-{% else %}
+{% if cheating %}
 <h3 class="p-2 font-sans text-xl text-center text-red-700 bg-yellow-100 ring-2 ring-red-300 rounded-3xl">
-	Preview of solution only.</h3>
+Skipped! 💜 += {{ puzzle.unlockable.courage_bounty }};
+</h3>
+{% else %}
+<h3 class="p-2 font-sans text-2xl text-center text-green-700 bg-green-100 ring-2 ring-green-300 rounded-3xl">
+Solved! 💜 += {{ puzzle.unlockable.courage_bounty }};
+</h3>
 {% endif %}
 
 {% if solution %}
