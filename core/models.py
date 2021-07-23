@@ -189,7 +189,7 @@ class Puzzle(models.Model):
 			blank = True,
 			)
 	puzzle_head = models.TextField(
-			help_text = "Extra HTML to include in <head>",
+			help_text = "Extra HTML to include in HTML header",
 			blank = True,
 			)
 	def get_absolute_url(self):
