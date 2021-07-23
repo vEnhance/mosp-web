@@ -44,6 +44,9 @@ urlpatterns = [
 	path(r'<str:hunt__volume_number>/unlockable/<str:slug>/edit',
 		views.UnlockableUpdate.as_view(),
 		name='unlockable-update'),
+	path(r'chapter/<str:chapter_number>/edit',
+		views.RoundUpdate.as_view(),
+		name='round-update'),
 	# -- other --
 	path(r'<str:hunt__volume_number>/unlock/<str:slug>',
 		views.UnlockableDetail.as_view(),

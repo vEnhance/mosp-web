@@ -314,6 +314,8 @@ class Round(models.Model):
 			blank = True)
 	def get_absolute_url(self):
 		return reverse_lazy('unlockable-list', args=(self.chapter_number,))
+	def get_editor_url(self):
+		return reverse_lazy('round-update', args=(self.chapter_number,))
 	def get_cheating_url(self):
 		return reverse_lazy('unlockable-list-cheating', args=(self.chapter_number,))
 	def __str__(self):

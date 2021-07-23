@@ -16,7 +16,7 @@ Chapter {{ round.chapter_number }}:
 {% endblock %}
 
 {% block editlink %}
-<a class="emoji-link" href="{% url "admin:core_round_change" round.id %}">✏️</a>
+<a class="emoji-link" href="{{ round.get_editor_url }}">✏️</a>
 {% endblock %}
 
 {% block content %}

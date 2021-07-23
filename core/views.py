@@ -280,6 +280,11 @@ class SolutionUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixi
 	context_object_name = "solution"
 	fields = ('post_solve_story', 'solution_text', 'author_notes', 'post_solve_image_path', 'post_solve_image_path',)
 
+class RoundUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
+	model = models.Round
+	context_object_name = "round"
+	fields = ('name', 'chapter_number', 'show_chapter_number', 'slug', 'thumbnail_path', 'round_text')
+
 class UnlockableUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
 	model = models.Unlockable
 	context_object_name = "unlockable"
