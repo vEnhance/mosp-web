@@ -10,3 +10,4 @@ crispy-tailwind>=0.5.0
 bleach>=3.3.1
 GitPython>=3.1.18
 matplotlib>=3.4.2
+django-markdownx>=3.0.1

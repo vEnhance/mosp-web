@@ -1,4 +1,5 @@
 from django.contrib import admin
+from markdownx.admin import MarkdownxModelAdmin
 from . import models
 
 # Register your models here.
@@ -23,7 +24,7 @@ class AttemptInline(admin.TabularInline):
 	extra = 0
 
 @admin.register(models.Puzzle)
-class PuzzleAdmin(admin.ModelAdmin):
+class PuzzleAdmin(MarkdownxModelAdmin):
 	list_display = ('name', 'slug', 'is_meta', 'unlockable',)
 	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'slug',)
@@ -32,7 +33,7 @@ class PuzzleAdmin(admin.ModelAdmin):
 	autocomplete_fields = ('unlockable',)
 
 @admin.register(models.Round)
-class RoundAdmin(admin.ModelAdmin):
+class RoundAdmin(MarkdownxModelAdmin):
 	list_display = ('chapter_number', 'name', 'slug', 'show_chapter_number')
 	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'slug',)
@@ -40,7 +41,7 @@ class RoundAdmin(admin.ModelAdmin):
 	autocomplete_fields = ('unlockable',)
 
 @admin.register(models.Unlockable)
-class UnlockableAdmin(admin.ModelAdmin):
+class UnlockableAdmin(MarkdownxModelAdmin):
 	list_display = ('name', 'slug', '_icon', 'force_visibility',
 			'sort_order', 'parent', 'prereqs_summary')
 	list_display_links = ('name', 'slug')
@@ -66,7 +67,7 @@ class TokenAdmin(admin.ModelAdmin):
 	autocomplete_fields = ('user',)
 
 @admin.register(models.Solution)
-class SolutionAdmin(admin.ModelAdmin):
+class SolutionAdmin(MarkdownxModelAdmin):
 	list_display = ('puzzle', 'post_solve_image_path', 'post_solve_image_alt',)
 	search_fields = ('puzzle__name', 'post_solve_story', 'solution_text', 'author_notes',)
 	autocomplete_fields = ('puzzle',)

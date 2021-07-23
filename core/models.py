@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Q, Max
 from django.urls import reverse_lazy
 from django.utils import timezone
+from markdownx.models import MarkdownxField
 
 import random
 import re
@@ -76,7 +77,7 @@ class Unlockable(models.Model):
 	story_only = models.BooleanField(
 			help_text = "If this unlockable is story only",
 			default = False)
-	intro_story_text = models.TextField(
+	intro_story_text = MarkdownxField(
 			help_text = "Markdown for the pre-entry story",
 			blank = True)
 
@@ -179,11 +180,11 @@ class Puzzle(models.Model):
 	is_meta = models.BooleanField(
 			help_text = "Whether this is a metapuzzle",
 			default = False)
-	flavor_text = models.TextField(
+	flavor_text = MarkdownxField(
 			help_text = "Markdown for puzzle flavor text",
 			blank = True,
 			)
-	content = models.TextField(
+	content = MarkdownxField(
 			help_text = "Markdown for the puzzle content",
 			blank = True,
 			)
@@ -211,15 +212,15 @@ class Solution(models.Model):
 			help_text = "The puzzle this is a solution for",
 			on_delete = models.CASCADE
 			)
-	post_solve_story = models.TextField(
+	post_solve_story = MarkdownxField(
 			help_text = "Markdown for the post-solve story",
 			blank = True,
 			)
-	solution_text = models.TextField(
+	solution_text = MarkdownxField(
 			help_text = "Markdown for the puzzle solution",
 			blank = True,
 			)
-	author_notes = models.TextField(
+	author_notes = MarkdownxField(
 			help_text = "Markdown for the author's notes",
 			blank = True,
 			)
@@ -227,7 +228,7 @@ class Solution(models.Model):
 			help_text = "Static path to the post-solve image",
 			blank = True
 			)
-	post_solve_image_alt = models.TextField(
+	post_solve_image_alt = models.CharField(max_length = 240,
 			help_text = "Alt text for the post-solve image",
 			blank = True
 			)
@@ -290,7 +291,7 @@ class Round(models.Model):
 	thumbnail_path = models.CharField(max_length = 80,
 			help_text = "Static argument for thumbnail image",
 			blank = True)
-	round_text = models.TextField(
+	round_text = MarkdownxField(
 			help_text = "Markdown for content in the round page",
 			blank = True)
 	def get_absolute_url(self):
