@@ -1,12 +1,14 @@
-<div class="md:flex md:justify-between space-x-1 markdownx">
-	<div class="hidden">
+<div class="md:flex md:justify-center space-x-1 markdownx">
+	<div id="textinput_container_{{widget.name}}" class="w-full md:w-5/12">
 		{% include 'django/forms/widgets/textarea.html' %}
 	</div>
-	<div class="relative inline-flex w-full">
+	<div id="ace_container_{{widget.name}}"
+		style="width: "
+		class="relative hidden w-full h-64 md:w-6/12 lg:w-7/12 display-in-editor">
 		{%spaceless%}<div id="ace_{{widget.name}}" class="absolute top-0 bottom-0 left-0 right-0">{{ widget.value|default_if_none:"" }}</div>{% endspaceless %}
 	</div>
-	<div class="px-2 py-1 md:flex-grow">
-		<div class="p-2 bg-blue-100 border-2 border-blue-600 markdownx-preview rounded-xl">
+	<div class="w-full p-1 md:w-6/12 lg:w-5/12">
+		<div class="p-2 text-sm bg-blue-100 border-2 border-blue-600 markdownx-preview rounded-xl">
 		</div>
 	</div>
 </div>
@@ -14,10 +16,27 @@
 
 <script type="text/javascript">
 $(() => {
+	if (ace !== undefined) {
+		$("#textinput_container_{{widget.name}}").hide();
+		$("#ace_container_{{widget.name}}").removeClass('hidden');
+		$("#ace_container_{{widget.name}}").addClass('display-flex');
+
 		const editor = ace.edit("ace_{{widget.name}}");
 		editor.setTheme("ace/theme/github");
+		editor.setOptions({
+			showGutter : true,
+			fontSize: '14px',
+			minLines: 3,
+			wrap: true,
+			});
 		const MarkdownMode = ace.require("ace/mode/markdown").Mode;
 		editor.session.setMode(new MarkdownMode())
+
+		editor.session.on('change', function(delta) {
+			$("#id_{{widget.name}}").val(editor.getSession().getValue());
+			$("#id_{{widget.name}}")[0].dispatchEvent(new Event("input"));
+		});
+	}
 });
 </script>
 

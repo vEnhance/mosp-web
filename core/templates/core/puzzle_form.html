@@ -5,10 +5,14 @@
 
 {% block header %}
 <script src="https://pagecdn.io/lib/ace/1.4.12/ace.min.js" crossorigin="anonymous" integrity="sha256-T5QdmsCQO5z8tBAXMrCZ4f3RX8wVdiA0Fu17FGnU1vU=" ></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/theme-github.min.js" crossorigin="anonymous"  ></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/snippets/markdown.min.js" crossorigin="anonymous"  ></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/mode-markdown.min.js" crossorigin="anonymous"  ></script>
 {% endblock %}
+
 {% block body %}
 <body class="p-2 bg-green-50">
-<div id="container" class="mx-auto max-w-9xl md:min-w-2xl ">
+<div id="container" class="max-w-6xl mx-auto md:min-w-2xl ">
 <h1>Editor for {{object}}</h1>
 
 <form action="{{ request.path }}" method="post">
