@@ -164,3 +164,7 @@ div.strong-emph em {
 	border: 1px solid #cc3333;
 	padding: 0 4px;
 }
+
+small.text-muted {
+	display: none;
+}

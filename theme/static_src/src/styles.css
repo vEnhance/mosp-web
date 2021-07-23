@@ -61,6 +61,9 @@
   span.name {
     @apply text-yellow-600;
   }
+  code {
+    @apply text-red-600;
+  }
 }
 /*
   vim: ft=sass

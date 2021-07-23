@@ -1,8 +1,15 @@
-{% extends 'layout.html' %}
+{% extends 'base.html' %}
 {% load extras %}
 {% load crispy_forms_tags %}
-{% block title %}Edit {{puzzle.name}}{% endblock %}
-{% block content %}
+{% block title %}Edit {{object.name}}{% endblock %}
+
+{% block header %}
+<script src="https://pagecdn.io/lib/ace/1.4.12/ace.min.js" crossorigin="anonymous" integrity="sha256-T5QdmsCQO5z8tBAXMrCZ4f3RX8wVdiA0Fu17FGnU1vU=" ></script>
+{% endblock %}
+{% block body %}
+<body class="p-2 bg-green-50">
+<div id="container" class="mx-auto max-w-9xl md:min-w-2xl ">
+<h1>Editor for {{object}}</h1>
 
 <form action="{{ request.path }}" method="post">
 {% csrf_token %}
@@ -12,4 +19,6 @@
 
 {{ form.media }}
 
+</div>
+</body>
 {% endblock %}
