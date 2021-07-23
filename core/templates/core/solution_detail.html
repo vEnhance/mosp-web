@@ -10,7 +10,7 @@
 
 {% block editlink %}
 	{% if puzzle.solution %}
-		<a class="emoji-link" href="{% url "solution-update" puzzle.slug %}">✏️</a>
+		<a class="emoji-link" href="{{ solution.get_editor_url }}">✏️</a>
 	{% else %}
 		<a class="emoji-link" href="{% url "admin:core_solution_add" %}">➕</a>
 	{% endif %}

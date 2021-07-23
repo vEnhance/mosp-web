@@ -25,12 +25,12 @@ const hashes = [
 {% endblock %}
 
 {% block editlink %}
-<a class="emoji-link" href="{% url "puzzle-update" puzzle.slug %}">✏️</a>
+<a class="emoji-link" href="{{ puzzle.get_editor_url }}">✏️</a>
 {% endblock %}
 
 {% block leftnav-more %}
 {% if token|has_solved:puzzle.unlockable %}
-<a class="emoji-link" href="{% url "solution-detail" puzzle.slug %}">🔑</a>
+<a class="emoji-link" href="{{ puzzle.get_solution_url }}">🔑</a>
 {% endif %}
 {% endblock %}
 

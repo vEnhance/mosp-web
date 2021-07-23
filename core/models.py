@@ -162,7 +162,11 @@ class Unlockable(models.Model):
 	def __str__(self):
 		return self.slug
 	def get_absolute_url(self):
-		return reverse_lazy('unlockable-detail', args=(self.slug,))
+		return reverse_lazy('unlockable-detail',
+				args=(self.hunt.volume_number, self.slug,))
+	def get_editor_url(self):
+		return reverse_lazy('unlockable-update',
+				args=(self.hunt.volume_number, self.slug,))
 
 	class Meta:
 		ordering = ('sort_order', 'name',)
@@ -193,9 +197,14 @@ class Puzzle(models.Model):
 			blank = True,
 			)
 	def get_absolute_url(self):
-		return reverse_lazy('puzzle-detail', args=(self.slug,))
+		return reverse_lazy('puzzle-detail',
+				args=(self.unlockable.hunt.volume_number, self.slug,))
+	def get_editor_url(self):
+		return reverse_lazy('puzzle-update',
+				args=(self.unlockable.hunt.volume_number, self.slug,))
 	def get_solution_url(self):
-		return reverse_lazy('solution-detail', args=(self.slug,))
+		return reverse_lazy('solution-detail',
+				args=(self.unlockable.hunt.volume_number, self.slug,))
 	def get_parent_url(self):
 		return self.unlockable.parent.get_absolute_url()
 	def __str__(self):
@@ -233,7 +242,11 @@ class Solution(models.Model):
 			blank = True
 			)
 	def get_absolute_url(self):
-		return reverse_lazy('solution-detail', args=(self.puzzle.slug,))
+		return reverse_lazy('solution-detail', args=(
+			self.puzzle.unlockable.hunt.volume_number, self.puzzle.slug,))
+	def get_editor_url(self):
+		return reverse_lazy('solution-update', args=(
+			self.puzzle.unlockable.hunt.volume_number, self.puzzle.slug,))
 	def __str__(self):
 		return f"Solution to {self.puzzle.name}"
 

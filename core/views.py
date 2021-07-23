@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView
+from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -8,7 +9,11 @@ from django.db.models import Count
 
 class StaffRequiredMixin(PermissionRequiredMixin):
 	permission_required = 'is_staff'
-
+class GeneralizedSingleObjectMixin(SingleObjectMixin):
+	def get_object(self, queryset = None):
+		if queryset is None:
+			queryset = self.get_queryset()
+		return queryset.get(**self.kwargs)
 
 from typing import Any, Dict, Optional
 from . import models

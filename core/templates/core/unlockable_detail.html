@@ -17,7 +17,7 @@
 {% block title %}{{ unlockable.name }}{% endblock %}
 
 {% block editlink %}
-<a class="emoji-link" href="{% url "unlockable-update" unlockable.slug %}">✏️</a>
+<a class="emoji-link" href="{{ unlockable.get_editor_url }}">✏️</a>
 {% endblock %}
 
 {% block content %}
