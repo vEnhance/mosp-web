@@ -9,11 +9,15 @@
 {% block title %}Solved: {{ puzzle.name }}{% endblock %}
 
 {% block editlink %}
-	{% if solution %}
-		<a class="emoji-link" href="{% url "admin:core_solution_change" solution.id %}">✏️</a>
+	{% if puzzle.solution %}
+		<a class="emoji-link" href="{% url "solution-update" puzzle.slug %}">✏️</a>
 	{% else %}
-		<a class="emoji-link" href="{% url "admin:core_solution_add" %}">✏️</a>
+		<a class="emoji-link" href="{% url "admin:core_solution_add" %}">➕</a>
 	{% endif %}
+{% endblock %}
+
+{% block backnav %}
+<a class="emoji-link" href="{{ puzzle.get_absolute_url }}">🔙</a>
 {% endblock %}
 
 {% block content %}

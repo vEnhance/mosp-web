@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block body %}
-<body class="px-2 text-gray-900">
+<body class="px-2 text-gray-900{% if cheating %} bg-red-200{% endif %}">
 <div id="container" class="container flex flex-col max-w-3xl min-h-screen py-2 mx-auto lg:max-w-4xl">
 <div id="content" class="flex-1">
 	<nav class="flex justify-between text-xl shadow-lg">
@@ -19,6 +19,8 @@
 		</a>
 		{% endspaceless %}
 		{% endif %}
+		{% block leftnav-more %}
+		{% endblock %}
 	</span>
 	{% endblock %}
 
@@ -65,8 +67,6 @@
 	{% block content %}
 	{% endblock %}
 	</div>
-	{% block acknowledgments %}
-	{% endblock %}
 </div> {# end content #}
 
 <div class="container bottom-0 max-w-3xl mx-auto mt-2 italic text-gray-400 lg:max-w-4xl font-lg">

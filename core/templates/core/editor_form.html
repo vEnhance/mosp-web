@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load extras %}
 {% block title %}Edit {{object.name}}{% endblock %}
 
 {% block header %}
@@ -19,7 +20,7 @@ function setupEditor(name, mode) {
 	const editor = ace.edit("ace_" + name);
 	editor.setTheme("ace/theme/github");
 	editor.setOptions({
-		showGutter : true,
+		showGutter : false,
 		fontSize: '14px',
 		minLines: 3,
 		wrap: true,
@@ -34,8 +35,6 @@ function setupEditor(name, mode) {
 
 }
 </script>
-{% block jsextra %}
-{% endblock %}
 {% endblock %}
 
 {% block body %}
@@ -43,6 +42,16 @@ function setupEditor(name, mode) {
 <div id="container" class="max-w-6xl mx-auto md:min-w-2xl ">
 <h1>Editor for {{object}}</h1>
 
+<div class="px-2 py-1 mx-auto bg-yellow-100 border border-yellow-900 shadow-lg w-max">
+	<p>
+	You can <a href="{{ object.get_absolute_url }}">view the rendered object</a>
+	if you save your changes here.
+	</p>
+	<p>
+	If you need full control, use the
+	<a class="emoji-link" href="{{ object|admin_url }}">admin site</a>.
+	</p>
+</div>
 
 <form action="{{ request.path }}" method="post">
 {% csrf_token %}

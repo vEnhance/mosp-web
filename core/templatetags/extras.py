@@ -1,4 +1,5 @@
 from django import template
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from .. import models
 import markdown
@@ -27,6 +28,10 @@ def mkd(value) -> str:
 @register.filter(is_safe=True)
 def emoji_link(href : str, emoji : str) -> str:
 	return mark_safe(f'<a class="emoji-link" href="{href}">{emoji}</a>')
+
+@register.filter()
+def admin_url(obj) -> str:
+	 return reverse('admin:%s_%s_change' % (obj._meta.app_label,  obj._meta.model_name),  args=[obj.id] )
 
 @register.filter
 def has_found(token : models.Token, u : models.Unlockable) -> bool:

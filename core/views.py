@@ -273,8 +273,9 @@ class PuzzleUpdate(UpdateView, StaffRequiredMixin):
 
 class SolutionUpdate(UpdateView, StaffRequiredMixin):
 	def get_object(self, **kwargs):
-		puzzle = models.Puzzle.objects.get(**kwargs)
-		return puzzle.solution
+		print(kwargs)
+		print(self.kwargs)
+		return models.Solution.objects.get(puzzle__slug=self.kwargs['slug'])
 	model = models.Solution
 	context_object_name = "solution"
 	fields = ('post_solve_story', 'solution_text', 'author_notes', 'post_solve_image_path', 'post_solve_image_path',)

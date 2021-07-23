@@ -1,16 +1,4 @@
 {% extends 'core/editor_form.html' %}
-{% block preform %}
-<div class="px-2 py-1 mx-auto bg-yellow-100 border border-yellow-900 shadow-lg w-max">
-	<p>
-	You can <a href="{{ object.get_absolute_url }}">view the rendered puzle</a>
-	if you save your changes here.
-	</p>
-	<p>
-	If you need full control, use the
-	<a class="emoji-link" href="{% url "admin:core_puzzle_change" puzzle.id %}">admin site</a>.
-	</p>
-</div>
-{% endblock %}
 {% block postform %}
 <div id="ace_container_puzzle_head" class="relative w-full h-64">
 <div id="ace_puzzle_head" class="absolute top-0 bottom-0 left-0 right-0">{{ puzzle.puzzle_head }}</div>
