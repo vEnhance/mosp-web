@@ -1,7 +1,9 @@
-{% load extras %}
 <div class="md:flex md:justify-between space-x-1 markdownx">
-	<div class="md:inline-flex">
+	<div class="hidden">
 		{% include 'django/forms/widgets/textarea.html' %}
+	</div>
+	<div class="relative inline-flex w-full">
+		{%spaceless%}<div id="ace_{{widget.name}}" class="absolute top-0 bottom-0 left-0 right-0">{{ widget.value|default_if_none:"" }}</div>{% endspaceless %}
 	</div>
 	<div class="px-2 py-1 md:flex-grow">
 		<div class="p-2 bg-blue-100 border-2 border-blue-600 markdownx-preview rounded-xl">
@@ -9,3 +11,13 @@
 	</div>
 </div>
 <hr />
+
+<script type="text/javascript">
+$(() => {
+		const editor = ace.edit("ace_{{widget.name}}");
+		editor.setTheme("ace/theme/github");
+		const MarkdownMode = ace.require("ace/mode/markdown").Mode;
+		editor.session.setMode(new MarkdownMode())
+});
+</script>
+
