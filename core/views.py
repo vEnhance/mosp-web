@@ -86,7 +86,7 @@ class RoundUnlockableList(TokenGatedListView):
 	template_name = "core/round_unlockable_list.html"
 	model = models.Unlockable
 	def get_queryset(self):
-		self.cheating = self.kwargs.pop('cheating')
+		self.cheating = self.kwargs.pop('cheating', False)
 		self.hunt = models.Hunt.objects.get(**self.kwargs)
 		queryset = models.Unlockable.objects.filter(
 				hunt = self.hunt,
@@ -108,7 +108,7 @@ class UnlockableList(TokenGatedListView):
 	context_object_name = "unlockable_list"
 	model = models.Unlockable
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
-		self.cheating = self.kwargs.pop('cheating')
+		self.cheating = self.kwargs.pop('cheating', False)
 		r = super().check_token(request) 
 		if r is not None:
 			return r
@@ -148,13 +148,13 @@ class PuzzleDetail(TokenGatedDetailView):
 		assert self.token.has_unlocked(u)
 		return ret
 
-class SolutionDetail(TokenGatedDetailView):
+class PuzzleSolutionDetail(TokenGatedDetailView):
 	"""Shows a solution"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
 	template_name = 'core/solution_detail.html'
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
-		self.cheating = kwargs.pop('cheating')
+		self.cheating = kwargs.pop('cheating', False)
 		ret = super().dispatch(request, *args, **kwargs)
 		assert self.token is not None
 		u = self.object.unlockable # type: ignore
@@ -276,16 +276,12 @@ class PuzzleUpdate(UpdateView, StaffRequiredMixin):
 	context_object_name = "puzzle"
 	fields = ('name', 'slug', 'flavor_text', 'content', 'puzzle_head',)
 
-class SolutionUpdate(UpdateView, StaffRequiredMixin):
-	def get_object(self, **kwargs):
-		print(kwargs)
-		print(self.kwargs)
-		return models.Solution.objects.get(puzzle__slug=self.kwargs['slug'])
+class SolutionUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
 	model = models.Solution
 	context_object_name = "solution"
 	fields = ('post_solve_story', 'solution_text', 'author_notes', 'post_solve_image_path', 'post_solve_image_path',)
 
-class UnlockableUpdate(UpdateView, StaffRequiredMixin):
+class UnlockableUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
 	model = models.Unlockable
 	context_object_name = "unlockable"
 	fields = ('name', 'slug', 'story_only', 'intro_story_text', 'force_visibility', 'courage_bounty')

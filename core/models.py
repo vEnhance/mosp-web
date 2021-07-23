@@ -39,6 +39,8 @@ class Hunt(models.Model):
 		return self.name
 	def get_absolute_url(self):
 		return reverse_lazy('round-unlockable-list', args=(self.volume_number,))
+	def get_cheating_url(self):
+		return reverse_lazy('round-unlockable-list-cheating', args=(self.volume_number,))
 
 	def allow_cheat(self, token : 'Token'):
 		if self.allow_skip is True:
@@ -205,6 +207,9 @@ class Puzzle(models.Model):
 	def get_solution_url(self):
 		return reverse_lazy('solution-detail',
 				args=(self.unlockable.hunt.volume_number, self.slug,))
+	def get_solution_cheating_url(self):
+		return reverse_lazy('solution-detail-cheating',
+				args=(self.unlockable.hunt.volume_number, self.slug,))
 	def get_parent_url(self):
 		return self.unlockable.parent.get_absolute_url()
 	def __str__(self):
@@ -309,6 +314,8 @@ class Round(models.Model):
 			blank = True)
 	def get_absolute_url(self):
 		return reverse_lazy('unlockable-list', args=(self.chapter_number,))
+	def get_cheating_url(self):
+		return reverse_lazy('unlockable-list-cheating', args=(self.chapter_number,))
 	def __str__(self):
 		return self.name
 
