@@ -269,4 +269,17 @@ def ajax(request : HttpRequest) -> JsonResponse:
 class PuzzleUpdate(UpdateView, StaffRequiredMixin):
 	model = models.Puzzle
 	context_object_name = "puzzle"
-	fields = ('name', 'flavor_text', 'content', 'puzzle_head',)
+	fields = ('name', 'slug', 'flavor_text', 'content', 'puzzle_head',)
+
+class SolutionUpdate(UpdateView, StaffRequiredMixin):
+	def get_object(self, **kwargs):
+		puzzle = models.Puzzle.objects.get(**kwargs)
+		return puzzle.solution
+	model = models.Solution
+	context_object_name = "solution"
+	fields = ('post_solve_story', 'solution_text', 'author_notes', 'post_solve_image_path', 'post_solve_image_path',)
+
+class UnlockableUpdate(UpdateView, StaffRequiredMixin):
+	model = models.Unlockable
+	context_object_name = "unlockable"
+	fields = ('name', 'slug', 'story_only', 'intro_story_text', 'force_visibility', 'courage_bounty')

@@ -38,6 +38,12 @@ urlpatterns = [
 	path(r'puzzle/<str:slug>/edit',
 		views.PuzzleUpdate.as_view(),
 		name='puzzle-update'),
+	path(r'solution/<str:slug>/edit',
+		views.SolutionUpdate.as_view(),
+		name='solution-update'),
+	path(r'unlockable/<str:slug>/edit',
+		views.UnlockableUpdate.as_view(),
+		name='unlockable-update'),
 	# -- other --
 	path(r'unlock/<str:slug>',
 		views.UnlockableDetail.as_view(),

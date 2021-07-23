@@ -1,28 +1,23 @@
-{% extends 'base.html' %}
-{% load extras %}
-{% load crispy_forms_tags %}
-{% block title %}Edit {{object.name}}{% endblock %}
-
-{% block header %}
-<script src="https://pagecdn.io/lib/ace/1.4.12/ace.min.js" crossorigin="anonymous" integrity="sha256-T5QdmsCQO5z8tBAXMrCZ4f3RX8wVdiA0Fu17FGnU1vU=" ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/theme-github.min.js" crossorigin="anonymous"  ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/snippets/markdown.min.js" crossorigin="anonymous"  ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/mode-markdown.min.js" crossorigin="anonymous"  ></script>
-{% endblock %}
-
-{% block body %}
-<body class="p-2 bg-green-50">
-<div id="container" class="max-w-6xl mx-auto md:min-w-2xl ">
-<h1>Editor for {{object}}</h1>
-
-<form action="{{ request.path }}" method="post">
-{% csrf_token %}
-{{ form|crispy }}
-<input class="btn btn-gray" type="submit" value="Update" />
-</form>
-
-{{ form.media }}
-
+{% extends 'core/editor_form.html' %}
+{% block preform %}
+<div class="px-2 py-1 mx-auto bg-yellow-100 border border-yellow-900 shadow-lg w-max">
+	<p>
+	You can <a href="{{ object.get_absolute_url }}">view the rendered puzle</a>
+	if you save your changes here.
+	</p>
+	<p>
+	If you need full control, use the
+	<a class="emoji-link" href="{% url "admin:core_puzzle_change" puzzle.id %}">admin site</a>.
+	</p>
 </div>
-</body>
+{% endblock %}
+{% block postform %}
+<div id="ace_container_puzzle_head" class="relative w-full h-64">
+<div id="ace_puzzle_head" class="absolute top-0 bottom-0 left-0 right-0">{{ puzzle.puzzle_head }}</div>
+</div>
+<script type="text/javascript">
+$(() => {
+	setupEditor("puzzle_head", "html");
+});
+</script>
 {% endblock %}

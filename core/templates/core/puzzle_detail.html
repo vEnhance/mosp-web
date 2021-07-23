@@ -25,7 +25,7 @@ const hashes = [
 {% endblock %}
 
 {% block editlink %}
-<a class="emoji-link" href="{% url "admin:core_puzzle_change" puzzle.id %}">✏️</a>
+<a class="emoji-link" href="{% url "puzzle-update" puzzle.slug %}">✏️</a>
 {% endblock %}
 
 {% block content %}
