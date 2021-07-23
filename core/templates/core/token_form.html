@@ -2,7 +2,6 @@
 {% load tailwind_filters %}
 {% block title %}{% if token.enabled %}{{ token.name }}{% else %}Not Found{% endif %}{% endblock %}
 
-
 {% block content %}
 {% if token.enabled %}
 <h1>{{ token.firstname }}</h1>
