@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 {% load tailwind_filters %}
 {% block title %}{% if token.enabled %}{{ token.name }}{% else %}Not Found{% endif %}{% endblock %}
 
