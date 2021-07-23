@@ -152,7 +152,7 @@ class PuzzleSolutionDetail(TokenGatedDetailView):
 	"""Shows a solution"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
-	template_name = 'core/solution_detail.html'
+	template_name = 'core/puzzlesolution_detail.html'
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
 		self.cheating = kwargs.pop('cheating', False)
 		ret = super().dispatch(request, *args, **kwargs)

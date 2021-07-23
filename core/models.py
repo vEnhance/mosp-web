@@ -207,7 +207,7 @@ class Puzzle(models.Model):
 	def get_solution_url(self):
 		return reverse_lazy('solution-detail',
 				args=(self.unlockable.hunt.volume_number, self.slug,))
-	def get_solution_cheating_url(self):
+	def get_cheating_url(self):
 		return reverse_lazy('solution-detail-cheating',
 				args=(self.unlockable.hunt.volume_number, self.slug,))
 	def get_parent_url(self):

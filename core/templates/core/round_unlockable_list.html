@@ -50,10 +50,10 @@
 {% block southeast %}
 {% if cheating %}
 <span class="not-italic font-bold text-red-800 bg-yellow-200">Spoilers on!
-<a href="{% url "round-unlockable-list" hunt.volume_number %}">Revert.</a>
+	<a href="{{ hunt.get_absolute_url }}">Revert.</a>
 </span>
 {% elif token|can_cheat:hunt %}
 <a id="cheat" class="text-red-300"
-	href="{% url "round-unlockable-list-cheating" hunt.volume_number %}">Enable spoilers</a>
+	href="{{ hunt.get_cheating_url }}">Enable spoilers</a>
 {% endif %}
 {% endblock %}
