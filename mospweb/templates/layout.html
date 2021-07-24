@@ -33,7 +33,7 @@
 		{% endblock %}
 		{% endif %}
 		{% block rightnav %}
-		{% if token.permission > 0 %}
+		{% if request.user.is_staff or not token.is_plebian %}
 		<span class="relative ml-2 group navitem">
 			{% spaceless %}
 			💚<span>{{ token.permission }}</span>
