@@ -35,7 +35,12 @@ const hashes = [
 {% endblock %}
 
 {% block content %}
-<h1>{{ puzzle.name }}</h1>
+<h1>{{ puzzle.name }}
+{% if token.omniscient %}
+<span class="p-1 text-lg text-blue-900 border-blue-100 rounded-lg bg-indigo-50 border-1 w-max">
+{{ puzzle.get_status_progress_display }}
+</span>
+{% endif %}</h1>
 
 <div class="text-sm italic">
 	{{ puzzle.flavor_text|mkd }}

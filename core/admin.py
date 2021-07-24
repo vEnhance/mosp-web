@@ -25,10 +25,10 @@ class AttemptInline(admin.TabularInline):
 
 @admin.register(models.Puzzle)
 class PuzzleAdmin(MarkdownxModelAdmin):
-	list_display = ('name', 'slug', 'is_meta', 'unlockable',)
+	list_display = ('name', 'slug', 'status_progress', 'is_meta', 'unlockable',)
 	list_display_links = ('name', 'slug',)
 	search_fields = ('id', 'name', 'slug',)
-	list_filter = ('is_meta', 'unlockable__hunt',)
+	list_filter = ('is_meta', 'unlockable__hunt', 'status_progress')
 	inlines = (SaltedAnswerInline,)
 	autocomplete_fields = ('unlockable',)
 

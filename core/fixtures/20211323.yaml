@@ -1,0 +1,1423 @@
+- model: core.hunt
+  pk: 1
+  fields:
+    volume_number: I
+    name: Beginnings
+    authors: EC, IQ, SA, SD
+    start_date: 2021-06-27 11:30:03+00:00
+    visible: true
+    allow_skip: true
+    thumbnail_path: 2021/mosp-tromino.png
+- model: core.unlockable
+  pk: 1
+  fields:
+    hunt: 1
+    parent: null
+    slug: mop-intro
+    name: Online World Map
+    icon: ''
+    sort_order: 50
+    story_only: false
+    intro_story_text: "Welcome to the MOSP puzzle hunt!\r\n\r\nYour name is always
+      shown in the upper left. Your courage and patience are shown in the right.\r\n\r\nHover
+      over the info icon for some informational pages about what this hunt is going
+      to be like.\r\n\r\nIf you're ready to jump in, press the door icon below!"
+    unlock_courage_threshold: 0
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: null
+    courage_bounty: 0
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 2
+  fields:
+    hunt: 1
+    parent: null
+    slug: mosp-world-map
+    name: Map of Secret Puzzles
+    icon: ''
+    sort_order: 55
+    story_only: false
+    intro_story_text: "Across the bridge, you find yourself in a small cluster of
+      buildings.\r\nTo the right, you can make out what seems like a fire.\r\nIn front
+      of you is an enormous chestnut bookshelf,\r\nso large that it towers over you.\r\nSomeone
+      is moving the books back and forth across the bookshelf\r\nin a seemingly random
+      fashion.\r\nNearby, a pile of stones is scattered across the floor\r\nin an
+      intricate pattern.\r\n\r\nBut the strangest thing of all: above your head,\r\nyou
+      see what is unmistakably the sky.\r\nThe moon is shining over your head: which
+      is strange,\r\nbecause it was still daylight when you crossed the bridge.\r\n\r\n_How
+      is this possible?_, you think to yourself.\r\nAfter all, you got here by taking
+      an underground tunnel.\r\n\r\nYou don't have time to sort out your bewilderment\r\nas
+      the person notices you coming and glances your way.\r\n\r\n\"Yo, <span class=\"name
+      fullname\"></span>!\r\nName's Steve. Ya must be the new guy from the other side.\"\r\n\r\n\"You...
+      know who I am?\"\r\n\r\n\"No, but we knew y'all were coming.\r\nNo one manages
+      to find that bridge without some source of light,\r\nso 'soon as anything flashes
+      on the other side of the bridge,\r\nwe know we got visitors comin' round.\"\r\n\r\n\"Oh...\",
+      you say.\r\nThat seems to make sense, but the situation is still so surreal\r\nthat
+      Steve's calmness is more spooky than informative.\r\n\r\n\"Nobody decides to
+      turn back?\r\nThat bridge looked like it could collapse at any moment.\"\r\n\r\nSteve
+      just laughs.\r\n\"Well, 'course not. That secret tunnel you took is a one-way
+      trip down.\r\nWhat, ya telling me you just crossed that bridge without looking
+      back?\r\nThat's gutsy.\" Steve grins mischievously.\r\n\"Well, better make yourself
+      comfy. It'll be a while.\"\r\n\r\nThere's a bit of silence as the meaning of
+      what Steve says slowly sinks in.\r\n\r\n![His name's Steve I guess.](/static/2021/meeting-sm.png)\r\n\r\nSteve,
+      on the other hand, seems totally non-serious.\r\n\"Heya, don't look so shell-shocked.
+      There's a way out, 'course.\r\nYa just gotta find the other tunnel.\r\nThough
+      it'll be a while before it's open again.\" Steve stretches.\r\n\"So, make yourself
+      at home!\"\r\n\r\n\"… Just where am I?\"\r\n\r\n\"Thought ya'd never ask!\"
+      Steve roars with laughter.\r\n\"This place is called MOSP. It's a lot like what
+      you call MOP on your side.\"\r\nSteve thinks for a bit, and then suddenly adds,\r\n\"Oh
+      hey, we got an opening for assistant director of MOSP. Ya want in?\"\r\n\r\n\"I...
+      what?\" You're not sure what to say. \"What?\"\r\n\r\n\"You see, I'm the academic
+      director,\" Steve explains,\r\n\"but we also need an assistant director to help
+      put out random metaphorical fires.\r\nYou look pretty good at figuring things
+      out. I'm sure you're up to it.\r\nNot much else to do 'round these parts anyway.\"\r\n\r\n\"Who's
+      the director then?\"\r\n\r\n\"Don't have one, who needs those?\" Steve shrugs.\r\n\r\n\"Uh,
+      then why is it called assistant director?\"\r\n\r\n\"Well, 'cause you direct
+      the assistants. Obviously.\"\r\n\r\n\"… And how many assistants do I have?\"\r\n\r\nSteve
+      shrugs again, maintaining his incessant grin.\r\n\"Beats me. Well, actually,
+      probably zero, to be honest.\"\r\n\r\nSteve searches the bookshelf for a moment,\r\nthen
+      finds a folder and hands it to you.\r\nIt appears to be some sort of map.\r\n\"Hey,
+      pal, don't try to make too much sense out of everything.\r\nYa can't live life
+      that way.\r\nJust laugh when you don't understand, and play along!\"\r\n\r\nAnd
+      with that, as if today hadn't been strange enough already,\r\nSteve simply vanishes
+      into thin air,\r\nleaving you alone with only Steve's map to guide you."
+    unlock_courage_threshold: 0
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: false
+    courage_bounty: 0
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 3
+  fields:
+    hunt: 1
+    parent: 1
+    slug: bridge
+    name: Bridge
+    icon: "\U0001F309"
+    sort_order: 50
+    story_only: false
+    intro_story_text: "*Just where the heck am I?*\r\n\r\nYou thought you were in
+      a math olympiad training camp.\r\nJust a boring old program where they\r\njust
+      make you take math tests all day.\r\n\r\nBut so many strange things were happening
+      that you couldn't explain.\r\nIt started with that footnote in the handbook
+      saying\r\n“this handbook is not a puzzle”.\r\nWhat was that doing there anyways?\r\nAnd
+      then you found a secret message in some passwords,\r\nand some tests that were
+      never scheduled.\r\nAnd to top it all off, you found a tunnel behind the campus,\r\nto
+      a place you didn't even know was there.\r\n\r\nDeep underground, you find your
+      surroundings are pitch black.\r\nJust darkness as far as the eye could see.\r\nA
+      void so deep that it looks like the night sky.\r\n\r\n_Am I not supposed to
+      be here?_"
+    unlock_courage_threshold: 0
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: true
+    courage_bounty: 25
+    on_solve_link_to: 1
+- model: core.unlockable
+  pk: 4
+  fields:
+    hunt: 1
+    parent: 1
+    slug: handbook
+    name: Handbook
+    icon: "\U0001F4D2"
+    sort_order: 50
+    story_only: false
+    intro_story_text: "Since you're in a strange new world,\r\nyou figure it might
+      be a good idea to start by getting the handbook.\r\nYou know, the one that tells
+      you about MOSP.\r\n\r\nOr that's what you thought.\r\n\r\nAs you approach the
+      big question mark,\r\nyou find what you think should be the PDF of the handbook.\r\nBut
+      when you open it, well... let's just say it's not quite what you expect."
+    unlock_courage_threshold: 25
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: false
+    courage_bounty: 25
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 5
+  fields:
+    hunt: 1
+    parent: 1
+    slug: calendar
+    name: Calendar
+    icon: "\U0001F4C5"
+    sort_order: 50
+    story_only: false
+    intro_story_text: "You head to the north, past the point where you met Steve.\r\nYou
+      can make out what looks to be a clock tower,\r\ntowering majestically over the
+      rest of the map.\r\n\r\nNearby, you see a bunch of MOSPers fumbling with what
+      looks to be a game.\r\nHundreds of cards are sprawled over the nearby earth,\r\nThey
+      have some strange symbols in various colors;\r\nyou can only guess what they
+      mean.\r\n\r\nOne of the MOSPers looks up and hollers to you,\r\n\"Yo, assistant
+      director! Can you help us out here?\"\r\n\r\nYou look around the field in silence,\r\ntrying
+      to make sense of what's going on.\r\n\r\nThe MOSPer continues on, \"We're trying
+      to plot out a calendar here.\"\r\n\r\n\"That's supposed to be... a calendar?\"
+      You stare at the cards incredulously.\r\nThose symbols do _not_ look like they're
+      trying to represent numbers. At all.\r\n\r\n\"Uh, yeah, it's kinda complicated...
+      but I'm sure you'll see,\" says the MOSPer simply.\r\n\"All you gotta do is
+      make room for the start of the IMO.\""
+    unlock_courage_threshold: 25
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: false
+    courage_bounty: 25
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 6
+  fields:
+    hunt: 1
+    parent: 1
+    slug: discord
+    name: Discord
+    icon: "\U0001F4AC"
+    sort_order: 50
+    story_only: false
+    intro_story_text: "You sit down in the nearby couch and warm your hands by the
+      fireplace.\r\nIt's chilly underground, you know.\r\nOr are you even underground?\r\nYou
+      look up at the sky; the sun is starting to rise.\r\n\r\nNearby, you see a group
+      of small children sitting in a circle\r\nwith their eyes closed, each one maybe
+      about five or six years old.\r\nThey are playing a simple game, where they try
+      to count from 1 up to 100.\r\nHowever, they're not good at it, repeatedly stumbling
+      over each other\r\nas they accidentally repeat numbers or skip others,\r\nand
+      find themselves constantly starting over.\r\n\r\nAfter another miscount, one
+      of the kids opens their eyes and looks at you.\r\n\"Hey, _director sen-pai_,\"
+      she says, in a high-pitched voice.\r\n\"My team's no good at this. Can you help
+      me find better classmates?\"\r\n\r\n\"Uh... where's your teacher?\" you ask.\r\n\r\n\"Steve?
+      I dunno. He just kind of disappears. But what about my classmates?\"\r\n\r\n_Glad
+      I'm not the only one_, you think to yourself."
+    unlock_courage_threshold: 25
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: false
+    courage_bounty: 25
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 7
+  fields:
+    hunt: 1
+    parent: 1
+    slug: gradescope
+    name: Gradescope
+    icon: "\U0001F4CA"
+    sort_order: 50
+    story_only: false
+    intro_story_text: "You head to the northeast part of the campus and find,\r\nto
+      your mild disbelief, a herd of cows hanging around outside the grader's headquarters.\r\nNot
+      just one herd, in fact.\r\nNo, more like a dozen herds of maybe a dozen-odd
+      cows each,.\r\n\r\nBut oddly enough, the cows aren't standing up like you'd
+      expect.\r\nThey're all... *sitting*. With laptops. Typing on the laptops.\r\n\r\nYou
+      promptly give up trying to make sense of the situation.\r\n\r\nFrom a few paces
+      away, a farmer comes running towards you.\r\nYou can see a name tag that says
+      \"Farmer John\" on it.\r\n\"Oh, the assistant director! Thank god!\"\r\n\r\n\"Uh...
+      can I help you?\"\r\n\r\n\"Heck yes you can!\"\r\nFarmer John practically screams
+      at you in frustration.\r\n\"I can't herd my cattle! They just sit around all
+      day coding!\"\r\n\r\nCows coding. Sounds familiar enough...\r\n\r\n_What should
+      Farmer John say to his cows?_"
+    unlock_courage_threshold: 50
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: false
+    courage_bounty: 25
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 8
+  fields:
+    hunt: 1
+    parent: 1
+    slug: zoom
+    name: Zoom
+    icon: "\U0001F4FD️"
+    sort_order: 50
+    story_only: false
+    intro_story_text: "To the southwest, you find yourself surrounded by a set of
+      enormous towers.\r\nThe towers are so tall that you can barely see the tops
+      of them.\r\n\r\nYou find Steve standing near the base of the furthest tower.\r\n\r\n\"Oh
+      hey, ya found the towers,\" Steve grins at you.\r\n\r\n\"What are they?\" you
+      ask.\r\n\r\n\"Zoom communication. Heard of it?\" Steve says.\r\n\"This fancy
+      tech's all black magic to me.\r\nWireless signals, ya know? The bits are *in
+      the air*.  Crazy stuff.\"\r\n\r\n\"And yet...\" Steve looks upwards towards
+      one of the towers as his voice trails off.\r\n\"We've been having problems with
+      our Zoom calls lately.\r\nI tried figuring out what's wrong, but man, I just
+      don't get this stuff at all.\"\r\n\r\n\"So, your job!\" Steve grins again as
+      he hands you yet another map.\r\n\"Good luck!\"\r\n\r\nAnd with that Steve disappears
+      into thin air again."
+    unlock_courage_threshold: 75
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: false
+    courage_bounty: 25
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 9
+  fields:
+    hunt: 1
+    parent: 1
+    slug: classroom
+    name: Classroom
+    icon: "\U0001F3EB"
+    sort_order: 50
+    story_only: false
+    intro_story_text: "You take a look around at the bookcase where Steve used to
+      be.\r\nThere's a couple of files that are still sticking out,\r\nso out of curiosity,
+      you pull them out and flip through them.\r\n\r\n_Shortlist problems_, huh.\r\nOddly,
+      some of them seem a bit familiar.\r\nYou think there might be something more
+      here than meets the eye,\r\nas you wonder where these problems are from..."
+    unlock_courage_threshold: 100
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: false
+    courage_bounty: 25
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 10
+  fields:
+    hunt: 1
+    parent: 1
+    slug: map
+    name: Map
+    icon: "\U0001F5FA️"
+    sort_order: 60
+    story_only: false
+    intro_story_text: ''
+    unlock_courage_threshold: 125
+    unlock_date: null
+    unlock_needs: null
+    force_visibility: false
+    courage_bounty: 25
+    on_solve_link_to: null
+- model: core.unlockable
+  pk: 11
+  fields:
+    hunt: 1
+    parent: 1
+    slug: chapter-1-epilogue
+    name: Epilogue
+    icon: ''
+    sort_order: 70
+    story_only: true
+    intro_story_text: "After a bit of descent, you find yourself near the start of\r\na
+      familiar-looking bridge.\r\nNot the bridge you started from though;\r\nit's
+      the one you saw at the start of camp.\r\n\r\nThe whole situation seems surreal
+      to you,\r\nas you realize that, despite having descended farther\r\nunderground,
+      you have somehow ended up near where you started.\r\nHow could that be possible?\r\nYou're
+      not sure, but nothing from this trip was making much sense anyways.\r\n\r\n##
+      To be continued!\r\n\r\nWe hope you enjoyed the event!\r\nThe puzzles and art
+      in this hunt were brought to you by\r\n\r\n- Evan Chen (aka, \"the kid who wrote
+      the puzzle\", according to one test-solver)\r\n- Isabella Quan\r\n- Sanjana
+      Das\r\n- Serena An\r\n\r\nWe'd also like to thank our cohort of test-solvers:\r\n\r\n>
+      Andrew Gu, Andrew Wu, Angela Guo, Ankan Bhattacharya, Catherine Zheng, Clayton
+      Snider, Danielle Wang, Fernando Salinas-Arreola, Holden Mui, Janabel Xia, Kara
+      Amar, Maggie Lin, William Yue.\r\n\r\nWe hope you had fun working on it!\r\nCongratulations
+      especially to Andrew Gu,\r\nAnkan Bhattacharya, Danielle Wang, William Yue\r\nfor
+      finishing the entire hunt during the test-solving process.\r\n\r\n## Postscript\r\n\r\nApparently
+      Steve was serious about the reference letter.\r\n\r\n<div id=\"letter\" markdown=\"1\">\r\n<div
+      id=\"letter-date\"></div>\r\n\r\nWork reference letter on behalf of the  \r\nAssistant
+      director of the Mathematical Olympiad Summer Program\r\n\r\nTo whom it may concern,\r\n\r\nI'm
+      writing to recommend <span class=\"name fullname\"></span>\r\nfor an unspecified
+      position at your organization.\r\nI worked with <span class=\"name firstname\"></span>\r\nat
+      MOSP in 2011.\r\n\r\nIn case you are not familiar,\r\nthe Mathematical Olympiad
+      Summer Program is an\r\nannual invitational intensive summer program\r\nheld
+      at the University of Nebraska-Lincoln.\r\nMOSP gives these top students experience\r\nin
+      solving mathematical problems requiring deep analysis\r\nand great insight,
+      beyond what's taught at even the best high schools.\r\nFull days of classes
+      and exams gives students\r\nthorough preparation in important areas of mathematics,\r\nensuring
+      the IMO record of the Untied States properly reflects\r\nthe energy and creativity
+      of its brightest students.\r\n\r\n<span class=\"name firstname\"></span> served
+      as the assistant director\r\nof this year's camp.\r\nDue to unusual circumstances,
+      the assistant director\r\nhad a wide variety of tasks to work on this year,\r\non
+      little or no advance notice.\r\nDespite the strenuous conditions,\r\n<span class=\"name
+      firstname\"></span> completed all\r\nthe sporadic duties with great success,
+      including:\r\n\r\n- debugging issues with our Zoom communications network,\r\n-
+      playing date tetris with events for MOSP;\r\n- solving crosswords with no clues;\r\n-
+      organizing programming competitions for cows;\r\n- writing haikus under timed
+      conditions.\r\n\r\nOverall, I was deeply impressed with the autonomy, independence,\r\nand
+      resourcefulness that I saw throughout MOSP.\r\n\r\nPlease forgive me for rambling
+      briefly.\r\nThere is an adage that goes \"a word to the wise is sufficient\".\r\nFor
+      me, this has always described\r\nwhat it means for someone to be reliable.\r\nGive
+      one word of instruction,\r\nand they will take care of everything else.\r\nYou
+      don't spell anything out,\r\nbecause you simply trust them to handle things.\r\n\r\nWell,
+      if wisdom is one word being sufficient,\r\nhere's what makes <span class=\"name
+      firstname\"></span> special:\r\nzero words are sufficient too.\r\nAll you have
+      to do is say, \"you're the assistant director now\",\r\nand you can disappear
+      into thin air.\r\n\r\nThat's why it is my great pleasure to recommend\r\n<span
+      class=\"name firstname\"></span> for an unspecified position,\r\nwith no hesitation
+      or reservations.\r\n\r\nSincerely,  \r\n![Steve](/static/2021/steve-sig.png){.signature}\r\nAcademic
+      Director, Math Olympiad Summer Program  \r\nUntied States of America\r\n</div>\r\n\r\n<script
+      type=\"text/javascript\">\r\n(function() {\r\nconst formatter = new Intl.DateTimeFormat('en-US',
+      {dateStyle: 'full'});\r\nlet letter_date = localStorage.getItem('letter_date');\r\nif
+      (!letter_date) {\r\n\tconst now = new Date(Date.now());\r\n\tnow.setFullYear(2011);\r\n\tletter_date
+      = formatter.format(now);\r\n}\r\nlocalStorage.setItem('letter_date', letter_date);\r\n$(\"#letter-date\").html(letter_date);\r\n})();\r\n</script>\r\n\r\n<style
+      type=\"text/css\">\r\n#letter {\r\n\tfont-size: 17px;\r\n\tfont-family: Garamond,
+      serif;\r\n\tborder: 2px solid black;\r\n\tpadding: 80px 70px 30px 70px;\r\n\tbackground-color:
+      white;\r\n}\r\n#letter .name.fullname {\r\n\tcolor: inherit;\r\n}\r\n#letter
+      .name.firstname {\r\n\tcolor: inherit;\r\n\tfont-weight: inherit;\r\n}\r\n#container
+      img.signature {\r\n\tmargin: 0px 0px 0px 0px;\r\n\twidth: 128px;\r\n\tborder:
+      none;\r\n}\r\n</style>"
+    unlock_courage_threshold: 0
+    unlock_date: null
+    unlock_needs: 10
+    force_visibility: null
+    courage_bounty: 0
+    on_solve_link_to: null
+- model: core.puzzle
+  pk: 1
+  fields:
+    unlockable: 3
+    name: K
+    slug: K
+    is_meta: false
+    flavor_text: ''
+    content: ''
+    puzzle_head: ''
+    status_progress: 7
+- model: core.puzzle
+  pk: 2
+  fields:
+    unlockable: 4
+    name: Lost In Translation
+    slug: lost-in-translation
+    is_meta: false
+    flavor_text: Doesn't look English. Maybe try Google search?
+    content: "Download puzzle as [tex](/static/mosp-bandbook.tex) or [pdf](/static/mosp-bandbook.pdf).\r\n\r\n(For
+      your reference, [first page of actual student handbook](static/cover.pdf).)"
+    puzzle_head: ''
+    status_progress: 7
+- model: core.puzzle
+  pk: 3
+  fields:
+    unlockable: 5
+    name: The IMO Begins
+    slug: the-imo-begins
+    is_meta: false
+    flavor_text: "The 21st century MOSP calendar is overflowing!\r\nCan you help them
+      figure out when the IMO starts?"
+    content: "<div id=\"tragedy\">\r\n<svg>\r\n<defs>\r\n<path\r\nid=\"squiggle\"\r\nd=\"m67.892902,12.746785c43.231313,-6.717223
+      107.352741,6.609823 121.028973,58.746408c13.676233,52.136585 -44.848649,161.467192
+      -45.07116,204.650732c4.566246,56.959708 83.805481,87.929227 22.329944,105.806022c-61.475536,17.876795
+      -126.122496,-1.855045 -143.73294,-41.933823c-17.610444,-40.07878 49.274638,-120.109409
+      46.14822,-188.091997c-3.126418,-67.982588 -21.873669,-70.257464 -49.613153,-80.177084c-27.739485,-9.919618
+      5.678801,-52.283035 48.910115,-59.000258z\"\r\n/>\r\n<path\r\nid=\"oval\"\r\nd=\"m11.49999,95.866646c0,-44.557076
+      37.442923,-81.999998 82.000002,-81.999998l12.000015,0c44.557076,0 81.999992,37.442923
+      81.999992,81.999998l0,206.133354c0,44.557098 -37.442917,82 -81.999992,82l-12.000015,0c-44.557079,0
+      -82.000002,-37.442902 -82.000002,-82l0,-206.133354z\"\r\n/>\r\n<path\r\nid=\"diamond\"\r\nd=\"m98.544521,10.311863l-87.830189,189.330815l88.201143,189.644391l88.942329,-190.362741l-89.313283,-188.612465z\"\r\n/>\r\n<pattern\r\nid=\"pattern-stripe\"\r\nwidth=\"2\"\r\nheight=\"40\"\r\npatternUnits=\"userSpaceOnUse\"\r\n>\r\n<rect
+      width=\"2\" height=\"16\" fill=\"#fff\" />\r\n</pattern>\r\n<mask id=\"mask-stripe\">\r\n<rect\r\n
+      \ x=\"0\"\r\n  y=\"0\"\r\n  width=\"200\"\r\n  height=\"400\"\r\n  fill=\"url(#pattern-stripe)\"\r\n/>\r\n</mask>\r\n</defs>\r\n</svg>\r\n</div>\r\n\r\n<div
+      markdown=\"1\" class=\"left\">\r\n- The board is initially empty (i.e. has no
+      stones).\r\n- Each minute, if there is an L-shaped tromino region of three cells
+      on the board (rotations _are_ allowed) ...\r\n- You should stop after eight
+      minutes.\r\n- There should be exactly one completely filled row and one completely
+      filled column.\r\n</div>"
+    puzzle_head: "<link rel=\"stylesheet\" href=\"/static/2021/set/set.css\" type=\"text/css\">\r\n<script
+      type=\"text/javascript\">\r\nrequire.config({\r\npaths : {\r\n\"sweetalert2\"
+      : \"https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min\",\r\n}\r\n});\r\nrequire([\"sweetalert2\",
+      \"/static/2021/set/set.js\", \"/static/2021/set/puzzle.js\"]);\r\n</script>"
+    status_progress: 7
+- model: core.puzzle
+  pk: 4
+  fields:
+    unlockable: 6
+    name: Kindergarten
+    slug: kindergarten
+    is_meta: false
+    flavor_text: ''
+    content: "This is a cooperative puzzle for 3-6 people,\r\nand you are welcome/encouraged
+      to work with people in other clans.\r\n\r\nTo start, send Steve a direct message
+      \"`teach me a lesson`\"!"
+    puzzle_head: ''
+    status_progress: 7
+- model: core.puzzle
+  pk: 5
+  fields:
+    unlockable: 7
+    name: P53GZ7
+    slug: farml
+    is_meta: false
+    flavor_text: ''
+    content: ''
+    puzzle_head: ''
+    status_progress: 7
+- model: core.puzzle
+  pk: 6
+  fields:
+    unlockable: 8
+    name: Zoom Network Park
+    slug: zoom-network-park
+    is_meta: false
+    flavor_text: How can you fix the distortion in the electronically telegraphed
+      signals?
+    content: "You find the following email from Steve.\r\n\r\n<div class=\"font-mono
+      whitespace-pre relative\" id=\"email\">\r\n<div id=\"invitation\">\r\nSUBJECT:
+      Meeting A@953\r\nFROM: steve@evanchen.cc\r\nTO: <span class=\"name fullname\"></span>\r\n\r\nSteve
+      is inviting you to a scheduled Zoom meeting.\r\n\r\nTopic: ?\r\nTime: This is
+      a recurring meeting Meet anytime\r\n\r\nJoin Zoom Meeting\r\n\r\nhttps://zoom.us/j/95315680293\r\n\r\nOne
+      tap mobile\r\n\r\n+16465588656,,95315680293# US (New York)\r\n+16699006833,,95315680293#
+      US (San Jose)\r\n\r\nMeeting ID: 953 1568 0293\r\n</div>\r\n</div>\r\n\r\n###
+      Attachments\r\n\r\n- [diagram.asy](diagram.asy) (opens in any text editor)\r\n-
+      [diagram.pdf](diagram.pdf)"
+    puzzle_head: <script type="text/javascript" src="/static/2021/zoom/zoom.js"></script>
+    status_progress: 7
+- model: core.puzzle
+  pk: 7
+  fields:
+    unlockable: 9
+    name: mtbcupg
+    slug: sisi
+    is_meta: false
+    flavor_text: ''
+    content: ''
+    puzzle_head: ''
+    status_progress: 7
+- model: core.puzzle
+  pk: 8
+  fields:
+    unlockable: 10
+    name: Sticks And Stones
+    slug: sticks-and-stones
+    is_meta: true
+    flavor_text: "Surveying the scene, something striking stands out.\r\nStaring in
+      shocked silence, you start to see a symbol\r\nin the strokes the seven stones
+      sat along.\r\nSurprisingly, these seven strokes showed a centrally symmetric
+      shape.\r\nTracing from start to stop spells the solution!"
+    content: "<table markdown=\"1\">\r\n<tr markdown=\"1\">\r\n<td style=\"width:150px;\"
+      markdown=\"block\">\r\n### Across\r\n1. \r\n2. \r\n3. \r\n### Down\r\n1. \r\n2.
+      \r\n3. \r\n4. \r\n</td>\r\n<td markdown=\"1\">\r\n[![Click to enlarge.](/static/2021/meta/shell1.png){
+      .inline style=\"height:300px;width:auto;\" }](/static/2021/shell1.png){ .img-link
+      }\r\n</td>\r\n<td markdown=\"1\">\r\n[![Click to enlarge.](/static/2021/meta/shell2.png){
+      .inline style=\"height:300px;width:auto;\" }](/static/2021/shell2.png){ .img-link
+      }\r\n</td>\r\n</tr>\r\n</table>\r\n\r\nYou can download the data in images in
+      [CSV format](/static/2021/meta/shell.csv)."
+    puzzle_head: ''
+    status_progress: 7
+- model: core.puzzle
+  pk: 9
+  fields:
+    unlockable: null
+    name: Puzzle in progress
+    slug: wip
+    is_meta: false
+    flavor_text: ''
+    content: ''
+    puzzle_head: ''
+    status_progress: 7
+- model: core.solution
+  pk: 1
+  fields:
+    puzzle: 1
+    post_solve_story: "*Just where the heck am I?*\r\n\r\nYou thought you were in
+      a math olympiad training camp.\r\nJust a boring old program where they\r\njust
+      make you take math tests all day.\r\n\r\nBut so many strange things were happening
+      that you couldn't explain.\r\nIt started with that footnote in the handbook
+      saying\r\n“this handbook is not a puzzle”.\r\nWhat was that doing there anyways?\r\nAnd
+      then you found a secret message in some passwords,\r\nand some tests that were
+      never scheduled.\r\nAnd to top it all off, you found a tunnel behind the campus,\r\nto
+      a place you didn't even know was there.\r\n\r\nDeep underground, you find your
+      surroundings are pitch black.\r\nJust darkness as far as the eye could see.\r\nA
+      void so deep that it looks like the night sky.\r\n\r\n_Am I not supposed to
+      be here?_\r\n\r\nBut you think about what you've learned,\r\nand putting it
+      together, you figured out the answer\r\nto the MOP metapuzzle: you need to `USA
+      CHROMA KEY`{.answer}.\r\nRed, green, and blue, the three primary colors.\r\nUsing
+      the power of the primary colors,\r\nyou flood the cave with a faint glow.\r\n\r\nNow
+      you can see enough to make out that there’s a fragile-looking\r\nbridge in front
+      of you, stretching over a gaping chasm.\r\n\r\n_There's... more?_\r\nAnd here
+      you thought maybe you had reached the end.\r\n\r\nYou take a deep breath. There's
+      only one thing to do..."
+    solution_text: "This solution describes the version of the puzzle given at MOP.\r\nSee
+      the author notes for the public version given after MOP.\r\n\r\nThis kick-off
+      puzzle is started by looking at the test passwords.\r\n\r\n## Hints about the
+      passwords\r\n\r\nThere were a few hints that the passwords to this year's\r\nMOP
+      tests were not random:\r\n\r\n* The unusual structure of the passwords (hashtag
+      in 7th character always).\r\n* Returning students might also have remembered
+      a hidden message\r\n  being contained in the passwords the previous year.\r\n*
+      During [Assembly Meeting 1](assembly-hint.png), sections on the left\r\n  had
+      first letters spelling out `TEST PASSWORD`.\r\n* The world map had the password
+      to Sample 0 spelled out in emojis.\r\n\t![123689ACDE#0](sample-breadcrumb.png)\r\n\r\n##
+      The message in the passwords\r\n\r\nThe passwords to the MOP 2021 tests, in
+      the order they appear, are:\r\n\r\n| Test        | Password        |\r\n|-------------|-----------------|\r\n|
+      Sample0     | `123689ACDE#0`  |\r\n| Quiz1       | `_MDITF#6`      |\r\n| Test2
+      \      | `_YFHML#D`      |\r\n| Test3       | `EL_E_R#C`      |\r\n| Test4       |
+      `ERT_IW#9`      |\r\n| Quiz5       | `HE_TH_#8`      |\r\n| MockIMODay1 | `IONNNP#1`
+      \     |\r\n| MockIMODay2 | `REOBSO#A`      |\r\n| Quiz6       | `S_E__O#3`      |\r\n|
+      Test7       | `TUEDD_#2`      |\r\n\r\nWith the exception of the Sample0 edge
+      case,\r\nthese passwords are in alphabetical order.\r\nSo the first step is
+      to reorder the passwords by the last digit,\r\nwhich turns out to correspond
+      to the string in Sample0.\r\n\r\n| Test        | Password        |\r\n|-------------|-----------------|\r\n|
+      MockIMODay1 | `IONNNP#1`      |\r\n| Test7       | `TUEDD_#2`      |\r\n| Quiz6
+      \      | `S_E__O#3`      |\r\n| Quiz1       | `_MDITF#6`      |\r\n| Quiz5       |
+      `HE_TH_#8`      |\r\n| Test4       | `ERT_IW#9`      |\r\n| MockIMODay2 | `REOBSO#A`
+      \     |\r\n| Test3       | `EL_E_R#C`      |\r\n| Test2       | `_YFHML#D`      |\r\n\r\nReading
+      the passwords, one finds what is evidently a message\r\n(with underscores denoting
+      spaces),\r\nalthough it seems like the last row of the table is missing.\r\nThis
+      is confirmed by the Sample0 password having an `E` in it,\r\nwhich is apparently
+      not here.\r\nFilling in the last row to complete words gives the following:\r\n\r\n|
+      Test        | Password        |\r\n|-------------|-----------------|\r\n| MockIMODay1
+      | `IONNNP#1`      |\r\n| Test7       | `TUEDD_#2`      |\r\n| Quiz6       |
+      `S_E__O#3`      |\r\n| Quiz1       | `_MDITF#6`      |\r\n| Quiz5       | `HE_TH_#8`
+      \     |\r\n| Test4       | `ERT_IW#9`      |\r\n| MockIMODay2 | `REOBSO#A`      |\r\n|
+      Test3       | `EL_E_R#C`      |\r\n| Test2       | `_YFHML#D`      |\r\n| ?
+      \          | `Y_IIAD#E`      |\r\n\r\nReading down the columns (like MOP 2020),\r\nthis
+      spells the message\r\n`IT'S HERE YOU MERELY NEED TO FIND IT BEHIND THIS MAP
+      OF WORLD`.\r\n\r\nThis clues looking at the MOP 2021 world map\r\nand seeing
+      what is going on there.\r\n(Really observant MOP students might have noticed
+      that, behind the world map,\r\none would see the word \"Loading...\" while the
+      main image started up.)\r\nIf one makes a copy of the document and moves the
+      items aside,\r\none finds a large downwards arrow.\r\nOpening the arrow leads
+      to the MOSP website and starts the hunt.\r\n\r\n## Finding the hidden tests\r\n\r\nUpon
+      reaching the MOSP website for the first time,\r\nsolvers are greeted with the
+      answer checker to K\r\nand are prompted with the following message:\r\n\r\n>
+      * To solve K, you need to find Test 8, Quiz 8, and Mock IMO Day 3.\r\n> * Each
+      of these is a brand-new PDF you'll need to find the link to.\r\n> * You do NOT
+      need to guess URL's under web.evanchen.cc.\r\n> \tYou may need to guess URL's
+      in other places.\r\n\r\nSo, the solvers start to look for these exams in other
+      places.\r\nIf the solver thinks back to where the arrow in the map was pointing,\r\nit
+      was pointing towards the TinyURL at the bottom of the page.\r\n(This was hinted
+      on the scavenger hunt spreadsheet as well,\r\nwith the hidden message `hi~ congrats
+      on finding this message\r\nwhen you find the arrow look where it's pointing`
+      in cells\r\nthat looked like they were blank.)\r\nTogether with the suspicious
+      8's at the end of the URL,\r\nsolvers need to guess three tinyURL's for Test
+      8, Quiz 8, and Mock IMO Day 3.\r\n\r\nThis gives the solver three new files
+      containing problems from past MOP tests.\r\nThey are password protected, but
+      the password is known from earlier step.\r\n\r\n## Colors\r\n\r\nEach of the
+      secret tests had 24 problems in it.\r\nTaking the Red test as an example,\r\none
+      sees that the odd-numbered problems were all P1 on some Red test,\r\nwhile the
+      even-numbered problems were all P2 on some Red test.\r\nThis naturally suggests
+      pairing the problems into 12 pairs.\r\n\r\nFor each pair, the solver writes
+      down the test it came from\r\nand the hexadecimal digit at the end of the corresponding
+      password.\r\nIn this way, one obtains 12 hexadecimal color codes.\r\n(The step
+      of looking at hexadecimal colors was\r\nalso clued in [tests on Gradescope](gradescope-hint.png),\r\nin
+      which the due times spelled out `HEX COLORS` via A1Z26 on the\r\nirregular minute
+      times.)\r\n\r\nEach of the colors has a\r\n[canonical name](https://www.colorhexa.com/color-names);\r\nthese
+      are also the top results\r\nobtained when searching the specific hex code.\r\n\r\n\\#
+      | Color                  | Red | Green | Blue\r\n---|------------------------|:---:|:-----:|:----:\r\n
+      1 | Urobilin               | E1  |  AD   |  21\r\n 2 | Smoky black            |
+      10  |  0C   |  08\r\n 3 | Amethyst               | 99  |  66   |  CC\r\n 4 |
+      Cocoa brown            | D2  |  69   |  1E\r\n 5 | Harvard crimson        |
+      C9  |  00   |  16\r\n 6 | Ruddy pink             | E1  |  8E   |  96\r\n 7 |
+      Old rose               | C0  |  80   |  81\r\n 8 | Medium candy apple red |
+      E2  |  06   |  2C\r\n 9 | Amethyst               | 99  |  66   |  CC\r\n10 |
+      KU Crimson             | E8  |  00   |  0D\r\n11 | Eton blue              |
+      96  |  C8   |  A2\r\n12 | Yellow green           | 9A  |  CD   |  32\r\n\r\n(The
+      fourth color is also called Cinnamon or Chocolate in some places.)\r\nReading
+      the first letters of the colors spells\r\n`USA CHROMA KEY`{.answer}, the answer."
+    author_notes: "The K puzzle was written before any intention of creating a proper
+      hunt.\r\nOriginally, I figured that people would be expecting something\r\nin
+      the test passwords,\r\nand I set a single puzzle K with some shortlist problems
+      as a reward.\r\n\r\nBecause MOP exams are divided into color groups that happened
+      to match\r\nthe primary colors of light,\r\nI thought it would be fitting to
+      make a puzzle about hexadecimal color codes.\r\nThat's how we got the idea to
+      build the puzzle around the theme\r\nof a completely black screen, which was
+      illuminated by using light.\r\nAt the same time, I was thinking about how it
+      would be pretty easy\r\nto \"hide\" an extra link in the world map,\r\nbecause
+      it was sent to students as a Google Drawing,\r\nnot as a PDF or other reasonable
+      format.\r\n\r\nThen, I thought that a one-off puzzle was too underwhelming;\r\nafter
+      all, Evan is the most extra person™.\r\nSo now there was a full round of puzzles.\r\n\r\nWe
+      had to adapt the puzzle for the public to not incorporate\r\nMOP test materials,
+      and thus we used the MOP 2019 tests,\r\nwhich have been mostly posted in some
+      shape or form by now.\r\n(We themed this in terms of a MOPper at the last in-person
+      MOP,\r\nand [adjusted the map accordingly](../../mop/).)\r\nIn this case, there
+      are only six exams and\r\n[the passwords given](../../mop/puzzle.txt) were:\r\n\r\n|
+      Test        | Password        |\r\n|-------------|-----------------|\r\n| Test
+      1      | `ACFA_B_M#3`    |\r\n| Mock IMO 1  | `A_ENKN__#F`    |\r\n| Test 2
+      \     | `EPT_OHHG#D`    |\r\n| Test 3      | `KO_PLTEA#8`    |\r\n| Test 4      |
+      `M_OMD_DI#0`    |\r\n| Mock IMO 2  | `_YHAOIEE#E`    |\r\n\r\nSorting the passwords
+      by the last character again spells the message\r\n\r\n```text\r\nM_OMD_DI#0\r\nACFA_B_M#3\r\nKO_PLETA#8\r\nEPT_OHHG#D\r\n_YHAOIEE#E\r\nA_ENKN__#F\r\n```\r\n\r\nThis
+      gives the similar message\r\n`MAKE A COPY OF THE MAP AND LOOK BEHIND THE IMAGE`.\r\n\r\nIn
+      the public version, in lieu of the tiny URL's,\r\nthe solvers are simply given
+      a [problems file](puzzle.pdf)\r\nusing problems from the MOP 2019 test (which
+      are posted).\r\nEnumerations are given for the colors to confirm them\r\n(the
+      main ambiguity is OLIVE vs HEART GOLD),\r\ngiving the following table:\r\n\r\n\\#
+      | Color                | Red | Green | Blue |\r\n---|----------------------|:---:|:-----:|:----:|\r\n
+      1 | Utah crimson         |  D3 |   00  |  3F  |\r\n 2 | School bus yellow    |
+      \ FF |   D8  |  00  |\r\n 3 | Alice blue           |  F0 |   F8  |  FF  |\r\n
+      4 | Candy apple red      |  FF |   08  |  00  |\r\n 5 | Honeydew             |
+      \ F0 |   FF  |  F0  |\r\n 6 | Red                  |  FF |   00  |  00  |\r\n
+      7 | Olive                |  80 |   80  |  00  |\r\n 8 | Maroon               |
+      \ 80 |   00  |  00  |\r\n 9 | Alice blue           |  F0 |   F8  |  FF  |\r\n10
+      | KU Crimson           |  E8 |   00  |  0D  |\r\n11 | Electric ultramarine |
+      \ 3F |   00  |  FF  |\r\n12 | Yellow               |  FF |   FF  |  00  |\r\n\r\nThis
+      gives the answer `USA CHROMA KEY`."
+    post_solve_image_path: 2021/bridge.png
+    post_solve_image_alt: Cross the bridge...
+- model: core.solution
+  pk: 2
+  fields:
+    puzzle: 2
+    post_solve_story: "Fortunately, it turns out that it's just technical issues.\r\nAll
+      one has to do is notice the `FILE SPECIAL FORMAT`{.answer},\r\nand convert the
+      Korean symbols back into English.\r\n\r\nThere's a computer workstation located
+      nearby, conveniently,\r\nso you fire it up and start feeding the handbook into
+      it.\r\nThe machine hums softly as it starts processing the\r\nlarge amount of
+      input.\r\n\r\nYou admit to yourself you're looking forward to seeing what comes
+      out.\r\nYou hope that with the processed handbook,\r\nyou'll feel ready to tackle
+      some more serious problems\r\nin your newfound role as assistant director.\r\n\r\nFinally
+      the machine spits out an output,\r\nand you grab it to see the translation.\r\nThe
+      first few lines read:\r\n\r\n> 스물 스물은 나를 막을 수 없어  \r\n> 케이팝 연말 메가 믹스  \r\n>
+      150 곡 매시업  \r\n> 법선 스 매셔 유튜브\r\n\r\nHuh, still Korean? Well, better than before.\r\nYou
+      plug it in to Google Translate and then realize what you are looking at.\r\nThe
+      handbook is actually just a *band book*.\r\nWith a lot of K-pop.\r\n\r\nWell,
+      so much for getting any instructions for your newfound job.\r\nYou shrug and
+      keep the bandbook as a souvenir,\r\nand head out to see what's around this campus."
+    solution_text: "As suggested by the flavor text,\r\nthe first step is to figure
+      out what language the strings are in.\r\nEither using Google Translate,\r\nor
+      searching in a search engine directly,\r\nreveals that all the strings correspond
+      to [Korean keyboard inputs][korean],\r\ne.g. [dnjsjdnjs becomes 워너원](https://www.google.com/search?q=dnjsjdnjs).\r\n\r\nOne
+      can then translate the strings into Korean,\r\nupon which solvers discover all
+      the strings yield K-pop groups\r\nwhich also have numbers in their names.\r\nThese
+      numbers can be indexed into the section titles.\r\nThe table of data is shown
+      below.\r\n\r\n<style type=\"text/css\">\r\n#koreantable em {\r\n\tfont-size:
+      80%;\r\n}\r\n</style>\r\n\r\n<div markdown=\"1\" id=\"koreantable\">\r\n|  Section
+      \           | Korean | Band | Index | Letter |\r\n|:--------------------|:------:|:----:|------:|:------:|\r\n|
+      4.3. *Assembly meeting* | 워너원 | Wanna One | 1 | A |\r\n| 4.4. *Panel* | 써드아이
+      | 3YE | 3 | N |\r\n| 6.1. *sesh.fyi* | 아이즈원 | IZ*One | 1 | S |\r\n| 2.1. *Time
+      table for a typical weekday* | 투애니원 | 2NE1 | 21 | W |\r\n| 7.4. *Downloading
+      problems* | 세븐틴 | Seventeen | 17 | E |\r\n| 7.1. *Important confidentiality
+      note* | 펜타곤 | PENTAGON | 5 | R |\r\n| 5.2. *Test review* | 갓세븐 | GOT7 | 7 |
+      V |\r\n| 7.3. *Please take the exams seriously* | 나인뮤지스 | 9Muses | 9 | K |\r\n|
+      2.2. *Day by day calendar* | 원포유 | 14U | 14 | D |\r\n| 5.1. *Optional Saturday
+      classes* | 에이트 | 8Eight | 8 | L |\r\n| 5.4. *Office hours* | 투아이즈 | 2EYES |
+      2 | F |\r\n| 7.2. *Problems and exam format* | 트레저 | Treasure  | 13 | X |\r\n|
+      7.6. *Formatting page* | 하이포 | High4 | 4 | M |\r\n| 3.1. *Spoilers* | 블랑세븐 |
+      BLANC7 | 7 | R |\r\n| 7.9. *Student solutions manual* | 투피엠 | 2:00 PM | 2 |
+      T |\r\n| 4.5. *Opening* | 볼빨간 사춘기 | Bolbbalgan4 | 4 | N |\r\n| 5.3. *Evening
+      seminars* | 세븐어클락 | Seven O'Clock | 7 | G |\r\n| 7.5. *Lunch* | 트와이스 | TWICE
+      | 2 | U |\r\n| 7.7. *Submitting your work to Gradescope* | 투포케이 | 24K | 24 |
+      D |\r\n| 4.2. *Tests* | 포엘 | 4L | 4 | T |\r\n| 4.1. *Classes* | 투지 | 2Z | 2
+      | L |\r\n| 7.8. *Scoring* | 포미닛 | 4Minute | 4 | R |\r\n\r\nThis gives the cluephrase\r\n\r\n>
+      `ANSWER VK DLF XMR TN GUD TLR`.\r\n\r\n(The spaces are given according to the
+      sections.)\r\nAs suggested by the Appendix enumeration `111111 22333 44455 666777`,\r\none
+      translates `VK DLF`, `XMR TN`, and `GUD TLR` another time\r\nto get the answer
+      `FILE SPECIAL FORMAT`{.answer}.\r\n\r\n[korean]: https://www.branah.com/korean"
+    author_notes: "Originally, we were going to have \"banned book\" instead of a
+      \"band book\", but\r\nthen we realized that we had the opportunity to write
+      a K-pop puzzle and\r\ncouldn't resist the temptation.\r\nSerena mentions that
+      the inspiration for the Korean mechanic\r\nwas all the nonsense strings that
+      she would accidentally type\r\nwhenever she forgot to change the keyboard layout
+      into Korean.\r\n\r\nThe idea of using numbers in K-pop group names is not new;\r\nsee
+      [Site Visits](https://reddothunt.sg/2020/puzzle/site-visits),\r\nfrom RedDot
+      2020 hunt."
+    post_solve_image_path: 2021/gfriend.png
+    post_solve_image_alt: Farewell GFRIEND, we will miss you <3
+- model: core.solution
+  pk: 3
+  fields:
+    puzzle: 3
+    post_solve_story: "Finally, you figure out what the cards mean.\r\nThe illustrations
+      actually correspond to vectors in the space\r\n\\\\[ v \\in \\mathbb{F}_3 \\oplus
+      \\mathbb{F}_3 \\oplus \\mathbb{F}_3 \\oplus \\mathbb{F}_3 \\cong \\mathbb{F}\\_{81}
+      \\\\]\r\n\r\nand you need to `GET SUM NULL`{.answer} among triples of cards:\r\nthat
+      is look for triples $(v_1,v_2,v_3)$ satisfying\r\n\\\\[ \\sum_{i=1}^3 v_i =
+      \\mathbf{0}. \\\\]\r\n\r\nThe MOSPers watch on in delight as you sweep away
+      the sets,\r\nclearing out the starting day of the IMO in each calendar.\r\nBefore
+      you know it, the calendars are wide open again,\r\nand the nearby MOSPers resume
+      filling them with various events,\r\nwritten again in whatever strange language
+      is being used.\r\n\r\n\"How are you so fast?\", one of them asks you,\r\nafter
+      watching you clear several Set's.\r\n\r\nThe correct answer here should be _wait
+      til they see Serena-san play_.\r\nBut you decide to respond instead by saying,
+      \"uh yeah, practice\".\r\nTotal cop-out, but hey, you're not getting paid for
+      this job.\r\n\r\n_At least I'm useful for something_, you think,\r\nas you walk
+      on to the next building."
+    solution_text: "## Finding Sets\r\n\r\nEach of the ten calendars provided states
+      a month\r\nand shows a layout of several Set cards.\r\nAs directed by the flavortext,\r\nsolvers
+      should try to find L-shaped Set's among the calendar.\r\n\r\nThis is complicated
+      by one additional factor: there is a Shift button\r\nwhich changes the day of
+      the week the month starts on.\r\nThis provides a way to potentially create additional
+      Sets,\r\nsince the calendar does not \"wrap around\".\r\n\r\nIn each calendar,
+      there is a unique way to find eight sets,\r\nbut there is *not necessarily*
+      a unique way to shift it such that\r\nall the sets are valid.\r\n\r\n## Intersections\r\n\r\nOn
+      the other hand, one can find a unique completely\r\nfilled row and uniquely
+      filled column,\r\nand these intersect to give a particular date.\r\nThis gives
+      the set of following set of possible dates.\r\n\r\n| Calendar |   Possible dates
+      \ |               |\r\n|:--------:|:------------------|:--------------|\r\n|
+      Board  1 |   July 12 (Thu)   | July 19 (Thu) |\r\n| Board  2 |   July  8 (Fri)
+      \  |\r\n| Board  3 |   Sept 19 (Sat)   | Sept 26 (Thu) |\r\n| Board  4 |   July
+      11 (Thu)   | July 18 (Sat) |\r\n| Board  5 |   July 14 (Wed)   |\r\n| Board
+      \ 6 |   July 18 (Thu)   |\r\n| Board  7 |   July  3 (Thu)   |\r\n| Board  8
+      |   July 14 (Wed)   |\r\n| Board  9 |   July  4 (Wed)   | July  4 (Fri) |\r\n|
+      Board 10 |   July  4 (Wed)   | July  4 (Fri) |\r\n\r\n## Matching up\r\n\r\nTo
+      proceed further, it's necessary to think about the flavor text:\r\nyou are looking
+      for the start dates of the IMO starting from 2000 onwards.\r\nThis explains
+      why all the months are July except for one\r\n(September 2020, due to the COVID
+      pandemic).\r\nFor each board, exactly one of the dates corresponds to an IMO,\r\nand
+      that date corresponds to exactly one IMO.\r\nOne may then extract by taking
+      A=1 ... Z=26.\r\n\r\n| Calendar |   IMO date        | Year | Letter |\r\n|:--------:|:------------------|:----:|:------:|\r\n|
+      Board  1 |   July 19 (Thu)   | 2007 | G |\r\n| Board  2 |   July  8 (Fri)   |
+      2005 | E |\r\n| Board  3 |   Sept 19 (Sat)   | 2020 | T |\r\n| Board  4 |   July
+      11 (Thu)   | 2019 | S |\r\n| Board  5 |   July 14 (Wed)   | 2021 | U |\r\n|
+      Board  6 |   July 18 (Thu)   | 2013 | M |\r\n| Board  7 |   July  3 (Thu)   |
+      2014 | N |\r\n| Board  8 |   July 14 (Wed)   | 2021 | U |\r\n| Board  9 |   July
+      \ 4 (Wed)   | 2012 | L |\r\n| Board 10 |   July  4 (Wed)   | 2012 | L |\r\n\r\nThis
+      gives the answer `GET SUM NULL`{.answer}."
+    author_notes: "We originally tried to do this with USAMO dates,\r\nbut it did
+      not work at all.\r\nWe also tried to make all the Sets an unrotated tromino\r\nat
+      first, which worked even less well.\r\n\r\nThe set interface itself also went
+      through a *lot* of quality-of-life\r\nupdates during its evolution. Initially,
+      it was not even clickable;\r\nlater we added this feature,\r\nand then later
+      added on the \"feature\" of hiding the cards once a table\r\nhad completed (to
+      signal to solvers that the exact cards\r\nare not needed for future steps of
+      the puzzle).\r\nSaving previous Set's obtained was\r\nanother really popular
+      feature request that wasn't implemented\r\nuntil the last few days before the
+      hunt started.\r\n\r\nThe puzzle was called \"IMO Homework #28\" during MOP,\r\na
+      reference to MOP homework #28 which was about rotating trominos."
+    post_solve_image_path: 2021/calendar.png
+    post_solve_image_alt: Date tetris, colorized.
+- model: core.solution
+  pk: 4
+  fields:
+    puzzle: 5
+    post_solve_story: "You figure out that the cows are\r\ndoing a programming contest.
+      How fun!\r\nThere's a similar thing back on your side called the USACO,\r\nwhich
+      by coincidence also features a farmer named John,\r\nwho works with herds of
+      cows (one of who is named Bessie).\r\nYou smile to yourself as you think about
+      how,\r\neven in a strange new world, some familiar parts don't change.\r\n\r\nYou
+      think to yourself about what you know about USACO;\r\nit has a lot of overlap
+      with math olympiads in some way,\r\nbut mostly in combinatorics.\r\nMaybe that's
+      the issue?\r\nSuppose you launched a propaganda campaign,\r\nwith a slogan like
+      `SAY NO TO COMBO`{.answer} or something like that.\r\nIf all the cows switched
+      to mostly doing Euclidean geometry,\r\nostensibly they might be a bit less invested
+      in the programming contest.\r\n\r\nYou think about this a bit,\r\nand decide
+      some things are maybe better left unsaid.\r\nSo you just advise Farmer John
+      to disconnect the Wi-Fi\r\nduring working hours, and leave it at that.\r\nAfter
+      all, cows don't need Wi-Fi to do their job."
+    solution_text: "The only information given initially is the title of the puzzle,\r\nwhich
+      is a Gradescope join code.\r\nJoining the class reveals the [super relay](SuperRelay.pdf),\r\nand
+      a Gradescope programming assignment to submit.\r\n\r\n## Solving the relay\r\n\r\nThe
+      first step is to solve the math problems.\r\nHere is some sample code:\r\n\r\n```python\r\ndef
+      int2base(x, base):\r\n\tassert base >= 2\r\n\tassert x >= 0\r\n\tdigits = []\r\n\twhile
+      x:\r\n\t\tdigits.append(int(x % base))\r\n\t\tx = int(x / base)\r\n\tdigits.reverse()\r\n\treturn
+      tuple(digits)\r\n\r\ndef get_primes(n):\r\n\t# https://stackoverflow.com/a/3035188/4826845\r\n\t\"\"\"
+      Returns a list of primes < n \"\"\"\r\n\tsieve = [True] * n\r\n\tfor i in range(3,int(n**0.5)+1,2):\r\n\t\tif
+      sieve[i]:\r\n\t\t\tsieve[i*i::2*i]=[False]*((n-i*i-1)//(2*i)+1)\r\n\treturn
+      [2] + [i for i in range(3,n,2) if sieve[i]]\r\nPRIMES = get_primes(MAX)\r\n\r\ndef
+      divisor_count(n):\r\n\treturn len(list(sympy.divisors(n)))\r\n\r\ndef divisor_sum(n):\r\n\treturn
+      sum(list(sympy.divisors(n)))\r\n\r\ndef f1(n : int) -> int:\r\n\treturn divisor_sum(n)\r\n\r\ndef
+      f2(n : int) -> int:\r\n\tanswer = 0\r\n\tcount = 0\r\n\tfor b in range(2,n+3):\r\n\t\tdigits
+      = int2base(n, b)\r\n\t\tif digits == digits[::-1]:\r\n\t\t\tanswer += b\r\n\t\t\tcount
+      += 1\r\n\t\tif count == 3:\r\n\t\t\tbreak\r\n\treturn 2*answer\r\n\r\ndef f3(n
+      : int) -> int:\r\n\tassert n > 0\r\n\tcount = 0\r\n\tx = 0\r\n\twhile count
+      < 20:\r\n\t\tx += 1\r\n\t\tif gcd(x,n) == 1:\r\n\t\t\tcount += 1\r\n\treturn
+      x\r\n\r\ndef f4(n : int) -> int:\r\n\tfor p in range(n+40,3,-1):\r\n\t\tif p
+      in PRIMES:\r\n\t\t\treturn p\r\n\treturn 2\r\n\r\ndef f5(n : int) -> int:\r\n\tx
+      = 5*n-200\r\n\tassert x % 3 == 0\r\n\treturn x//3\r\n\r\ndef f6(n : int) ->
+      int:\r\n\tassert n % 2 == 1\r\n\tif n % 4 == 1:\r\n\t\treturn (n+1)//2\r\n\telse:\r\n\t\treturn
+      (n+3)//2\r\n\r\ndef f7(n : int) -> int:\r\n\tN = int(4*(2*n+1)/9)\r\n\tN -=
+      N % 4\r\n\tif N % 8 == 4:\r\n\t\treturn N\r\n\telif 9*N <= 8*n:\r\n\t\treturn
+      N\r\n\telse:\r\n\t\treturn N//4\r\n\r\ndef f8(n7 : int, n9: int) -> int:\r\n\tfor
+      p in PRIMES[1:]:\r\n\t\tif (pow(5,n9,p)+5-n7) % p == 0:\r\n\t\t\treturn p\r\n\traise
+      ValueError(\"No prime\")\r\n\r\ndef f9(n : int) -> int:\r\n\tassert n >= 5\r\n\treturn
+      2 * n - 5\r\n\r\ndef f10(n : int) -> int:\r\n\tfor d in range(int(n**0.5),2,-1):\r\n\t\tif
+      n % d == 0:\r\n\t\t\treturn (d+1)*(n//d-1)\r\n\tassert n in PRIMES\r\n\treturn
+      2*(n-1)\r\n\r\ndef f11(n : int) -> int:\r\n\t# u v 2v 4v+u 9v+2u 20v+4u 44v+9u\r\n\t#
+      max 20v+4u given 44v+9u <= TNYWR and u > 0\r\n\tassert n >= 53\r\n\tk = n-9\r\n\tv
+      = k//44\r\n\tu_minus_one = (k-44*v)//9\r\n\tu = u_minus_one + 1\r\n\treturn
+      20*v+4*u\r\n\r\ndef f12(n : int) -> int:\r\n\tfor x in range(n,MAX+1):\r\n\t\tfor
+      b in range(2,int(x**0.5)):\r\n\t\t\ts = int2base(x, b)\r\n\t\t\tif len(s) ==
+      3 and s[0] == s[2]:\r\n\t\t\t\treturn x\r\n\traise ValueError(\"No such integer\")\r\n\r\ndef
+      f13(n : int) -> int:\r\n\tassert n > 0\r\n\tanswer = 1\r\n\tfor p in PRIMES:\r\n\t\tif
+      p > n**0.5:\r\n\t\t\tbreak\r\n\t\twhile n % p == 0:\r\n\t\t\tn //= p\r\n\t\t\tanswer
+      *= p+2\r\n\tif n > 1:\r\n\t\tassert n in PRIMES\r\n\t\tanswer *= n+2\r\n\treturn
+      answer\r\n\r\ndef f14(n : int) -> int:\r\n\tassert n in A186428.terms\r\n\tseq
+      = A186428.seq\r\n\ti = seq.index(n)\r\n\tk = i+1\r\n\tassert k < n\r\n\treturn
+      seq[i-1]\r\n\r\ndef f15(n : int) -> int:\r\n\tassert n >= 12\r\n\trecord = 0\r\n\tfor
+      d in range(1,n//12+1):\r\n\t\tfor x in range(1,n//(2*d)):\r\n\t\t\tfor y in
+      range(1,n//(2*d*x)):\r\n\t\t\t\ta = 2*x*y*d\r\n\t\t\t\tb = (x*x-y*y)*d\r\n\t\t\t\tc
+      = (x*x+y*y)*d\r\n\t\t\t\tif a+b+c <= n:\r\n\t\t\t\t\trecord = max(record, a*b-c)\r\n\tassert
+      record > 0\r\n\treturn record\r\n```\r\n\r\n## Reverse-engineering\r\n\r\nOnce
+      the relay is completed,\r\nthe solver is told that the finished relay has answer
+      $97$.\r\nThey are also provided with the following prompt:\r\n\r\n```text\r\n\U0001F525\U0001F525\U0001F525
+      EXTRA CREDIT:\r\n\r\nRe-submit with one additional global variable:\r\n\r\nreverse_engineered
+      = \"????????????????\"\r\n\r\nThis should be a string of length seventeen such
+      that,\r\n\r\n(1) reverse_engineered[0] = reverse_engineered[16] are the\r\nASCII
+      character corresponding to the moderator's secret choice M.\r\n\r\n(2) For all
+      1 <= n <= 15, reverse_engineered[n] is the\r\nASCII character corresponding
+      to the answer to relay question n.\r\n\r\nFor example, reverse_engineered[8]
+      = 97 = ord('a').\r\n```\r\n\r\nSince the solver is promised $0 \\le M \\le 10000$,\r\nit
+      is pretty straightforward for the solver to ask their program\r\nto check values
+      of $M$ and see if any of them give $97$.\r\n(Actually, there is really an implicit
+      assumption that $0 \\le M \\le 255$,\r\nsince the values are promised to be
+      in ASCII range.)\r\nDoing so, one finds $M = 36$.\r\nOne then finds the reverse
+      engineered string is actually readable: it is\r\n\r\n```python\r\nreverse_engineered
+      = \"$[0;a_1,a_2,a_3]$\"\r\n```\r\n\r\n## Continued fraction\r\n\r\nWhen the
+      `reverse_engineered` string is correctly submitted, a new message\r\nappears:\r\n\r\n```text\r\n\U0001F3C1\U0001F3C1\U0001F3C1
+      Reverse-engineering successful!\r\nMuch partial credit awarded ;)\r\n```\r\n\r\nWhen
+      this happens,\r\nthe score for the user skyrockets,\r\nas does the denominators
+      of the test cases\r\n(beforehand, the user simply got 1 point for each answer).\r\nThe
+      solver obtains the following table:\r\n\r\n| Problem  | Numerator | Denominator
+      |\r\n|:--------:|----------:|------------:|\r\n|   R-01   | 10477     |  702067
+      \    |\r\n|   R-02   | 3361      |  363093     |\r\n|   R-03   | 2657      |
+      \ 292353     |\r\n|   R-04   | 2849      |  185217     |\r\n|   R-05   | 2529
+      \     |  197294     |\r\n|   R-06   | 2529      |  212468     |\r\n|   R-07
+      \  | 6084      |  407705     |\r\n|   R-08   | 5215      |  344256     |\r\n|
+      \  R-09   | 5294      |  407705     |\r\n|   R-10   | 6637      |  212468     |\r\n|
+      \  R-11   | 6163      |  197294     |\r\n|   R-12   | 5786      |  185217     |\r\n|
+      \  R-13   | 3521      |  292353     |\r\n|   R-14   | 3457      |  363093     |\r\n|
+      \  R-15   | 6500      |  702067     |\r\n\r\nAs hinted by the `reverse_engineered`
+      string,\r\nthe solver should attempt to take the continued fraction expansion.\r\nAs
+      expected, each continued fraction has exactly three parts.\r\nFor example,\r\n\\\\\\[
+      \\frac{10477}{702067} = \\frac{1}{67+\\frac{1}{97+\\frac{1}{108}}} = [0;67,97,108].
+      \\\\\\]\r\nWorking out the rest of the continued fractions,\r\nwe get a sequence
+      of numbers in ASCII range.\r\nDoing the conversion then gives the following
+      table:\r\n\r\n| Problem  | Numerator | Denominator |$a_1$|$a_2$|$a_3$| 1 | 2
+      | 3 |\r\n|:--------:|----------:|------------:|----:|----:|----:|:-:|:-:|:-:|\r\n|
+      \  R-01   | 10477     |  702067     |  67 |  97 | 108 |`C`|`a`|`l`|\r\n|   R-02
+      \  | 3361      |  363093     | 108 |  32 | 105 |`l`|   |`i`|\r\n|   R-03   |
+      2657      |  292353     | 110 |  32 |  83 |`n`|   |`S`|\r\n|   R-04   | 2849
+      \     |  185217     |  65 |  89 |  32 |`A`|`Y`|   |\r\n|   R-05   | 2529      |
+      \ 197294     |  78 |  79 |  32 |`N`|`O`|   |\r\n|   R-06   | 2529      |  212468
+      \    |  84 |  79 |  32 |`T`|`O`|   |\r\n|   R-07   | 6084      |  407705     |
+      \ 67 |  79 |  77 |`C`|`O`|`M`|\r\n|   R-08   | 5215      |  344256     |  66
+      |  79 |  66 |`B`|`O`|`B`|\r\n|   R-09   | 5294      |  407705     |  77 |  79
+      |  67 |`M`|`O`|`C`|\r\n|   R-10   | 6637      |  212468     |  32 |  79 |  84
+      |   |`O`|`T`|\r\n|   R-11   | 6163      |  197294     |  32 |  79 |  78 |   |`O`|`N`|\r\n|
+      \  R-12   | 5786      |  185217     |  32 |  89 |  65 |   |`Y`|`A`|\r\n|   R-13
+      \  | 3521      |  292353     |  83 |  32 | 110 |`S`|   |`n`|\r\n|   R-14   |
+      3457      |  363093     | 105 |  32 | 108 |`i`|   |`l`|\r\n|   R-15   | 6500
+      \     |  702067     | 108 |  97 |  67 |`l`|`a`|`C`|\r\n\r\nReading this gives
+      a phrase which has been repeated both forwards and backwards\r\n(much like the
+      super relay).\r\nThe phrase tells the solver to call in the answer, `SAY NO
+      TO COMBO`{.answer}."
+    author_notes: "We got the idea for this puzzle by thinking\r\nabout how we could
+      use Gradescope as the basis\r\nof a puzzle mechanic.\r\nOne person had the idea
+      we ought to do a programming assignment;\r\nanother person had the idea that
+      Gradescope naturally\r\ngives a bunch of fractions, making continued fractions\r\na
+      viable mechanism.\r\nThese two ideas both make an appearance in the puzzle.\r\n\r\nThe
+      idea to create a super relay for the programming contest\r\ncame about because
+      we were thinking about USACO,\r\nwhich famously has cow mascots.\r\nAt the same
+      time, [FARML] is a real contest,\r\nso we got super excited when it clicked
+      that we could\r\nmake an ARML event for the cows.\r\n\r\n[FARML]: https://smile.amazon.com/FARML-Practice-Materials-Minnesota-2007-2020/dp/0578745151"
+    post_solve_image_path: 2021/cow-sm.png
+    post_solve_image_alt: Propoganda at its finest.
+- model: core.solution
+  pk: 5
+  fields:
+    puzzle: 4
+    post_solve_story: "You're about to tell the kids about the MOP system\r\nof using
+      a `TEAM SELECTION EXAM`{.answer},\r\nwhere candidates are whittled down through
+      a series of increasingly\r\nrigorous tests, and finally the top names go through
+      multi-year testing\r\nin order to determine the top six students to represent
+      the United States.\r\n\r\nThen you think about it a bit more,\r\nand decide
+      maybe this isn't quite the message you shouldn't\r\nbe giving to a bunch of
+      kindergarteners.\r\nPerhaps when they are older, it'll make more sense to them.\r\n\r\nSo
+      instead, you mutter something like,\r\n\"uh, just keep practicing, you'll all
+      get better with experience\".\r\n\r\n\"Oh,\" says the small girl.\r\nShe looks
+      around at her classmates, and sighs.\r\n\"Why can't everyone be as smart as
+      me?\", she laments,\r\nbefore closing her eyes and resuming trying to count.\r\n\r\n_Kids
+      will be kids_, you think to yourself,\r\nas you leave the kindergarteners\r\nto
+      enjoy the rest of their recess."
+    solution_text: "## Introduction\r\n\r\nContacting Steve with the message \"teach
+      me a lesson\"\r\nyields the following haiku:\r\n\r\n> Don't know \U0001F34E\U0001F41D\U0001F318's?
+      \ \r\n> Want to learn to count with me?  \r\n> Join `#kindergarten`!\r\n\r\nThe
+      three emojis are hinting \"ABC\", in line with the puzzle theme.\r\nThe solver
+      then finds they now have access to a new channel\r\nin the MOSP Discord, the
+      `#kindergarten` channel.\r\n\r\n## Counting\r\n\r\nAs mentioned in the Acknowledgments,
+      the Kindergarten puzzle\r\nrequires solvers to complete a counting exercise,
+      hosted in the Discord.\r\nAs a tip-off to [Haikubot],\r\nthe solvers can't just
+      type the numbers in:\r\nthey must format them as haikus using arithmetic operations,
+      e.g.\r\n\r\n> $7 - 6$  \r\n> $1 \\times 1 + 1 \\times 1$  \r\n> $3 \\times 1
+      + 2$\r\n\r\nSteve will confirm each correct line of the haiku,\r\npresenting
+      a particular emoji as each haiku is completed.\r\n\r\n## Trolls\r\n\r\nMuch
+      like in the sister [Mystery hunt puzzle][ctam],\r\na few automated trolls are
+      present,\r\nwhich will mess up the count for the solvers.\r\n\r\n* The **Helpful
+      Firefly** will, after a few seconds, post the previous\r\n\tline written in
+      chat with \"+1\" appended to it.\r\n\tThis won't cause a miscount in terms of
+      the next number,\r\n\tbut it *will* botch the syllable count unless (and only
+      unless)\r\n\tthe previous number is $1 \\bmod 3$\r\n\t(in which case the \"+1\"
+      adds two syllables to get a seven syllable line).\r\n\tThus, when Helpful Firefly
+      appears,\r\n\tsolvers must rush to the next $1 \\bmod 3$ number and stop there.\r\n*
+      The **Quiz Owl** will post a random early AMC 10 problem\r\n\tand nag the solvers
+      to send it the answer via DM.\r\n\tIf the answer isn't sent soon enough,\r\n\tthe
+      Quiz Owl will insist more loudly.\r\n\tIf it still isn't sent, it will output
+      the answer to the AMC problem,\r\n\tmost likely causing a miscount.\r\n* The
+      **Singing Creodont** initiates a two-minute countdown once\r\n\tthe threshold
+      42 is reached, forcing solvers to race to get\r\n\tas far as they can in the
+      two minutes.\r\n\t(Once the countdown expires, the game ends.)\r\n\r\n## Emojis\r\n\r\nThe
+      first 23 haikus completed will generate emojis;\r\nsubsequent haikus (past the
+      score 70) won't generate any additional information.\r\n\r\nThe Creodont will
+      also tell the solvers that\r\nextraction is possible after the first 17 haikus,\r\nand
+      the remaining haikus are just an additional hint.\r\nReproduced below is the
+      Creodont's hint after 51 points are earned:\r\n\r\n> Wow you passed 50!\U0001F947
+      \ \r\n> You made seventeen haikus \U0001F914  \r\n> Emoji haiku? \U0001F92F
+      \ \r\n> You *could* extract now \U0001F525  \r\n> But I suggest you go on \U0001F4AA
+      \ \r\n> There are six more hints \U0001F4A1  \r\n> *This message is not a puzzle,
+      so please don't read too much into it.*\r\n\r\nThe 23 emojis obtained are:\r\n\r\n>
+      \U0001F375➗\U0001F34E↔️❓\U0001F4E7✖️\U0001F441️↔️\U0001F4A4➕❓\U0001F681➖\U0001F318↔️❓
+      \U0001F1F3 \U0001F1F4 \U0001F1F9 \U0001F375\U0001F4B0\U0001F375\r\n\r\nAs hinted,
+      we arrange these in 5/7/5 format,\r\nwith an extra line of six characters.\r\n\r\n>
+      \U0001F375➗\U0001F34E↔️❓  \r\n> \U0001F4E7✖️\U0001F441️↔️\U0001F4A4➕❓  \r\n>
+      \U0001F681➖\U0001F318↔️❓  \r\n> \U0001F1F3 \U0001F1F4 \U0001F1F9 \U0001F375\U0001F4B0\U0001F375\r\n\r\nThe
+      next steps are as follows:\r\n\r\n1. These lines arrange to form equations:\r\n\twe
+      substitute the four math symbols that appear with their operations,\r\n\tinterpreting
+      ↔️ as equals and ❓ as an unknown.\r\n2. As suggested by the earlier message
+      about \U0001F34E\U0001F41D\U0001F318 being ABC,\r\n\tthe emojis canonically
+      represent letters.\r\n3. Using A=1, ..., Z=26, we can find the value of ❓ in
+      each equation.\r\n4. We convert that back into a letter.\r\n\r\nThe process
+      is shown below\r\n\r\n| Haiku line | Letter equation | Number equation | Answer
+      | Letter |\r\n|:---:|:---:|:---:|:---:|:---:|\r\n| \U0001F375 $\\div$ \U0001F34E
+      $=$ ❓ | $T \\div A = {?}$ | $20 \\div 1 = {?}$ | $20$ | $T$ |\r\n| \U0001F4E7
+      $\\times$ \U0001F441️ $=$ \U0001F4A4 $+$ ❓  | $E \\times I = Z + {?}$ | $5 \\cdot
+      9 = 26 + {?}$ | $19$ | $S$ |\r\n| \U0001F681 $-$ \U0001F318 $=$ ❓ | $H - C =
+      {?}$ | $8 - 3 = {?}$ | $5$ | $E$ |\r\n| NOT \U0001F375\U0001F4B0\U0001F375 |
+      NOT $TST$\r\n\r\nThe abbreviation for `TSE` that best fits the hint \"NOT TST\"
+      is\r\n`TEAM SELECTION EXAM`{.answer}.\r\n\r\n[Haikubot]: https://ytnomsnrub.github.io/haikubot/\r\n[ctam]:
+      https://perpendicular.institute/puzzle/so-you-think-you-can-count/solution/"
+    author_notes: The authors had a little too much fun coding the Discord bots for
+      this puzzle.
+    post_solve_image_path: 2021/flowchart-sm.png
+    post_solve_image_alt: Finding five friends?
+- model: core.solution
+  pk: 6
+  fields:
+    puzzle: 6
+    post_solve_story: "Your legs are sore from all the walking around the towers,\r\nbut
+      after examining all the towers in a painstaking and slow process,\r\nyou realize
+      that you need to increase the `BEACON RADIUS`{.answer}.\r\nAs you finish turning
+      the dials in the last tower, you sit back\r\nand take a deep breath as you hear
+      the hum of what\r\nmust be hundreds of computers around you in the tower.\r\n\r\nYou
+      look around as the towers light up,\r\nindicating that everything is working
+      again.\r\nYou look out from the window at the other distant towers,\r\nwatching
+      them flicker on and off as power surges through them.\r\n_There must be a lot
+      of Zoom calls going lately_, you think to yourself.\r\n\r\nYou think to yourself
+      that you'll be glad once Zooming for everything\r\nstopped being a thing, back
+      on your side of the world.\r\nYou wonder if anyone on this side is sick of Zoom
+      as well.\r\n_Hey, I wonder if I can call home?_\r\nYour cellphone isn't working,
+      but if Zoom's working, maybe you can.\r\nYou try to connect back to the MOP
+      HQ Zoom,\r\nbut you simply get an error message.\r\n_Ah well, it was worth a
+      shot._\r\n\r\nWith another job well done, you walk back downstairs\r\nand return
+      to the center of campus."
+    solution_text: "The first thing to do is join the Zoom meeting.\r\nIt has meeting
+      ID `953 1568 0293`\r\nand additionally has the topic `A => B@917 C@979 H@945`.\r\n\r\nWhat
+      can we do with this?\r\n\r\n## Plotting out the graph\r\n\r\nThe first insight
+      is to look at the\r\ncoordinates given in the [asy file](diagram.asy).\r\n\r\n```c++\r\npair
+      A = (1568,  293);\r\npair B = (2317, 1185);\r\npair C = (8057, 1394);\r\npair
+      D = (5829, 3170);\r\npair E = (4079, 3458);\r\npair F = (5490, 5821);\r\npair
+      G = (4027, 5827);\r\npair H = (2459, 6096);\r\npair I = (7406, 6683);\r\npair
+      J = (6188, 9072);\r\npair K = (3325, 9359);\r\npair L = (9797, 9524);\r\n```\r\n\r\nThe
+      solver might recognize that the coordinates of A are actually\r\nthe last two
+      parts of the Zoom meeting.\r\nBy engineer's induction, this should be true for
+      the other Zoom meetings too.\r\n\r\nSo, we just need to find the first three
+      digits for the other points.\r\nConveniently, the topic gives three-digit numbers!\r\nSo
+      for example,\r\nwe may infer there is a node for B located at `912 2317 1185`.\r\nGoing
+      to this meeting gives another topic with more numbers:\r\nwe are now walking
+      on a graph!\r\n\r\nThis gives the following table of meetings:\r\n\r\n| Point
+      |Topic of Zoom meeting |    Zoom ID    |\r\n|:-----:|:---------------------|:-------------:|\r\n|
+      \  A   | `B@917 C@979 H@945`  | 953 1568 0293 |\r\n|   B   | `A@953 D@916 E@993`
+      \ | 917 2317 1185 |\r\n|   C   | `A@953 D@916 L@947`  | 979 8057 1394 |\r\n|
+      \  D   | `B@917 C@979 I@936`  | 916 5829 3170 |\r\n|   E   | `B@917 F@956 G@996`
+      \ | 993 4079 3458 |\r\n|   F   | `E@993 G@996 I@936`  | 956 5490 5821 |\r\n|
+      \  G   | `E@993 F@956 H@945`  | 996 4027 5827 |\r\n|   H   | `A@953 G@996 K@940`
+      \ | 945 2459 6096 |\r\n|   I   | `D@916 F@956 J@926`  | 936 7406 6683 |\r\n|
+      \  J   | `I@936 K@940 L@947`  | 926 6188 9072 |\r\n|   K   | `H@945 J@926 L@947`
+      \ | 940 3325 9359 |\r\n|   L   | `C@979 J@926 K@940`  | 947 9797 9524 |\r\n\r\n##
+      Traveling the graph\r\n\r\nThe previous table now gives a 3-regular planar graph\r\non
+      the [given diagram](diagram.pdf).\r\nOne then walks the graph as in this year's
+      [USAMO2 problem][usamo2],\r\nas hinted by the title of the puzzle being \"Zoom
+      Network Park\".\r\nStarting with the marked arrow, we get the following path:\r\n\r\n![Illustrated
+      initial path](solution-diagram-p0.png)\r\n\r\nTracing the path out and reading
+      the Morse code\r\n(there are many dots and dashes drawn on the edges),\r\nthis
+      gives the clue phrase `CAN ZOOM IN ON EMAIL`.\r\n\r\n## Zooming in\r\n\r\nSolvers
+      go back to the puzzle page and *zoom in*, literally,\r\non the given email message.\r\nWhen
+      they do so, a new message appears:\r\n\r\n```text\r\nK ==> L ==> ? ==> ? ==>
+      ? ==> ? ==> ? ==> ?\r\n               8\r\n  ==> ? ==> ? ==> ? ==> ? ==> ? ==>
+      ? ==> ?\r\n               6           9    12\r\n  ==> ? ==> ? ==> ? ==> ? ==>
+      ? ==> ? ==> K\r\n   7                                   2\r\n\r\nF ==> E ==>
+      B ==> ? ==> ? ==> ? ==> ? ==> ?\r\n                     4     5\r\n  ==> ? ==>
+      ? ==> ? ==> ? ==> ? ==> ? ==> ?\r\n   1    11\r\n  ==> ? ==> ? ==> ? ==> ? ==>
+      ? ==> ? ==> F\r\n               3    10\r\n```\r\n\r\nThis corresponds to two
+      more USAMO2-style paths.\r\nWe fill them in:\r\n\r\n```text\r\nK ==> L ==> C
+      ==> D ==> B ==> E ==> G ==> F\r\n               8\r\n  ==> I ==> D ==> C ==>
+      A ==> H ==> G ==> F\r\n               6           9    12\r\n  ==> E ==> B ==>
+      A ==> C ==> L ==> J ==> K\r\n   7                                   2\r\n\r\nF
+      ==> E ==> B ==> A ==> C ==> L ==> J ==> K\r\n                     4     5\r\n
+      \ ==> H ==> A ==> B ==> D ==> I ==> J ==> K\r\n   1    11\r\n  ==> L ==> C ==>
+      D ==> B ==> E ==> G ==> F\r\n               3    10\r\n```\r\n\r\nBoth paths
+      are illustrated below.\r\n\r\n![The first path for extraction](solution-diagram-p1.png)\r\n\r\n![The
+      second path for extraction](solution-diagram-p2.png)\r\n\r\nFinally, reading
+      the numbered arrows\r\nand reading Morse gives\r\n\r\n| # |   Edge  | Letter
+      |\r\n|--:|:-------:|:------:|\r\n| 1 | K ==> H |   B    |\r\n| 2 | J ==> K |
+      \  E    |\r\n| 3 | C ==> D |   A    |\r\n| 4 | A ==> C |   C    |\r\n| 5 | C
+      ==> L |   O    |\r\n| 6 | D ==> C |   N    |\r\n| 7 | F ==> E |   R    |\r\n|
+      8 | C ==> D |   A    |\r\n| 9 | A ==> H |   D    |\r\n|10 | D ==> B |   I    |\r\n|11
+      | H ==> A |   U    |\r\n|12 | H ==> G |   S    |\r\n\r\nThis gives the answer
+      `BEACON RADIUS`{.answer}.\r\n\r\n[usamo2]: https://web.evanchen.cc/exams/USAMO-2021-notes.pdf"
+    author_notes: "The writing process for this puzzle was pretty straightforward.\r\nThe
+      idea behind a mechanism was to have a graph\r\nformed by connecting Zoom meeting
+      links,\r\nand having the resulting graph be walked USAMO2 style.\r\nMorse seemed
+      like an appropriate way to encode the letters\r\n(in particular, forces direction).\r\nI
+      also had the idea of the \"zoom in\" pun\r\nand incorporated that as a second
+      step in the puzzle using Javascript.\r\nThankfully I had a database of the amazingly
+      varied constructions\r\nsubmitted by students on the USAMO\r\nso I was able
+      to find one that suits my needs.\r\n\r\nIn original versions of the puzzle,\r\nif
+      you kept walking after reaching the point A,\r\nthe next few letters would be
+      `USE IO`, giving an accidental red\r\nherring. Fixing this was one of the\r\nlast
+      changes to happen for the puzzle hunt.\r\n\r\nP.S. If you think walking the
+      graph three times was annoying,\r\nimagine being a grader and having to walk
+      100 graphs."
+    post_solve_image_path: 2021/towers-sm.png
+    post_solve_image_alt: A scenic sunset from Zoom HQ.
+- model: core.solution
+  pk: 7
+  fields:
+    puzzle: 7
+    post_solve_story: "As you leaf through the files, you recognize the problems\r\nfrom
+      the 2010 IMO hosted in Astana, `KAZAKHSTAN`{.answer}.\r\n\r\nSo, the world around
+      you is perhaps ten years behind?\r\n_That explains why the camp is still called
+      MOSP_, you think.\r\n\r\nStill, the classrooms around here don't look familiar
+      at all.\r\n\r\nYou look around you and realize that\r\nyou must be in Lincoln,
+      Nebraska, not at Carnegie Mellon.\r\nNo wonder MOSP was so much nicer and more
+      spacious than MOP has been.\r\nDoes that mean the Steve you met was actually
+      Steve Dunbar?\r\nYou wonder to yourself just how parallel this world is.\r\n\r\n_Evan
+      would be so happy to be here_, you think to yourself.\r\n_He'd be going on and
+      on about the \"good old days\"._\r\nWell, you can kind of see why, now that
+      you're seeing it all for yourself.\r\nYou make a mental note to visit Selleck
+      at some point,\r\nto see if the dining hall here is really as good as Evan claims
+      it is.\r\n\r\nFor now, you head back out to look around the Lincoln campus some
+      more."
+    solution_text: "Like in the earlier Gradescope puzzle,\r\nthe only initially given
+      data is the title of the puzzle.\r\nThe puzzle title is a join code for a Google
+      Classroom,\r\nand entering it, one finds a class called *Solve Identify Sort
+      Index*.\r\nThe banner of the puzzle is depicted below.\r\n\r\n![Banner](sisi-shell.png)\r\n\r\nThe
+      title refers to four steps:\r\n\r\n1. Solve the math problems.\r\n2. Identify
+      the six answers that are out of place as past IMO problems.\r\n3. Sort by problem
+      number.\r\n4. Index by problem number into answer.\r\n\r\n## Solve\r\n\r\nThe
+      first step in the puzzle is to solve the various math problems.\r\nSolvers are
+      given a chance to check their answers once for the problems\r\nby submitting
+      in the classroom, but this step is not essential,\r\nand is only to help check
+      the team's work.\r\n\r\nHere are all the answers:\r\n\r\n<div class=\"strong-emph\"
+      markdown=\"1\">\r\n| Code | Ans |\r\n|:----:|----:|\r\n| A1 | *0*|\r\n| A2 |
+      20 |\r\n| A3 | 19 |\r\n| A4 | *2*|\r\n| A5 | 16 |\r\n| A6 | 15 |\r\n| A7 | 14
+      |\r\n| C1 | 13 |\r\n| C2 |*18*|\r\n| C3 | 12 |\r\n| C4 | 11 |\r\n| C5 | 10 |\r\n|
+      C6 |  8 |\r\n| C7 | *4*|\r\n| N1 | *9*|\r\n| N2 |  7 |\r\n| N3 |  6 |\r\n| N4
+      |  5 |\r\n| N5 |  3 |\r\n| N6 |  1 |\r\n| N7 |*17*|\r\n</div>\r\n\r\n## Identify\r\n\r\nThere
+      are six problems whose answers are conspicuously out of place;\r\notherwise
+      the answers are in descending order from 20 to 0.\r\nGiven the shortlist flavoring
+      of the problem statement\r\nit makes sense to look up the IMO problems in those
+      slot.\r\nIndeed, they were problems that corresponded to IMO problems\r\n(and
+      none of the other problems do so).\r\n\r\n| Code | Ans| IMO Problem |\r\n|:----:|---:|:-----------:|\r\n|
+      A1   |  0 | IMO 2000/2  |\r\n| A4   |  2 | IMO 2002/5  |\r\n| C2   | 18 | IMO
+      2018/4  |\r\n| C7   |  4 | IMO 2004/3  |\r\n| N1   |  9 | IMO 2009/1  |\r\n|
+      N7   | 17 | IMO 2017/6  |\r\n\r\n## Sort\r\n\r\nThe six obtained problem numbers
+      are distinct,\r\nso sort the above table by the problem number.\r\n\r\n| Code
+      | IMO Problem |\r\n|:----:|:-----------:|\r\n| N1   | IMO 2009/1  |\r\n| A1
+      \  | IMO 2000/2  |\r\n| C7   | IMO 2007/3  |\r\n| C2   | IMO 2018/4  |\r\n|
+      A4   | IMO 2002/5  |\r\n| N7   | IMO 2017/6  |\r\n\r\n## Index\r\n\r\nWe need
+      to put three-letter codes for each of the six problems.\r\nThe obvious choice
+      is the *proposing country*;\r\na full list is given on [evanchen.cc](https://web.evanchen.cc/problems.html)\r\nfor
+      convenience, but AoPS should work well too.\r\nThe authors are:\r\n\r\n| Code
+      | IMO Problem | Author |\r\n|:----:|:-----------:|:------:|\r\n| N1   | IMO
+      2009/1  |  AUS   |\r\n| A1   | IMO 2000/2  |  USA   |\r\n| C7   | IMO 2007/3
+      \ |  EST   |\r\n| C2   | IMO 2018/4  |  ARM   |\r\n| A4   | IMO 2002/5  |  IND
+      \  |\r\n| N7   | IMO 2017/6  |  USA   |\r\n\r\nThen index as shown in the diagram.\r\n<div
+      class=\"strong-emph\" markdown=\"1\">\r\n| Code | IMO Problem |   |   |   |\r\n|:----:|:-----------:|:-:|:-:|:-:|\r\n|
+      N1   | IMO 2009/1  |*A*| U | S |\r\n| A1   | IMO 2000/2  | U |*S*| A |\r\n|
+      C7   | IMO 2007/3  | E | S |*T*|\r\n| C2   | IMO 2018/4  |*A*| R | M |\r\n|
+      A4   | IMO 2002/5  | I |*N*| D |\r\n| N7   | IMO 2017/6  | U | S |*A*|\r\n</div>\r\n\r\nThis
+      gives the phrase `ASTANA`.\r\nThis was the location of IMO 2010,\r\nand the
+      capital of `KAZAKHSTAN`{.answer}."
+    author_notes: "This puzzle is actually\r\ndescribed in [Evan's mystery hunt puzzle
+      blog post][mysteryhunt]:\r\nthe idea was originally meant for the much more
+      difficult\r\npuzzle [The IMO Shortlist][isl],\r\nwhere it was promptly scrapped
+      in favor of a different one.\r\nI figured to bring the mechanism back to use
+      here,\r\nwith problems that simply gave answers\r\n(rather than the more complicated
+      mechanic given in the Mystery Hunt puzzle).\r\n\r\nI didn't mean to skip the
+      geometry section,\r\nit just ended up that way because there was no way to get
+      the word `ASTANA`\r\nwhile using one of the geometry problems,\r\nand that cluephrase
+      was so fitting I couldn't resist.\r\nIn general, if you're curious,\r\n[here
+      is the set of possible six-letter phrases][nutrimatic].\r\n(The answer `AUTHOR`
+      would have been pretty good too, I guess.)\r\n\r\n[mysteryhunt]: https://usamo.wordpress.com/2021/02/21/unnecessarily-detailed-stories-of-my-mystery-hunt-puzzles/\r\n[isl]:
+      https://perpendicular.institute/puzzle/the-imo-shortlist/\r\n[nutrimatic]: https://nutrimatic.org/?q=%5Babcfgjkmnrs%5D%5Bgklnorsuv%5D%5Balmnrstv%5D%5Babcfghiklprstu%5D%5Bglnorsuz%5D%5Babdelmnrst%5D&go=Go"
+    post_solve_image_path: 2021/lincoln-sm.jpg
+    post_solve_image_alt: Lincoln, NE.
+- model: core.solution
+  pk: 8
+  fields:
+    puzzle: 8
+    post_solve_story: "_They're lunar stones_.\r\n\r\nYou realize Steve's stones are
+      actually charged by moonlight;\r\nbringing them with you gives you enough light
+      to navigate the tunnel.\r\nUsing the `LUNAR STONE ON RADICAL ROOTS`{.answer},\r\nthe
+      seemingly insane *route* is actually not too difficult to navigate.\r\n\r\n\"Ah,
+      so ya figured out how to get back to your side?\"\r\n\r\nYou turn around to
+      see that Steve has returned.\r\nWell, figures he'd only come around now.\r\n\r\n\"So...
+      this is goodbye?\" you ask.\r\n\r\n\"Beats me. *You're* the one standing by
+      the exit.\"\r\n\r\nYou're left without words again,\r\nand stand awkwardly as
+      you fumble for a response.\r\nThis isn't quite how you're used to saying goodbye.\r\n\r\nFinally,
+      you manage to ask,\r\n\"so what was that deal about being assistant director?\"\r\n\r\n\"Yeah,
+      you got to be assistant director. What about it?\r\nSeemed you figured out everything
+      just fine.\"\r\nSteve thinks for a moment, and then grins.\r\n\"Oh, you need
+      like a work reference or something?\"\r\n\r\n\"I...\"\r\n\r\n\"Consider it done!\"
+      Steve claps his hands together.\r\n\"I'll have it mailed out later tonight.\"\r\n\r\n\"Wait...\"\r\n\r\nSteve
+      interrupts you before you can even finish gathering your thoughts.\r\n\"Geez,
+      you sure know how to drag on a goodbye!\r\nTake it easy. Things come and go,
+      but you'll figure it out.\"\r\n\r\nAnd with that, Steve turns around,\r\nmakes
+      a short farewell gesture, and fades into the darkness."
+    solution_text: "The metapuzzle requires the undordered set of\r\nthe feeder answers
+      to the previous puzzles,\r\nwhich we give below sorted first by length and then
+      alphabetically.\r\n\r\n* `GETSUMNULL`\r\n* `KAZAKHSTAN`\r\n* `BEACONRADIUS`\r\n*
+      `SAYNOTOCOMBO`\r\n* `USACHROMAKEY`\r\n* `FILESPECIALFORMAT`\r\n* `TEAMSELECTIONEXAM`\r\n\r\nIt's
+      also necessary to find the puzzle itself:\r\nit's hidden in the same place that
+      the hunt itself was,\r\nbehind the world map (this time behind the MOSP world
+      map).\r\n\r\n## Braille\r\n\r\nThe first step is to translate the Braille grid
+      provided.\r\nDoing so provides the following message:\r\n\r\n|   |   |   |   |
+      \  |   |\r\n|:-:|:-:|:-:|:-:|:-:|:-:|\r\n| N | E | W | J | O | B |\r\n| F |
+      I | N | D |   |   |\r\n| A |   | T | E | S | T |\r\n| O | N | E | V | A | N
+      |\r\n| C | H | E | N | C | C |\r\n| A |   | P | D | F |   |\r\n| S | O | L |
+      N |   |   |\r\n|   |   | T | E | X | T |\r\n| U | S | A | J | M | O |\r\n| P
+      |   | S | I | X |   |\r\n\r\nThis prompts the solver to navigate to the\r\n[problem
+      archive at evanchen.cc](https://evanchen.cc/problems.html).\r\nOne of the tests
+      has been conspicuously labeled \"featuring Steve\"\r\nfor no apparent reason,
+      so the solver is prompted to open it.\r\nDoing so reminds the solver of the
+      statement of USAJMO 2015/6:\r\n\r\n> Steve is piling $m\\geq 1$ indistinguishable
+      stones\r\n> on the squares of an $n\\times n$ grid.\r\n> Each square can have
+      an arbitrarily high pile of stones.\r\n> After he finished piling his stones
+      in some manner,\r\n> he can then perform _stone moves_, defined as follows.\r\n>
+      Consider any four grid squares, which are corners of a rectangle,\r\n> i.e.
+      in positions $(i, k), (i, l), (j, k), (j, l)$\r\n> for some $1\\leq i, j, k,
+      l\\leq n$, such that $i<j$ and $k<l$.\r\n> A stone move consists of either removing
+      one stone from each of\r\n> $(i, k)$ and $(j, l)$\r\n> and moving them to $(i,
+      l)$ and $(j, k)$ respectively,\r\n> or removing one stone from each of $(i,
+      l)$ and $(j, k)$\r\n> and moving them to $(i, k)$ and $(j, l)$ respectively.\r\n>
+      \ \r\n> Two ways of piling the stones are equivalent\r\n> if they can be obtained
+      from one another\r\n> by a sequence of stone moves.\r\n> How many different
+      non-equivalent ways can\r\n> Steve pile the stones on the grid?\r\n\r\nThe solution
+      to this problem is based on looking at the \"signature\"\r\nof a stone configuration:\r\nthe
+      number of stones in any given row or given column.\r\nThis suggests the blue
+      numbers given are the signature.\r\n\r\n## Crossword\r\n\r\nIt remains to complete
+      the crossword.\r\nTo proceed further, one has to read the flavor text of the
+      puzzle.\r\nReading it out loud, one should notice something conspicuous:\r\nas
+      is MOSP tradition, the letter S is repeated over and over\r\n(though not quite
+      as much as in the survey).\r\nAnd indeed, one notices that each of the answers
+      has the letter S exactly once.\r\nSo this suggests the way to fill in the grid:\r\n\r\n*
+      The letter S's represent the stones, and should satisfy the blue numbers.\r\n*
+      The answers should be placed in the grid with three horizontal\r\n  and four
+      vertical; moreover the occupied cells must be centrally symmetric.\r\n\r\nIt
+      turns out there is a unique way to do this, depicted below.\r\n\r\n<div class=\"strong-emph\"
+      markdown=\"1\">\r\n|     | 1 | 2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 |\r\n|-----|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|\r\n|**0**|
+      \  |   | T |   |   |   |   |   |   |   |   |   |\r\n|**0**|   |   | E |   |
+      \  |   |   |   |   |   | G |   |\r\n|**1**| U |*S*| A | C | H | R | O | M |
+      A | K | E | Y |\r\n|**0**|   |   | M |   |   |   |   |   |   |   | T |   |\r\n|**2**|
+      \  |   |*S*|   |   |   |   |   |   |   |*S*|   |\r\n|**0**|   |   | E |   |
+      \  |   |   |   |   |   | U |   |\r\n|**0**|   |   | L |   |   |   |   |   |
+      \  |   | M |   |\r\n|**0**|   |   | E |   |   |   |   |   |   |   | N |   |\r\n|**0**|
+      \  |   | C |   |   |   |   |   |   |   | U |   |\r\n|**0**|   |   | T |   |
+      \  |   |   |   |   |   | L |   |\r\n|**0**|   |   | I |   |   |   |   |   |
+      \  |   | L |   |\r\n|**0**|   |   | O |   |   |   |   |   |   |   |   |   |\r\n|**0**|
+      \  |   | N |   |   |   |   |   |   |   |   |   |\r\n|**0**|   |   | E |   |
+      \  |   |   |   |   |   |   |   |\r\n|**0**|   |   | X |   |   |   |   |   |
+      \  | F |   |   |\r\n|**1**| B | E | A | C | O | N | R | A | D | I | U |*S*|\r\n|**0**|
+      \  |   | M |   |   |   |   |   |   | L |   |   |\r\n|**0**|   |   |   |   |
+      \  |   |   |   |   | E |   |   |\r\n|**1**|   |   |   |   |   |   |   |   |
+      \  |*S*|   |   |\r\n|**0**|   |   |   |   |   |   |   |   |   | P |   |   |\r\n|**0**|
+      \  | K |   |   |   |   |   |   |   | E |   |   |\r\n|**0**|   | A |   |   |
+      \  |   |   |   |   | C |   |   |\r\n|**0**|   | Z |   |   |   |   |   |   |
+      \  | I |   |   |\r\n|**0**|   | A |   |   |   |   |   |   |   | A |   |   |\r\n|**0**|
+      \  | K |   |   |   |   |   |   |   | L |   |   |\r\n|**0**|   | H |   |   |
+      \  |   |   |   |   | F |   |   |\r\n|**1**|   |*S*|   |   |   |   |   |   |
+      \  | O |   |   |\r\n|**0**|   | T |   |   |   |   |   |   |   | R |   |   |\r\n|**1**|*S*|
+      A | Y | N | O | T | O | C | O | M | B | O |\r\n|**0**|   | N |   |   |   |   |
+      \  |   |   | A |   |   |\r\n|**0**|   |   |   |   |   |   |   |   |   | T |
+      \  |   |\r\n</div>\r\n\r\n## Extraction\r\n\r\nThere is one step remaining:
+      solvers need to overlay this completed\r\ngrid back onto the Braille grid (since
+      there was otherwise no reason\r\nwhy the Braille grid should be the same dimensions
+      as the crossword;\r\nmoreover some of the placement of empty cells in the Braille\r\nwas
+      fairly irregular).\r\n\r\nUpon doing so, certain letters are highlighted, as
+      shown below.\r\nThe solver then should trace out the S and read the highlighted
+      letters,\r\nas directed by the flavor text.\r\n\r\n<div class=\"strong-emph\"
+      markdown=\"1\">\r\n|   |   |   |   |   |   |   |   |   |   |   |   |\r\n|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|\r\n|
+      \  |   | . |   |   |   |   |   |   |   |   |   |\r\n|   |   | . |   |   |   |
+      \  |   |   |   | . |   |\r\n| . | . | A | C | H |*R*| O | M |*A*| K | E | .
+      |\r\n|   |   | M |   |   |   |   |   |   |   | T |   |\r\n|   |   |*S*|   |
+      \  |   |   |   |   |   | S |   |\r\n|   |   | E |   |   |   |   |   |   |   |
+      U |   |\r\n|   |   | L |   |   |   |   |   |   |   | M |   |\r\n|   |   | E
+      |   |   |   |   |   |   |   |*N*|   |\r\n|   |   | C |   |   |   |   |   |   |
+      \  |*U*|   |\r\n|   |   |*T*|   |   |   |   |   |   |   |*L*|   |\r\n|   |   |
+      I |   |   |   |   |   |   |   | L |   |\r\n|   |   |*O*|   |   |   |   |   |
+      \  |   |   |   |\r\n|   |   |*N*|   |   |   |   |   |   |   |   |   |\r\n|   |
+      \  |*E*|   |   |   |   |   |   |   |   |   |\r\n|   |   | X |   |   |   |   |
+      \  |   | . |   |   |\r\n| . | . | A | C |*O*|*N*|*R*|*A*|*D*|*I*| . | . |\r\n|
+      \  |   | . |   |   |   |   |   |   | L |   |   |\r\n|   |   |   |   |   |   |
+      \  |   |   | E |   |   |\r\n|   |   |   |   |   |   |   |   |   | S |   |   |\r\n|
+      \  |   |   |   |   |   |   |   |   | P |   |   |\r\n|   | K |   |   |   |   |
+      \  |   |   | E |   |   |\r\n|   | A |   |   |   |   |   |   |   |*C*|   |   |\r\n|
+      \  | Z |   |   |   |   |   |   |   | I |   |   |\r\n|   | A |   |   |   |   |
+      \  |   |   |*A*|   |   |\r\n|   | K |   |   |   |   |   |   |   |*L*|   |   |\r\n|
+      \  | H |   |   |   |   |   |   |   | F |   |   |\r\n|   |*S*|   |   |   |   |
+      \  |   |   | O |   |   |\r\n|   |*T*|   |   |   |   |   |   |   |*R*|   |   |\r\n|
+      . | A | Y | N |*O*| T |*O*| C | O | M | . | . |\r\n|   | . |   |   |   |   |
+      \  |   |   | . |   |   |\r\n|   |   |   |   |   |   |   |   |   | . |   |   |\r\n</div>\r\n\r\nReading
+      this gives the answer:\r\n`LUNAR STONE ON RADICAL ROOTS`{.answer}."
+    author_notes: "Since the puzzle hunt was named MOSP,\r\nI wanted the metapuzzle
+      to be based around the letter S.\r\nI had the idea of using Steve's stones,
+      from USAMO 2015,\r\nas the mechanic, since it was a reference that this group
+      might appreciate.\r\n\r\nThe original form of the puzzle was a bit simpler.\r\nThe
+      only given data was\r\n\r\n* A link to the Steve's stones problem in the flavortext\r\n*
+      The blue numbers\r\n* The indices of the extracted letters along the S-path
+      (out of 66).\r\n\r\nThe problem with this was that test-solvers kept trying\r\nto
+      use the numbers 1-66 much too early.\r\n(There was also not enough confirmation
+      that a crossword was the right thing to do,\r\nwhich we fixed by providing the
+      across/down hint.)\r\nTo alleviate the other issue, we converted the\r\n\"look
+      at USAMO 2015/4\" text into an additional Braille step,\r\ncarefully using Nutrimatic
+      to create a cluephrase that would unambiguously\r\npoint to JMO 2015/6,\r\nwhile
+      ensuring the pattern of highlighted letters in the giant S\r\nwould extract
+      to the desired final answer.\r\nThis way people wouldn't try to reuse the green
+      cells until towards the end,\r\nsince they start by getting an instruction out
+      of it,\r\nthat pointed them towards a specific thing to think about.\r\n\r\nThe
+      title of the puzzle used to be \"Escape from MOSP\",\r\nbut was revised several
+      times to clue the mechanic.\r\n\"Sticks and Stones\" conveniently clues both
+      the S and the olympiad problem."
+    post_solve_image_path: 2021/ending-sm.png
+    post_solve_image_alt: Don't think too hard about it.
+- model: core.saltedanswer
+  pk: 1
+  fields:
+    puzzle: 1
+    display_answer: USA CHROMA KEY
+    salt: 5350
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.saltedanswer
+  pk: 2
+  fields:
+    puzzle: 1
+    display_answer: USE A CHROMA KEY
+    salt: 8887
+    message: Just give the twelve letter answer.
+    is_correct: false
+    is_canonical: false
+- model: core.saltedanswer
+  pk: 3
+  fields:
+    puzzle: 2
+    display_answer: FILE SPECIAL FORMAT
+    salt: 2498
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.saltedanswer
+  pk: 4
+  fields:
+    puzzle: 2
+    display_answer: VKDLFXMRTNGUDTLR
+    salt: 4401
+    message: Almost. Translate the whole string not individual words.
+    is_correct: false
+    is_canonical: false
+- model: core.saltedanswer
+  pk: 5
+  fields:
+    puzzle: 2
+    display_answer: file special form
+    salt: 2565
+    message: Almost. Translate the whole string not individual words.
+    is_correct: false
+    is_canonical: false
+- model: core.saltedanswer
+  pk: 6
+  fields:
+    puzzle: 2
+    display_answer: file special formal
+    salt: 3113
+    message: Almost. Translate the whole string not individual words.
+    is_correct: false
+    is_canonical: false
+- model: core.saltedanswer
+  pk: 7
+  fields:
+    puzzle: 3
+    display_answer: GET SUM NULL
+    salt: 4295
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.saltedanswer
+  pk: 8
+  fields:
+    puzzle: 4
+    display_answer: TEAM SELECTION EXAM
+    salt: 8681
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.saltedanswer
+  pk: 9
+  fields:
+    puzzle: 4
+    display_answer: tse
+    salt: 625
+    message: TSE is an acronym, try to find what it stands for.
+    is_correct: false
+    is_canonical: false
+- model: core.saltedanswer
+  pk: 10
+  fields:
+    puzzle: 5
+    display_answer: SAY NO TO COMBO
+    salt: 2652
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.saltedanswer
+  pk: 11
+  fields:
+    puzzle: 6
+    display_answer: BEACON RADIUS
+    salt: 710
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.saltedanswer
+  pk: 12
+  fields:
+    puzzle: 6
+    display_answer: CAN ZOOM IN ON EMAIL
+    salt: 116
+    message: This is an instruction, not the answer!
+    is_correct: false
+    is_canonical: false
+- model: core.saltedanswer
+  pk: 13
+  fields:
+    puzzle: 7
+    display_answer: KAZAKHSTAN
+    salt: 3116
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.saltedanswer
+  pk: 14
+  fields:
+    puzzle: 7
+    display_answer: ASTANA
+    salt: 8558
+    message: One more little step! Answer is 10 letters.
+    is_correct: false
+    is_canonical: false
+- model: core.saltedanswer
+  pk: 15
+  fields:
+    puzzle: 8
+    display_answer: LUNAR STONE ON RADICAL ROOTS
+    salt: 2310
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.round
+  pk: 1
+  fields:
+    unlockable: 2
+    name: Map of Secret Puzzles
+    chapter_number: '1'
+    show_chapter_number: true
+    slug: mosp-world-map
+    thumbnail_path: 2021/map-sm.png
+    round_text: '[![MOSP 2021 Online Map](/static/2021/map-sm.png)](https://docs.google.com/drawings/d/11wEufXURS3AG38HLoszCcuuc4ml0kv8h-_gtRjrVBV4/edit){.img-link}'
+- model: core.round
+  pk: 2
+  fields:
+    unlockable: 1
+    name: Online World Map
+    chapter_number: '0'
+    show_chapter_number: true
+    slug: welcome
+    thumbnail_path: 2021/ch0map-sm.png
+    round_text: '[![Online Map 2021](/static/2021/ch0map-sm.png){.w-5/6 .mx-auto}](https://docs.google.com/drawings/d/1OEBuFvYr-K6LDba1EWp2uJh2Dit4zqrja6nc-Eny11I/edit?usp=sharing){.img-link}'

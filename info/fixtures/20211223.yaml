@@ -1,0 +1,91 @@
+- model: info.page
+  pk: 1
+  fields:
+    title: About
+    content: "MOSP is the name of the puzzle hunt run at the [Math Olympiad Program](evanchen.cc/mop.html).\r\nIt
+      was started by Evan Chen in 2021 because he had slightly\r\ntoo much time on
+      his hands, as well as the assistance of\r\nSerena An, Sanjana Das, and Isabella
+      Quan.\r\nAfter that, it was decided to make this a continuously running hunt\r\nwhich
+      chronicled the adventures of the alternate-universe **MOSP**,\r\nwith new chapters
+      being released at MOP each year.\r\n\r\nThe hunt is designed with longevity
+      in mind: anyone should be\r\nin principle about to start with chapter 0 and
+      enjoy\r\nnearly all of the entire experience.\r\n\r\nIf you're new to puzzle
+      hunts, check out [this page](https://web.evanchen.cc/puzzlehunt.html#new). Otherwise,
+      feel free to jump on in!"
+    slug: about
+    published: true
+    listed: true
+- model: info.page
+  pk: 2
+  fields:
+    title: Rules
+    content: "This guide is not part of any puzzle.\r\nIt’s just laying out some instructions
+      for the hunt.\r\n\r\n## Rules and format\r\n\r\n1. \tEach puzzle has an answer
+      which consists of English letters.\r\n\tThe answers are not case sensitive and
+      spaces are disregarded,\r\n\tbut the spelling must match exactly.\r\n2. Each
+      time you submit an answer, the answer checker will verify it.\r\n\t- This can
+      take anywhere from 10 to 60 seconds depending on\r\n\t\thow fast your computer
+      is.\r\n\t- If your answer is correct, you will be given a link to a new page.\r\n\t-
+      Beyond having to wait a while to get an answer checked off,\r\n\t\tthere is
+      no penalty or limit on checking answers.\r\n\t- Moreover, the answer checker
+      provides extra nudges\r\n\t\tfor certain cluephrases that are close to the answer.\r\n\t-
+      Therefore, you are encouraged to call in guesses as much as you want.\r\n3.
+      The following ARE allowed.\r\n\t- Guessing as many things into the answer checker
+      as you want.\r\n\t- Guessing at URL’s except for those under web.evanchen.cc.\r\n\t-
+      Searching the Internet freely for resources.\r\n\t- Writing programs to help
+      you work on a puzzle, as long as they are local.\r\n4. The following are NOT
+      allowed.\r\n\t- You should not spoil the hunt outside the MOSP Discord.\r\n\t-
+      You will NOT need to guess any URL’s on the site web.evanchen.cc.\r\n\t\tYou
+      can try a few if you really want, but don’t bulk-guess for my server’s sake.\r\n\t-
+      Do NOT make any form of repeated or automated requests to a server\r\n\t\tsuch
+      as this site, Discord, Gradescope, Google Classroom, Zoom, etc.\r\n\t\t(For
+      example, you should NOT write a script to randomly guess URL’s or answers.)\r\n\t-
+      Don't try to hack the website.\r\n\t- **None of the puzzles require you to inspect
+      the source code of pages.**\r\n\t\tYou can look if you want, but we think it’s
+      more misleading than helpful.\r\n\r\n## Browser support\r\n\r\nThe only tested
+      browsers are up-to-date versions\r\nof Firefox and Google Chrome (or Chromium).\r\nYou
+      can try using other browsers if you want but you may encounter issues.\r\n\r\nYou
+      should not use incognito or private mode,\r\nsince the website needs to store
+      data about which puzzles you've solved,\r\nand it does so only on your device
+      (the hunt website is server-less).\r\nThis also means if you switch browsers
+      or devices\r\nyour progress will not carry over.\r\n\r\n## Courage and Patience\r\n\r\nThis
+      hunt is quite difficult (not quite Mystery Hunt level but getting there),\r\nand
+      we want you to have fun, so you should feel welcome to get hints\r\nwhenever
+      you aren't having fun.\r\n\r\nThe hunt website will automatically let you redeem
+      hints\r\nand unlocks as time passes and as you solve puzzles.\r\nFor each puzzle,
+      hints will unlock after one hour.\r\nThe website keeps track of two currencies:\r\n\r\n-
+      (\U0001F49C) **Courage**: +25 for every puzzle solved. Does not decrease.\r\n\t-
+      Used only for unlocking new puzzles, and not hints.\r\n- (\U0001F49B) **Patience**:
+      Can be exchanged for prewritten hints.\r\n\t- +30 for every puzzle solved\r\n\t-
+      +20 each time a new puzzle is unlocked\r\n\t- If a puzzle has been open for
+      t hours\r\n\t\tit gives ⌊3log⁡(1+t)⌋\r\n\t\tadditional patience (even after
+      it is solved).\r\n\r\nThe choice of which hints were written\r\nfor each puzzle
+      can potentially be a minor spoiler,\r\nfair warning.\r\nAlso, the hint system
+      is implemented in client-side Javascript,\r\nso you can hack it if you really
+      wanted to.\r\n\r\nFinally, feel free to ping `@admin` for additional hints too.\r\nNo
+      charge for doing so.\r\nIf you choose to do so, it helps if you can link\r\nthe
+      spreadsheet that you're working on:\r\nwe can give better advice if we can see
+      your work.\r\n\r\n## Teams\r\n\r\nThere is no limit on team size but\r\nwe think
+      that most people will have the most fun\r\nworking on the hunt **in teams of
+      3-5 people**.\r\n(Which conveniently is equal to the number of people\r\nin
+      your social group if you signed up for one.)"
+    slug: rules
+    published: true
+    listed: true
+- model: info.page
+  pk: 3
+  fields:
+    title: Saving Progress
+    content: "When you first load the website, it generates a token for you once you
+      enter your name. This is tracked by a simple cookie, so if you only access the
+      website through one browser, then that is sufficient.\r\n\r\nIf you'd like to
+      store your progress across sessions, then you can do one of two things.\r\n\r\n1.
+      After clicking your name in the top left, you'll land on a page with a long
+      URL. If you load that URL on any other browser, your progress will be transferred.\r\n2.
+      Alternatively, link your Discord account to log in with Discord.\r\n\r\nThe
+      latter option has some extra perks: you'll be able to access the MOSP Discord.
+      There is a dedicated channel for people who have completed each of the puzzles,
+      which is nice."
+    slug: progress
+    published: true
+    listed: true

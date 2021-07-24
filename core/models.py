@@ -46,9 +46,7 @@ class Hunt(models.Model):
 	def allow_cheat(self, token : 'Token'):
 		if self.allow_skip is True:
 			return True
-		elif token.permission >= 40:
-			return True
-		return False
+		return token.omniscient
 
 class Unlockable(models.Model):
 	hunt = models.ForeignKey(Hunt,
@@ -197,6 +195,21 @@ class Puzzle(models.Model):
 			help_text = "Extra HTML to include in HTML header",
 			blank = True,
 			)
+	status_progress = models.SmallIntegerField(
+			help_text = "How far this puzzle is in the development process",
+			choices = (
+				(-1, "Deferred"),
+				( 0, "Initialized"),
+				( 1, "Writing"),
+				( 2, "Testsolving"),
+				( 3, "Revising"),
+				( 4, "Needs Soln"),
+				( 5, "Polish"),
+				( 6, "Finished"),
+				( 7, "Published"),
+				),
+			default = 0)
+
 	@property
 	def hunt_volume_number(self):
 		return self.unlockable.hunt.volume_number if self.unlockable is not None else '-'

@@ -47,6 +47,13 @@ urlpatterns = [
 	path(r'chapter/<str:chapter_number>/edit',
 		views.RoundUpdate.as_view(),
 		name='round-update'),
+	# -- staff --
+	path(r'staff/hunts',
+		views.StaffHuntList.as_view(),
+		name='staff-hunts'),
+	path(r'staff/puzzles',
+		views.StaffPuzzleList.as_view(),
+		name='staff-puzzles'),
 	# -- other --
 	path(r'<str:hunt__volume_number>/unlock/<str:slug>',
 		views.UnlockableDetail.as_view(),

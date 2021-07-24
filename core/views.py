@@ -275,10 +275,12 @@ def ajax(request : HttpRequest) -> JsonResponse:
 	return JsonResponse({'message' :
 		f'No such method {action}'}, status=400)
 
+# -- Staff views --
+
 class PuzzleUpdate(UpdateView, StaffRequiredMixin):
 	model = models.Puzzle
 	context_object_name = "puzzle"
-	fields = ('name', 'slug', 'flavor_text', 'content', 'puzzle_head',)
+	fields = ('name', 'slug', 'status_progress', 'flavor_text', 'content', 'puzzle_head',)
 
 class SolutionUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
 	model = models.Solution
@@ -294,3 +296,23 @@ class UnlockableUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMi
 	model = models.Unlockable
 	context_object_name = "unlockable"
 	fields = ('name', 'slug', 'story_only', 'intro_story_text', 'force_visibility', 'courage_bounty')
+
+class StaffHuntList(TokenGatedListView, StaffRequiredMixin):
+	"""Staff view of all the hunts"""
+	context_object_name = "hunt_list"
+	model = models.Hunt
+	redirect_if_no_token = False
+	template_name = 'core/staff_hunt_list.html'
+	def get_queryset(self):
+		return models.Hunt.objects.order_by('-start_date')
+
+class StaffPuzzleList(TokenGatedListView, StaffRequiredMixin):
+	"""Staff list of the puzzles"""
+	context_object_name = "puzzle_list"
+	model = models.Puzzle
+	redirect_if_no_token = False
+	template_name = 'core/staff_puzzle_list.html'
+	def get_queryset(self):
+		return models.Puzzle.objects.filter(
+				status_progress__range=(0,6))\
+				.order_by('status_progress').select_related('unlockable', 'solution')
