@@ -4,4 +4,4 @@
 python manage.py tailwind build
 python manage.py collectstatic
 gsutil -m rsync -R static/ gs://mosp.evanchen.cc/static
-# gsutil -m setmeta -R -h 'Cache-Control:private, max-age=0, no-transform' gs://static/*
+gsutil -m setmeta -R -h 'Cache-Control:private, max-age=0, no-transform' gs://mosp.evanchen.cc/static/\*
