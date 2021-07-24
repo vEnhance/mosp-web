@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='puzzle',
             name='hunt',
-            field=models.ForeignKey(default=0, help_text='The hunt that this puzzle belongs to', on_delete=django.db.models.deletion.CASCADE, to='core.hunt'),
+            field=models.ForeignKey(default=1, help_text='The hunt that this puzzle belongs to', on_delete=django.db.models.deletion.CASCADE, to='core.hunt'),
             preserve_default=False,
         ),
         migrations.AddField(

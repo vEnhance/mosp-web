@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='solve',
             name='unlockable',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='core.unlockable'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='core.unlockable'),
             preserve_default=False,
         ),
         migrations.AlterField(
