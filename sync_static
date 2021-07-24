@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # If you aren't Evan, replace the bucket name...
+cd typescripts/
+tsc
+cd ..
 python manage.py tailwind build
 python manage.py collectstatic
 gsutil -m rsync -R static/ gs://mosp.evanchen.cc/static

@@ -113,13 +113,21 @@ function main(
         text: "I remember someone with this name. Is it you?",
         icon: 'question',
         showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
+        showDenyButton: true,
+        confirmButtonText: "Yes; login by Discord",
+        denyButtonText: "No, I'm new",
+        cancelButtonText: "Yes; enter URL",
       }).then((result) => {
         if (result.isConfirmed) {
           window.location.replace('/accounts/discord/login/?process=login');
-        } else {
+        } else if (result.isDenied) {
           main(name, true); // create new token with this name
+        } else {
+          Swal.fire({
+            title: 'Okay!',
+            icon: 'info',
+            text: "You should point your browser to your profile's URL now",
+          });
         }
       });
     }
