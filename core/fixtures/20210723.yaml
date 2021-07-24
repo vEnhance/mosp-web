@@ -501,7 +501,7 @@
     flavor_text: ''
     content: ''
     puzzle_head: ''
-    status_progress: 7
+    status_progress: 0
 - model: core.solution
   pk: 1
   fields:
