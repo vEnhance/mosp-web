@@ -42,6 +42,12 @@ const hashes = [
 </span>
 {% endif %}</h1>
 
+{% if is_testsolve_session %}
+<div class="p-2 mx-auto italic text-blue-900 bg-blue-200 border-2 border-green-300 ring-2 ring-blue-100 w-max">
+	You are <b>testsolving</b> this puzzle.
+</div>
+{% endif %}
+
 <div class="text-sm italic">
 	{{ puzzle.flavor_text|mkd }}
 </div>

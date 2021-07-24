@@ -171,6 +171,11 @@ class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
 		assert session.expires > timezone.now()
 		assert not self.token.is_plebian, "not an authorized testsolver"
 		return ret
+	def get_context_data(self, **kwargs) -> Context:
+		context = super().get_context_data(**kwargs)
+		context['is_testsolve_session'] = True
+		return context
+
 
 class PuzzleSolutionDetail(TokenGatedDetailView):
 	"""Shows a solution"""
