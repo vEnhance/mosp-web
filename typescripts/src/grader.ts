@@ -14,30 +14,29 @@ $(function() {
   let active = false;
   let target_url = '';
   let raw_answer = '';
+  let waiting_for_ajax = false;
+
   function checkAnswer() {
     raw_answer = String($("#answer").val()!);
     $("#answer").val(raw_answer.toUpperCase());
-    const answer : string = raw_answer.toUpperCase().replace(/[^A-Z]/g, '');
-    if (answer && !active) {
+    if (raw_answer && !active) {
       active = true;
       $("#wrong").hide();
       $("#thinking").show();
       $("#percent").css('visibility', 'visible');
       $("#answer").prop('disabled', true);
-      guessSalt(0, answer);
+      guessSalt(0);
     }
   }
 
-  async function guessSalt(t : number, answer : string) {
+  async function guessSalt(t : number) {
     $("#percent").html(t+"%");
+    const answer : string = String($("#answer").val()).toUpperCase().replace(/[^A-Z]/g, '');
     for (let i = 111*t; i < 111*(t+1); i++) {
       const g = 'MOSP_LIGHT_NOVEL_' + answer + i;
       const hash = await SHA(g);
-      if (i == 2498) {
-        console.log(g);
-        console.log(hash);
-      }
       if (hashes.includes(hash)) {
+        waiting_for_ajax = true;
         $.post('/ajax', {
           action : 'guess',
           guess : answer,
@@ -46,9 +45,7 @@ $(function() {
         }, (result) => {
           if (!result || !result.correct) {
             err();
-            return;
-          }
-          if (result.correct == 1) {
+          } else if (result.correct == 1) {
             target_url = result.url;
           } else if (result.correct > 0) {
             Swal.fire({
@@ -59,13 +56,16 @@ $(function() {
           } else {
             err();
           }
+          waiting_for_ajax = false;
+          return;
         }, 'json').fail(err);
       }
     }
     if (t < 100) {
-      window.setTimeout(function() { guessSalt(t+1, answer) }, 1);
-    }
-    else {
+      window.setTimeout(function() { guessSalt(t+1) }, 1);
+    } else if (waiting_for_ajax) {
+      window.setTimeout(function() { guessSalt(99) }, 1);
+    } else {
       judge();
     }
   }
