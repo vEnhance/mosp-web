@@ -11,15 +11,16 @@
 		<a class="emoji-link" href="/">🔝</a>
 		{% endblock %}
 		{% if token %}
-		{% if request.user.is_staff %}
-		<a class="emoji-link" href="/admin">🏸</a>
-		{% endif %}
 		{% spaceless %}
 		<a href="{% url "token-detail" token.uuid %}">
-		<span class="italic text-yellow-600">{{ token.firstname }}
-			{% if request.user.is_staff %}[{{token.permission}}]{% endif %}</span>
+		<span class="italic text-yellow-600">{{ token.firstname }} </span>
 		</a>
 		{% endspaceless %}
+		{% if request.user.is_staff %}
+		<a class="emoji-link" href="{% url "staff-hunt-list" %}">🥆</a>
+		<a class="emoji-link" href="{% url "staff-puzzle-list" %}">🧩</a>
+		<a class="emoji-link" href="/admin">🏸</a>
+		{% endif %}
 		{% endif %}
 		{% block leftnav-more %}
 		{% endblock %}
@@ -32,6 +33,20 @@
 		{% endblock %}
 		{% endif %}
 		{% block rightnav %}
+		{% if token.permission > 0 %}
+		<span class="relative ml-2 group navitem">
+			{% spaceless %}
+			💚<span>{{ token.permission }}</span>
+			<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
+				<div class="font-bold text-black">Courage</div>
+				<div class="text-green-900">
+					Gain 💚 by joining<br>
+					the writing team.
+				</div>
+			</div>
+			{% endspaceless %}</span>
+		{% endif %}
+
 		<span class="relative ml-2 group navitem" id="courage">
 			{% spaceless %}
 			💜<span id="courage_value">{{ token.get_courage }}</span>

@@ -50,10 +50,10 @@ urlpatterns = [
 	# -- staff --
 	path(r'staff/hunts',
 		views.StaffHuntList.as_view(),
-		name='staff-hunts'),
+		name='staff-hunt-list'),
 	path(r'staff/puzzles',
 		views.StaffPuzzleList.as_view(),
-		name='staff-puzzles'),
+		name='staff-puzzle-list'),
 	# -- other --
 	path(r'<str:hunt__volume_number>/unlock/<str:slug>',
 		views.UnlockableDetail.as_view(),
