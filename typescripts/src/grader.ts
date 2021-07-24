@@ -57,15 +57,14 @@ $(function() {
             err();
           }
           waiting_for_ajax = false;
+          judge();
           return;
         }, 'json').fail(err);
       }
     }
     if (t < 100) {
       window.setTimeout(function() { guessSalt(t+1) }, 1);
-    } else if (waiting_for_ajax) {
-      window.setTimeout(function() { guessSalt(99) }, 1);
-    } else {
+    } else if (!waiting_for_ajax) {
       judge();
     }
   }
