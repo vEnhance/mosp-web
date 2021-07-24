@@ -11,12 +11,13 @@
 		<a class="emoji-link" href="/">🔝</a>
 		{% endblock %}
 		{% if token %}
-		{% if request.user.is_staff or token.permission >= 60 %}
+		{% if request.user.is_staff %}
 		<a class="emoji-link" href="/admin">🏸</a>
 		{% endif %}
 		{% spaceless %}
 		<a href="{% url "token-detail" token.uuid %}">
-		<span class="italic text-yellow-600">{{ token.firstname }}</span>
+		<span class="italic text-yellow-600">{{ token.firstname }}
+			{% if request.user.is_staff %}[{{token.permission}}]{% endif %}</span>
 		</a>
 		{% endspaceless %}
 		{% endif %}

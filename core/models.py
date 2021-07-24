@@ -4,6 +4,7 @@ from django.db.models import Q, Max
 from django.urls import reverse_lazy
 from django.utils import timezone
 from markdownx.models import MarkdownxField
+from typing import Optional
 
 import random
 import re
@@ -63,7 +64,6 @@ class Unlockable(models.Model):
 
 	slug = models.SlugField(
 			help_text = "The slug for the unlockable",
-			unique = True,
 			)
 	name = models.CharField(max_length=80,
 			help_text = "The name for this unlockable (e.g. place on map)",
@@ -181,7 +181,6 @@ class Puzzle(models.Model):
 	name = models.CharField(max_length = 80)
 	slug = models.SlugField(
 			help_text = "The slug for the puzzle",
-			unique = True,
 			)
 	is_meta = models.BooleanField(
 			help_text = "Whether this is a metapuzzle",
@@ -198,18 +197,21 @@ class Puzzle(models.Model):
 			help_text = "Extra HTML to include in HTML header",
 			blank = True,
 			)
+	@property
+	def hunt_volume_number(self):
+		return self.unlockable.hunt.volume_number if self.unlockable is not None else '-'
 	def get_absolute_url(self):
 		return reverse_lazy('puzzle-detail',
-				args=(self.unlockable.hunt.volume_number, self.slug,))
+				args=(self.hunt_volume_number, self.slug,))
 	def get_editor_url(self):
 		return reverse_lazy('puzzle-update',
-				args=(self.unlockable.hunt.volume_number, self.slug,))
+				args=(self.hunt_volume_number, self.slug,))
 	def get_solution_url(self):
 		return reverse_lazy('solution-detail',
-				args=(self.unlockable.hunt.volume_number, self.slug,))
+				args=(self.hunt_volume_number, self.slug,))
 	def get_cheating_url(self):
 		return reverse_lazy('solution-detail-cheating',
-				args=(self.unlockable.hunt.volume_number, self.slug,))
+				args=(self.hunt_volume_number, self.slug,))
 	def get_parent_url(self):
 		return self.unlockable.parent.get_absolute_url()
 	def __str__(self):
@@ -248,10 +250,10 @@ class Solution(models.Model):
 			)
 	def get_absolute_url(self):
 		return reverse_lazy('solution-detail', args=(
-			self.puzzle.unlockable.hunt.volume_number, self.puzzle.slug,))
+			self.puzzle.hunt_volume_number, self.puzzle.slug,))
 	def get_editor_url(self):
 		return reverse_lazy('solution-update', args=(
-			self.puzzle.unlockable.hunt.volume_number, self.puzzle.slug,))
+			self.puzzle.hunt_volume_number, self.puzzle.slug,))
 	def __str__(self):
 		return f"Solution to {self.puzzle.name}"
 
@@ -441,22 +443,31 @@ class Token(models.Model):
 				if not self.has_solved(u.unlock_needs):
 					return False
 		return self.get_courage() >= u.unlock_courage_threshold
+	@property
+	def omniscient(self):
+		return self.permission >= 40
 
-	def can_view(self, u : Unlockable) -> bool:
+	def can_view(self, u : Optional[Unlockable]) -> bool:
+		if u is None:
+			return self.omniscient
 		if u.force_visibility is True:
 			return True
 		elif u.force_visibility is False:
 			return False
 		else:
 			return self.can_unlock(u)
-	def has_found(self, u : Unlockable) -> bool:
+	def has_found(self, u : Optional[Unlockable]) -> bool:
+		if u is None:
+			return self.omniscient
 		if hasattr(u, 'ustatus'):
 			return u.ustatus is not None # type: ignore
 		return Attempt.objects.filter(
 			token = self,
 			unlockable = u,
 		).exists()
-	def has_unlocked(self, u : Unlockable) -> bool:
+	def has_unlocked(self, u : Optional[Unlockable]) -> bool:
+		if u is None:
+			return self.omniscient
 		if hasattr(u, 'ustatus'):
 			return u.ustatus == 0 or u.ustatus == 1 # type: ignore
 		return Attempt.objects.filter(
@@ -465,6 +476,8 @@ class Token(models.Model):
 			status__gte = 0
 		).exists()
 	def has_solved(self, u : Unlockable) -> bool:
+		if u is None:
+			return self.omniscient
 		if hasattr(u, 'ustatus'):
 			return u.ustatus == 1 # type: ignore
 		return Attempt.objects.filter(

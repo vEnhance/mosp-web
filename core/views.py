@@ -11,9 +11,14 @@ class StaffRequiredMixin(PermissionRequiredMixin):
 	permission_required = 'is_staff'
 class GeneralizedSingleObjectMixin(SingleObjectMixin):
 	def get_object(self, queryset = None):
+		kwargs = self.kwargs # type: ignore
 		if queryset is None:
 			queryset = self.get_queryset()
-		return queryset.get(**self.kwargs)
+		for keyword in kwargs:
+			if kwargs[keyword] == '-':
+				kwargs.pop(keyword)
+				kwargs[keyword + '__isnull'] = True
+		return queryset.get(**kwargs)
 
 from typing import Any, Dict, Optional
 from . import models
