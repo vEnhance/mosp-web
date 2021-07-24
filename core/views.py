@@ -93,7 +93,7 @@ class RoundUnlockableList(TokenGatedListView):
 	model = models.Unlockable
 	def dispatch(self, request : HttpRequest, *args, **kwargs):
 		ret = super().dispatch(request, *args, **kwargs)
-		if not self.hunt.has_started:
+		if not self.hunt.has_started and (self.token is None or self.token.is_plebian):
 			return render(request, "core/too_early.html", {'hunt' : self.hunt, 'token' : self.token})
 		return ret
 	def get_queryset(self):
