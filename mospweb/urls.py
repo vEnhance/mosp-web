@@ -22,7 +22,6 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('accounts/', include('allauth.urls')),
 	path('info/', include('info.urls')),
-	path('puzzlord/', include('puzzle_editing.urls')),
 	path('markdownx/', include('markdownx.urls')),
 	path('', include('core.urls')),
 	path('static/<path:f>',

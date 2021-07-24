@@ -1,3 +1,0 @@
-This is a slight edit on Galactic's
-[Puzzlord](https://github.com/galacticpuzzlehunt/puzzlord).
-It's been adapted for use with MOSP.

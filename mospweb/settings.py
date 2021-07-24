@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'tailwind',
     'crispy_forms',
     'crispy_tailwind',
-    'puzzle_editing',
     'theme',
     'core',
     'info',
