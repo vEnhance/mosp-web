@@ -1,0 +1,4 @@
+#!/bin/sh
+
+python manage.py dumpdata core -e core.Attempt -e core.Token --format yaml -o core/fixtures/$(date +"%Y%M%d").yaml
+python manage.py dumpdata info --format yaml -o info/fixtures/$(date +"%Y%M%d").yaml
