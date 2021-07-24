@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -23,4 +25,12 @@ urlpatterns = [
 	path('puzzlord/', include('puzzle_editing.urls')),
 	path('markdownx/', include('markdownx.urls')),
 	path('', include('core.urls')),
+	path('static/<path:f>',
+		RedirectView.as_view(url = (settings.STATIC_URL or '') + '%(f)')
+		),
+	path('favicon.ico',
+		RedirectView.as_view(url = 'https://web.evanchen.cc/favicon.ico'),
+		),
 ]
+if settings.DEBUG is True or settings.STATIC_URL is None:
+	urlpatterns.pop()
