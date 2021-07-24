@@ -41,6 +41,12 @@ class PuzzleAdmin(MarkdownxModelAdmin):
 	def mark_published(self, request, queryset):
 		queryset.update(status_progress = 7)
 
+@admin.register(models.TestSolveSession)
+class TestSolveSession(admin.ModelAdmin):
+	list_display = ('uuid', 'expires', 'puzzle')
+	search_fields = ('puzzle__name',)
+	autocomplete_fields = ('puzzle',)
+
 @admin.register(models.Round)
 class RoundAdmin(MarkdownxModelAdmin):
 	list_display = ('chapter_number', 'name', 'slug', 'show_chapter_number')

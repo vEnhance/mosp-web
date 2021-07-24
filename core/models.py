@@ -305,6 +305,19 @@ class SaltedAnswer(models.Model):
 	def __str__(self):
 		return self.display_answer
 
+class TestSolveSession(models.Model):
+	uuid = models.UUIDField(
+			primary_key = True,
+			default = uuid.uuid4,
+			editable = False)
+	puzzle = models.ForeignKey(Puzzle,
+			help_text = 'The puzzle this is a test solve session for',
+			on_delete = models.CASCADE)
+	expires = models.DateTimeField(
+			"When the test solve session (and hence this link) expires")
+	def get_absolute_url(self):
+		return reverse_lazy('puzzle-testsolve', args=(self.puzzle.slug, self.uuid,))
+
 class Round(models.Model):
 	unlockable = models.OneToOneField(Unlockable,
 			help_text = "Associated unlockable for this round",

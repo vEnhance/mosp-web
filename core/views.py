@@ -6,6 +6,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonRes
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Count
+from django.utils import timezone
 
 class StaffRequiredMixin(PermissionRequiredMixin):
 	permission_required = 'is_staff'
@@ -152,6 +153,19 @@ class PuzzleDetail(TokenGatedDetailView):
 		assert self.token.has_unlocked(u)
 		return ret
 
+class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
+	"""Shows a puzzle, no questions asked"""
+	model = models.Puzzle
+	context_object_name = "puzzle"
+	def dispatch(self, request : HttpRequest, *args, **kwargs):
+		ret = super().dispatch(request, *args, **kwargs)
+		if self.token is None:
+			return HttpResponseRedirect(reverse_lazy('hunt-list'))
+		session = models.TestSolveSession.objects.get(uuid=self.kwargs['testsolvesession__uuid'])
+		assert session.expires > timezone.now()
+		assert self.token.permission >= 20, "not an authorized testsolver"
+		return ret
+
 class PuzzleSolutionDetail(TokenGatedDetailView):
 	"""Shows a solution"""
 	model = models.Puzzle
@@ -242,7 +256,7 @@ def ajax(request : HttpRequest) -> JsonResponse:
 		if not sa.equals(guess):
 			return JsonResponse({'correct' : 0})
 		elif sa.is_correct:
-			if puzzle.unlockable is not None:
+			if puzzle.unlockable is not None and token is not None:
 				models.Attempt.objects.filter(
 						token=token, unlockable=puzzle.unlockable
 						).update(status=1)

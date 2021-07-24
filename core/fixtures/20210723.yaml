@@ -366,6 +366,7 @@
   pk: 1
   fields:
     unlockable: 3
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: K
     slug: K
     is_meta: false
@@ -377,6 +378,7 @@
   pk: 2
   fields:
     unlockable: 4
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: Lost In Translation
     slug: lost-in-translation
     is_meta: false
@@ -389,6 +391,7 @@
   pk: 3
   fields:
     unlockable: 5
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: The IMO Begins
     slug: the-imo-begins
     is_meta: false
@@ -419,6 +422,7 @@
   pk: 4
   fields:
     unlockable: 6
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: Kindergarten
     slug: kindergarten
     is_meta: false
@@ -432,6 +436,7 @@
   pk: 5
   fields:
     unlockable: 7
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: P53GZ7
     slug: farml
     is_meta: false
@@ -443,6 +448,7 @@
   pk: 6
   fields:
     unlockable: 8
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: Zoom Network Park
     slug: zoom-network-park
     is_meta: false
@@ -463,6 +469,7 @@
   pk: 7
   fields:
     unlockable: 9
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: mtbcupg
     slug: sisi
     is_meta: false
@@ -474,6 +481,7 @@
   pk: 8
   fields:
     unlockable: 10
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: Sticks And Stones
     slug: sticks-and-stones
     is_meta: true
@@ -495,6 +503,7 @@
   pk: 9
   fields:
     unlockable: null
+    uuid: eb3843e1-6799-4e66-ab51-ccae847fa8ba
     name: Puzzle in progress
     slug: wip
     is_meta: false
@@ -1398,6 +1407,15 @@
     puzzle: 8
     display_answer: LUNAR STONE ON RADICAL ROOTS
     salt: 2310
+    message: ''
+    is_correct: true
+    is_canonical: true
+- model: core.saltedanswer
+  pk: 16
+  fields:
+    puzzle: 9
+    display_answer: MEOW
+    salt: 1175
     message: ''
     is_correct: true
     is_canonical: true
