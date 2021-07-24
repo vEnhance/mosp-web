@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Count
 from django.utils import timezone
+from django.shortcuts import render
 
 class StaffRequiredMixin(PermissionRequiredMixin):
 	permission_required = 'is_staff'
@@ -90,6 +91,11 @@ class RoundUnlockableList(TokenGatedListView):
 	context_object_name = "round_unlockable_list"
 	template_name = "core/round_unlockable_list.html"
 	model = models.Unlockable
+	def dispatch(self, request : HttpRequest, *args, **kwargs):
+		ret = super().dispatch(request, *args, **kwargs)
+		if not self.hunt.has_started:
+			return render(request, "core/too_early.html", {'hunt' : self.hunt, 'token' : self.token})
+		return ret
 	def get_queryset(self):
 		self.cheating = self.kwargs.pop('cheating', False)
 		self.hunt = models.Hunt.objects.get(**self.kwargs)
@@ -163,7 +169,7 @@ class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
 		session = models.TestSolveSession.objects.get(uuid=self.kwargs['testsolvesession__uuid'])
 		assert session.expires > timezone.now()
-		assert self.token.permission >= 20, "not an authorized testsolver"
+		assert not self.token.is_plebian, "not an authorized testsolver"
 		return ret
 
 class PuzzleSolutionDetail(TokenGatedDetailView):

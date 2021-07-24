@@ -36,7 +36,7 @@ const hashes = [
 
 {% block content %}
 <h1>{{ puzzle.name }}
-{% if token.omniscient %}
+{% if token.is_omniscient %}
 <span class="p-1 text-lg text-blue-900 border-blue-100 rounded-lg bg-indigo-50 border-1 w-max">
 {{ puzzle.get_status_progress_display }}
 </span>

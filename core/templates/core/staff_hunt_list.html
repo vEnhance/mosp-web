@@ -22,7 +22,7 @@
 </div>
 <div class="inline-block mx-3 text-left align-top">
 <ul>
-	<li>Starts on {{ hunt.start_date }}.</li>
+	<li>{% if hunt.has_started %}Running since{% else %}Scheduled for{% endif %} {{ hunt.start_date }}.</li>
 	<li>{% if hunt.allow_skip %}Over. Skipping permitted.{% else %}Running now.{% endif %}</li>
 	<li>{% if hunt.visible %}Visible to public.{% else %}Hidden from public.{% endif %}</li>
 	<li><a href="">Unlockable chart</a>.</li>

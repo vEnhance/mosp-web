@@ -42,11 +42,13 @@ class Hunt(models.Model):
 		return reverse_lazy('round-unlockable-list', args=(self.volume_number,))
 	def get_cheating_url(self):
 		return reverse_lazy('round-unlockable-list-cheating', args=(self.volume_number,))
-
 	def allow_cheat(self, token : 'Token'):
 		if self.allow_skip is True:
 			return True
-		return token.omniscient
+		return token.is_omniscient
+	@property
+	def has_started(self):
+		return self.start_date < timezone.now()
 
 class Unlockable(models.Model):
 	hunt = models.ForeignKey(Hunt,
@@ -458,8 +460,11 @@ class Token(models.Model):
 		return self._courage
 
 	def can_unlock(self, u : Unlockable) -> bool:
-		if u.unlock_date is not None:
-			if u.unlock_date > timezone.now():
+		if self.is_plebian and u is not None:
+			assert u.hunt.has_started, "plebs can't access hunt early"
+		if u is None:
+			return self.is_omniscient
+		if u.unlock_date is not None and u.unlock_date > timezone.now():
 				return False
 		if u.unlock_needs is not None:
 			if hasattr(u, 'rstatus'):
@@ -470,31 +475,40 @@ class Token(models.Model):
 					return False
 		return self.get_courage() >= u.unlock_courage_threshold
 	@property
-	def omniscient(self):
+	def is_omniscient(self):
 		return self.permission >= 40
+	@property
+	def is_plebian(self):
+		return self.permission == 0
 
 	def can_view(self, u : Optional[Unlockable]) -> bool:
+		if self.is_plebian and u is not None:
+			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
-			return self.omniscient
-		if u.force_visibility is True:
+			return self.is_omniscient
+		elif u.force_visibility is True:
 			return True
 		elif u.force_visibility is False:
 			return False
 		else:
 			return self.can_unlock(u)
 	def has_found(self, u : Optional[Unlockable]) -> bool:
+		if self.is_plebian and u is not None:
+			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
-			return self.omniscient
-		if hasattr(u, 'ustatus'):
+			return self.is_omniscient
+		elif hasattr(u, 'ustatus'):
 			return u.ustatus is not None # type: ignore
 		return Attempt.objects.filter(
 			token = self,
 			unlockable = u,
 		).exists()
 	def has_unlocked(self, u : Optional[Unlockable]) -> bool:
+		if self.is_plebian and u is not None:
+			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
-			return self.omniscient
-		if hasattr(u, 'ustatus'):
+			return self.is_omniscient
+		elif hasattr(u, 'ustatus'):
 			return u.ustatus == 0 or u.ustatus == 1 # type: ignore
 		return Attempt.objects.filter(
 			token = self,
@@ -502,9 +516,11 @@ class Token(models.Model):
 			status__gte = 0
 		).exists()
 	def has_solved(self, u : Unlockable) -> bool:
+		if self.is_plebian and u is not None:
+			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
-			return self.omniscient
-		if hasattr(u, 'ustatus'):
+			return self.is_omniscient
+		elif hasattr(u, 'ustatus'):
 			return u.ustatus == 1 # type: ignore
 		return Attempt.objects.filter(
 			token = self,
