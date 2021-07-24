@@ -36,11 +36,11 @@ const hashes = [
 
 {% block content %}
 {% if token.is_omniscient %}
-{% endif %}
-<h1 class="w-full text-center">{{ puzzle.name }}</h1>
-<div class="float-right p-1 font-sans text-sm text-blue-900 border-blue-100 rounded-lg bg-indigo-50 border-1 w-max -translate-y-8">
+<div class="p-1 mx-auto font-sans text-sm text-blue-900 border-blue-100 rounded-lg bg-indigo-50 border-1 w-max">
 {{ puzzle.get_status_progress_display }}
 </div>
+{% endif %}
+<h1 class="w-full text-center">{{ puzzle.name }}</h1>
 
 {% if is_testsolve_session %}
 <div class="p-2 mx-auto italic text-blue-900 bg-blue-200 border-2 border-green-300 ring-2 ring-blue-100 w-max">
