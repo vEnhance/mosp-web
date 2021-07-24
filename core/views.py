@@ -32,29 +32,41 @@ class TokenGatedView:
 	token = None
 	def check_token(self, request : HttpRequest):
 		uuid = request.COOKIES.get('uuid', None)
-		if uuid is not None:
+
+		if request.user.is_authenticated and uuid is not None:
+			# first get the attached token
 			try:
-				self.token = models.Token.objects.get(uuid=uuid, enabled=True)
+				user_token : Optional[models.Token] = models.Token.objects.get(user = request.user, enabled = True)
+			except models.Token.DoesNotExist:
+				user_token = None
+			try:
+				uuid_token : Optional[models.Token] = models.Token.objects.get(uuid = uuid, enabled = True)
+			except models.Token.DoesNotExist:
+				uuid_token = None
+			if user_token is None and uuid_token is None:
+				self.token = None
+			elif user_token is None and uuid_token is not None:
+				self.token = uuid_token
+			elif user_token is not None and uuid_token is None:
+				self.token = user_token
+			elif user_token is not None and uuid_token is not None and user_token.pk == uuid_token.pk:
+				self.token = user_token # either one okay
+			else:
+				# oh god multiple accounts
+				self.token = user_token
+		elif uuid is not None: # no authentication
+			try:
+				self.token = models.Token.objects.get(uuid = uuid, enabled=True)
 			except models.Token.DoesNotExist:
 				self.token = None
-			if request.user.is_authenticated:
-				try:
-					old_token = models.Token.objects.get(user = request.user, enabled = True)
-					if self.token is None:
-						self.token = old_token
-				except models.Token.DoesNotExist:
-					if self.token is not None:
-						self.token.user = request.user
-						self.token.save()
-
-		elif request.user.is_authenticated:
+		elif request.user.is_authenticated: # no cookie
 			try:
 				self.token = models.Token.objects.get(user = request.user, enabled=True)
-				return None
 			except models.Token.DoesNotExist:
-				pass
+				self.token = None
 		else:
 			self.token = None
+
 		if self.token is None and self.redirect_if_no_token:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
 		return None
