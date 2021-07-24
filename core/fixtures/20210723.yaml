@@ -1085,7 +1085,7 @@
     solution_text: "Like in the earlier Gradescope puzzle,\r\nthe only initially given
       data is the title of the puzzle.\r\nThe puzzle title is a join code for a Google
       Classroom,\r\nand entering it, one finds a class called *Solve Identify Sort
-      Index*.\r\nThe banner of the puzzle is depicted below.\r\n\r\n![Banner](sisi-shell.png)\r\n\r\nThe
+      Index*.\r\nThe banner of the puzzle is depicted below.\r\n\r\n![Banner](/static/2021/sisi/sisi-shell.png)\r\n\r\nThe
       title refers to four steps:\r\n\r\n1. Solve the math problems.\r\n2. Identify
       the six answers that are out of place as past IMO problems.\r\n3. Sort by problem
       number.\r\n4. Index by problem number into answer.\r\n\r\n## Solve\r\n\r\nThe
