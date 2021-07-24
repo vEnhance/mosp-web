@@ -13,3 +13,4 @@ matplotlib>=3.4.2
 django-markdownx>=3.0.1
 python-dotenv>=0.18.0
 PyYaml>=5.4.1
+mysqlclient>=2.0.3
