@@ -26,7 +26,7 @@ urlpatterns = [
 	path('markdownx/', include('markdownx.urls')),
 	path('', include('core.urls')),
 	path('static/<path:f>',
-		RedirectView.as_view(url = (settings.STATIC_URL or '') + '%(f)')
+		RedirectView.as_view(url = (settings.STATIC_URL or '') + '%(f)s')
 		),
 	path('favicon.ico',
 		RedirectView.as_view(url = 'https://web.evanchen.cc/favicon.ico'),
