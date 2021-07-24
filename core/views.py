@@ -242,12 +242,13 @@ def ajax(request : HttpRequest) -> JsonResponse:
 		if not sa.equals(guess):
 			return JsonResponse({'correct' : 0})
 		elif sa.is_correct:
-			models.Attempt.objects.filter(
-					token=token, unlockable=puzzle.unlockable
-					).update(status=1)
+			if puzzle.unlockable is not None:
+				models.Attempt.objects.filter(
+						token=token, unlockable=puzzle.unlockable
+						).update(status=1)
 			return JsonResponse({
 				'correct' : 1,
-				'url' : reverse_lazy('solution-detail', args=(puzzle.slug,)),
+				'url' : puzzle.get_solution_url(),
 				})
 		else:
 			return JsonResponse({'correct' : 0.5, 'message' : sa.message})

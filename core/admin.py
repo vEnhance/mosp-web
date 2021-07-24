@@ -31,6 +31,15 @@ class PuzzleAdmin(MarkdownxModelAdmin):
 	list_filter = ('is_meta', 'unlockable__hunt', 'status_progress')
 	inlines = (SaltedAnswerInline,)
 	autocomplete_fields = ('unlockable',)
+	actions = ['mark_deferred', 'mark_published']
+
+	@admin.action(description='Mark deferred') # type: ignore
+	def mark_deferred(self, request, queryset):
+		queryset.update(status_progress = -1)
+
+	@admin.action(description='Mark published') # type: ignore
+	def mark_published(self, request, queryset):
+		queryset.update(status_progress = 7)
 
 @admin.register(models.Round)
 class RoundAdmin(MarkdownxModelAdmin):
@@ -64,6 +73,7 @@ class TokenAdmin(admin.ModelAdmin):
 	search_fields = ('uuid', 'name', )
 	inlines = (AttemptInline,)
 	list_display_links = ('uuid', 'name',)
+	list_filter = ('permission',)
 	autocomplete_fields = ('user',)
 
 @admin.register(models.Solution)

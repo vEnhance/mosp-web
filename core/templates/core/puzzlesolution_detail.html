@@ -26,11 +26,11 @@
 
 {% if cheating %}
 <h3 class="p-2 font-sans text-xl text-center text-red-700 bg-yellow-100 ring-2 ring-red-300 rounded-3xl">
-Skipped! 💜 += {{ puzzle.unlockable.courage_bounty }};
+Skipped! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
 </h3>
 {% else %}
 <h3 class="p-2 font-sans text-2xl text-center text-green-700 bg-green-100 ring-2 ring-green-300 rounded-3xl">
-Solved! 💜 += {{ puzzle.unlockable.courage_bounty }};
+Solved! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
 </h3>
 {% endif %}
 
@@ -45,14 +45,20 @@ Solved! 💜 += {{ puzzle.unlockable.courage_bounty }};
 		<div class="text-sm italic text-purple-700">Click the image to continue.</div>
 		{% if solution.post_solve_image_path %}
 		<a id="door" class="img-link"
-			href="{{ token|get_finished_url:puzzle.unlockable }}"
+			{% if puzzle.unlockable %}
+				href="{{ token|get_finished_url:puzzle.unlockable }}"
+				{% else %}
+				href="{{ puzzle.get_absolute_url }}"
+			{% endif %}
 			title="{{ solution.post_solve_image_alt }}">
 			<img src="{% static solution.post_solve_image_path %}"
 				alt="{{solution.post_solve_image_alt}}"
 				class="w-11/12">
 		</a>
 		{% else %}
+		{% if puzzle.unlockable %}
 		<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>
+		{% endif %}
 		{% endif %}
 	</div>
 
@@ -70,8 +76,10 @@ Solved! 💜 += {{ puzzle.unlockable.courage_bounty }};
 	</div>
 	{% endif %}
 {% else %}
-	Solution to be written later.
+	<h3>Solution to be written later.</h3>
+	{% if puzzle.unlockable %}
 	<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>
+	{% endif %}
 {% endif %}
 {% endwith %}
 {% endblock %}
