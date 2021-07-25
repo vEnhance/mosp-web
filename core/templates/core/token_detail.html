@@ -18,7 +18,7 @@ You are authenticated right now as <code>{% user_display request.user %}</code>.
 <p>You have linked the Discord account <code>{{ linked.discord.0.get_provider_account }}</code>.
 <input id="id_account_{{ linked.discord.0.id }}" type="hidden" name="account" value="{{ linked.discord.0.id }}"/>
 {% csrf_token %}
-<input type="submit" class="inline p-1 my-0 text-xs btn btn-red float-right" id="unlink" value="Unlink"></input>
+<input type="submit" class="inline float-right p-1 my-0 text-xs btn btn-red" id="unlink" value="Unlink"></input>
 </p>
 </form>
 {% else %}
