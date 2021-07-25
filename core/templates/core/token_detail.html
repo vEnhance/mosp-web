@@ -12,7 +12,10 @@ You are authenticated right now as <code>{% user_display request.user %}</code>.
 {% endif %}
 </p>
 
+{% if token.user %}
 {% get_social_accounts token.user as linked %}
+{% endif %}
+
 {% if linked %}
 <form method="post" action="{% url 'socialaccount_connections' %}">
 <p>You have linked the Discord account <code>{{ linked.discord.0.get_provider_account }}</code>.
