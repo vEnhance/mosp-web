@@ -6,7 +6,7 @@ from . import models
 
 @admin.register(models.Hunt)
 class HuntAdmin(admin.ModelAdmin):
-	list_display = ('volume_number', 'name', 'start_date', 'visible')
+	list_display = ('volume_number', 'name', 'start_date', 'visible', 'allow_skip')
 	list_display_links = ('volume_number', 'name',)
 	search_fields = ('name',)
 
