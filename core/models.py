@@ -542,9 +542,7 @@ def get_viewable(queryset : models.QuerySet, token : Token):
 				filter = Q(unlock_needs__attempt__token = token)
 				),
 			)
-	queryset = queryset.exclude(Q(force_visibility=False),
-			Q(ustatus__isnull=True) | Q(ustatus__lt=0)
-			)
+	queryset = queryset.exclude(Q(force_visibility=False), Q(ustatus__isnull=True))
 	queryset = queryset.exclude(Q(force_visibility__isnull=True),
 			Q(ustatus__isnull=True),
 			Q(unlock_date__gt = timezone.now())
