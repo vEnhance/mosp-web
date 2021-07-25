@@ -228,7 +228,7 @@ class UnlockableDetail(TokenGatedDetailView):
 						unlockable = u, token = token
 						)
 		context['locked'] = not can_unlock
-		context['new'] = attempt.status < 0
+		context['new'] = attempt.status < 0 and can_unlock
 		if can_unlock and u.story_only is True and attempt.status < 1:
 			attempt.status = 1
 			attempt.save()
