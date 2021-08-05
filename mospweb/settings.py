@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,63 +41,63 @@ else:
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.humanize',
-    'django.contrib.messages',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.staticfiles',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.discord',
-    'markdownx',
-    'tailwind',
-    'crispy_forms',
-    'crispy_tailwind',
-    'theme',
-    'core',
-    'info',
-    'typescripts',
-    'data2021',
-    'mospweb',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.humanize',
+	'django.contrib.messages',
+	'django.contrib.sessions',
+	'django.contrib.sites',
+	'django.contrib.staticfiles',
+	'allauth',
+	'allauth.account',
+	'allauth.socialaccount',
+	'allauth.socialaccount.providers.discord',
+	'markdownx',
+	'tailwind',
+	'crispy_forms',
+	'crispy_tailwind',
+	'theme',
+	'core',
+	'info',
+	'typescripts',
+	'data2021',
+	'mospweb',
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACKE = "tailwind"
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
-    'markdown.extensions.extra',
-    'markdown.extensions.sane_lists',
-    'markdown.extensions.smarty',
+	'markdown.extensions.extra',
+	'markdown.extensions.sane_lists',
+	'markdown.extensions.smarty',
 ]
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'mospweb.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'info.context_processors.pages',
-            ],
-        },
-    },
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [BASE_DIR / 'templates'],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+				'info.context_processors.pages',
+			],
+		},
+	},
 ]
 
 WSGI_APPLICATION = 'mospweb.wsgi.application'
@@ -148,18 +149,18 @@ else:
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+		{
+				'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+		},
+		{
+				'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+		},
+		{
+				'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+		},
+		{
+				'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+		},
 ]
 AUTHENTICATION_BACKENDS = [
 		'django.contrib.auth.backends.ModelBackend',
@@ -208,11 +209,3 @@ else:
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# for puzzlord
-import datetime
-import random
-import string
-SITE_PASSWORD = ''.join(random.choice(string.ascii_letters+string.digits) for _ in range(40))
-HUNT_TIME = datetime.datetime(2022, 6, 7, 18, 0, 0,
-		tzinfo = datetime.timezone.utc)
