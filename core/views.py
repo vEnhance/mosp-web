@@ -30,17 +30,17 @@ Context = Dict[str, Any]
 class TokenGatedView:
 	redirect_if_no_token = True
 	token = None
-	def check_token(self, request : HttpRequest):
+	def check_token(self, request: HttpRequest):
 		uuid = request.COOKIES.get('uuid', None)
 
 		if request.user.is_authenticated and uuid is not None:
 			# first get the attached token
 			try:
-				user_token : Optional[models.Token] = models.Token.objects.get(user = request.user, enabled = True)
+				user_token: Optional[models.Token] = models.Token.objects.get(user = request.user, enabled = True)
 			except models.Token.DoesNotExist:
 				user_token = None
 			try:
-				uuid_token : Optional[models.Token] = models.Token.objects.get(uuid = uuid, enabled = True)
+				uuid_token: Optional[models.Token] = models.Token.objects.get(uuid = uuid, enabled = True)
 			except models.Token.DoesNotExist:
 				uuid_token = None
 			if user_token is None and uuid_token is None:
@@ -74,7 +74,7 @@ class TokenGatedView:
 # vvv amazing code, so much for DRY
 # maybe i should take paul graham's advice and switch to lisp
 class TokenGatedListView(TokenGatedView, ListView):
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args, **kwargs):
 		return super().check_token(request) or \
 				super().dispatch(request, *args, **kwargs)
 	def get_context_data(self, **kwargs) -> Context:
@@ -82,7 +82,7 @@ class TokenGatedListView(TokenGatedView, ListView):
 		context['token'] = self.token
 		return context
 class TokenGatedDetailView(TokenGatedView, DetailView):
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args, **kwargs):
 		return super().check_token(request) or \
 				super().dispatch(request, *args, **kwargs)
 	def get_context_data(self, **kwargs) -> Context:
@@ -103,10 +103,10 @@ class RoundUnlockableList(TokenGatedListView):
 	context_object_name = "round_unlockable_list"
 	template_name = "core/round_unlockable_list.html"
 	model = models.Unlockable
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args, **kwargs):
 		ret = super().dispatch(request, *args, **kwargs)
 		if not self.hunt.has_started and (self.token is None or self.token.is_plebian):
-			return render(request, "core/too_early.html", {'hunt' : self.hunt, 'token' : self.token})
+			return render(request, "core/too_early.html", {'hunt': self.hunt, 'token': self.token})
 		return ret
 	def get_queryset(self):
 		self.cheating = self.kwargs.pop('cheating', False)
@@ -130,7 +130,7 @@ class UnlockableList(TokenGatedListView):
 	"""List of all the unlockables in a given round"""
 	context_object_name = "unlockable_list"
 	model = models.Unlockable
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args, **kwargs):
 		self.cheating = self.kwargs.pop('cheating', False)
 		r = super().check_token(request) 
 		if r is not None:
@@ -164,7 +164,7 @@ class PuzzleDetail(TokenGatedDetailView):
 	"""Shows a puzzle"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args, **kwargs):
 		ret = super().dispatch(request, *args, **kwargs)
 		assert self.token is not None
 		u = self.object.unlockable # type: ignore
@@ -175,7 +175,7 @@ class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
 	"""Shows a puzzle, no questions asked"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args, **kwargs):
 		ret = super().dispatch(request, *args, **kwargs)
 		if self.token is None:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
@@ -194,7 +194,7 @@ class PuzzleSolutionDetail(TokenGatedDetailView):
 	model = models.Puzzle
 	context_object_name = "puzzle"
 	template_name = 'core/puzzlesolution_detail.html'
-	def dispatch(self, request : HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args, **kwargs):
 		self.cheating = kwargs.pop('cheating', False)
 		ret = super().dispatch(request, *args, **kwargs)
 		assert self.token is not None
@@ -254,11 +254,11 @@ def token_disable(uuid) -> HttpResponse:
 	return HttpResponseRedirect('/')
 
 @csrf_exempt
-def ajax(request : HttpRequest) -> JsonResponse:
+def ajax(request: HttpRequest) -> JsonResponse:
 	if request.method != 'POST':
-		return JsonResponse({'error' : "☕"}, status = 418)
+		return JsonResponse({'error': "☕"}, status = 418)
 
-	token : Optional[models.Token]
+	token: Optional[models.Token]
 	try:
 		assert 'uuid' in request.COOKIES
 		token = models.Token.objects.get(
@@ -277,18 +277,18 @@ def ajax(request : HttpRequest) -> JsonResponse:
 		salt = int(request.POST.get('salt') or 0)
 		sa = models.SaltedAnswer.objects.get(puzzle = puzzle, salt = salt)
 		if not sa.equals(guess):
-			return JsonResponse({'correct' : 0})
+			return JsonResponse({'correct': 0})
 		elif sa.is_correct:
 			if puzzle.unlockable is not None and token is not None:
 				models.Attempt.objects.filter(
 						token=token, unlockable=puzzle.unlockable
 						).update(status=1)
 			return JsonResponse({
-				'correct' : 1,
-				'url' : puzzle.get_solution_url(),
+				'correct': 1,
+				'url': puzzle.get_solution_url(),
 				})
 		else:
-			return JsonResponse({'correct' : 0.5, 'message' : sa.message})
+			return JsonResponse({'correct': 0.5, 'message': sa.message})
 
 	elif action == 'log':
 		raise NotImplementedError('TODO log')
@@ -301,13 +301,13 @@ def ajax(request : HttpRequest) -> JsonResponse:
 				reduced_name = reduced_name,
 				user__isnull = False
 				).exists():
-			return JsonResponse({'outcome' : 'exists'})
+			return JsonResponse({'outcome': 'exists'})
 		else:
 			token = models.Token(name = name)
 			token.save()
 			return JsonResponse({
 				'outcome': 'success',
-				'uuid' : token.uuid,
+				'uuid': token.uuid,
 				})
 
 	return JsonResponse({'message' :

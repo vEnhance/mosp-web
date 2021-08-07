@@ -42,7 +42,7 @@ class Hunt(models.Model):
 		return reverse_lazy('round-unlockable-list', args=(self.volume_number,))
 	def get_cheating_url(self):
 		return reverse_lazy('round-unlockable-list-cheating', args=(self.volume_number,))
-	def allow_cheat(self, token : 'Token'):
+	def allow_cheat(self, token: 'Token'):
 		if self.allow_skip is True:
 			return True
 		return token.is_omniscient
@@ -300,7 +300,7 @@ class SaltedAnswer(models.Model):
 	@property
 	def normalized_answer(self) -> str:
 		return normalize(self.display_answer)
-	def equals(self, other : str):
+	def equals(self, other: str):
 		return self.normalized_answer == normalize(other)
 	class Meta:
 		unique_together = ('puzzle', 'salt',)
@@ -395,7 +395,7 @@ class Attempt(models.Model):
 			self.solved_on = timezone.now()
 		super().save(*args, **kwargs)
 	def __str__(self):
-		verb : str = self.get_status_display().lower() # type: ignore
+		verb: str = self.get_status_display().lower() # type: ignore
 		return f'{self.token.pk} {verb}'
 	class Meta:
 		unique_together = ('token', 'unlockable',)
@@ -433,7 +433,7 @@ class Token(models.Model):
 			help_text = "Attempts attached to this token")
 
 	@staticmethod
-	def reduce(s : str):
+	def reduce(s: str):
 		return re.sub(r'\W+', '', s.lower())
 	def save(self, *args, **kwargs):
 		self.reduced_name = self.reduce(self.name)
@@ -459,7 +459,7 @@ class Token(models.Model):
 	def get_courage(self):
 		return self._courage
 
-	def can_unlock(self, u : Unlockable) -> bool:
+	def can_unlock(self, u: Unlockable) -> bool:
 		if self.is_plebian and u is not None:
 			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
@@ -481,7 +481,7 @@ class Token(models.Model):
 	def is_plebian(self):
 		return self.permission == 0
 
-	def can_view(self, u : Optional[Unlockable]) -> bool:
+	def can_view(self, u: Optional[Unlockable]) -> bool:
 		if self.is_plebian and u is not None:
 			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
@@ -492,7 +492,7 @@ class Token(models.Model):
 			return False
 		else:
 			return self.can_unlock(u)
-	def has_found(self, u : Optional[Unlockable]) -> bool:
+	def has_found(self, u: Optional[Unlockable]) -> bool:
 		if self.is_plebian and u is not None:
 			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
@@ -503,7 +503,7 @@ class Token(models.Model):
 			token = self,
 			unlockable = u,
 		).exists()
-	def has_unlocked(self, u : Optional[Unlockable]) -> bool:
+	def has_unlocked(self, u: Optional[Unlockable]) -> bool:
 		if self.is_plebian and u is not None:
 			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
@@ -515,7 +515,7 @@ class Token(models.Model):
 			unlockable = u,
 			status__gte = 0
 		).exists()
-	def has_solved(self, u : Unlockable) -> bool:
+	def has_solved(self, u: Unlockable) -> bool:
 		if self.is_plebian and u is not None:
 			assert u.hunt.has_started, "plebs can't access hunt early"
 		if u is None:
@@ -528,7 +528,7 @@ class Token(models.Model):
 			status = 1
 		).exists()
 
-def get_viewable(queryset : models.QuerySet, token : Token):
+def get_viewable(queryset: models.QuerySet, token: Token):
 	courage = token.get_courage()
 	queryset = queryset.select_related(
 			'puzzle',

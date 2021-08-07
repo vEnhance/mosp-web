@@ -28,7 +28,7 @@ class DiscordHandler(logging.Handler):
 		super().__init__()
 		self.url = url
 
-	def emit(self, r : logging.LogRecord):
+	def emit(self, r: logging.LogRecord):
 		level = r.levelname.lower().strip()
 		emoji = EMOJIS.get(level, ':question:')
 		color = COLORS.get(level, 0xaaaaaa)
@@ -40,16 +40,16 @@ class DiscordHandler(logging.Handler):
 			title = f"{emoji} {r.message[:i]}"
 
 		fields = [
-				{ 'name' : 'Line', 'value' : '`' + str(r.lineno) + '`', 'inline' : True, },
-				{ 'name' : 'File', 'value' : '`' + str(r.filename) + '`', 'inline' : True, },
-				{ 'name' : 'Scope', 'value' : '`' + r.name + '`', 'inline' : True, }
+				{ 'name': 'Line', 'value': '`' + str(r.lineno) + '`', 'inline': True, },
+				{ 'name': 'File', 'value': '`' + str(r.filename) + '`', 'inline': True, },
+				{ 'name': 'Scope', 'value': '`' + r.name + '`', 'inline': True, }
 				]
 
 		status_code = getattr(r, 'status_code', None)
 		embed = {
-					'title' : title,
-					'color' : color,
-					'fields' : fields
+					'title': title,
+					'color': color,
+					'fields': fields
 				}
 
 		description = ''
@@ -70,8 +70,8 @@ class DiscordHandler(logging.Handler):
 			embed['description']  = description
 
 		data = {
-				'username' : socket.gethostname(),
-				'embeds' : [embed],
+				'username': socket.gethostname(),
+				'embeds': [embed],
 				}
 
 		if self.url is not None:
