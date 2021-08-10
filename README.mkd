@@ -5,116 +5,12 @@ Check the about page for more info.
 **WARNING**: files in this repository contains SPOILERS for puzzles.
 There should be no spoilers in this README, though.
 
-# List of cool people
+## Contents
 
-# Installation
+- [Installation guide](docs/INSTALL.mkd)
+- [Infrastructure overview](docs/INFRASTRUCTURE.mkd)
+- [Models overview](docs/MODELS.mkd)
 
-Dependencies:
+## List of cool people who made this
 
-- Python
-- Git
-- Node.JS
-
-All of these are *extremely standard*, so if you search "install X windows",
-"install X mac", you should get usable results. I actually think Python is
-pre-installed on Mac's these days. (If you're on Linux, then you should be able
-to figure it out yourself.)
-
-## Setting up Django
-
-On a standard Linux system, suppose you want to build the MOSP server inside the
-folder `~/Documents/MOSP/`. Then you should do the following steps to first get
-Django to work:
-
-```shell
-cd ~/Documents/MOSP/
-git clone https://github.com/vEnhance/mosp-web/
-cd mosp-web
-virtualenv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python manage.py check
-python manage.py migrate
-python manage.py runserver
-```
-
-if this works the shell will hang, meaning the server is running!
-Point your web browser to [http://127.0.0.1:8000](http://127.0.0.1:8000)
-and you should see a version of the MOSP website.
-
-It's missing something though --- all the static files are not there yet,
-meaning no Javascript and no CSS. You need to fix this by installing the
-relevant machinery.
-MOSP-WEB uses [Typescript](https://duckduckgo.com/?q=typescript)
-and [Tailwind CSS](https://duckduckgo.com/?q=tailwindcss) for these.
-
-## Compiling Typescript
-
-To get Typescript working, do the following:
-```shell
-cd ~/Documents/MOSP/mosp-web/
-sudo npm install -g typescript
-cd ~/Documents/MOSP/mosp-web/typescripts/
-tsc
-cd ~/Documents/MOSP/mosp-web/data2021/
-tsc
-```
-
-## Compiling Tailwind
-
-Stop the previously running `python manage.py runserver` command.
-Then do the following.
-
-```shell
-cd ~/Documents/MOSP/mosp-web/
-npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
-npm install -D package.json
-source venv/bin/activate
-python manage.py collectstatic
-python manage.py tailwind install
-python manage.py tailwind build
-python manage.py tailwind start
-```
-
-Restart `python manage.py runserver` command from before.
-Then in an ideal world, Tailwind will work.
-
-## What if I'm not using Linux?
-
-You'll have to google stuff, sorry. Things that should "just work" often don't
-function correctly outside Linux, doubly so if you're on Windows.
-
-# About models
-
-- A _Hunt_ object is a top-level object for each year.
-	In-universe, it is referred to instead as a *Volume*.
-- A _Round_ object represents a round of each hunt.
-	In-universe, it is referred to instead as a *Chapter*.
-- A _Puzzle_ object represents a puzzle in a round.
-- A _Unlockable_ object is the most complicated kind of object.
-	Here are some details:
-	- Every puzzle has exactly one unlockable attached to it.
-	- Every round has exactly one unlockable attached to it.
-	- An unlockable may also be *story-only*, meaning it is neither a puzzle nor round.
-	- Each unlockable has a *name* associated to it, often a place.
-	- Each unlockable is associated with exactly one hunt.
-	- Each unlockable can have a *parent* unlockable.
-		- For a puzzle, this is the round it belongs to.
-		- For a round, this can *also* be a round it belongs to. Meaning nested
-			rounds are possible.
-		- A top-level round has no parent for its corresponding unlockable.
-	- Unlockables can be unlocked based on certain criteria:
-		- Unlocked with courage
-		- Unlocked if a certain other unlockable is solved or completed
-		- Unlocked if a certain date/time has passed.
-		- AND of any nonempty subset of the above.
-	- Unlockables may also have different visibility based on `force_visibility`.
-		- If True, then always visible.
-		- If False, then never visible unless solver types URL manually.
-		- If null, then becomes visible at the same time it can be unlocked.
-- A _Token_ represents a solver, one each.
-- An _Attempt_ records a pair of (solver, unlockable) and their progress:
-	- A status of -1 means the unlockable was found
-	- A status of 0 means the unlockable was unlocked
-	- A status of 1 means the unlockable was solved
-- Other models should be self-explanatory.
+- YOUR NAME HERE
