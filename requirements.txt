@@ -1,4 +1,4 @@
-Django>=3.2.5
+Django>=3.2.6
 django-stubs>=1.7.0
 Markdown>=3.3.4
 types-markdown>=3.3.0
