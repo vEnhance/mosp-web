@@ -5,6 +5,8 @@ Check the about page for more info.
 **WARNING**: files in this repository contains SPOILERS for puzzles.
 There should be no spoilers in this README, though.
 
+# List of cool people
+
 ## Technical notes
 
 - A _Hunt_ object is a top-level object for each year.
