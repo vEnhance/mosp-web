@@ -209,3 +209,8 @@ else:
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# fking windows
+import platform
+if platform.system() == 'Windows':
+	NPM_BIN_PATH = r"C:\Program Files\nodejs\npm" # only for serena
