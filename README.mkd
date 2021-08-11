@@ -15,3 +15,4 @@ There should be no spoilers in this README, though.
 
 - Evan
 - Sanjana
+- Serena
