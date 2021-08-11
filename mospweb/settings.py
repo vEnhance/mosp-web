@@ -214,4 +214,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import platform
 if platform.system() == 'Windows':
 	NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd" # only for serena
-	print("FUCK WINDOWS!!!")
