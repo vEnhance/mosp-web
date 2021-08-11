@@ -13,4 +13,4 @@ There should be no spoilers in this README, though.
 
 ## List of cool people who made this
 
-- YOUR NAME HERE
+- Evan
