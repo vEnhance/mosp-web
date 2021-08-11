@@ -13,6 +13,6 @@ There should be no spoilers in this README, though.
 
 ## List of cool people who made this
 
-- Evan Chan
+- Evan Chen
 - Sanjana
 - Serena
