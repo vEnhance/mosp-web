@@ -1,18 +1,24 @@
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import UpdateView
-from django.views.generic.detail import SingleObjectMixin
-from django.urls import reverse_lazy
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from typing import Any, Dict, Optional
+
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Count
-from django.utils import timezone
+from django.db.models.query import QuerySet
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse  # NOQA
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import DetailView, ListView
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.edit import UpdateView
+
+from . import models
+
 
 class StaffRequiredMixin(PermissionRequiredMixin):
 	permission_required = 'is_staff'
 class GeneralizedSingleObjectMixin(SingleObjectMixin):
-	def get_object(self, queryset = None):
+	def get_object(self, queryset: QuerySet[Any] = None):
 		kwargs = self.kwargs # type: ignore
 		if queryset is None:
 			queryset = self.get_queryset()
@@ -22,8 +28,6 @@ class GeneralizedSingleObjectMixin(SingleObjectMixin):
 				kwargs[keyword + '__isnull'] = True
 		return queryset.get(**kwargs)
 
-from typing import Any, Dict, Optional
-from . import models
 
 Context = Dict[str, Any]
 
@@ -74,18 +78,18 @@ class TokenGatedView:
 # vvv amazing code, so much for DRY
 # maybe i should take paul graham's advice and switch to lisp
 class TokenGatedListView(TokenGatedView, ListView):
-	def dispatch(self, request: HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 		return super().check_token(request) or \
 				super().dispatch(request, *args, **kwargs)
-	def get_context_data(self, **kwargs) -> Context:
+	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['token'] = self.token
 		return context
 class TokenGatedDetailView(TokenGatedView, DetailView):
-	def dispatch(self, request: HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 		return super().check_token(request) or \
 				super().dispatch(request, *args, **kwargs)
-	def get_context_data(self, **kwargs) -> Context:
+	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['token'] = self.token
 		return context
@@ -103,12 +107,12 @@ class RoundUnlockableList(TokenGatedListView):
 	context_object_name = "round_unlockable_list"
 	template_name = "core/round_unlockable_list.html"
 	model = models.Unlockable
-	def dispatch(self, request: HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
 		ret = super().dispatch(request, *args, **kwargs)
 		if not self.hunt.has_started and (self.token is None or self.token.is_plebian):
 			return render(request, "core/too_early.html", {'hunt': self.hunt, 'token': self.token})
 		return ret
-	def get_queryset(self):
+	def get_queryset(self) -> QuerySet[models.Unlockable]:
 		self.cheating = self.kwargs.pop('cheating', False)
 		self.hunt = models.Hunt.objects.get(**self.kwargs)
 		queryset = models.Unlockable.objects.filter(
@@ -120,7 +124,7 @@ class RoundUnlockableList(TokenGatedListView):
 		else:
 			queryset = models.get_viewable(queryset, self.token)
 		return queryset
-	def get_context_data(self, **kwargs) -> Context:
+	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['hunt'] = self.hunt
 		context['cheating'] = self.cheating
@@ -130,9 +134,9 @@ class UnlockableList(TokenGatedListView):
 	"""List of all the unlockables in a given round"""
 	context_object_name = "unlockable_list"
 	model = models.Unlockable
-	def dispatch(self, request: HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 		self.cheating = self.kwargs.pop('cheating', False)
-		r = super().check_token(request) 
+		r = super().check_token(request)
 		if r is not None:
 			return r
 		self.round = models.Round.objects.get(**self.kwargs)
@@ -141,12 +145,11 @@ class UnlockableList(TokenGatedListView):
 				and not self.token.has_unlocked(self.round.unlockable):
 			return HttpResponseRedirect(self.round.unlockable.get_absolute_url())
 		return super().dispatch(request, *args, **kwargs)
-	def get_queryset(self):
+	def get_queryset(self) -> QuerySet[models.Unlockable]:
 		assert self.token is not None
-		assert self.token.can_unlock(self.round.unlockable)
-		queryset = models.Unlockable.objects.filter(
-				parent = self.round)
-		if self.cheating is True:
+		assert self.round.unlockable is None or self.token.can_unlock(self.round.unlockable)
+		queryset: QuerySet[models.Unlockable] = models.Unlockable.objects.filter(parent = self.round)
+		if self.cheating is True and self.round.unlockable is not None:
 			assert self.round.unlockable.hunt.allow_cheat(self.token)
 		else:
 			queryset = models.get_viewable(queryset, self.token)
@@ -154,7 +157,7 @@ class UnlockableList(TokenGatedListView):
 		queryset = queryset.order_by('sort_order', 'name',)
 		queryset = queryset.select_related('puzzle', 'round')
 		return queryset
-	def get_context_data(self, **kwargs) -> Context:
+	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['round'] = self.round
 		context['cheating'] = self.cheating
@@ -164,7 +167,7 @@ class PuzzleDetail(TokenGatedDetailView):
 	"""Shows a puzzle"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
-	def dispatch(self, request: HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
 		ret = super().dispatch(request, *args, **kwargs)
 		assert self.token is not None
 		u = self.object.unlockable # type: ignore
@@ -175,7 +178,7 @@ class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
 	"""Shows a puzzle, no questions asked"""
 	model = models.Puzzle
 	context_object_name = "puzzle"
-	def dispatch(self, request: HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 		ret = super().dispatch(request, *args, **kwargs)
 		if self.token is None:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
@@ -183,7 +186,7 @@ class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
 		assert session.expires > timezone.now()
 		assert not self.token.is_plebian, "not an authorized testsolver"
 		return ret
-	def get_context_data(self, **kwargs) -> Context:
+	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['is_testsolve_session'] = True
 		return context
@@ -194,7 +197,7 @@ class PuzzleSolutionDetail(TokenGatedDetailView):
 	model = models.Puzzle
 	context_object_name = "puzzle"
 	template_name = 'core/puzzlesolution_detail.html'
-	def dispatch(self, request: HttpRequest, *args, **kwargs):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 		self.cheating = kwargs.pop('cheating', False)
 		ret = super().dispatch(request, *args, **kwargs)
 		assert self.token is not None
@@ -210,7 +213,7 @@ class PuzzleSolutionDetail(TokenGatedDetailView):
 		else:
 			assert self.token.has_solved(u)
 		return ret
-	def get_context_data(self, **kwargs) -> Context:
+	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		context['cheating'] = self.cheating
 		return context
@@ -219,7 +222,7 @@ class UnlockableDetail(TokenGatedDetailView):
 	model = models.Unlockable
 	context_object_name = "unlockable"
 
-	def get_context_data(self, **kwargs) -> Context:
+	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		token = context['token']
 		u = self.object # type: ignore
@@ -246,7 +249,7 @@ class TokenUpdateView(UpdateView):
 	context_object_name = "token"
 	fields = ('name', )
 
-def token_disable(uuid) -> HttpResponse:
+def token_disable(uuid: str) -> HttpResponse:
 	token = models.Token.objects.get(uuid=uuid)
 	token.enabled = False
 	token.user = None
