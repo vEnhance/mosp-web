@@ -47,7 +47,6 @@ jobs:
         npm install pyright
         echo '::endgroup::'
 
-        echo "DEBUGGING LIKE FUCK"
         echo '::group::🔎 Running pyright with reviewdog 🐶 ...'
         "$(npm bin)/pyright" --outputjson |
           python3 .github/workflows/pyright_to_rdjson.py  |
