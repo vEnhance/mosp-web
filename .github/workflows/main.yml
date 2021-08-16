@@ -53,7 +53,7 @@ jobs:
         "$(npm bin)/pyright" --outputjson | cat
         "$(npm bin)/pyright" --outputjson | python3 .github/workflows/pyright_to_rdjson.py | cat
         echo '::group::🔎 Running pyright with reviewdog 🐶 ...'
-        "$(npm bin)/pyright" "${PYRIGHT_ARGS[@]}" ${INPUT_PYRIGHT_FLAGS:-} |
+        "$(npm bin)/pyright" --outputjson |
           python3 .github/workflows/pyright_to_rdjson.py  |
           reviewdog -f=rdjson -name="pyright" \
             -reporter="github-pr-review" \
