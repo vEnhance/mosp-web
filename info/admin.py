@@ -1,10 +1,10 @@
 from django.contrib import admin
-from . import models
+from .models import Page
 
 # Register your models here.
 
 
-@admin.register(models.Page)
+@admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
 	list_display = (
 		'title',

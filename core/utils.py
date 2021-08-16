@@ -1,5 +1,4 @@
 from hashlib import sha256
-from django.utils import timezone
 
 
 def normalize(s: str) -> str:

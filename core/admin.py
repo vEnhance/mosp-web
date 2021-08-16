@@ -1,12 +1,12 @@
 from django.contrib import admin
+from django.db.models.query import QuerySet
+from django.http.request import HttpRequest
 from markdownx.admin import MarkdownxModelAdmin
 
-from . import models
-
-# Register your models here.
+from .models import Attempt, Hunt, Puzzle, Round, SaltedAnswer, Solution, TestSolveSession, Token, Unlockable  # NOQA
 
 
-@admin.register(models.Hunt)
+@admin.register(Hunt)
 class HuntAdmin(admin.ModelAdmin):
 	list_display = ('volume_number', 'name', 'start_date', 'visible', 'allow_skip')
 	list_display_links = (
@@ -17,13 +17,13 @@ class HuntAdmin(admin.ModelAdmin):
 
 
 class SaltedAnswerInline(admin.TabularInline):
-	model = models.SaltedAnswer
+	model = SaltedAnswer
 	fields = ('display_answer', 'salt', 'message', 'is_correct', 'is_canonical')
 	extra = 2
 
 
 class UnlockableInline(admin.TabularInline):
-	model = models.Unlockable
+	model = Unlockable
 	fields = (
 		'name',
 		'hunt',
@@ -33,7 +33,7 @@ class UnlockableInline(admin.TabularInline):
 
 
 class AttemptInline(admin.TabularInline):
-	model = models.Attempt
+	model = Attempt
 	fields = (
 		'unlockable',
 		'status',
@@ -41,7 +41,7 @@ class AttemptInline(admin.TabularInline):
 	extra = 0
 
 
-@admin.register(models.Puzzle)
+@admin.register(Puzzle)
 class PuzzleAdmin(MarkdownxModelAdmin):
 	list_display = (
 		'name',
@@ -65,22 +65,22 @@ class PuzzleAdmin(MarkdownxModelAdmin):
 	actions = ['mark_deferred', 'mark_published']
 
 	@admin.action(description='Mark deferred')  # type: ignore
-	def mark_deferred(self, request, queryset):
+	def mark_deferred(self, request: HttpRequest, queryset: QuerySet[Puzzle]):
 		queryset.update(status_progress=-1)
 
 	@admin.action(description='Mark published')  # type: ignore
-	def mark_published(self, request, queryset):
+	def mark_published(self, request: HttpRequest, queryset: QuerySet[Puzzle]):
 		queryset.update(status_progress=7)
 
 
-@admin.register(models.TestSolveSession)
-class TestSolveSession(admin.ModelAdmin):
+@admin.register(TestSolveSession)
+class TestSolveSessionAdmin(admin.ModelAdmin):
 	list_display = ('uuid', 'expires', 'puzzle')
 	search_fields = ('puzzle__name', )
 	autocomplete_fields = ('puzzle', )
 
 
-@admin.register(models.Round)
+@admin.register(Round)
 class RoundAdmin(MarkdownxModelAdmin):
 	list_display = ('chapter_number', 'name', 'slug', 'show_chapter_number')
 	list_display_links = (
@@ -96,7 +96,7 @@ class RoundAdmin(MarkdownxModelAdmin):
 	autocomplete_fields = ('unlockable', )
 
 
-@admin.register(models.Unlockable)
+@admin.register(Unlockable)
 class UnlockableAdmin(MarkdownxModelAdmin):
 	list_display = (
 		'name', 'slug', '_icon', 'force_visibility', 'sort_order', 'parent', 'prereqs_summary'
@@ -124,7 +124,7 @@ class UnlockableAdmin(MarkdownxModelAdmin):
 	)
 
 
-@admin.register(models.Attempt)
+@admin.register(Attempt)
 class AttemptAdmin(admin.ModelAdmin):
 	list_display = (
 		'token',
@@ -146,7 +146,7 @@ class AttemptAdmin(admin.ModelAdmin):
 	)
 
 
-@admin.register(models.Token)
+@admin.register(Token)
 class TokenAdmin(admin.ModelAdmin):
 	list_display = (
 		'uuid',
@@ -167,7 +167,7 @@ class TokenAdmin(admin.ModelAdmin):
 	autocomplete_fields = ('user', )
 
 
-@admin.register(models.Solution)
+@admin.register(Solution)
 class SolutionAdmin(MarkdownxModelAdmin):
 	list_display = (
 		'puzzle',
@@ -183,7 +183,7 @@ class SolutionAdmin(MarkdownxModelAdmin):
 	autocomplete_fields = ('puzzle', )
 
 
-@admin.register(models.SaltedAnswer)
+@admin.register(SaltedAnswer)
 class SaltedAnswerAdmin(admin.ModelAdmin):
 	list_display = (
 		'puzzle',

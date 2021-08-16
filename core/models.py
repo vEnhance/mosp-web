@@ -1,16 +1,17 @@
-from django.contrib.auth.models import User
-from django.db import models
-from django.db.models import Q, Max
-from django.urls import reverse_lazy
-from django.utils import timezone
-from markdownx.models import MarkdownxField
-from typing import Optional
-
 import random
 import re
 import uuid
+from typing import Any, List, Optional
 
-from .utils import sha, normalize
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import Max, Q
+from django.db.models.query import QuerySet
+from django.urls import reverse_lazy
+from django.utils import timezone
+from markdownx.models import MarkdownxField
+
+from .utils import normalize, sha
 
 # Create your models here.
 
@@ -32,7 +33,7 @@ class Hunt(models.Model):
 		max_length=80, help_text="Static argument for thumbnail image", blank=True
 	)
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return self.name
 
 	def get_absolute_url(self):
@@ -41,13 +42,13 @@ class Hunt(models.Model):
 	def get_cheating_url(self):
 		return reverse_lazy('round-unlockable-list-cheating', args=(self.volume_number, ))
 
-	def allow_cheat(self, token: 'Token'):
+	def allow_cheat(self, token: 'Token') -> bool:
 		if self.allow_skip is True:
 			return True
 		return token.is_omniscient
 
 	@property
-	def has_started(self):
+	def has_started(self) -> bool:
 		return self.start_date < timezone.now()
 
 
@@ -123,7 +124,7 @@ class Unlockable(models.Model):
 		related_name='redirected_by'
 	)
 
-	def get_finished_url(self, token) -> str:
+	def get_finished_url(self, token: 'Token') -> str:
 		if self.on_solve_link_to is None:
 			if self.parent is None:
 				return self.hunt.get_absolute_url()
@@ -145,7 +146,7 @@ class Unlockable(models.Model):
 		return hasattr(self, 'round')
 
 	@property
-	def prereqs_summary(self):
+	def prereqs_summary(self) -> str:
 		s = f'{self.unlock_courage_threshold}💜'
 		if self.unlock_date:
 			s += '@' + self.unlock_date.isoformat()
@@ -164,13 +165,13 @@ class Unlockable(models.Model):
 			return None
 
 	@property
-	def _icon(self):
+	def _icon(self) -> str:
 		if self.story_only:
 			return 'Story'
 		else:
 			return self.icon or '?'
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return self.slug
 
 	def get_absolute_url(self):
@@ -218,21 +219,22 @@ class Puzzle(models.Model):
 	status_progress = models.SmallIntegerField(
 		help_text="How far this puzzle is in the development process",
 		choices=(
-			(-1, "Deferred"),
-			(0, "Initialized"),
-			(1, "Writing"),
-			(2, "Testsolving"),
-			(3, "Revising"),
-			(4, "Needs Soln"),
-			(5, "Polish"),
-			(6, "Finished"),
-			(7, "Published"),
+		(-1, "Deferred"),
+		(0, "Initialized"),
+		(1, "Writing"),
+		(2, "Testsolving"),
+		(3, "Revising"),
+		(4, "Needs Soln"),
+		(5, "Polish"),
+		(6, "Finished"),
+		(7, "Published"),
 		),
 		default=0
 	)
+	salted_answers: QuerySet['SaltedAnswer']
 
 	@property
-	def hunt_volume_number(self):
+	def hunt_volume_number(self) -> str:
 		return self.unlockable.hunt.volume_number if self.unlockable is not None else '-'
 
 	def get_absolute_url(self):
@@ -256,24 +258,29 @@ class Puzzle(models.Model):
 	def get_cheating_url(self):
 		return reverse_lazy(
 			'solution-detail-cheating', args=(
-				self.hunt_volume_number,
-				self.slug,
+			self.hunt_volume_number,
+			self.slug,
 			)
 		)
 
-	def get_parent_url(self):
-		return self.unlockable.parent.get_absolute_url()
+	def get_parent_url(self) -> str:
+		if self.unlockable is None:
+			return '/'
+		elif self.unlockable.parent is None:
+			return self.unlockable.hunt.get_absolute_url()
+		else:
+			return self.unlockable.parent.get_absolute_url()
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return self.name
 
 	@property
-	def target_hashes(self):
-		return [sa.hash for sa in self.salted_answers.all()]  # type: ignore
+	def target_hashes(self) -> List[str]:
+		return [sa.hash for sa in self.salted_answers.all()]
 
 	@property
-	def answer(self):
-		return self.salted_answers.get(is_canonical=True).display_answer  # type: ignore
+	def answer(self) -> str:
+		return self.salted_answers.get(is_canonical=True).display_answer
 
 
 class Solution(models.Model):
@@ -302,16 +309,16 @@ class Solution(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy(
 			'solution-detail', args=(
-				self.puzzle.hunt_volume_number,
-				self.puzzle.slug,
+			self.puzzle.hunt_volume_number,
+			self.puzzle.slug,
 			)
 		)
 
 	def get_editor_url(self):
 		return reverse_lazy(
 			'solution-update', args=(
-				self.puzzle.hunt_volume_number,
-				self.puzzle.slug,
+			self.puzzle.hunt_volume_number,
+			self.puzzle.slug,
 			)
 		)
 
@@ -360,7 +367,7 @@ class SaltedAnswer(models.Model):
 			'salt',
 		)
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return self.display_answer
 
 
@@ -411,7 +418,7 @@ class Round(models.Model):
 	def get_cheating_url(self):
 		return reverse_lazy('unlockable-list-cheating', args=(self.chapter_number, ))
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return self.name
 
 
@@ -431,9 +438,9 @@ class Attempt(models.Model):
 	unlockable = models.ForeignKey(Unlockable, on_delete=models.CASCADE)
 	status = models.SmallIntegerField(
 		choices=(
-			(-1, "Found"),
-			(0, "Unlocked"),
-			(1, "Solved"),
+		(-1, "Found"),
+		(0, "Unlocked"),
+		(1, "Solved"),
 		), default=-1
 	)
 	found_on = models.DateTimeField(
@@ -446,7 +453,7 @@ class Attempt(models.Model):
 		help_text="When the unlockable is unlocked", blank=True, null=True
 	)
 
-	def save(self, *args, **kwargs):
+	def save(self, *args: Any, **kwargs: Any):
 		if self.status >= -1 and self.found_on is None:
 			self.found_on = timezone.now()
 		if self.status >= 0 and self.unlocked_on is None:
@@ -476,12 +483,12 @@ class Token(models.Model):
 	permission = models.PositiveSmallIntegerField(
 		help_text="Whether this token has any elevated permissions",
 		choices=(
-			(0, "Normal user"),
-			(20, "Testsolver"),
-			(40, "Bestsolver"),
-			(60, "Editor"),
-			(80, "Admin"),
-			(100, "Evan Chen"),
+		(0, "Normal user"),
+		(20, "Testsolver"),
+		(40, "Bestsolver"),
+		(60, "Editor"),
+		(80, "Admin"),
+		(100, "Evan Chen"),
 		),
 		default=0
 	)
@@ -500,27 +507,26 @@ class Token(models.Model):
 	def reduce(s: str):
 		return re.sub(r'\W+', '', s.lower())
 
-	def save(self, *args, **kwargs):
+	def save(self, *args: Any, **kwargs: Any):
 		self.reduced_name = self.reduce(self.name)
 		super().save(*args, **kwargs)
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return self.name
 
 	def get_absolute_url(self):
 		return reverse_lazy('token-detail', args=(self.uuid, ))
 
 	@property
-	def firstname(self):
+	def firstname(self) -> str:
 		if not ' ' in self.name:
 			return self.name
 		return self.name[:self.name.index(' ')]
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, *args: Any, **kwargs: Any):
 		super().__init__(*args, **kwargs)
-		self._courage = Attempt.objects.filter(token=self, status=1).aggregate(
-			courage=models.Sum('unlockable__courage_bounty')
-		)['courage'] or 0
+		self._courage = Attempt.objects.filter(token=self,
+			status=1).aggregate(courage=models.Sum('unlockable__courage_bounty'))['courage'] or 0
 
 	def get_courage(self):
 		return self._courage
@@ -542,11 +548,11 @@ class Token(models.Model):
 		return self.get_courage() >= u.unlock_courage_threshold
 
 	@property
-	def is_omniscient(self):
+	def is_omniscient(self) -> bool:
 		return self.permission >= 40
 
 	@property
-	def is_plebian(self):
+	def is_plebian(self) -> bool:
 		return self.permission == 0
 
 	def can_view(self, u: Optional[Unlockable]) -> bool:
@@ -592,9 +598,10 @@ class Token(models.Model):
 		return Attempt.objects.filter(token=self, unlockable=u, status=1).exists()
 
 
-def get_viewable(queryset: models.QuerySet, token: Token):
+def get_viewable(queryset: QuerySet[Unlockable], token: Token) -> QuerySet[Unlockable]:
 	courage = token.get_courage()
 	queryset = queryset.select_related('puzzle', 'round', 'unlock_needs')
+	# TODO maybe rewrite this with sql utils since it worked way better in otis web
 	queryset = queryset.annotate(
 		ustatus=Max('attempt__status', filter=Q(attempt__token=token)),
 		rstatus=Max('unlock_needs__attempt__status', filter=Q(unlock_needs__attempt__token=token)),

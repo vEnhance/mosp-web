@@ -12,11 +12,11 @@ class Page(models.Model):
 	published = models.BooleanField(help_text="Whether this page is published.", default=True)
 	listed = models.BooleanField(help_text="Whether this page is listed.", default=True)
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return self.title
 
-	def get_absolute_url(self):
+	def get_absolute_url(self) -> str:
 		return reverse_lazy('page-detail', args=(self.slug, ))
 
-	def get_editor_url(self):
+	def get_editor_url(self) -> str:
 		return reverse_lazy('page-update', args=(self.slug, ))

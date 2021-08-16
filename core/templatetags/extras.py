@@ -1,8 +1,13 @@
+from typing import Any
+
+import markdown
 from django import template
+from django.contrib.messages import constants as message_constants
+from django.contrib.messages.storage.base import Message
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+
 from .. import models
-import markdown
 
 register = template.Library()
 
@@ -11,18 +16,16 @@ def convert_to_markdown(s: str) -> str:
 	return markdown.markdown(
 		s,
 		extensions=(
-			'extra',
-			'sane_lists',
-			'smarty',
-			'codehilite',
+		'extra',
+		'sane_lists',
+		'smarty',
+		'codehilite',
 		),
 		extension_configs={'codehilite': {
-			'linenums': False,
+		'linenums': False,
 		}}
 	)
 
-
-from django.contrib.messages import constants as message_constants
 
 MESSAGE_LEVEL_CLASSES = {
 	message_constants.DEBUG: "border-indigo-600 bg-indigo-50 text-indigo-700",
@@ -34,7 +37,7 @@ MESSAGE_LEVEL_CLASSES = {
 
 
 @register.filter
-def tailwind_message_classes(message):
+def tailwind_message_classes(message: Message) -> str:
 	"""Return the message classes for a message."""
 	extra_tags = None
 	try:
@@ -58,7 +61,7 @@ def tailwind_message_classes(message):
 
 
 @register.filter(is_safe=True)
-def mkd(value) -> str:
+def mkd(value: str) -> str:
 	return mark_safe(convert_to_markdown(value))
 
 
@@ -68,7 +71,7 @@ def emoji_link(href: str, emoji: str) -> str:
 
 
 @register.filter()
-def admin_url(obj) -> str:
+def admin_url(obj: Any) -> str:
 	return reverse(
 		'admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name), args=[obj.id]
 	)

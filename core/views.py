@@ -12,7 +12,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView
 
-from . import models
+from .models import Attempt, Hunt, Puzzle, Round, SaltedAnswer, Solution, TestSolveSession, Token, Unlockable, get_viewable  # NOQA
 
 
 class StaffRequiredMixin(PermissionRequiredMixin):
@@ -44,13 +44,12 @@ class TokenGatedView:
 		if request.user.is_authenticated and uuid is not None:
 			# first get the attached token
 			try:
-				user_token: Optional[models.Token
-														] = models.Token.objects.get(user=request.user, enabled=True)
-			except models.Token.DoesNotExist:
+				user_token: Optional[Token] = Token.objects.get(user=request.user, enabled=True)
+			except Token.DoesNotExist:
 				user_token = None
 			try:
-				uuid_token: Optional[models.Token] = models.Token.objects.get(uuid=uuid, enabled=True)
-			except models.Token.DoesNotExist:
+				uuid_token: Optional[Token] = Token.objects.get(uuid=uuid, enabled=True)
+			except Token.DoesNotExist:
 				uuid_token = None
 			if user_token is None and uuid_token is None:
 				self.token = None
@@ -65,13 +64,13 @@ class TokenGatedView:
 				self.token = user_token
 		elif uuid is not None:  # no authentication
 			try:
-				self.token = models.Token.objects.get(uuid=uuid, enabled=True)
-			except models.Token.DoesNotExist:
+				self.token = Token.objects.get(uuid=uuid, enabled=True)
+			except Token.DoesNotExist:
 				self.token = None
 		elif request.user.is_authenticated:  # no cookie
 			try:
-				self.token = models.Token.objects.get(user=request.user, enabled=True)
-			except models.Token.DoesNotExist:
+				self.token = Token.objects.get(user=request.user, enabled=True)
+			except Token.DoesNotExist:
 				self.token = None
 		else:
 			self.token = None
@@ -106,18 +105,18 @@ class TokenGatedDetailView(TokenGatedView, DetailView):
 class HuntList(TokenGatedListView):
 	"""Top-level list of all the hunts"""
 	context_object_name = "hunt_list"
-	model = models.Hunt
+	model = Hunt
 	redirect_if_no_token = False
 
 	def get_queryset(self):
-		return models.Hunt.objects.filter(visible=True)
+		return Hunt.objects.filter(visible=True)
 
 
 class RoundUnlockableList(TokenGatedListView):
 	"""List of all the top-level rounds in a given hunt"""
 	context_object_name = "round_unlockable_list"
 	template_name = "core/round_unlockable_list.html"
-	model = models.Unlockable
+	model = Unlockable
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
 		ret = super().dispatch(request, *args, **kwargs)
@@ -125,16 +124,16 @@ class RoundUnlockableList(TokenGatedListView):
 			return render(request, "core/too_early.html", {'hunt': self.hunt, 'token': self.token})
 		return ret
 
-	def get_queryset(self) -> QuerySet[models.Unlockable]:
+	def get_queryset(self) -> QuerySet[Unlockable]:
 		self.cheating = self.kwargs.pop('cheating', False)
-		self.hunt = models.Hunt.objects.get(**self.kwargs)
-		queryset = models.Unlockable.objects.filter(hunt=self.hunt,
-																								parent__isnull=True).select_related('round')
+		self.hunt = Hunt.objects.get(**self.kwargs)
+		queryset = Unlockable.objects.filter(hunt=self.hunt,
+			parent__isnull=True).select_related('round')
 		assert self.token is not None
 		if self.cheating is True:
 			assert self.hunt.allow_cheat(self.token)
 		else:
-			queryset = models.get_viewable(queryset, self.token)
+			queryset = get_viewable(queryset, self.token)
 		return queryset
 
 	def get_context_data(self, **kwargs: Any) -> Context:
@@ -147,28 +146,28 @@ class RoundUnlockableList(TokenGatedListView):
 class UnlockableList(TokenGatedListView):
 	"""List of all the unlockables in a given round"""
 	context_object_name = "unlockable_list"
-	model = models.Unlockable
+	model = Unlockable
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 		self.cheating = self.kwargs.pop('cheating', False)
 		r = super().check_token(request)
 		if r is not None:
 			return r
-		self.round = models.Round.objects.get(**self.kwargs)
-		if self.token is not None \
-        and self.round.unlockable is not None\
-        and not self.token.has_unlocked(self.round.unlockable):
+		self.round = Round.objects.get(**self.kwargs)
+		if self.token is not None and self.round.unlockable is not None and not self.token.has_unlocked(
+			self.round.unlockable
+		):
 			return HttpResponseRedirect(self.round.unlockable.get_absolute_url())
 		return super().dispatch(request, *args, **kwargs)
 
-	def get_queryset(self) -> QuerySet[models.Unlockable]:
+	def get_queryset(self) -> QuerySet[Unlockable]:
 		assert self.token is not None
 		assert self.round.unlockable is None or self.token.can_unlock(self.round.unlockable)
-		queryset: QuerySet[models.Unlockable] = models.Unlockable.objects.filter(parent=self.round)
+		queryset: QuerySet[Unlockable] = Unlockable.objects.filter(parent=self.round)
 		if self.cheating is True and self.round.unlockable is not None:
 			assert self.round.unlockable.hunt.allow_cheat(self.token)
 		else:
-			queryset = models.get_viewable(queryset, self.token)
+			queryset = get_viewable(queryset, self.token)
 		queryset = queryset.annotate(round_exists=Count('round'))
 		queryset = queryset.order_by(
 			'sort_order',
@@ -186,7 +185,7 @@ class UnlockableList(TokenGatedListView):
 
 class PuzzleDetail(TokenGatedDetailView):
 	"""Shows a puzzle"""
-	model = models.Puzzle
+	model = Puzzle
 	context_object_name = "puzzle"
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
@@ -199,14 +198,14 @@ class PuzzleDetail(TokenGatedDetailView):
 
 class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
 	"""Shows a puzzle, no questions asked"""
-	model = models.Puzzle
+	model = Puzzle
 	context_object_name = "puzzle"
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 		ret = super().dispatch(request, *args, **kwargs)
 		if self.token is None:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
-		session = models.TestSolveSession.objects.get(uuid=self.kwargs['testsolvesession__uuid'])
+		session = TestSolveSession.objects.get(uuid=self.kwargs['testsolvesession__uuid'])
 		assert session.expires > timezone.now()
 		assert not self.token.is_plebian, "not an authorized testsolver"
 		return ret
@@ -219,7 +218,7 @@ class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
 
 class PuzzleSolutionDetail(TokenGatedDetailView):
 	"""Shows a solution"""
-	model = models.Puzzle
+	model = Puzzle
 	context_object_name = "puzzle"
 	template_name = 'core/puzzlesolution_detail.html'
 
@@ -230,7 +229,7 @@ class PuzzleSolutionDetail(TokenGatedDetailView):
 		u = self.object.unlockable  # type: ignore
 		if self.cheating is True:
 			assert u.hunt.allow_cheat(self.token), "can't cheat yet"
-			attempt, _ = models.Attempt.objects.get_or_create(unlockable=u, token=self.token)
+			attempt, _ = Attempt.objects.get_or_create(unlockable=u, token=self.token)
 			if attempt.status != 1:
 				attempt.status = 1
 				attempt.save()
@@ -245,7 +244,7 @@ class PuzzleSolutionDetail(TokenGatedDetailView):
 
 
 class UnlockableDetail(TokenGatedDetailView):
-	model = models.Unlockable
+	model = Unlockable
 	context_object_name = "unlockable"
 
 	def get_context_data(self, **kwargs: Any) -> Context:
@@ -253,7 +252,7 @@ class UnlockableDetail(TokenGatedDetailView):
 		token = context['token']
 		u = self.object  # type: ignore
 		can_unlock = token.can_unlock(u)
-		attempt, _ = models.Attempt.objects.get_or_create(unlockable=u, token=token)
+		attempt, _ = Attempt.objects.get_or_create(unlockable=u, token=token)
 		context['locked'] = not can_unlock
 		context['new'] = attempt.status < 0 and can_unlock
 		if can_unlock and u.story_only is True and attempt.status < 1:
@@ -266,18 +265,18 @@ class UnlockableDetail(TokenGatedDetailView):
 
 
 class TokenDetailView(DetailView):
-	model = models.Token
+	model = Token
 	context_object_name = "token"
 
 
 class TokenUpdateView(UpdateView):
-	model = models.Token
+	model = Token
 	context_object_name = "token"
 	fields = ('name', )
 
 
 def token_disable(uuid: str) -> HttpResponse:
-	token = models.Token.objects.get(uuid=uuid)
+	token = Token.objects.get(uuid=uuid)
 	token.enabled = False
 	token.user = None
 	token.save()
@@ -289,27 +288,26 @@ def ajax(request: HttpRequest) -> JsonResponse:
 	if request.method != 'POST':
 		return JsonResponse({'error': "☕"}, status=418)
 
-	token: Optional[models.Token]
+	token: Optional[Token]
 	try:
 		assert 'uuid' in request.COOKIES
-		token = models.Token.objects.get(uuid=request.COOKIES['uuid'], enabled=True)
-	except models.Token.DoesNotExist:
+		token = Token.objects.get(uuid=request.COOKIES['uuid'], enabled=True)
+	except Token.DoesNotExist:
 		token = None
 	except AssertionError:
 		token = None
 
 	action = request.POST.get('action')
 	if action == 'guess':
-		puzzle = models.Puzzle.objects.get(slug=request.POST.get('puzzle_slug'))
+		puzzle = Puzzle.objects.get(slug=request.POST.get('puzzle_slug'))
 		guess = request.POST.get('guess') or ''
 		salt = int(request.POST.get('salt') or 0)
-		sa = models.SaltedAnswer.objects.get(puzzle=puzzle, salt=salt)
+		sa = SaltedAnswer.objects.get(puzzle=puzzle, salt=salt)
 		if not sa.equals(guess):
 			return JsonResponse({'correct': 0})
 		elif sa.is_correct:
 			if puzzle.unlockable is not None and token is not None:
-				models.Attempt.objects.filter(token=token,
-																			unlockable=puzzle.unlockable).update(status=1)
+				Attempt.objects.filter(token=token, unlockable=puzzle.unlockable).update(status=1)
 			return JsonResponse({
 				'correct': 1,
 				'url': puzzle.get_solution_url(),
@@ -322,14 +320,14 @@ def ajax(request: HttpRequest) -> JsonResponse:
 
 	elif action == 'get_token':
 		name = request.POST['name']
-		reduced_name = models.Token.reduce(name)
+		reduced_name = Token.reduce(name)
 		force_new = request.POST['force_new']
-		if force_new == 'false' and models.Token.objects.filter(
+		if force_new == 'false' and Token.objects.filter(
 			reduced_name=reduced_name, user__isnull=False
 		).exists():
 			return JsonResponse({'outcome': 'exists'})
 		else:
-			token = models.Token(name=name)
+			token = Token(name=name)
 			token.save()
 			return JsonResponse({
 				'outcome': 'success',
@@ -343,7 +341,7 @@ def ajax(request: HttpRequest) -> JsonResponse:
 
 
 class PuzzleUpdate(UpdateView, StaffRequiredMixin):
-	model = models.Puzzle
+	model = Puzzle
 	context_object_name = "puzzle"
 	fields = (
 		'name',
@@ -356,7 +354,7 @@ class PuzzleUpdate(UpdateView, StaffRequiredMixin):
 
 
 class SolutionUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
-	model = models.Solution
+	model = Solution
 	context_object_name = "solution"
 	fields = (
 		'post_solve_story',
@@ -368,7 +366,7 @@ class SolutionUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixi
 
 
 class RoundUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
-	model = models.Round
+	model = Round
 	context_object_name = "round"
 	fields = (
 		'name', 'chapter_number', 'show_chapter_number', 'slug', 'thumbnail_path', 'round_text'
@@ -376,7 +374,7 @@ class RoundUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
 
 
 class UnlockableUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
-	model = models.Unlockable
+	model = Unlockable
 	context_object_name = "unlockable"
 	fields = (
 		'name', 'slug', 'story_only', 'intro_story_text', 'force_visibility', 'courage_bounty'
@@ -386,22 +384,21 @@ class UnlockableUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMi
 class StaffHuntList(TokenGatedListView, StaffRequiredMixin):
 	"""Staff view of all the hunts"""
 	context_object_name = "hunt_list"
-	model = models.Hunt
+	model = Hunt
 	redirect_if_no_token = False
 	template_name = 'core/staff_hunt_list.html'
 
 	def get_queryset(self):
-		return models.Hunt.objects.order_by('-start_date')
+		return Hunt.objects.order_by('-start_date')
 
 
 class StaffPuzzleList(TokenGatedListView, StaffRequiredMixin):
 	"""Staff list of the puzzles"""
 	context_object_name = "puzzle_list"
-	model = models.Puzzle
+	model = Puzzle
 	redirect_if_no_token = False
 	template_name = 'core/staff_puzzle_list.html'
 
 	def get_queryset(self):
-		return models.Puzzle.objects.filter(
-			status_progress__range=(0,6))\
-        .order_by('status_progress').select_related('unlockable', 'solution')
+		return Puzzle.objects.filter(status_progress__range=(0,
+			6)).order_by('status_progress').select_related('unlockable', 'solution')
