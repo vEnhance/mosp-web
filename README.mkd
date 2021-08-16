@@ -1,3 +1,5 @@
+![MOSP-WEB status](https://github.com/vEnhance/mosp-web/actions/workflows/main.yml/badge.svg)
+
 This is the code base for the MOP puzzle hunt, affectionately called *MOSP*.
 You can play the hunt at any time at [mosp.evanchen.cc](https://mosp.evanchen.cc).
 Check the about page for more info.
