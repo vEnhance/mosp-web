@@ -50,13 +50,11 @@ jobs:
         echo '::endgroup::'
 
         echo "DEBUGGING LIKE FUCK"
-        "$(npm bin)/pyright" --outputjson | cat
-        "$(npm bin)/pyright" --outputjson | python3 .github/workflows/pyright_to_rdjson.py | cat
         echo '::group::🔎 Running pyright with reviewdog 🐶 ...'
         "$(npm bin)/pyright" --outputjson |
           python3 .github/workflows/pyright_to_rdjson.py  |
           reviewdog -f=rdjson -name="pyright" \
-            -reporter="github-pr-review" \
+            -reporter="github-check" \
             -fail-on-error="false"
         reviewdog_rc=$?
         echo '::endgroup::'
