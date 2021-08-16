@@ -1,4 +1,4 @@
-name: Django and PyRight
+name: Django/PyRight (PR)
 
 on:
   pull_request:

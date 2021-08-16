@@ -1,4 +1,4 @@
-name: Django and PyRight
+name: Django/PyRight (Main)
 
 on:
   push:
