@@ -34,7 +34,7 @@ jobs:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         npm install pyright
-        # set -euo pipefail
+        set -euo pipefail
         BASE_PATH="$(cd "$(dirname "$0")" && pwd)"
         cd "${GITHUB_WORKSPACE}/${INPUT_WORKDIR}" || exit 1
         TEMP_PATH="$(mktemp -d)"
