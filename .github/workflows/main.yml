@@ -29,12 +29,11 @@ jobs:
       run: |
         python manage.py test
 
-    - name: Pyright
+    - name: ReviewDog
       env:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         npm install pyright
-        set -euo pipefail
         BASE_PATH="$(cd "$(dirname "$0")" && pwd)"
         cd "${GITHUB_WORKSPACE}/${INPUT_WORKDIR}" || exit 1
         TEMP_PATH="$(mktemp -d)"
@@ -58,3 +57,8 @@ jobs:
         reviewdog_rc=$?
         echo '::endgroup::'
         exit $reviewdog_rc
+
+    - name: Pyright for real
+      run: |
+        set -eou pipefail
+        "$(npm bin)/pyright"
