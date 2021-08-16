@@ -57,8 +57,3 @@ jobs:
         reviewdog_rc=$?
         echo '::endgroup::'
         exit $reviewdog_rc
-
-    - name: Pyright for real
-      run: |
-        set -eou pipefail
-        "$(npm bin)/pyright"
