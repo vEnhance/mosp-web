@@ -85,20 +85,20 @@ ROOT_URLCONF = 'mospweb.urls'
 
 TEMPLATES = [
 	{
-		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [BASE_DIR / 'templates'],
-		'APP_DIRS': True,
-		'OPTIONS':
-			{
-				'context_processors':
-					[
-						'django.template.context_processors.debug',
-						'django.template.context_processors.request',
-						'django.contrib.auth.context_processors.auth',
-						'django.contrib.messages.context_processors.messages',
-						'info.context_processors.pages',
-					],
-			},
+	'BACKEND': 'django.template.backends.django.DjangoTemplates',
+	'DIRS': [BASE_DIR / 'templates'],
+	'APP_DIRS': True,
+	'OPTIONS':
+	{
+	'context_processors':
+	[
+	'django.template.context_processors.debug',
+	'django.template.context_processors.request',
+	'django.contrib.auth.context_processors.auth',
+	'django.contrib.messages.context_processors.messages',
+	'info.context_processors.pages',
+	],
+	},
 	},
 ]
 
@@ -129,24 +129,24 @@ WSGI_APPLICATION = 'mospweb.wsgi.application'
 if os.getenv("DATABASE_NAME"):
 	DATABASES = {
 		'default':
-			{
-				'ENGINE': 'django.db.backends.mysql',
-				'NAME': os.getenv("DATABASE_NAME"),
-				'USER': os.getenv("DATABASE_USER"),
-				'PASSWORD': os.getenv("DATABASE_PASSWORD"),
-				'HOST': os.getenv("DATABASE_HOST"),
-				'PORT': os.getenv("DATABASE_PORT", '3306'),
-				'OPTIONS': {
-					'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-					'charset': 'utf8mb4'
-				},
-			},
+		{
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': os.getenv("DATABASE_NAME"),
+		'USER': os.getenv("DATABASE_USER"),
+		'PASSWORD': os.getenv("DATABASE_PASSWORD"),
+		'HOST': os.getenv("DATABASE_HOST"),
+		'PORT': os.getenv("DATABASE_PORT", '3306'),
+		'OPTIONS': {
+		'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+		'charset': 'utf8mb4'
+		},
+		},
 	}
 else:
 	DATABASES = {
 		'default': {
-			'ENGINE': 'django.db.backends.sqlite3',
-			'NAME': BASE_DIR / 'db.sqlite3',
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': BASE_DIR / 'db.sqlite3',
 		}
 	}
 
@@ -155,16 +155,16 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
 	{
-		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
 	},
 	{
-		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
 	},
 	{
-		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+	'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
 	},
 	{
-		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
 	},
 ]
 AUTHENTICATION_BACKENDS = [
