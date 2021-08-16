@@ -1,6 +1,8 @@
-name: Django/PyRight (PR)
+name: Unit Tests
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -26,9 +28,3 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
-    - name: Pyright
-      uses: jordemort/action-pyright@v1
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        reporter: github-pr-review
-        lib: true
