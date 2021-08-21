@@ -57,6 +57,9 @@ urlpatterns = [
 	path(r'staff/puzzles',
 		views.StaffPuzzleList.as_view(),
 		name='staff-puzzle-list'),
+	path(r'staff/unlockables/<str:volume_number>',
+		views.StaffUnlockableList.as_view(),
+		name='staff-unlockable-list'),
 	# -- other --
 	path(r'<str:hunt__volume_number>/unlock/<str:slug>',
 		views.UnlockableDetail.as_view(),
