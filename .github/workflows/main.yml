@@ -1,0 +1,58 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Unit Tests
+      run: |
+        python manage.py test
+
+    - name: ReviewDog
+      env:
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        npm install pyright
+        BASE_PATH="$(cd "$(dirname "$0")" && pwd)"
+        cd "${GITHUB_WORKSPACE}/${INPUT_WORKDIR}" || exit 1
+        TEMP_PATH="$(mktemp -d)"
+        PATH="${TEMP_PATH}:$PATH"
+
+        echo '::group::🐶 Installing reviewdog ... https://github.com/reviewdog/reviewdog'
+        curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b "${TEMP_PATH}" "${REVIEWDOG_VERSION}" 2>&1
+        echo '::endgroup::'
+
+        echo '::group::🐍 Installing pyright ...'
+        npm install pyright
+        echo '::endgroup::'
+
+        echo '::group::🔎 Running pyright with reviewdog 🐶 ...'
+        "$(npm bin)/pyright" --outputjson |
+          python3 .github/workflows/pyright_to_rdjson.py  |
+          reviewdog -f=rdjson -name="pyright" \
+            -reporter="github-check" \
+            -fail-on-error="true"
+        reviewdog_rc=$?
+        echo '::endgroup::'
+        exit $reviewdog_rc
