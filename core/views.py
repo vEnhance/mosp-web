@@ -400,14 +400,14 @@ class StaffPuzzleList(TokenGatedListView, StaffRequiredMixin):
 	template_name = 'core/staff_puzzle_list.html'
 
 	def get_queryset(self):
-		return models.Puzzle.objects.filter(
+		return Puzzle.objects.filter(
 				status_progress__range=(0,6))\
 				.order_by('status_progress').select_related('unlockable', 'solution')
 
 class StaffUnlockableList(TokenGatedListView, StaffRequiredMixin):
 	"""Staff list of unlockables"""
 	context_object_name = "unlockable_list"
-	model = models.Unlockable
+	model = Unlockable
 	redirect_if_no_token = False
 	template_name = 'core/staff_unlockable_list.html'
 	def get_queryset(self):
