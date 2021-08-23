@@ -71,15 +71,13 @@ urlpatterns = [
 	),
 	path(r'chapter/<str:chapter_number>/edit', views.RoundUpdate.as_view(), name='round-update'),
 	# -- staff --
-	path(r'staff/hunts',
-		views.StaffHuntList.as_view(),
-		name='staff-hunt-list'),
-	path(r'staff/puzzles',
-		views.StaffPuzzleList.as_view(),
-		name='staff-puzzle-list'),
-	path(r'staff/unlockables/<str:volume_number>',
-		views.StaffUnlockableList.as_view(),
-		name='staff-unlockable-list'),
+	path(r'staff/hunts', views.StaffHuntList.as_view(), name='staff-hunt-list'),
+	path(r'staff/puzzles', views.StaffPuzzleList.as_view(), name='staff-puzzle-list'),
+	path(
+	r'staff/unlockables/<str:volume_number>',
+	views.StaffUnlockableList.as_view(),
+	name='staff-unlockable-list'
+	),
 	# -- other --
 	path(
 	r'<str:hunt__volume_number>/unlock/<str:slug>',
