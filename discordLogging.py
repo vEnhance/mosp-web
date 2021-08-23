@@ -21,6 +21,7 @@ COLORS = {
 	"verbose": 6559689,
 	"debug": 2196944,
 	"success": 2210373,
+	"action": 17663,
 }
 EMOJIS = {
 	"default": ":loudspeaker:",
@@ -31,6 +32,7 @@ EMOJIS = {
 	"verbose": ":mega:",
 	"debug": ":microscope:",
 	"success": ":rocket:",
+	"action": ":factory_worker:",
 }
 
 
@@ -52,34 +54,34 @@ class DiscordHandler(logging.Handler):
 
 		fields = [
 			{
-			'name': 'Status',
-			'value': s,
-			'inline': True,
+				'name': 'Status',
+				'value': s,
+				'inline': True,
 			},
 			{
-			'name': 'Level',
-			'value': record.levelname.title(),
-			'inline': True,
+				'name': 'Level',
+				'value': record.levelname.title(),
+				'inline': True,
 			},
 			{
-			'name': 'Scope',
-			'value': f"`{record.name}`",
-			'inline': True,
+				'name': 'Scope',
+				'value': f"`{record.name}`",
+				'inline': True,
 			},
 			{
-			'name': 'Module',
-			'value': f"`{record.module}`",
-			'inline': True,
+				'name': 'Module',
+				'value': f"`{record.module}`",
+				'inline': True,
 			},
 			{
-			'name': 'User',
-			'value': user,
-			'inline': True,
+				'name': 'User',
+				'value': user,
+				'inline': True,
 			},
 			{
-			'name': 'Filename',
-			'value': f"{record.lineno}:`{record.filename}`",
-			'inline': True,
+				'name': 'Filename',
+				'value': f"{record.lineno}:`{record.filename}`",
+				'inline': True,
 			},
 		]
 
@@ -92,8 +94,8 @@ class DiscordHandler(logging.Handler):
 		else:
 			i = record.message.index('\n')
 			title = f"{emoji} {record.message[:i]}"
-			description_parts[':green_heart: MESSAGE :green_heart:'] = "```" + record.message[i +
-				1:] + "```"
+			msg_key = ':green_heart: MESSAGE :green_heart:'
+			description_parts[msg_key] = "```" + record.message[i + 1:] + "```"
 
 		# if exc_text nonempty, add that to description
 		if record.exc_text is not None:
@@ -102,7 +104,8 @@ class DiscordHandler(logging.Handler):
 				blob = record.exc_text[:300] + '\n...\n' + record.exc_text[-300:]
 			else:
 				blob = record.exc_text
-			description_parts[':yellow_heart: EXCEPTION :yellow_heart:'] = "```" + blob + "```"
+			msg_key = ':yellow_heart: EXCEPTION :yellow_heart:'
+			description_parts[msg_key] = "```" + blob + "```"
 
 		# if request data is there, include that too
 		if hasattr(record, 'request'):
@@ -128,7 +131,7 @@ class DiscordHandler(logging.Handler):
 				s += pp.pformat(d)
 				s += r'```'
 			if request.FILES is not None and len(request.FILES) > 0:
-				s += f'Files included\n'
+				s += 'Files included\n'
 				for name, fileobj in request.FILES.items():
 					s += f'> `{name}` ({fileobj.size} bytes, { fileobj.content_type })\n'
 			description_parts[':blue_heart: REQUEST :blue_heart:'] = s
