@@ -127,8 +127,9 @@ class RoundUnlockableList(TokenGatedListView):
 	def get_queryset(self) -> QuerySet[Unlockable]:
 		self.cheating = self.kwargs.pop('cheating', False)
 		self.hunt = Hunt.objects.get(**self.kwargs)
-		queryset = Unlockable.objects.filter(hunt=self.hunt,
-			parent__isnull=True).select_related('round')
+		queryset = Unlockable.objects.filter(
+			hunt=self.hunt, parent__isnull=True
+		).select_related('round')
 		assert self.token is not None
 		if self.cheating is True:
 			assert self.hunt.allow_cheat(self.token)
@@ -400,8 +401,9 @@ class StaffPuzzleList(TokenGatedListView, StaffRequiredMixin):
 	template_name = 'core/staff_puzzle_list.html'
 
 	def get_queryset(self):
-		return Puzzle.objects.filter(status_progress__range=(0,
-			6)).order_by('status_progress').select_related('unlockable', 'solution')
+		return Puzzle.objects.filter(
+			status_progress__range=(0, 6)
+		).order_by('status_progress').select_related('unlockable', 'solution')
 
 
 class StaffUnlockableList(TokenGatedListView, StaffRequiredMixin):

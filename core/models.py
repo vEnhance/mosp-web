@@ -175,16 +175,20 @@ class Unlockable(models.Model):
 		return self.slug
 
 	def get_absolute_url(self):
-		return reverse_lazy('unlockable-detail', args=(
-			self.hunt.volume_number,
-			self.slug,
-		))
+		return reverse_lazy(
+			'unlockable-detail', args=(
+				self.hunt.volume_number,
+				self.slug,
+			)
+		)
 
 	def get_editor_url(self):
-		return reverse_lazy('unlockable-update', args=(
-			self.hunt.volume_number,
-			self.slug,
-		))
+		return reverse_lazy(
+			'unlockable-update', args=(
+				self.hunt.volume_number,
+				self.slug,
+			)
+		)
 
 	class Meta:
 		ordering = (
@@ -219,15 +223,15 @@ class Puzzle(models.Model):
 	status_progress = models.SmallIntegerField(
 		help_text="How far this puzzle is in the development process",
 		choices=(
-		(-1, "Deferred"),
-		(0, "Initialized"),
-		(1, "Writing"),
-		(2, "Testsolving"),
-		(3, "Revising"),
-		(4, "Needs Soln"),
-		(5, "Polish"),
-		(6, "Finished"),
-		(7, "Published"),
+			(-1, "Deferred"),
+			(0, "Initialized"),
+			(1, "Writing"),
+			(2, "Testsolving"),
+			(3, "Revising"),
+			(4, "Needs Soln"),
+			(5, "Polish"),
+			(6, "Finished"),
+			(7, "Published"),
 		),
 		default=0
 	)
@@ -238,28 +242,34 @@ class Puzzle(models.Model):
 		return self.unlockable.hunt.volume_number if self.unlockable is not None else '-'
 
 	def get_absolute_url(self):
-		return reverse_lazy('puzzle-detail', args=(
-			self.hunt_volume_number,
-			self.slug,
-		))
+		return reverse_lazy(
+			'puzzle-detail', args=(
+				self.hunt_volume_number,
+				self.slug,
+			)
+		)
 
 	def get_editor_url(self):
-		return reverse_lazy('puzzle-update', args=(
-			self.hunt_volume_number,
-			self.slug,
-		))
+		return reverse_lazy(
+			'puzzle-update', args=(
+				self.hunt_volume_number,
+				self.slug,
+			)
+		)
 
 	def get_solution_url(self):
-		return reverse_lazy('solution-detail', args=(
-			self.hunt_volume_number,
-			self.slug,
-		))
+		return reverse_lazy(
+			'solution-detail', args=(
+				self.hunt_volume_number,
+				self.slug,
+			)
+		)
 
 	def get_cheating_url(self):
 		return reverse_lazy(
 			'solution-detail-cheating', args=(
-			self.hunt_volume_number,
-			self.slug,
+				self.hunt_volume_number,
+				self.slug,
 			)
 		)
 
@@ -309,16 +319,16 @@ class Solution(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy(
 			'solution-detail', args=(
-			self.puzzle.hunt_volume_number,
-			self.puzzle.slug,
+				self.puzzle.hunt_volume_number,
+				self.puzzle.slug,
 			)
 		)
 
 	def get_editor_url(self):
 		return reverse_lazy(
 			'solution-update', args=(
-			self.puzzle.hunt_volume_number,
-			self.puzzle.slug,
+				self.puzzle.hunt_volume_number,
+				self.puzzle.slug,
 			)
 		)
 
@@ -379,10 +389,12 @@ class TestSolveSession(models.Model):
 	expires = models.DateTimeField("When the test solve session (and hence this link) expires")
 
 	def get_absolute_url(self):
-		return reverse_lazy('puzzle-testsolve', args=(
-			self.puzzle.slug,
-			self.uuid,
-		))
+		return reverse_lazy(
+			'puzzle-testsolve', args=(
+				self.puzzle.slug,
+				self.uuid,
+			)
+		)
 
 
 class Round(models.Model):
@@ -438,9 +450,9 @@ class Attempt(models.Model):
 	unlockable = models.ForeignKey(Unlockable, on_delete=models.CASCADE)
 	status = models.SmallIntegerField(
 		choices=(
-		(-1, "Found"),
-		(0, "Unlocked"),
-		(1, "Solved"),
+			(-1, "Found"),
+			(0, "Unlocked"),
+			(1, "Solved"),
 		), default=-1
 	)
 	found_on = models.DateTimeField(
@@ -483,12 +495,12 @@ class Token(models.Model):
 	permission = models.PositiveSmallIntegerField(
 		help_text="Whether this token has any elevated permissions",
 		choices=(
-		(0, "Normal user"),
-		(20, "Testsolver"),
-		(40, "Bestsolver"),
-		(60, "Editor"),
-		(80, "Admin"),
-		(100, "Evan Chen"),
+			(0, "Normal user"),
+			(20, "Testsolver"),
+			(40, "Bestsolver"),
+			(60, "Editor"),
+			(80, "Admin"),
+			(100, "Evan Chen"),
 		),
 		default=0
 	)
@@ -525,8 +537,9 @@ class Token(models.Model):
 
 	def __init__(self, *args: Any, **kwargs: Any):
 		super().__init__(*args, **kwargs)
-		self._courage = Attempt.objects.filter(token=self,
-			status=1).aggregate(courage=models.Sum('unlockable__courage_bounty'))['courage'] or 0
+		self._courage = Attempt.objects.filter(
+			token=self, status=1
+		).aggregate(courage=models.Sum('unlockable__courage_bounty'))['courage'] or 0
 
 	def get_courage(self):
 		return self._courage

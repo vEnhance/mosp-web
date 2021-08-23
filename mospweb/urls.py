@@ -26,8 +26,8 @@ urlpatterns = [
 	path('', include('core.urls')),
 	path('static/<path:f>', RedirectView.as_view(url=(settings.STATIC_URL or '') + '%(f)s')),
 	path(
-	'favicon.ico',
-	RedirectView.as_view(url='https://web.evanchen.cc/favicon.ico'),
+		'favicon.ico',
+		RedirectView.as_view(url='https://web.evanchen.cc/favicon.ico'),
 	),
 ]
 if settings.DEBUG is True or settings.STATIC_URL is None:

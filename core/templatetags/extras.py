@@ -16,13 +16,13 @@ def convert_to_markdown(s: str) -> str:
 	return markdown.markdown(
 		s,
 		extensions=(
-		'extra',
-		'sane_lists',
-		'smarty',
-		'codehilite',
+			'extra',
+			'sane_lists',
+			'smarty',
+			'codehilite',
 		),
 		extension_configs={'codehilite': {
-		'linenums': False,
+			'linenums': False,
 		}}
 	)
 
