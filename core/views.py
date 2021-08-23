@@ -402,3 +402,20 @@ class StaffPuzzleList(TokenGatedListView, StaffRequiredMixin):
 	def get_queryset(self):
 		return Puzzle.objects.filter(status_progress__range=(0,
 			6)).order_by('status_progress').select_related('unlockable', 'solution')
+
+
+class StaffUnlockableList(TokenGatedListView, StaffRequiredMixin):
+	"""Staff list of unlockables"""
+	context_object_name = "unlockable_list"
+	model = Unlockable
+	redirect_if_no_token = False
+	template_name = 'core/staff_unlockable_list.html'
+
+	def get_queryset(self):
+		self.hunt = Hunt.objects.get(**self.kwargs)
+		return Unlockable.objects.filter(hunt=self.hunt).order_by('sort_order')
+
+	def get_context_data(self, **kwargs: Any) -> Context:
+		context = super().get_context_data(**kwargs)
+		context['hunt'] = self.hunt
+		return context
