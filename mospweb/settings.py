@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import logging
 import os
+import platform
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -23,19 +26,17 @@ if ENV_PATH.exists():
 	load_dotenv(ENV_PATH)
 
 PRODUCTION = bool(os.getenv('IS_PRODUCTION'))
-if not PRODUCTION:
-	INTERNAL_IPS = ('127.0.0.1', )
+if PRODUCTION:
+	ALLOWED_HOSTS = ['mosp.evanchen.cc', '.localhost', '127.0.0.1']
+else:
+	INTERNAL_IPS = ['127.0.0.1']
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not PRODUCTION
-
-if PRODUCTION:
-	ALLOWED_HOSTS = ['mosp.evanchen.cc']
-else:
-	ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -103,25 +104,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mospweb.wsgi.application'
-
-#LOGGING = {
-#	'version': 1,
-#	'disable_existing_loggers': False,
-#	'handlers': {
-#		'file': {
-#			'level': 'DEBUG',
-#			'class': 'logging.FileHandler',
-#			'filename': 'sql.log',
-#		},
-#	},
-#	'loggers': {
-#		'django.db.backends': {
-#			'handlers': ['file'],
-#			'level': 'DEBUG',
-#			'propagate': True,
-#		},
-#	},
-#}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -215,6 +197,88 @@ else:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # fking windows
-import platform
 if platform.system() == 'Windows':
 	NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"  # only for serena
+
+
+def filter_useless_404(record: logging.LogRecord) -> bool:
+	a = tuple(record.args)  # type: ignore
+	ret = not (len(a) == 2 and a[0] == 'Not Found' and ('wp-include' in a[1] or '.php' in a[1]))
+	ret &= not (len(a) == 3 and a[1] == '404' and ('wp-include' in a[0] or '.php' in a[0]))
+	return ret
+
+
+VERBOSE_LOG_LEVEL = 15
+SUCCESS_LOG_LEVEL = 25
+ACTION_LOG_LEVEL = 35
+logging.addLevelName(VERBOSE_LOG_LEVEL, "VERBOSE")
+logging.addLevelName(SUCCESS_LOG_LEVEL, "SUCCESS")
+logging.addLevelName(ACTION_LOG_LEVEL, "ACTION")
+
+LOGGING = {
+	'version': 1,
+	'disable_existing_loggers': False,
+	'formatters':
+		{
+			'stream_format':
+				{
+					'format': '[{levelname}] {asctime} {module} {name}\n{message}\n',
+					'style': '{',
+				},
+		},
+	'filters':
+		{
+			'filter_useless_404':
+				{
+					'()': 'django.utils.log.CallbackFilter',
+					'callback': filter_useless_404,
+				},
+			'require_debug_false': {
+				'()': 'django.utils.log.RequireDebugFalse',
+			},
+			'require_debug_true': {
+				'()': 'django.utils.log.RequireDebugTrue',
+			}
+		},
+	'handlers':
+		{
+			'console':
+				{
+					'class': 'logging.StreamHandler',
+					'level': 'VERBOSE',
+					'formatter': 'stream_format',
+					'filters': ['filter_useless_404'],
+				},
+			'discord':
+				{
+					'class': 'discordLogging.DiscordHandler',
+					'level': 'VERBOSE',
+					'filters': ['require_debug_false', 'filter_useless_404'],
+				}
+		},
+	'root': {
+		'handlers': ['console', 'discord'],
+		'level': 'INFO',
+	},
+	'loggers':
+		{
+			'django': {
+				'handlers': ['console', 'discord'],
+				'level': 'INFO',
+				'propagate': False,
+			},
+			'django.db.backends':
+				{
+					'handlers': ['console'],
+					'level': 'DEBUG',
+					'filters': ['require_debug_true'],
+				},
+			'django.server': {
+				'handlers': ['console'],
+				'level': 'DEBUG',
+				'propagate': False,
+			},
+		},
+}
+if TESTING:
+	logging.disable(ACTION_LOG_LEVEL)
