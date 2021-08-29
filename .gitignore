@@ -11,6 +11,5 @@ node_modules/
 *.xcf
 env
 /static/
-poetry.lock
 .coverage
 coverage/
