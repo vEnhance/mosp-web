@@ -2,8 +2,7 @@
 	<div class="w-full md:w-5/12">
 		{% include 'django/forms/widgets/textarea.html' %}
 	</div>
-	<div id="ace_container_{{widget.name}}"
-		class="relative hidden w-full md:w-6/12 lg:w-7/12">
+	<div id="ace_container_{{widget.name}}" class="relative hidden w-full md:w-6/12 lg:w-7/12">
 		{%spaceless%}<div id="ace_{{widget.name}}" class="absolute top-0 bottom-0 left-0 right-0" style="resize:vertical; overflow:auto;">{{ widget.value|default_if_none:"" }}</div>{% endspaceless %}
 	</div>
 	<div class="w-full p-1 md:w-6/12 lg:w-5/12">
@@ -14,9 +13,9 @@
 <hr />
 
 <script type="text/javascript">
-$(() => {
-	if (ace !== undefined) {
-		setupEditor("{{widget.name}}");
-	}
-});
+	$(() => {
+		if (ace !== undefined) {
+			setupEditor("{{widget.name}}");
+		}
+	});
 </script>

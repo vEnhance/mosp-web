@@ -6,19 +6,19 @@
 <h1>Puzzles in Progress</h1>
 
 <table class="w-full mx-auto table-fixed">
-<thead>
-	<tr>
-		<th class="w-2/12 text-left">Status</th>
-		<th class="w-4/12 text-left">Unlockable</th>
-		<th class="w-5/12 text-left">Puzzle</th>
-		<th class="w-1/12 text-left">Sol</th>
-	</tr>
-</thead>
-<tbody>
+	<thead>
+		<tr>
+			<th class="w-2/12 text-left">Status</th>
+			<th class="w-4/12 text-left">Unlockable</th>
+			<th class="w-5/12 text-left">Puzzle</th>
+			<th class="w-1/12 text-left">Sol</th>
+		</tr>
+	</thead>
+	<tbody>
 
-{% for p in puzzle_list %}
-{% spaceless %}
-<tr class = "
+		{% for p in puzzle_list %}
+		{% spaceless %}
+		<tr class="
 {% if p.status_progress == 0 %}bg-yellow-300{% endif %}
 {% if p.status_progress == 1 %}bg-orange-50{% endif %}
 {% if p.status_progress == 2 %}bg-blue-200{% endif %}
@@ -27,28 +27,28 @@
 {% if p.status_progress == 5 %}bg-red-100{% endif %}
 {% if p.status_progress == 6 %}bg-green-200{% endif %}
 ">
-{% endspaceless %}
-	<th class="w-2/12">{{ p.get_status_progress_display }}</th>
-	<td class="w-4/12">{% if p.unlockable %}
-		<a href="{{ p.unlockable.get_absolute_url }}">
-		{{ p.unlockable.icon }} {{ p.unlockable.name }}
-		</a>
-		{% else %}
-		❌
-		{% endif %}
-	</td>
-	<td class="w-5/12">
-		<a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
-	</td>
-	<td class="w-1/12">
-		{% if p.solution %}
-		<a href="{{ p.solution.get_absolute_url }}">Sol</a>
-		{% else %}
-		❌
-		{% endif %}
-	</td>
-</tr>
-{% endfor %}
-</tbody>
+			{% endspaceless %}
+			<th class="w-2/12">{{ p.get_status_progress_display }}</th>
+			<td class="w-4/12">{% if p.unlockable %}
+				<a href="{{ p.unlockable.get_absolute_url }}">
+					{{ p.unlockable.icon }} {{ p.unlockable.name }}
+				</a>
+				{% else %}
+				❌
+				{% endif %}
+			</td>
+			<td class="w-5/12">
+				<a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
+			</td>
+			<td class="w-1/12">
+				{% if p.solution %}
+				<a href="{{ p.solution.get_absolute_url }}">Sol</a>
+				{% else %}
+				❌
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
 </table>
 {% endblock %}

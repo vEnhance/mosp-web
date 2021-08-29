@@ -9,12 +9,11 @@
 {% block header %}
 {{ puzzle.puzzle_head|safe }}
 <script type="text/javascript">
-const puzzle_slug = "{{ puzzle.slug }}";
-const hashes = [
-	{% for hash in puzzle.target_hashes %}
-	"{{ hash }}",
-	{% endfor %}
-];
+	const puzzle_slug = "{{ puzzle.slug }}";
+	const hashes = [
+		{% for hash in puzzle.target_hashes %} "{{ hash }}",
+		{% endfor %}
+	];
 </script>
 {% endblock %}
 
@@ -37,7 +36,7 @@ const hashes = [
 {% block content %}
 {% if token.is_omniscient %}
 <div class="p-1 mx-auto font-sans text-sm text-blue-900 border-blue-100 rounded-lg bg-indigo-50 border-1 w-max">
-{{ puzzle.get_status_progress_display }}
+	{{ puzzle.get_status_progress_display }}
 </div>
 {% endif %}
 <h1 class="w-full text-center">{{ puzzle.name }}</h1>
@@ -53,20 +52,20 @@ const hashes = [
 </div>
 <div id="puzzlehead">
 	<div id="answerchecker">
-	<div class="icons">
-		<span class="icon-placeholder">❌</span>
-		<span class="icon" id="thinking">🤔</span>
-		<span class="icon" id="wrong">❌</span>
-		<span class="icon" id="correct">✅</span>
-		<span class="icon-placeholder">❌</span>
-	</div>
-	<p><input id="answer" type="text" /></p>
-	<div class="percentholder">
-		<span id="percent">0%</span>
-	</div>
-	<div class="prizeholder">
-		<a id="prize" href="">🔑</a>
-	</div>
+		<div class="icons">
+			<span class="icon-placeholder">❌</span>
+			<span class="icon" id="thinking">🤔</span>
+			<span class="icon" id="wrong">❌</span>
+			<span class="icon" id="correct">✅</span>
+			<span class="icon-placeholder">❌</span>
+		</div>
+		<p><input id="answer" type="text" /></p>
+		<div class="percentholder">
+			<span id="percent">0%</span>
+		</div>
+		<div class="prizeholder">
+			<a id="prize" href="">🔑</a>
+		</div>
 	</div>
 </div>
 <div id="puzzlecontent">
@@ -76,7 +75,6 @@ const hashes = [
 
 {% block southeast %}
 {% if token|can_cheat:puzzle.unlockable.hunt %}
-<a id="cheat-show-answer" class="text-red-500 opacity-50"
-	href="{{ puzzle.get_cheating_url }}">Bypass puzzle</a>
+<a id="cheat-show-answer" class="text-red-500 opacity-50" href="{{ puzzle.get_cheating_url }}">Bypass puzzle</a>
 {% endif %}
 {% endblock %}

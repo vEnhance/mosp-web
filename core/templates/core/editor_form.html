@@ -4,72 +4,73 @@
 {% block title %}Editing {{object}}{% endblock %}
 
 {% block header %}
-<script src="https://pagecdn.io/lib/ace/1.4.12/ace.min.js" crossorigin="anonymous" integrity="sha256-T5QdmsCQO5z8tBAXMrCZ4f3RX8wVdiA0Fu17FGnU1vU=" ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/theme-github.min.js" crossorigin="anonymous"  ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/snippets/markdown.min.js" crossorigin="anonymous"  ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/snippets/html.min.js" crossorigin="anonymous"  ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/worker-html.min.js" crossorigin="anonymous"  ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/mode-markdown.min.js" crossorigin="anonymous"  ></script>
-<script src="https://pagecdn.io/lib/ace/1.4.12/mode-html.min.js" crossorigin="anonymous"  ></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/ace.min.js" crossorigin="anonymous" integrity="sha256-T5QdmsCQO5z8tBAXMrCZ4f3RX8wVdiA0Fu17FGnU1vU="></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/theme-github.min.js" crossorigin="anonymous"></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/snippets/markdown.min.js" crossorigin="anonymous"></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/snippets/html.min.js" crossorigin="anonymous"></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/worker-html.min.js" crossorigin="anonymous"></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/mode-markdown.min.js" crossorigin="anonymous"></script>
+<script src="https://pagecdn.io/lib/ace/1.4.12/mode-html.min.js" crossorigin="anonymous"></script>
 <script>
-function setupEditor(name, mode) {
-	$("#id_" + name).parent().hide();
-	$("#ace_container_" + name).removeClass('hidden');
-	$("#ace_container_" + name).addClass('display-flex');
+	function setupEditor(name, mode) {
+		$("#id_" + name).parent().hide();
+		$("#ace_container_" + name).removeClass('hidden');
+		$("#ace_container_" + name).addClass('display-flex');
 
-	const editor = ace.edit("ace_" + name);
-	editor.setTheme("ace/theme/github");
-	editor.setOptions({
-		showGutter : false,
-		fontSize: '14px',
-		minLines: 3,
-		wrap: true,
+		const editor = ace.edit("ace_" + name);
+		editor.setTheme("ace/theme/github");
+		editor.setOptions({
+			showGutter: false,
+			fontSize: '14px',
+			minLines: 3,
+			wrap: true,
 		});
-	const RequestedMode = ace.require("ace/mode/" + (mode || "markdown")).Mode;
-	editor.session.setMode(new RequestedMode())
+		const RequestedMode = ace.require("ace/mode/" + (mode || "markdown")).Mode;
+		editor.session.setMode(new RequestedMode())
 
-	editor.session.on('change', function(delta) {
-		$("#id_" + name).val(editor.getSession().getValue());
-		$("#id_" + name)[0].dispatchEvent(new Event("input"));
-	});
+		editor.session.on('change', function(delta) {
+			$("#id_" + name).val(editor.getSession().getValue());
+			$("#id_" + name)[0].dispatchEvent(new Event("input"));
+		});
 
-}
+	}
 </script>
 {% endblock %}
 
 {% block body %}
+
 <body class="p-2 bg-green-50">
-<div id="container" class="max-w-6xl mx-auto md:min-w-2xl ">
-<h1>Editor for {{object}}</h1>
+	<div id="container" class="max-w-6xl mx-auto md:min-w-2xl ">
+		<h1>Editor for {{object}}</h1>
 
-<div class="px-2 py-1 mx-auto bg-yellow-100 border border-yellow-900 shadow-lg w-max">
-	<p>
-	You can <a href="{{ object.get_absolute_url }}">view the rendered object</a>
-	if you save your changes here.
-	</p>
-	<p>
-	If you need full control, use the
-	<a class="emoji-link" href="{{ object|admin_url }}">admin site</a>.
-	</p>
-</div>
+		<div class="px-2 py-1 mx-auto bg-yellow-100 border border-yellow-900 shadow-lg w-max">
+			<p>
+				You can <a href="{{ object.get_absolute_url }}">view the rendered object</a>
+				if you save your changes here.
+			</p>
+			<p>
+				If you need full control, use the
+				<a class="emoji-link" href="{{ object|admin_url }}">admin site</a>.
+			</p>
+		</div>
 
-<form action="{{ request.path }}" method="post">
-{% csrf_token %}
+		<form action="{{ request.path }}" method="post">
+			{% csrf_token %}
 
-{% block preform %}
-{% endblock %}
+			{% block preform %}
+			{% endblock %}
 
-{{ form|crispy }}
+			{{ form|crispy }}
 
-{% block postform %}
-{% endblock %}
+			{% block postform %}
+			{% endblock %}
 
-<input class="btn btn-gray" type="submit" value="Update" />
-</form>
+			<input class="btn btn-gray" type="submit" value="Update" />
+		</form>
 
-{{ form.media }}
+		{{ form.media }}
 
 
-</div>
+	</div>
 </body>
 {% endblock %}

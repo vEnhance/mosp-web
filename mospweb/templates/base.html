@@ -17,68 +17,74 @@ Evan
 {% load tailwind_tags %}
 {% load static %}
 <html>
+
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link rel="apple-touch-icon" sizes="180x180" href="//web.evanchen.cc/icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" href="//web.evanchen.cc/icons/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="//web.evanchen.cc/icons/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="//web.evanchen.cc/icons/manifest.json">
-<link rel="mask-icon" href="//web.evanchen.cc/icons/safari-pinned-tab.svg" color="#5bbad5">
-<link rel="shortcut icon" href="//web.evanchen.cc/icons/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="//web.evanchen.cc/icons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" href="//web.evanchen.cc/icons/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="//web.evanchen.cc/icons/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="//web.evanchen.cc/icons/manifest.json">
+	<link rel="mask-icon" href="//web.evanchen.cc/icons/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="//web.evanchen.cc/icons/favicon.ico">
 
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata" />
-{% if settings.PRODUCTION %}
-{% tailwind_preload_css %}
-{% endif %}
-{% tailwind_css %}
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata" />
+	{% if settings.PRODUCTION %}
+	{% tailwind_preload_css %}
+	{% endif %}
+	{% tailwind_css %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'common.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'common.css' %}" />
 
-{% block palette %}
-{% endblock %}
+	{% block palette %}
+	{% endblock %}
 
-{% block css %}
-{% endblock %}
-<meta name="msapplication-config" content="//web.evanchen.cc/icons/browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
-<title>{% block title %}{% endblock %}</title>
+	{% block css %}
+	{% endblock %}
+	<meta name="msapplication-config" content="//web.evanchen.cc/icons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+	<title>{% block title %}{% endblock %}</title>
 
-<script type="text/javascript">
-MathJax = {
-    tex: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        displayMath: [['\\[', '\\]']],
-    }
-};
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
+	<script type="text/javascript">
+		MathJax = {
+			tex: {
+				inlineMath: [
+					['$', '$'],
+					['\\(', '\\)']
+				],
+				displayMath: [
+					['\\[', '\\]']
+				],
+			}
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+	</script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
 
-<script type="text/javascript">
-{% if token %}
-const token_uuid = "{{ token.uuid }}";
-const solver_name = "{{ token.name }}";
-{% else %}
-const token_uuid = null;
-const solver_name = null;
-{% endif %}
-</script>
+	<script type="text/javascript">
+		{% if token %}
+		const token_uuid = "{{ token.uuid }}";
+		const solver_name = "{{ token.name }}";
+		{% else %}
+		const token_uuid = null;
+		const solver_name = null;
+		{% endif %}
+	</script>
 
-<script data-main="{% static "main.js" %}" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
-{% block header %}
-{% endblock %}
+	<script data-main="{% static "main.js" %}" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+	{% block header %}
+	{% endblock %}
 </head>
 
 {% block body %}
 {% endblock %}
+
 </html>
 <!--
 	vim: ft=htmldjango

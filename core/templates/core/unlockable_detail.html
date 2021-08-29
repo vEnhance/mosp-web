@@ -36,36 +36,33 @@
 {% endif %}
 <hr />
 {% if locked %}
-	<h1>
+<h1>
 	{% if u.parent %}
-	<a id="door" class="text-6xl emoji-link"
-		href="{{u.parent.get_absolute_url}}">🔒</a>
+	<a id="door" class="text-6xl emoji-link" href="{{u.parent.get_absolute_url}}">🔒</a>
 	{% else %}
-	<a id="door" class="text-6xl emoji-link"
-		 href="{{ u.hunt.get_absolute_url }}">🔒</a>
+	<a id="door" class="text-6xl emoji-link" href="{{ u.hunt.get_absolute_url }}">🔒</a>
 	{% endif %}
-	</h1>
-	<p class="p-2 mx-auto text-sm border-2 border-red-600 max-w-3/4 w-max rounded-2xl bg-red-50">
+</h1>
+<p class="p-2 mx-auto text-sm border-2 border-red-600 max-w-3/4 w-max rounded-2xl bg-red-50">
 	This item will unlock
 	{% if u.unlock_date %}on {{ u.unlock_date|date }}{% endif %}
 	if
 	{% if u.unlock_needs %}
-		<span class="font-bold text-red-900">{{ u.unlock_needs.puzzle.name }}</span>
-		is completed{% spaceless %}
-		{% if u.unlock_courage_threshold > 0 %}
-		and you have at least {{ u.unlock_courage_threshold }}💜
-		{% else %}
-		.
-		{% endif %}
-		{% endspaceless %}
+	<span class="font-bold text-red-900">{{ u.unlock_needs.puzzle.name }}</span>
+	is completed{% spaceless %}
+	{% if u.unlock_courage_threshold > 0 %}
+	and you have at least {{ u.unlock_courage_threshold }}💜
 	{% else %}
-		you have at least {{ u.unlock_courage_threshold }}💜.
+	.
 	{% endif %}
-	</p>
+	{% endspaceless %}
+	{% else %}
+	you have at least {{ u.unlock_courage_threshold }}💜.
+	{% endif %}
+</p>
 {% else %}
-	<h1>
-	<a id="door" class="text-9xl emoji-link"
-		 href="{% spaceless %}
+<h1>
+	<a id="door" class="text-9xl emoji-link" href="{% spaceless %}
 			{% if u.story_only %}
 				{{ token|get_finished_url:u }}
 			{% elif u.puzzle %}
@@ -76,7 +73,7 @@
 				/TODO
 			{% endif %}
 			{% endspaceless %}">🚪</a>
-	</h1>
+</h1>
 {% endif %}
 
 {% endwith %}

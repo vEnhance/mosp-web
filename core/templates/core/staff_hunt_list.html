@@ -7,29 +7,28 @@
 <h1>List of Hunts</h1>
 
 <div class="text-center">
-{% for hunt in hunt_list %}
-<div class="container">
-<div class="inline-block w-48 h-48 mb-2 text-center rounded-lg group ring-8 drop-shadow-2xl {% if not hunt.visible %}opacity-50{% elif hunt.allow_skip %}ring-teal-800{% else %}ring-gray-300{% endif %}">
-<a href="{{ hunt.get_absolute_url }}" class="text-white" >
-<div class="absolute z-0 w-48 h-48 rounded-lg group-hover:brightness-50 group-hover:grayscale"
-	style="background-image: url({% static hunt.thumbnail_path %}); background-size: cover;">
-</div>
-<div class="absolute z-10 hidden w-48 h-48 p-1 align-middle group-hover:block">
-<h1 class="align-center">Volume {{ hunt.volume_number }}</h1>
-<h2 class="text-xl align-center">{{ hunt.name }}</h2>
-</div>
-</a>
-</div>
-<div class="inline-block mx-3 text-left align-top">
-<ul>
-	<li>{% if hunt.has_started %}Running since{% else %}Scheduled for{% endif %} {{ hunt.start_date }}.</li>
-	<li>{% if hunt.allow_skip %}Over. Skipping permitted.{% else %}Running now.{% endif %}</li>
-	<li>{% if hunt.visible %}Visible to public.{% else %}Hidden from public.{% endif %}</li>
-	<li><a href="">Unlockable chart</a>.</li>
-</ul>
-</div>
-</div>
-{% endfor %}
+	{% for hunt in hunt_list %}
+	<div class="container">
+		<div class="inline-block w-48 h-48 mb-2 text-center rounded-lg group ring-8 drop-shadow-2xl {% if not hunt.visible %}opacity-50{% elif hunt.allow_skip %}ring-teal-800{% else %}ring-gray-300{% endif %}">
+			<a href="{{ hunt.get_absolute_url }}" class="text-white">
+				<div class="absolute z-0 w-48 h-48 rounded-lg group-hover:brightness-50 group-hover:grayscale" style="background-image: url({% static hunt.thumbnail_path %}); background-size: cover;">
+				</div>
+				<div class="absolute z-10 hidden w-48 h-48 p-1 align-middle group-hover:block">
+					<h1 class="align-center">Volume {{ hunt.volume_number }}</h1>
+					<h2 class="text-xl align-center">{{ hunt.name }}</h2>
+				</div>
+			</a>
+		</div>
+		<div class="inline-block mx-3 text-left align-top">
+			<ul>
+				<li>{% if hunt.has_started %}Running since{% else %}Scheduled for{% endif %} {{ hunt.start_date }}.</li>
+				<li>{% if hunt.allow_skip %}Over. Skipping permitted.{% else %}Running now.{% endif %}</li>
+				<li>{% if hunt.visible %}Visible to public.{% else %}Hidden from public.{% endif %}</li>
+				<li><a href="">Unlockable chart</a>.</li>
+			</ul>
+		</div>
+	</div>
+	{% endfor %}
 </div>
 
 {% endblock %}

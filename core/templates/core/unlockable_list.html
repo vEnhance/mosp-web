@@ -21,19 +21,19 @@ Chapter {{ round.chapter_number }}:
 
 {% block content %}
 {% if round.show_chapter_number %}
-	<h1>Chapter {{ round.chapter_number }}</h1>
-	<h2><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h2>
+<h1>Chapter {{ round.chapter_number }}</h1>
+<h2><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h2>
 {% else %}
-	<h1><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h1>
+<h1><a href="{{ round.unlockable.get_absolute_url }}">{{ round.name }}</a></h1>
 {% endif %}
 
 <div class="container">
-{{ round.round_text|mkd }}
+	{{ round.round_text|mkd }}
 </div>
 
 {% if unlockable_list|length > 0 %}
-	<hr />
-	<table class="w-full mx-auto table-fixed">
+<hr />
+<table class="w-full mx-auto table-fixed">
 	<thead>
 		<tr>
 			<th class="w-3/12 text-left">Location</th>
@@ -42,8 +42,8 @@ Chapter {{ round.chapter_number }}:
 		</tr>
 	</thead>
 	<tbody>
-	{% for u in unlockable_list %}
-	<tr class="{% spaceless %}
+		{% for u in unlockable_list %}
+		<tr class="{% spaceless %}
 	{% if token|has_unlocked:u %}
 		{% if u.puzzle %}
 			{% if token|has_solved:u %}
@@ -68,52 +68,51 @@ Chapter {{ round.chapter_number }}:
 	{% else %}
 	{% endif %}
 	{% endspaceless %}">
-		{% if u.story_only %}
+			{% if u.story_only %}
 			<td class="w-3/12"></td>
-			<td class="w-4/12 font-serif text-xl text-blue-700"
-				style="font-variant: small-caps;">
+			<td class="w-4/12 font-serif text-xl text-blue-700" style="font-variant: small-caps;">
 				<a href="{{u.get_absolute_url}}">{{ u.name }}</a>
 			</td>
-		{% else %}
+			{% else %}
 			<td class="w-3/12 text-sm md:text-base">
 				<a href="{{u.get_absolute_url}}">{{ u.icon }}{{ u.name }}</a>
 			</td>
 			{% if token|has_unlocked:u %}
-				{% if u.is_puzzle %}
-					<td class="w-3/12 text-sm md:text-base">
-						<a href="{{u.puzzle.get_absolute_url}}">{{u.puzzle.name}}</a>
-					</td>
-				{% elif u.is_round %}
-				<th colspan="2" class="w-8/12 text-left">
-					<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a></th>
-				{% elif u.story_only %}
-				<td colspan="2" class="w-8/12 align-middle"></td>
-				{% else %}
-				<td colspan="2" class="w-8/12 italic align-middle">Not yet ready!</td>
-				{% endif %}
+			{% if u.is_puzzle %}
+			<td class="w-3/12 text-sm md:text-base">
+				<a href="{{u.puzzle.get_absolute_url}}">{{u.puzzle.name}}</a>
+			</td>
+			{% elif u.is_round %}
+			<th colspan="2" class="w-8/12 text-left">
+				<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a></th>
+			{% elif u.story_only %}
+			<td colspan="2" class="w-8/12 align-middle"></td>
+			{% else %}
+			<td colspan="2" class="w-8/12 italic align-middle">Not yet ready!</td>
+			{% endif %}
 			{% elif token|can_unlock:u %}
-				<td class="w-3/12 font-bold">?</td>
+			<td class="w-3/12 font-bold">?</td>
 			{% else %}
-				<td class="w-3/12"></td>
+			<td class="w-3/12"></td>
 			{% endif %}
-		{% endif %}
-		{% if u.is_puzzle and token|has_unlocked:u %}
+			{% endif %}
+			{% if u.is_puzzle and token|has_unlocked:u %}
 			{% if token|has_solved:u %}
-				<td class="w-5/12 font-mono text-xs md:text-sm"><a href="{{u.puzzle.get_solution_url}}">{{ u.puzzle.answer }}</a></td>
+			<td class="w-5/12 font-mono text-xs md:text-sm"><a href="{{u.puzzle.get_solution_url}}">{{ u.puzzle.answer }}</a></td>
 			{% else %}
-				<td class="w-5/12"><em>Not solved</em></td>
+			<td class="w-5/12"><em>Not solved</em></td>
 			{% endif %}
-		{% elif token|has_unlocked:u %}
+			{% elif token|has_unlocked:u %}
 			<td class="w-5/12"></td>
-		{% elif token|can_unlock:u %}
+			{% elif token|can_unlock:u %}
 			<td class="w-5/12 italic align-middle">Unlocked!</td>
-		{% else %}
+			{% else %}
 			<td class="w-5/12 italic align-middle">Locked</td>
-		{% endif %}
-	</tr>
-	{% endfor %}
+			{% endif %}
+		</tr>
+		{% endfor %}
 	</tbody>
-	</table>
+</table>
 {% endif %}
 <hr />
 
@@ -133,7 +132,6 @@ Chapter {{ round.chapter_number }}:
 	<a href="{{ round.get_absolute_url }}">Revert.</a>
 </span>
 {% elif token|can_cheat:round.unlockable.hunt %}
-<a id="cheat" class="text-red-300"
-	href="{{ round.get_cheating_url }}">Enable spoilers</a>
+<a id="cheat" class="text-red-300" href="{{ round.get_cheating_url }}">Enable spoilers</a>
 {% endif %}
 {% endblock %}
