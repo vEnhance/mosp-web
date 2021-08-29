@@ -17,13 +17,13 @@ class HuntAdmin(admin.ModelAdmin):
 
 
 class SaltedAnswerInline(admin.TabularInline):
-	model = SaltedAnswer
+	model = SaltedAnswer  # type: ignore
 	fields = ('display_answer', 'salt', 'message', 'is_correct', 'is_canonical')
 	extra = 2
 
 
 class UnlockableInline(admin.TabularInline):
-	model = Unlockable
+	model = Unlockable  # type: ignore
 	fields = (
 		'name',
 		'hunt',
@@ -33,7 +33,7 @@ class UnlockableInline(admin.TabularInline):
 
 
 class AttemptInline(admin.TabularInline):
-	model = Attempt
+	model = Attempt  # type: ignore
 	fields = (
 		'unlockable',
 		'status',
