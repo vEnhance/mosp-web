@@ -32,5 +32,8 @@
     "postcss-simple-vars": "^6.0.3",
     "rimraf": "^3.0.2",
     "tailwindcss": "~2.2.4"
+  },
+  "dependencies": {
+    "axios": "^0.21.2"
   }
 }
