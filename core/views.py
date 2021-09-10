@@ -2,8 +2,11 @@ from typing import Any, Dict, Optional
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Count
+from django.db.models.base import Model
 from django.db.models.query import QuerySet
+from django.forms.models import BaseModelForm
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse  # NOQA
+from django.http.response import HttpResponseBase
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -19,7 +22,7 @@ class StaffRequiredMixin(PermissionRequiredMixin):
 	permission_required = 'is_staff'
 
 
-class GeneralizedSingleObjectMixin(SingleObjectMixin):
+class GeneralizedSingleObjectMixin(SingleObjectMixin[Model]):
 	def get_object(self, queryset: QuerySet[Any] = None):
 		kwargs = self.kwargs  # type: ignore
 		if queryset is None:
@@ -38,7 +41,7 @@ class TokenGatedView:
 	redirect_if_no_token = True
 	token = None
 
-	def check_token(self, request: HttpRequest):
+	def check_token(self, request: HttpRequest) -> Optional[HttpResponseBase]:
 		uuid = request.COOKIES.get('uuid', None)
 
 		if request.user.is_authenticated and uuid is not None:
@@ -82,8 +85,8 @@ class TokenGatedView:
 
 # vvv amazing code, so much for DRY
 # maybe i should take paul graham's advice and switch to lisp
-class TokenGatedListView(TokenGatedView, ListView):
-	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+class TokenGatedListView(TokenGatedView, ListView[Model]):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
 		return super().check_token(request) or super().dispatch(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs: Any) -> Context:
@@ -92,8 +95,8 @@ class TokenGatedListView(TokenGatedView, ListView):
 		return context
 
 
-class TokenGatedDetailView(TokenGatedView, DetailView):
-	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+class TokenGatedDetailView(TokenGatedView, DetailView[Model]):
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
 		return super().check_token(request) or super().dispatch(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs: Any) -> Context:
@@ -149,7 +152,7 @@ class UnlockableList(TokenGatedListView):
 	context_object_name = "unlockable_list"
 	model = Unlockable
 
-	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
 		self.cheating = self.kwargs.pop('cheating', False)
 		r = super().check_token(request)
 		if r is not None:
@@ -202,7 +205,7 @@ class PuzzleDetailTestSolve(TokenGatedDetailView, GeneralizedSingleObjectMixin):
 	model = Puzzle
 	context_object_name = "puzzle"
 
-	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
 		ret = super().dispatch(request, *args, **kwargs)
 		if self.token is None:
 			return HttpResponseRedirect(reverse_lazy('hunt-list'))
@@ -223,7 +226,7 @@ class PuzzleSolutionDetail(TokenGatedDetailView):
 	context_object_name = "puzzle"
 	template_name = 'core/puzzlesolution_detail.html'
 
-	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
 		self.cheating = kwargs.pop('cheating', False)
 		ret = super().dispatch(request, *args, **kwargs)
 		assert self.token is not None
@@ -265,12 +268,12 @@ class UnlockableDetail(TokenGatedDetailView):
 		return context
 
 
-class TokenDetailView(DetailView):
+class TokenDetailView(DetailView[Token]):
 	model = Token
 	context_object_name = "token"
 
 
-class TokenUpdateView(UpdateView):
+class TokenUpdateView(UpdateView[Token, BaseModelForm[Token]]):
 	model = Token
 	context_object_name = "token"
 	fields = ('name', )
@@ -341,7 +344,7 @@ def ajax(request: HttpRequest) -> JsonResponse:
 # -- Staff views --
 
 
-class PuzzleUpdate(UpdateView, StaffRequiredMixin):
+class PuzzleUpdate(UpdateView[Puzzle, BaseModelForm[Puzzle]], StaffRequiredMixin):
 	model = Puzzle
 	context_object_name = "puzzle"
 	fields = (
@@ -354,7 +357,10 @@ class PuzzleUpdate(UpdateView, StaffRequiredMixin):
 	)
 
 
-class SolutionUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
+class SolutionUpdate(
+	UpdateView[Solution, BaseModelForm[Solution]], StaffRequiredMixin,
+	GeneralizedSingleObjectMixin
+):
 	model = Solution
 	context_object_name = "solution"
 	fields = (
@@ -366,7 +372,9 @@ class SolutionUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixi
 	)
 
 
-class RoundUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
+class RoundUpdate(
+	UpdateView[Round, BaseModelForm[Round]], StaffRequiredMixin, GeneralizedSingleObjectMixin
+):
 	model = Round
 	context_object_name = "round"
 	fields = (
@@ -374,7 +382,10 @@ class RoundUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
 	)
 
 
-class UnlockableUpdate(UpdateView, StaffRequiredMixin, GeneralizedSingleObjectMixin):
+class UnlockableUpdate(
+	UpdateView[Unlockable, BaseModelForm[Unlockable]], StaffRequiredMixin,
+	GeneralizedSingleObjectMixin
+):
 	model = Unlockable
 	context_object_name = "unlockable"
 	fields = (
