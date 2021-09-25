@@ -288,6 +288,33 @@ cookiecutter = ">=1.7.2,<2.0.0"
 django = ">=2.2"
 
 [[package]]
+name = "factory-boy"
+version = "3.2.0"
+description = "A versatile test fixtures replacement based on thoughtbot's factory_bot for Ruby."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+Faker = ">=0.7.0"
+
+[package.extras]
+dev = ["coverage", "django", "flake8", "isort", "pillow", "sqlalchemy", "mongoengine", "wheel (>=0.32.0)", "tox", "zest.releaser"]
+doc = ["sphinx", "sphinx-rtd-theme", "sphinxcontrib-spelling"]
+
+[[package]]
+name = "faker"
+version = "8.14.0"
+description = "Faker is a Python package that generates fake data for you."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+python-dateutil = ">=2.4"
+text-unidecode = "1.3"
+
+[[package]]
 name = "fancycompleter"
 version = "0.9.1"
 description = "colorful TAB completion for Python prompt"
@@ -807,7 +834,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8d18f3f1a6caad0cfccb55719afbb16113b3e47b31800da9d5ade77c7c4950c2"
+content-hash = "f087b6caed39e52454aa660b25cc6f2a653afca497b6060d4fff40c548424732"
 
 [metadata.files]
 appnope = [
@@ -1016,6 +1043,14 @@ django-stubs-ext = [
 django-tailwind = [
     {file = "django-tailwind-2.2.0.tar.gz", hash = "sha256:50a9f251ca609ae3e9ecc0c91f2cf07e78a2a51194d1f086d5da25f142bd3994"},
     {file = "django_tailwind-2.2.0-py3-none-any.whl", hash = "sha256:a515f379963406e7ad07c6d55d8023b7eaa4a9a7f94fe8d24b3934715826000d"},
+]
+factory-boy = [
+    {file = "factory_boy-3.2.0-py2.py3-none-any.whl", hash = "sha256:1d3db4b44b8c8c54cdd8b83ae4bdb9aeb121e464400035f1f03ae0e1eade56a4"},
+    {file = "factory_boy-3.2.0.tar.gz", hash = "sha256:401cc00ff339a022f84d64a4339503d1689e8263a4478d876e58a3295b155c5b"},
+]
+faker = [
+    {file = "Faker-8.14.0-py3-none-any.whl", hash = "sha256:7b116034973a9a977a34a8a380354028150edf69f6cfbe55c03a852dd0a4116b"},
+    {file = "Faker-8.14.0.tar.gz", hash = "sha256:2649789e3e0c354dde1b8257d2ba7ed663fc3201e41277581de65c17e8aab10a"},
 ]
 fancycompleter = [
     {file = "fancycompleter-0.9.1-py3-none-any.whl", hash = "sha256:dd076bca7d9d524cc7f25ec8f35ef95388ffef9ef46def4d3d25e9b044ad7080"},
