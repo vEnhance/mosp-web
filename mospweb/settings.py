@@ -15,7 +15,7 @@ import os
 import platform
 import sys
 from pathlib import Path
-from typing import List
+from typing import Any, Dict, List
 
 import django_stubs_ext
 from dotenv import load_dotenv
@@ -113,7 +113,7 @@ WSGI_APPLICATION = 'mospweb.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 if os.getenv("DATABASE_NAME"):
-	DATABASES = {
+	DATABASES: Dict[str, Any] = {
 		'default':
 			{
 				'ENGINE': 'django.db.backends.mysql',
