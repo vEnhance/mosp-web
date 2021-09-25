@@ -15,6 +15,7 @@ import os
 import platform
 import sys
 from pathlib import Path
+from typing import List
 
 import django_stubs_ext
 from dotenv import load_dotenv
@@ -205,10 +206,15 @@ if platform.system() == 'Windows':
 
 
 def filter_useless_404(record: logging.LogRecord) -> bool:
-	a = tuple(record.args)  # type: ignore
-	ret = not (len(a) == 2 and a[0] == 'Not Found' and ('wp-include' in a[1] or '.php' in a[1]))
-	ret &= not (len(a) == 3 and a[1] == '404' and ('wp-include' in a[0] or '.php' in a[0]))
-	return ret
+	if record.args is None:
+		return True
+	a: List[str] = [str(s) for s in record.args]
+	if len(a) == 2:
+		return not (a[0] == 'Not Found' and ('wp-include' in a[1] or '.php' in a[1]))
+	elif len(a) == 3:
+		return not (a[1] == '404' and ('wp-include' in a[0] or '.php' in a[0]))
+	else:
+		return True
 
 
 VERBOSE_LOG_LEVEL = 15
