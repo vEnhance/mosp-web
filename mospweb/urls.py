@@ -13,9 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings
+from django.contrib import admin
+from django.urls import include, path
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
@@ -32,3 +32,12 @@ urlpatterns = [
 ]
 if settings.DEBUG is True or settings.STATIC_URL is None:
 	urlpatterns.pop()
+
+if settings.DEBUG:
+	admin.site.site_header = '127.0.0.1'
+	admin.site.index_title = 'Switchboard'
+	admin.site.site_title = 'mosp@localhost'
+else:
+	admin.site.site_header = 'MOSP Headquarters'
+	admin.site.index_title = 'GM Panel'
+	admin.site.site_title = 'MOSP HQ'
