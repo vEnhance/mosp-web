@@ -70,7 +70,7 @@ INSTALLED_APPS = [
 	'mospweb',
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
-CRISPY_TEMPLATE_PACKE = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
 	'markdown.extensions.extra',
 	'markdown.extensions.sane_lists',
