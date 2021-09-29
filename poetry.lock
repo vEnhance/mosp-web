@@ -76,7 +76,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "charset-normalizer"
-version = "2.0.4"
+version = "2.0.6"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
 category = "main"
 optional = false
@@ -168,7 +168,7 @@ test = ["pytest (>=6.0)", "pytest-cov", "pytest-subtests", "pytest-xdist", "pret
 
 [[package]]
 name = "decorator"
-version = "5.0.9"
+version = "5.1.0"
 description = "Decorators for Humans"
 category = "dev"
 optional = false
@@ -216,7 +216,7 @@ requests-oauthlib = ">=0.3.0"
 
 [[package]]
 name = "django-crispy-forms"
-version = "1.12.0"
+version = "1.13.0"
 description = "Best way to have Django DRY forms"
 category = "main"
 optional = false
@@ -277,7 +277,7 @@ typing-extensions = "*"
 
 [[package]]
 name = "django-tailwind"
-version = "2.2.0"
+version = "2.2.1"
 description = "Tailwind CSS Framework for Django projects"
 category = "main"
 optional = false
@@ -336,7 +336,7 @@ python-versions = ">=3.5"
 
 [[package]]
 name = "ipython"
-version = "7.27.0"
+version = "7.28.0"
 description = "IPython: Productive Interactive Computing"
 category = "dev"
 optional = false
@@ -764,7 +764,7 @@ test = ["pytest"]
 
 [[package]]
 name = "types-markdown"
-version = "3.3.2"
+version = "3.3.3"
 description = "Typing stubs for Markdown"
 category = "main"
 optional = false
@@ -796,7 +796,7 @@ python-versions = "*"
 
 [[package]]
 name = "urllib3"
-version = "1.26.6"
+version = "1.26.7"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
@@ -834,7 +834,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "f087b6caed39e52454aa660b25cc6f2a653afca497b6060d4fff40c548424732"
+content-hash = "1789f28bf58661905953fb34746bc7ce1fa79d7835281c4aa515e15a4fc03adb"
 
 [metadata.files]
 appnope = [
@@ -913,8 +913,8 @@ chardet = [
     {file = "chardet-4.0.0.tar.gz", hash = "sha256:0d6f53a15db4120f2b08c94f11e7d93d2c911ee118b6b30a04ec3ee8310179fa"},
 ]
 charset-normalizer = [
-    {file = "charset-normalizer-2.0.4.tar.gz", hash = "sha256:f23667ebe1084be45f6ae0538e4a5a865206544097e4e8bbcacf42cd02a348f3"},
-    {file = "charset_normalizer-2.0.4-py3-none-any.whl", hash = "sha256:0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b"},
+    {file = "charset-normalizer-2.0.6.tar.gz", hash = "sha256:5ec46d183433dcbd0ab716f2d7f29d8dee50505b3fdb40c6b985c7c4f5a3591f"},
+    {file = "charset_normalizer-2.0.6-py3-none-any.whl", hash = "sha256:5d209c0a931f215cee683b6445e2d77677e7e75e159f78def0db09d68fafcaa6"},
 ]
 click = [
     {file = "click-8.0.1-py3-none-any.whl", hash = "sha256:fba402a4a47334742d782209a7c79bc448911afe1149d07bdabdf480b3e2f4b6"},
@@ -993,6 +993,8 @@ cryptography = [
     {file = "cryptography-3.4.8-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:34dae04a0dce5730d8eb7894eab617d8a70d0c97da76b905de9efb7128ad7085"},
     {file = "cryptography-3.4.8-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1eb7bb0df6f6f583dd8e054689def236255161ebbcf62b226454ab9ec663746b"},
     {file = "cryptography-3.4.8-cp36-abi3-manylinux_2_24_x86_64.whl", hash = "sha256:9965c46c674ba8cc572bc09a03f4c649292ee73e1b683adb1ce81e82e9a6a0fb"},
+    {file = "cryptography-3.4.8-cp36-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:3c4129fc3fdc0fa8e40861b5ac0c673315b3c902bbdc05fc176764815b43dd1d"},
+    {file = "cryptography-3.4.8-cp36-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:695104a9223a7239d155d7627ad912953b540929ef97ae0c34c7b8bf30857e89"},
     {file = "cryptography-3.4.8-cp36-abi3-win32.whl", hash = "sha256:21ca464b3a4b8d8e86ba0ee5045e103a1fcfac3b39319727bc0fc58c09c6aff7"},
     {file = "cryptography-3.4.8-cp36-abi3-win_amd64.whl", hash = "sha256:3520667fda779eb788ea00080124875be18f2d8f0848ec00733c0ec3bb8219fc"},
     {file = "cryptography-3.4.8-pp36-pypy36_pp73-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:d2a6e5ef66503da51d2110edf6c403dc6b494cc0082f85db12f54e9c5d4c3ec5"},
@@ -1006,8 +1008,8 @@ cryptography = [
     {file = "cryptography-3.4.8.tar.gz", hash = "sha256:94cc5ed4ceaefcbe5bf38c8fba6a21fc1d365bb8fb826ea1688e3370b2e24a1c"},
 ]
 decorator = [
-    {file = "decorator-5.0.9-py3-none-any.whl", hash = "sha256:6e5c199c16f7a9f0e3a61a4a54b3d27e7dad0dbdde92b944426cb20914376323"},
-    {file = "decorator-5.0.9.tar.gz", hash = "sha256:72ecfba4320a893c53f9706bebb2d55c270c1e51a28789361aa93e4a21319ed5"},
+    {file = "decorator-5.1.0-py3-none-any.whl", hash = "sha256:7b12e7c3c6ab203a29e157335e9122cb03de9ab7264b137594103fd4a683b374"},
+    {file = "decorator-5.1.0.tar.gz", hash = "sha256:e59913af105b9860aa2c8d3272d9de5a56a4e608db9a2f167a8480b323d529a7"},
 ]
 defusedxml = [
     {file = "defusedxml-0.7.1-py2.py3-none-any.whl", hash = "sha256:a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"},
@@ -1021,8 +1023,8 @@ django-allauth = [
     {file = "django-allauth-0.45.0.tar.gz", hash = "sha256:6d46be0e1480316ccd45476db3aefb39db70e038d2a543112d314b76bb999a4e"},
 ]
 django-crispy-forms = [
-    {file = "django-crispy-forms-1.12.0.tar.gz", hash = "sha256:d196db62ee8b4fc32d1f9583d0e4be1bb17328b662682c1ecb9fb77bbc0fcf77"},
-    {file = "django_crispy_forms-1.12.0-py3-none-any.whl", hash = "sha256:a3320356c84d0cdc631e1ec7b8908aa0117bc2a5f0ab1d053d33eba08f584808"},
+    {file = "django-crispy-forms-1.13.0.tar.gz", hash = "sha256:4dc9e5263c91c5f51766806a050ca2ec5c349d34c5cd91fcca3a1a0363b5e29e"},
+    {file = "django_crispy_forms-1.13.0-py3-none-any.whl", hash = "sha256:9c49d29dd9e98dc2e6e3a8b02670d72deb6edf7bc616986ca412d72c306b36a0"},
 ]
 django-markdownx = [
     {file = "django-markdownx-3.0.1.tar.gz", hash = "sha256:e18e395cad0ade96afbb250a81cad15618e417ac3c0d9c37d964be3d8fd57bcf"},
@@ -1041,8 +1043,8 @@ django-stubs-ext = [
     {file = "django_stubs_ext-0.3.1-py3-none-any.whl", hash = "sha256:a51a3e9e844d4e1cacaaedbb33bf3def78a3956eed5d9575a640bd97ccd99cec"},
 ]
 django-tailwind = [
-    {file = "django-tailwind-2.2.0.tar.gz", hash = "sha256:50a9f251ca609ae3e9ecc0c91f2cf07e78a2a51194d1f086d5da25f142bd3994"},
-    {file = "django_tailwind-2.2.0-py3-none-any.whl", hash = "sha256:a515f379963406e7ad07c6d55d8023b7eaa4a9a7f94fe8d24b3934715826000d"},
+    {file = "django-tailwind-2.2.1.tar.gz", hash = "sha256:ab7136df95ff330fa9e5609c929e11595b2c2b798243de07ccf01d5fd5b13743"},
+    {file = "django_tailwind-2.2.1-py3-none-any.whl", hash = "sha256:97b423ed8c6c25c74e466f708815dc2ced44ac17d62e14b002f11bbefe37ce78"},
 ]
 factory-boy = [
     {file = "factory_boy-3.2.0-py2.py3-none-any.whl", hash = "sha256:1d3db4b44b8c8c54cdd8b83ae4bdb9aeb121e464400035f1f03ae0e1eade56a4"},
@@ -1061,8 +1063,8 @@ idna = [
     {file = "idna-3.2.tar.gz", hash = "sha256:467fbad99067910785144ce333826c71fb0e63a425657295239737f7ecd125f3"},
 ]
 ipython = [
-    {file = "ipython-7.27.0-py3-none-any.whl", hash = "sha256:75b5e060a3417cf64f138e0bb78e58512742c57dc29db5a5058a2b1f0c10df02"},
-    {file = "ipython-7.27.0.tar.gz", hash = "sha256:58b55ebfdfa260dad10d509702dc2857cb25ad82609506b070cf2d7b7df5af13"},
+    {file = "ipython-7.28.0-py3-none-any.whl", hash = "sha256:f16148f9163e1e526f1008d7c8d966d9c15600ca20d1a754287cf96d00ba6f1d"},
+    {file = "ipython-7.28.0.tar.gz", hash = "sha256:2097be5c814d1b974aea57673176a924c4c8c9583890e7a5f082f547b9975b11"},
 ]
 jedi = [
     {file = "jedi-0.18.0-py2.py3-none-any.whl", hash = "sha256:18456d83f65f400ab0c2d3319e48520420ef43b23a086fdc05dff34132f0fb93"},
@@ -1361,8 +1363,8 @@ traitlets = [
     {file = "traitlets-5.1.0.tar.gz", hash = "sha256:bd382d7ea181fbbcce157c133db9a829ce06edffe097bcf3ab945b435452b46d"},
 ]
 types-markdown = [
-    {file = "types-Markdown-3.3.2.tar.gz", hash = "sha256:6779c629223cf8acbed7582b8b98643a1beb958f788375776468e0dab4e103c3"},
-    {file = "types_Markdown-3.3.2-py3-none-any.whl", hash = "sha256:c5dcc255b43afa3b6c5e481ced4c524b559680bd4de5d59c56629283ef759d59"},
+    {file = "types-Markdown-3.3.3.tar.gz", hash = "sha256:5a39e54252f4fd6024902c019f2128e6a1a9e98f164750da315749edbfc6f733"},
+    {file = "types_Markdown-3.3.3-py3-none-any.whl", hash = "sha256:65e05c64bf8004564fbe61854b830efb20ccfceb03e602d1b35daf7ebd088570"},
 ]
 types-pytz = [
     {file = "types-pytz-2021.1.2.tar.gz", hash = "sha256:448828a06f2aaa840e57364d866c661645a045e532f817e4f10c8c3ab2b66651"},
@@ -1378,8 +1380,8 @@ typing-extensions = [
     {file = "typing_extensions-3.10.0.2.tar.gz", hash = "sha256:49f75d16ff11f1cd258e1b988ccff82a3ca5570217d7ad8c5f48205dd99a677e"},
 ]
 urllib3 = [
-    {file = "urllib3-1.26.6-py2.py3-none-any.whl", hash = "sha256:39fb8672126159acb139a7718dd10806104dec1e2f0f6c88aab05d17df10c8d4"},
-    {file = "urllib3-1.26.6.tar.gz", hash = "sha256:f57b4c16c62fa2760b7e3d97c35b255512fb6b59a259730f36ba32ce9f8e342f"},
+    {file = "urllib3-1.26.7-py2.py3-none-any.whl", hash = "sha256:c4fdf4019605b6e5423637e01bc9fe4daef873709a7973e195ceba0a62bbc844"},
+    {file = "urllib3-1.26.7.tar.gz", hash = "sha256:4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece"},
 ]
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},
