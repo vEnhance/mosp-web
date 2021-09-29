@@ -5,8 +5,8 @@
 # chmod +x .git/hooks/pre-commit
 
 FAILED_HEADER="\033[1;31mFAILED:\033[0m"
-BAD_FILE=/tmp/otisweb.bad
-GOOD_FILE=/tmp/otisweb.good
+BAD_FILE=/tmp/mospweb.bad
+GOOD_FILE=/tmp/mospweb.good
 
 
 if [ -f $GOOD_FILE ]; then
