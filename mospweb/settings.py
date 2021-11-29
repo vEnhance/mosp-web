@@ -44,7 +44,6 @@ DEBUG = not PRODUCTION
 
 # Application definition
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 INSTALLED_APPS = [
 	'django.contrib.admin',
 	'django.contrib.auth',
