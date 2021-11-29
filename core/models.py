@@ -217,7 +217,8 @@ class Puzzle(models.Model):
 		blank=True,
 	)
 	puzzle_head = models.TextField(
-		help_text="Extra HTML to include in HTML header",
+		help_text="Extra HTML code for dynamic puzzles. "
+		"Leave this blank for a standard 'static' puzzle.",
 		blank=True,
 	)
 	status_progress = models.SmallIntegerField(

@@ -13,21 +13,20 @@
 <script src="https://pagecdn.io/lib/ace/1.4.12/mode-html.min.js" crossorigin="anonymous"></script>
 <script>
 	function setupEditor(name, mode) {
-		$("#id_" + name).parent().hide();
+		$("#id_" + name).hide();
 		$("#ace_container_" + name).removeClass('hidden');
 		$("#ace_container_" + name).addClass('display-flex');
 
 		const editor = ace.edit("ace_" + name);
 		editor.setTheme("ace/theme/github");
 		editor.setOptions({
-			showGutter: false,
-			fontSize: '14px',
+			showGutter: true,
+			fontSize: '16px',
 			minLines: 3,
 			wrap: true,
 		});
 		const RequestedMode = ace.require("ace/mode/" + (mode || "markdown")).Mode;
 		editor.session.setMode(new RequestedMode())
-
 		editor.session.on('change', function(delta) {
 			$("#id_" + name).val(editor.getSession().getValue());
 			$("#id_" + name)[0].dispatchEvent(new Event("input"));
