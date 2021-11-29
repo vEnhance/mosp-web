@@ -168,3 +168,8 @@ div.strong-emph em {
 small.text-muted {
 	display: none;
 }
+
+/* TODO MONKEY PATCH idk why */
+div.pointer-events-none > svg.fill-current {
+	display: none;
+}
