@@ -77,14 +77,14 @@ if ! python manage.py check; then
 fi
 echo -e ""
 
-echo -e "\033[1;35mRunning pyright ...\033[0m"
-echo -e "---------------------------"
-if ! pyright; then
-	echo -e "$FAILED_HEADER pyright failed"
-	git rev-parse HEAD > $BAD_FILE
-	exit 1
-fi
-echo -e ""
+#echo -e "\033[1;35mRunning pyright ...\033[0m"
+#echo -e "---------------------------"
+#if ! pyright; then
+#	echo -e "$FAILED_HEADER pyright failed"
+#	git rev-parse HEAD > $BAD_FILE
+#	exit 1
+#fi
+#echo -e ""
 
 echo -e "\033[1;35mRunning pyflakes ...\033[0m"
 echo -e "---------------------------"
