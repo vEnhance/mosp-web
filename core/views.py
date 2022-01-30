@@ -122,14 +122,13 @@ class RoundUnlockableList(TokenGatedListView):
 	model = Unlockable
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
-		ret = super().dispatch(request, *args, **kwargs)
-		if not self.hunt.has_started and (self.token is None or self.token.is_plebian):
-			return render(request, "core/too_early.html", {'hunt': self.hunt, 'token': self.token})
-		return ret
-
-	def get_queryset(self) -> QuerySet[Unlockable]:
 		self.cheating = self.kwargs.pop('cheating', False)
 		self.hunt = Hunt.objects.get(**self.kwargs)
+		if not self.hunt.has_started and (self.token is None or self.token.is_plebian):
+			return render(request, "core/too_early.html", {'hunt': self.hunt, 'token': self.token})
+		return super().dispatch(request, *args, **kwargs)
+
+	def get_queryset(self) -> QuerySet[Unlockable]:
 		queryset = Unlockable.objects.filter(
 			hunt=self.hunt, parent__isnull=True
 		).select_related('round')
