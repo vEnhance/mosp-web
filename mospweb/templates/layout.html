@@ -22,6 +22,8 @@
 					<a class="emoji-link" href="{% url "staff-puzzle-list" %}">🧩</a>
 					<a class="emoji-link" href="/admin">🏸</a>
 					{% endif %}
+					{% else %}
+					<a id="setname" href="#">Login/register</a>
 					{% endif %}
 					{% block leftnav-more %}
 					{% endblock %}
@@ -80,7 +82,8 @@
 							<div class="py-1"><a href="{{ page.get_absolute_url }}">{{ page }}</a></div>
 							{% endfor %}
 						</div>
-						{% endspaceless %}</span>
+						{% endspaceless %}
+					</span>
 				</span>
 			</nav>
 

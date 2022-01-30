@@ -153,11 +153,7 @@ function getName() {
 }
 
 $(() => {
-  if (token_uuid === null) {
-    if (window.location.pathname === '/') {
-      getName();
-    }
-  } else {
+  if (token_uuid !== null) {
     setCookie('uuid', token_uuid);
   }
   if (solver_name !== null) {
@@ -166,6 +162,9 @@ $(() => {
     $("span.name.fullname").html(solver_name);
     $("span.name.firstname").html(first_name);
   }
+  $("#setname").on('click', () => {
+    getName();
+  });
 
   $("#deltoken").on('click', () => {
     deleteCookie('uuid');
