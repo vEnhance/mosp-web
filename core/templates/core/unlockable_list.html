@@ -84,7 +84,8 @@ Chapter {{ round.chapter_number }}:
 			</td>
 			{% elif u.is_round %}
 			<th colspan="2" class="w-8/12 text-left">
-				<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a></th>
+				<a href="{{u.round.get_absolute_url}}">{{u.round.name}}</a>
+			</th>
 			{% elif u.story_only %}
 			<td colspan="2" class="w-8/12 align-middle"></td>
 			{% else %}
@@ -99,6 +100,8 @@ Chapter {{ round.chapter_number }}:
 			{% if u.is_puzzle and token|has_unlocked:u %}
 			{% if token|has_solved:u %}
 			<td class="w-5/12 font-mono text-xs md:text-sm"><a href="{{u.puzzle.get_solution_url}}">{{ u.puzzle.answer }}</a></td>
+			{% elif round.unlockable.hunt.has_ended %}
+			<td class="w-5/12"><a href="{{u.puzzle.get_solution_url}}">View solution</a></td>
 			{% else %}
 			<td class="w-5/12"><em>Not solved</em></td>
 			{% endif %}

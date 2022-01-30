@@ -103,9 +103,11 @@ class RoundUnlockableList(ListView):
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
 		self.hunt = Hunt.objects.get(volume_number=self.kwargs['volume_number'])
 		self.token = get_token_from_request(self.request)
-		if not self.hunt.has_started:
-			if self.token is None or self.token.is_plebian:
-				return render(request, "core/too_early.html", {'hunt': self.hunt, 'token': self.token})
+		context = {'token': self.token, 'hunt': self.hunt}
+		if not self.hunt.has_started and (self.token is None or self.token.is_plebian):
+			return render(request, "core/too_early.html", context)
+		if self.token is None and self.hunt.active:
+			return render(request, "core/needs_token.html", context)
 		return super().dispatch(request, *args, **kwargs)
 
 	def get_queryset(self) -> QuerySet[Unlockable]:
@@ -114,7 +116,7 @@ class RoundUnlockableList(ListView):
 		).select_related('round')
 		if self.hunt.active is True:
 			if self.token is None:
-				raise PermissionDenied
+				return None
 			return get_viewable(queryset, self.token)
 		return queryset
 
@@ -176,16 +178,21 @@ class PuzzleDetail(DetailView):
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
-		context['token'] = self.token
+		context['token'] = get_token_from_request(self.request)
 		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
+		ret = super().dispatch(request, *args, **kwargs)
 		self.token = get_token_from_request(self.request)
-		if self.token is not None:
-			u = self.object.unlockable  # type: ignore
-			if u.hunt.active is True:
-				assert self.token.has_unlocked(u)
-		return super().dispatch(request, *args, **kwargs)
+		hunt = self.object.unlockable.hunt
+		if not hunt.has_started:
+			return render(request, "core/too_early.html", {'token': self.token})
+		if not self.object.unlockable.hunt.has_ended:
+			if self.token is not None:
+				u = self.object.unlockable  # type: ignore
+				if u.hunt.active is True:
+					assert self.token.has_unlocked(u)
+		return ret
 
 
 class PuzzleDetailTestSolve(DetailView, GeneralizedSingleObjectMixin):
@@ -195,16 +202,17 @@ class PuzzleDetailTestSolve(DetailView, GeneralizedSingleObjectMixin):
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
-		context['token'] = self.token
+		context['token'] = get_token_from_request(self.request)
 		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
+		ret = super().dispatch(request, *args, **kwargs)
 		self.token = get_token_from_request(request)
 		if self.token is None or self.token.is_plebian:
 			raise PermissionDenied()
 		session = TestSolveSession.objects.get(uuid=self.kwargs['testsolvesession__uuid'])
 		assert session.expires > timezone.now()
-		return super().dispatch(request, *args, **kwargs)
+		return ret
 
 
 class PuzzleSolutionDetail(DetailView):
@@ -215,12 +223,13 @@ class PuzzleSolutionDetail(DetailView):
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
-		context['token'] = self.token
+		context['token'] = get_token_from_request(self.request)
 		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
+		ret = super().dispatch(request, *args, **kwargs)
 		self.cheating = kwargs.pop('cheating', False)
-		self.token = get_token_from_request(self.token)
+		self.token = get_token_from_request(self.request)
 		u = self.object.unlockable  # type: ignore
 		if u.hunt.active is True:
 			assert self.token is not None
@@ -231,7 +240,7 @@ class PuzzleSolutionDetail(DetailView):
 					attempt.save()
 			else:
 				assert self.token.has_solved(u)
-		return super().dispatch(request, *args, **kwargs)
+		return ret
 
 
 class UnlockableDetail(DetailView):

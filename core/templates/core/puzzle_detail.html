@@ -47,6 +47,11 @@
 </div>
 {% endif %}
 
+{% if token|has_solved:puzzle.unlockable or puzzle.unlockable.hunt.has_ended %}
+<div class="text-sm">
+	<a href="{{ puzzle.get_solution_url }}">View solution</a>
+</div>
+{% endif %}
 <div class="text-sm italic">
 	{{ puzzle.flavor_text|mkd }}
 </div>
