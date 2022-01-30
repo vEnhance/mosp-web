@@ -162,7 +162,7 @@ $(() => {
     $("span.name.fullname").html(solver_name);
     $("span.name.firstname").html(first_name);
   }
-  $("#setname").on('click', () => {
+  $(".login").on('click', () => {
     getName();
   });
 
