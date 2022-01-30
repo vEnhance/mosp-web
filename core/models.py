@@ -132,7 +132,7 @@ class Unlockable(models.Model):
 				return self.parent.get_absolute_url()
 		elif self.on_solve_link_to.unlockable is None:
 			return self.hunt.get_absolute_url()  # wtf
-		elif token.has_unlocked(self.on_solve_link_to.unlockable):
+		elif token is not None and token.has_unlocked(self.on_solve_link_to.unlockable):
 			return self.on_solve_link_to.unlockable.get_absolute_url()
 		else:
 			return self.on_solve_link_to.get_absolute_url()
