@@ -23,12 +23,12 @@ class Hunt(models.Model):
 	name = models.CharField(max_length=80, help_text="The name of this hunt", blank=True)
 	authors = models.CharField(max_length=255, help_text="The credits for this hunt")
 	start_date = models.DateTimeField(help_text="When the hunt can be started")
+	end_date = models.DateTimeField(help_text="Show solutions after this date")
 	visible = models.BooleanField(
 		help_text="Whether the hunt is visible to people; "
 		"use false if you're just testing",
 		default=False
 	)
-	allow_skip = models.BooleanField(help_text="Whether to allow `skip puzzle`", default=False)
 	thumbnail_path = models.CharField(
 		max_length=80, help_text="Static argument for thumbnail image", blank=True
 	)
@@ -39,17 +39,17 @@ class Hunt(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy('round-unlockable-list', args=(self.volume_number, ))
 
-	def get_cheating_url(self):
-		return reverse_lazy('round-unlockable-list-cheating', args=(self.volume_number, ))
-
-	def allow_cheat(self, token: 'Token') -> bool:
-		if self.allow_skip is True:
-			return True
-		return token.is_omniscient
-
 	@property
 	def has_started(self) -> bool:
 		return self.start_date < timezone.now()
+
+	@property
+	def has_ended(self) -> bool:
+		return self.end_date < timezone.now()
+
+	@property
+	def active(self) -> bool:
+		return self.has_started and not self.has_ended
 
 
 class Unlockable(models.Model):

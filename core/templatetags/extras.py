@@ -79,27 +79,32 @@ def admin_url(obj: Any) -> str:
 
 @register.filter
 def has_found(token: models.Token, u: models.Unlockable) -> bool:
-	return token.has_found(u)
+	return token is not None and token.has_found(u)
 
 
 @register.filter
 def has_unlocked(token: models.Token, u: models.Unlockable) -> bool:
-	return token.has_unlocked(u)
+	return token is not None and token.has_unlocked(u)
 
 
 @register.filter
 def has_solved(token: models.Token, u: models.Unlockable) -> bool:
-	return token.has_solved(u)
+	return token is not None and token.has_solved(u)
 
 
 @register.filter
 def can_unlock(token: models.Token, u: models.Unlockable) -> bool:
-	return token.can_unlock(u)
+	return token is not None and token.can_unlock(u)
 
 
 @register.filter
 def can_cheat(token: models.Token, hunt: models.Hunt) -> bool:
-	return hunt.allow_cheat(token)
+	if hunt.has_ended:
+		return True
+	elif token is None:
+		return False
+	else:
+		return token.is_omniscient
 
 
 @register.filter

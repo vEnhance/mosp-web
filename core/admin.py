@@ -8,7 +8,13 @@ from .models import Attempt, Hunt, Puzzle, Round, SaltedAnswer, Solution, TestSo
 
 @admin.register(Hunt)
 class HuntAdmin(admin.ModelAdmin):
-	list_display = ('volume_number', 'name', 'start_date', 'visible', 'allow_skip')
+	list_display = (
+		'volume_number',
+		'name',
+		'start_date',
+		'end_date',
+		'visible',
+	)
 	list_display_links = (
 		'volume_number',
 		'name',
