@@ -79,12 +79,22 @@ def admin_url(obj: Any) -> str:
 
 @register.filter
 def has_found(token: models.Token, u: models.Unlockable) -> bool:
-	return token is not None and token.has_found(u)
+	if u.hunt.has_ended:
+		return True
+	elif token is not None:
+		return token.has_found(u)
+	else:
+		return False
 
 
 @register.filter
 def has_unlocked(token: models.Token, u: models.Unlockable) -> bool:
-	return token is not None and token.has_unlocked(u)
+	if u.hunt.has_ended:
+		return True
+	elif token is not None:
+		return token.has_unlocked(u)
+	else:
+		return False
 
 
 @register.filter
