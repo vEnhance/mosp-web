@@ -341,7 +341,6 @@ class StaffHuntList(ListView, StaffRequiredMixin):
 	"""Staff view of all the hunts"""
 	context_object_name = "hunt_list"
 	model = Hunt
-	redirect_if_no_token = False
 	template_name = 'core/staff_hunt_list.html'
 
 	def get_queryset(self):
@@ -352,7 +351,6 @@ class StaffPuzzleList(ListView, StaffRequiredMixin):
 	"""Staff list of the puzzles"""
 	context_object_name = "puzzle_list"
 	model = Puzzle
-	redirect_if_no_token = False
 	template_name = 'core/staff_puzzle_list.html'
 
 	def get_queryset(self):
@@ -365,7 +363,6 @@ class StaffUnlockableList(ListView, StaffRequiredMixin):
 	"""Staff list of unlockables"""
 	context_object_name = "unlockable_list"
 	model = Unlockable
-	redirect_if_no_token = False
 	template_name = 'core/staff_unlockable_list.html'
 
 	def get_queryset(self):
