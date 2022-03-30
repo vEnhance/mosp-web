@@ -1,13 +1,14 @@
-from typing import Any
+from typing import Any, Optional
 
 import markdown
 from django import template
 from django.contrib.messages import constants as message_constants
 from django.contrib.messages.storage.base import Message
+from django.http import HttpRequest
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
-from .. import models
+from .. import models, utils
 
 register = template.Library()
 
@@ -120,3 +121,8 @@ def can_cheat(token: models.Token, hunt: models.Hunt) -> bool:
 @register.filter
 def get_finished_url(token: models.Token, u: models.Unlockable) -> str:
 	return u.get_finished_url(token)
+
+
+@register.filter
+def get_token(request: HttpRequest) -> Optional[models.Token]:
+	return utils.get_token_from_request(request)

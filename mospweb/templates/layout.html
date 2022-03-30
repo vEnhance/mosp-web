@@ -11,6 +11,9 @@
 					{% block backnav %}
 					<a class="emoji-link" href="/">🔝</a>
 					{% endblock %}
+
+					{# Now for the token black magic #}
+					{% with request|get_token as token %}
 					{% if token %}
 					{% spaceless %}
 					<a href="{% url "token-detail" token.uuid %}">
@@ -25,6 +28,8 @@
 					{% else %}
 					<a class="login" href="#">Login/register</a>
 					{% endif %}
+					{% endwith %}
+
 					{% block leftnav-more %}
 					{% endblock %}
 				</span>

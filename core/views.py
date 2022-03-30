@@ -16,6 +16,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView
 
 from .models import Attempt, Hunt, Puzzle, Round, SaltedAnswer, Solution, TestSolveSession, Token, Unlockable, get_viewable  # NOQA
+from .utils import get_token_from_request
 
 
 class StaffRequiredMixin(PermissionRequiredMixin):
@@ -35,43 +36,6 @@ class GeneralizedSingleObjectMixin(SingleObjectMixin[Model]):
 
 
 Context = Dict[str, Any]
-
-
-def get_token_from_request(request: HttpRequest) -> Optional[Token]:
-	uuid = request.COOKIES.get('uuid', None)
-
-	if request.user.is_authenticated and uuid is not None:
-		# first get the attached token
-		try:
-			user_token: Optional[Token] = Token.objects.get(user=request.user, enabled=True)
-		except Token.DoesNotExist:
-			user_token = None
-		try:
-			uuid_token: Optional[Token] = Token.objects.get(uuid=uuid, enabled=True)
-		except Token.DoesNotExist:
-			uuid_token = None
-		if user_token is None and uuid_token is None:
-			return None
-		elif user_token is None and uuid_token is not None:
-			return uuid_token
-		elif user_token is not None and uuid_token is None:
-			return user_token
-		elif user_token is not None and uuid_token is not None and user_token.pk == uuid_token.pk:
-			return user_token  # either one okay
-		else:
-			return user_token
-	elif uuid is not None:  # no authentication
-		try:
-			return Token.objects.get(uuid=uuid, enabled=True)
-		except Token.DoesNotExist:
-			return None
-	elif request.user.is_authenticated:  # no cookie
-		try:
-			return Token.objects.get(user=request.user, enabled=True)
-		except Token.DoesNotExist:
-			return None
-	else:
-		return None
 
 
 class HuntList(ListView):
@@ -405,6 +369,11 @@ class StaffHuntList(ListView, StaffRequiredMixin):
 
 	def get_queryset(self):
 		return Hunt.objects.order_by('-start_date')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['token'] = get_token_from_request(self.request)
+		return context
 
 
 class StaffPuzzleList(ListView, StaffRequiredMixin):
