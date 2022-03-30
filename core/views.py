@@ -46,6 +46,11 @@ class HuntList(ListView):
 	def get_queryset(self):
 		return Hunt.objects.filter(visible=True)
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['token'] = get_token_from_request(self.request)
+		return context
+
 
 class RoundUnlockableList(ListView):
 	"""List of all the top-level rounds in a given hunt"""
@@ -55,6 +60,7 @@ class RoundUnlockableList(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		context['token'] = self.token
 		context['hunt'] = self.hunt
 		return context
 
@@ -123,6 +129,7 @@ class UnlockableList(ListView):
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
+		context['token'] = self.token
 		context['round'] = self.round
 		context['cheating'] = self.cheating
 		return context
@@ -132,6 +139,11 @@ class PuzzleDetail(DetailView):
 	"""Shows a puzzle"""
 	model = Puzzle
 	context_object_name = "puzzle"
+
+	def get_context_data(self, **kwargs: Any) -> Context:
+		context = super().get_context_data(**kwargs)
+		context['token'] = get_token_from_request(self.request)
+		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
 		ret = super().dispatch(request, *args, **kwargs)
@@ -152,6 +164,11 @@ class PuzzleDetailTestSolve(DetailView, GeneralizedSingleObjectMixin):
 	model = Puzzle
 	context_object_name = "puzzle"
 
+	def get_context_data(self, **kwargs: Any) -> Context:
+		context = super().get_context_data(**kwargs)
+		context['token'] = get_token_from_request(self.request)
+		return context
+
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
 		ret = super().dispatch(request, *args, **kwargs)
 		self.token = get_token_from_request(request)
@@ -167,6 +184,11 @@ class PuzzleSolutionDetail(DetailView):
 	model = Puzzle
 	context_object_name = "puzzle"
 	template_name = 'core/puzzlesolution_detail.html'
+
+	def get_context_data(self, **kwargs: Any) -> Context:
+		context = super().get_context_data(**kwargs)
+		context['token'] = get_token_from_request(self.request)
+		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
 		ret = super().dispatch(request, *args, **kwargs)
@@ -192,6 +214,7 @@ class UnlockableDetail(DetailView):
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		token = get_token_from_request(self.request)
+		context['token'] = token
 		u = self.object  # type: ignore
 		if token is not None:
 			can_unlock = token.can_unlock(u)
@@ -345,6 +368,11 @@ class StaffHuntList(ListView, StaffRequiredMixin):
 
 	def get_queryset(self):
 		return Hunt.objects.order_by('-start_date')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['token'] = get_token_from_request(self.request)
+		return context
 
 
 class StaffPuzzleList(ListView, StaffRequiredMixin):
