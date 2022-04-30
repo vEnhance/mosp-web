@@ -289,21 +289,15 @@ def ajax(request: HttpRequest) -> JsonResponse:
 	elif action == 'log':
 		raise NotImplementedError('TODO log')
 
-	elif action == 'get_token':
+	elif action == 'set_name':
 		name = request.POST['name']
-		reduced_name = Token.reduce(name)
-		force_new = request.POST['force_new']
-		if force_new == 'false' and Token.objects.filter(
-			reduced_name=reduced_name, user__isnull=False
-		).exists():
-			return JsonResponse({'outcome': 'exists'})
-		else:
-			token = Token(name=name)
+		token = get_token_from_request(request)
+		if token is not None:
+			token.name = name
 			token.save()
-			return JsonResponse({
-				'outcome': 'success',
-				'uuid': token.uuid,
-			})
+			return JsonResponse({'success': 1})
+		else:
+			return JsonResponse({'success': 0})
 
 	return JsonResponse({'message': f'No such method {action}'}, status=400)
 

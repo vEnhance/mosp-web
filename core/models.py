@@ -489,10 +489,7 @@ class Attempt(models.Model):
 class Token(models.Model):
 	uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
-	name = models.CharField(max_length=128, help_text="Who are you?")
-	reduced_name = models.CharField(
-		max_length=128, help_text="Name with only [a-z0-9] characters."
-	)
+	name = models.CharField(max_length=128, help_text="Who are you?", blank=True)
 	permission = models.PositiveSmallIntegerField(
 		help_text="Whether this token has any elevated permissions",
 		choices=(
@@ -520,11 +517,12 @@ class Token(models.Model):
 	def reduce(s: str):
 		return re.sub(r'\W+', '', s.lower())
 
-	def save(self, *args: Any, **kwargs: Any):
-		self.reduced_name = self.reduce(self.name)
-		super().save(*args, **kwargs)
-
 	def __str__(self) -> str:
+		if self.name == '':
+			if self.user is not None:
+				return self.user.username
+			else:
+				return '???'
 		return self.name
 
 	def get_absolute_url(self):
