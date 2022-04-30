@@ -24,7 +24,8 @@
 			</a>
 		</div>
 		<div class="z-10 flex items-center order-2 w-full h-16 -mt-6 bg-white md:h-64 md:order-1 md:w-3/5 md:mt-0">
-			<a class="flex items-baseline mt-3 noshadow" href="{{ round.get_absolute_url }}">
+			<a class="flex items-baseline mt-3 noshadow" href="{% if token|can_unlock:round.unlockable %}
+				 {{ round.get_absolute_url }} {% else %} {{ round.unlockable.get_absolute_url }} {% endif %}">
 				<div class="h-full p-8 mx-2 rounded-lg shadow-xl md:pr-18 md:pl-14 md:py-12 md:mx-0 md:rounded-none md:rounded-l-lg md:shadow-none">
 					<h4 class="hidden text-xl text-gray-600 md:block">Chapter {{ round.chapter_number }}</h4>
 					<h3 class="hidden text-2xl font-bold text-gray-800 md:block">{{ round.name }}</h3>
