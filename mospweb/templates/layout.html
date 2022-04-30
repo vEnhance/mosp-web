@@ -20,8 +20,9 @@
 						<span id="tokenname" class="italic text-yellow-600">{{ token }}</span>
 					</a>
 					{% endspaceless %}
+					<a href="{% url "account_logout" %}">(logout)</a>
 					{% if request.user.is_staff %}
-					<a class="emoji-link" href="{% url "staff-hunt-list" %}">🥆</a>
+					<a class=" emoji-link" href="{% url "staff-hunt-list" %}">🥆</a>
 					<a class="emoji-link" href="{% url "staff-puzzle-list" %}">🧩</a>
 					<a class="emoji-link" href="/admin">🏸</a>
 					{% endif %}
