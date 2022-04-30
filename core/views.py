@@ -6,7 +6,7 @@ from django.db.models import Count
 from django.db.models.base import Model
 from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse  # NOQA
+from django.http import HttpRequest, HttpResponseRedirect, JsonResponse  # NOQA
 from django.http.response import HttpResponseBase
 from django.shortcuts import render
 from django.utils import timezone
