@@ -528,12 +528,6 @@ class Token(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy('token-detail', args=(self.uuid, ))
 
-	@property
-	def firstname(self) -> str:
-		if not ' ' in self.name:
-			return self.name
-		return self.name[:self.name.index(' ')]
-
 	def __init__(self, *args: Any, **kwargs: Any):
 		super().__init__(*args, **kwargs)
 		self._courage = Attempt.objects.filter(

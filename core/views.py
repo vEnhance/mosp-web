@@ -235,25 +235,6 @@ class UnlockableDetail(DetailView):
 		return context
 
 
-class TokenDetailView(DetailView[Token]):
-	model = Token
-	context_object_name = "token"
-
-
-class TokenUpdateView(UpdateView[Token, BaseModelForm[Token]]):
-	model = Token
-	context_object_name = "token"
-	fields = ('name', )
-
-
-def token_disable(uuid: str) -> HttpResponse:
-	token = Token.objects.get(uuid=uuid)
-	token.enabled = False
-	token.user = None
-	token.save()
-	return HttpResponseRedirect('/')
-
-
 @csrf_exempt
 def ajax(request: HttpRequest) -> JsonResponse:
 	if request.method != 'POST':

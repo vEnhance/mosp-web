@@ -84,8 +84,5 @@ urlpatterns = [
 		views.UnlockableDetail.as_view(),
 		name='unlockable-detail'
 	),
-	path(r'profile/<str:pk>', views.TokenDetailView.as_view(), name='token-detail'),
-	path(r'update/<str:pk>', views.TokenUpdateView.as_view(), name='token-update'),
-	path(r'destroy/<str:pk>', views.token_disable, name='token-disable'),
 	path(r'ajax', views.ajax, name='ajax'),
 ]
