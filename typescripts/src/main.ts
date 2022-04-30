@@ -11,5 +11,6 @@ require([
   "sweetalert2",
   "sha",
   "images",
-  "grader"
+  "grader",
+  "setname",
 ]);
