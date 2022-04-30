@@ -16,9 +16,7 @@
 					{% with request|get_token as token %}
 					{% if token %}
 					{% spaceless %}
-					<a href="{% url "token-detail" token.uuid %}">
-						<span class="italic text-yellow-600">{{ token.firstname }} </span>
-					</a>
+					<span class="italic text-yellow-600">{{ token.firstname }} </span>
 					{% endspaceless %}
 					{% if request.user.is_staff %}
 					<a class="emoji-link" href="{% url "staff-hunt-list" %}">🥆</a>
@@ -26,7 +24,7 @@
 					<a class="emoji-link" href="/admin">🏸</a>
 					{% endif %}
 					{% else %}
-					<a class="login" href="#">Login/register</a>
+					<a href="{% url "account_login" %}">Login/register</a>
 					{% endif %}
 					{% endwith %}
 
