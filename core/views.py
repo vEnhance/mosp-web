@@ -266,6 +266,12 @@ def ajax(request: HttpRequest) -> JsonResponse:
 			return JsonResponse({'correct': 0})
 		elif sa.is_correct:
 			if puzzle.unlockable is not None and token is not None:
+				a, _ = Attempt.objects.get_or_create(token=token, unlockable=puzzle.unlockable)
+				if a.status != 1:
+					a.status = 1
+					a.solved_on = timezone.now()
+					a.save()
+
 				Attempt.objects.filter(token=token, unlockable=puzzle.unlockable).update(status=1)
 			return JsonResponse({
 				'correct': 1,
