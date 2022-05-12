@@ -530,12 +530,11 @@ class Token(models.Model):
 
 	def __init__(self, *args: Any, **kwargs: Any):
 		super().__init__(*args, **kwargs)
-		self._courage = Attempt.objects.filter(
-			token=self, status=1
-		).aggregate(courage=models.Sum('unlockable__courage_bounty'))['courage'] or 0
 
-	def get_courage(self):
-		return self._courage
+	def get_courage(self, hunt: Hunt):
+		return Attempt.objects.filter(
+			unlockable__hunt=hunt, token=self, status=1
+		).aggregate(courage=models.Sum('unlockable__courage_bounty'))['courage'] or 0
 
 	def can_unlock(self, u: Unlockable) -> bool:
 		if self.is_plebian and u is not None:
@@ -551,7 +550,7 @@ class Token(models.Model):
 			else:
 				if not self.has_solved(u.unlock_needs):
 					return False
-		return self.get_courage() >= u.unlock_courage_threshold
+		return self.get_courage(u.hunt) >= u.unlock_courage_threshold
 
 	@property
 	def is_omniscient(self) -> bool:
@@ -604,8 +603,12 @@ class Token(models.Model):
 		return Attempt.objects.filter(token=self, unlockable=u, status=1).exists()
 
 
-def get_viewable(queryset: QuerySet[Unlockable], token: Token) -> QuerySet[Unlockable]:
-	courage = token.get_courage()
+def get_viewable(
+	hunt: Hunt,
+	queryset: QuerySet[Unlockable],
+	token: Token,
+) -> QuerySet[Unlockable]:
+	courage = token.get_courage(hunt)
 	queryset = queryset.select_related('puzzle', 'round', 'unlock_needs')
 	# TODO maybe rewrite this with sql utils since it worked way better in otis web
 	queryset = queryset.annotate(

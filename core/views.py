@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -15,7 +15,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView
 
-from .models import Attempt, Hunt, Puzzle, Round, SaltedAnswer, Solution, TestSolveSession, Token, Unlockable, get_viewable  # NOQA
+from .models import Attempt, Hunt, Puzzle, Round, SaltedAnswer, Solution, TestSolveSession, Unlockable, get_viewable  # NOQA
 from .utils import get_token_from_request
 
 
@@ -62,6 +62,8 @@ class RoundUnlockableList(ListView):
 		context = super().get_context_data(**kwargs)
 		context['token'] = self.token
 		context['hunt'] = self.hunt
+		if self.token is not None:
+			context['courage'] = self.token.get_courage(self.hunt)
 		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
@@ -81,7 +83,7 @@ class RoundUnlockableList(ListView):
 		if self.hunt.active is True:
 			if self.token is None:
 				return None
-			return get_viewable(queryset, self.token)
+			return get_viewable(self.hunt, queryset, self.token)
 		return queryset
 
 
@@ -118,7 +120,7 @@ class UnlockableList(ListView):
 			if self.cheating is True and self.round.unlockable is not None:
 				assert self.round.unlockable.hunt.allow_cheat(self.token)
 			else:
-				queryset = get_viewable(queryset, self.token)
+				queryset = get_viewable(self.hunt, queryset, self.token)
 			queryset = queryset.annotate(round_exists=Count('round'))
 			queryset = queryset.order_by(
 				'sort_order',
@@ -132,6 +134,8 @@ class UnlockableList(ListView):
 		context['token'] = self.token
 		context['round'] = self.round
 		context['cheating'] = self.cheating
+		if self.token is not None:
+			context['courage'] = self.token.get_courage(self.round.unlockable.hunt)
 		return context
 
 
@@ -142,7 +146,10 @@ class PuzzleDetail(DetailView):
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
-		context['token'] = get_token_from_request(self.request)
+		token = get_token_from_request(self.request)
+		context['token'] = token
+		if token is not None:
+			context['courage'] = token.get_courage(self.object.unlockable.hunt)
 		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
@@ -166,7 +173,10 @@ class PuzzleDetailTestSolve(DetailView, GeneralizedSingleObjectMixin):
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
-		context['token'] = get_token_from_request(self.request)
+		token = get_token_from_request(self.request)
+		context['token'] = token
+		if token is not None:
+			context['courage'] = token.get_courage(self.object.unlockable.hunt)
 		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
@@ -187,7 +197,10 @@ class PuzzleSolutionDetail(DetailView):
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
-		context['token'] = get_token_from_request(self.request)
+		token = get_token_from_request(self.request)
+		context['token'] = token
+		if token is not None:
+			context['courage'] = token.get_courage(self.object.unlockable.hunt)
 		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
@@ -215,6 +228,8 @@ class UnlockableDetail(DetailView):
 		context = super().get_context_data(**kwargs)
 		token = get_token_from_request(self.request)
 		context['token'] = token
+		if token is not None:
+			context['courage'] = token.get_courage(self.object.hunt)
 		u = self.object  # type: ignore
 		if token is not None:
 			can_unlock = token.can_unlock(u)
@@ -240,15 +255,7 @@ def ajax(request: HttpRequest) -> JsonResponse:
 	if request.method != 'POST':
 		return JsonResponse({'error': "☕"}, status=418)
 
-	token: Optional[Token]
-	try:
-		assert 'uuid' in request.COOKIES
-		token = Token.objects.get(uuid=request.COOKIES['uuid'], enabled=True)
-	except Token.DoesNotExist:
-		token = None
-	except AssertionError:
-		token = None
-
+	token = get_token_from_request(request)
 	action = request.POST.get('action')
 	if action == 'guess':
 		puzzle = Puzzle.objects.get(slug=request.POST.get('puzzle_slug'))

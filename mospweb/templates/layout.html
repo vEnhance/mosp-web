@@ -42,6 +42,7 @@
 					{% endblock %}
 					{% endif %}
 					{% block rightnav %}
+					{% if token is not None %}
 					{% if request.user.is_staff or not token.is_plebian %}
 					<span class="relative ml-2 group navitem">
 						{% spaceless %}
@@ -56,10 +57,12 @@
 						{% endspaceless %}
 					</span>
 					{% endif %}
+					{% endif %}
 
+					{% if courage is not None %}
 					<span class="relative ml-2 group navitem" id="courage">
 						{% spaceless %}
-						💜<span id="courage_value">{{ token.get_courage }}</span>
+						💜<span id="courage_value">{{ courage }}</span>
 						<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
 							<div class="font-bold text-black">Courage</div>
 							<div class="text-purple-900">
@@ -68,6 +71,8 @@
 						</div>
 						{% endspaceless %}
 					</span>
+					{% endif %}
+					{% if token.get_patience is not None %}
 					<span class="relative ml-2 group navitem" id="patience">
 						{% spaceless %}
 						💛<span id="patience_value">{{ token.get_patience }}</span>
@@ -79,6 +84,7 @@
 						</div>
 						{% endspaceless %}
 					</span>
+					{% endif %}
 					{% endblock %}
 					<span class="relative pl-1 ml-2 group navitem" id="info-pages">
 						{% spaceless %}
