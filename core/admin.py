@@ -148,6 +148,7 @@ class AttemptAdmin(admin.ModelAdmin):
 	list_filter = (
 		'unlockable__hunt',
 		'status',
+		'token__permission',
 	)
 	autocomplete_fields = (
 		'token',
