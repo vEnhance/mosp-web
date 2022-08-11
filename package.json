@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "package.json": "^2.0.1",
+    "package.json": "^0.0.0",
     "sweetalert2": "^11.0.18"
   },
   "devDependencies": {
