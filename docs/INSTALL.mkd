@@ -59,7 +59,6 @@ Then do the following.
 ```shell
 cd ~/Documents/MOSP/mosp-web/
 npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
-npm install -D package.json
 source venv/bin/activate
 python manage.py collectstatic
 python manage.py tailwind install
