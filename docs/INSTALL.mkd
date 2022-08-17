@@ -74,4 +74,3 @@ Then in an ideal world, Tailwind will work.
 
 You'll have to google stuff, sorry. Things that should "just work" often don't
 function correctly outside Linux, doubly so if you're on Windows.
-
