@@ -29,12 +29,12 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-if this works the shell will hang, meaning the server is running!
+If this works the shell will hang, meaning the server is running!
 Point your web browser to [http://127.0.0.1:8000](http://127.0.0.1:8000)
 and you should see a version of the MOSP website.
 
 It's missing something though --- all the static files are not there yet,
-meaning no Javascript and no CSS. You need to fix this by installing the
+meaning no JavaScript and no CSS. You need to fix this by installing the
 relevant machinery.
 MOSP-WEB uses [Typescript](https://duckduckgo.com/?q=typescript)
 and [Tailwind CSS](https://duckduckgo.com/?q=tailwindcss) for these.
