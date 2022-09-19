@@ -7,24 +7,24 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-Django = "^4.1"
+Django = "^4.1.1"
 django-stubs = "^1.12.0"
 django-stubs-ext = "^0.5.0"
 Markdown = "^3.3.4"
-types-Markdown = "^3.3.2"
+types-Markdown = "^3.4.2"
 django-reversion = "^5.0.2"
 requests = "^2.26.0"
 django-allauth = "^0.51.0"
 django-tailwind = "^3.3.0"
 crispy-tailwind = "^0.5.0"
 django-markdownx = { git = "https://github.com/neutronX/django-markdownx", rev = "adcaa9e" }
-python-dotenv = "^0.20.0"
+python-dotenv = "^0.21.0"
 PyYAML = "^6.0"
 PyMySQL = "^1.0.2"
 factory-boy = "^3.2.0"
 
 [tool.poetry.dev-dependencies]
-ipython = "^8.4"
+ipython = "^8.5"
 pdbpp = "^0.10"
 jedi = "^0.18"
 coverage = {extras = ["toml"], version = "^6.4"}
