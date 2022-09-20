@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from factory import Faker
 from factory.declarations import LazyAttribute, SubFactory
 from factory.django import DjangoModelFactory
-from mospweb.tests import UniqueFaker
+from mospweb.testsuite import UniqueFaker
 
 from core.models import Hunt, Token
 
