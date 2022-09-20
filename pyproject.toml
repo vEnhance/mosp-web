@@ -8,27 +8,28 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
 Django = "^4.1.1"
+Markdown = "^3.3.4"
+PyMySQL = "^1.0.2"
+PyYAML = "^6.0"
+crispy-tailwind = "^0.5.0"
+django-allauth = "^0.51.0"
+django-markdownx = { git = "https://github.com/neutronX/django-markdownx", rev = "adcaa9e" }
+django-reversion = "^5.0.2"
 django-stubs = "^1.12.0"
 django-stubs-ext = "^0.5.0"
-Markdown = "^3.3.4"
-types-Markdown = "^3.4.2"
-django-reversion = "^5.0.2"
-requests = "^2.26.0"
-django-allauth = "^0.51.0"
 django-tailwind = "^3.3.0"
-crispy-tailwind = "^0.5.0"
-django-markdownx = { git = "https://github.com/neutronX/django-markdownx", rev = "adcaa9e" }
 python-dotenv = "^0.21.0"
-PyYAML = "^6.0"
-PyMySQL = "^1.0.2"
-factory-boy = "^3.2.0"
+requests = "^2.26.0"
 
 [tool.poetry.group.dev.dependencies]
 coverage = {extras = ["toml"], version = "^6.4"}
+factory-boy = "^3.2.0"
 ipython = "^8.5"
 jedi = "^0.18"
 pdbpp = "^0.10"
+tblib = "^1.7.0"
 toml = "^0.10.2"
+types-Markdown = "^3.4.2"
 types-requests = "^2.28.10"
 yapf = "^0.32"
 
