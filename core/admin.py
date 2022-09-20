@@ -7,7 +7,7 @@ from .models import Attempt, Hunt, Puzzle, Round, SaltedAnswer, Solution, TestSo
 
 
 @admin.register(Hunt)
-class HuntAdmin(admin.ModelAdmin):
+class HuntAdmin(admin.ModelAdmin[Hunt]):
 	list_display = (
 		'volume_number',
 		'name',
@@ -22,24 +22,14 @@ class HuntAdmin(admin.ModelAdmin):
 	search_fields = ('name', )
 
 
-class SaltedAnswerInline(admin.TabularInline):
+class SaltedAnswerInline(admin.TabularInline[SaltedAnswer, Puzzle]):
 	model = SaltedAnswer  # type: ignore
 	fields = ('display_answer', 'salt', 'message', 'is_correct', 'is_canonical')
 	extra = 2
 
 
-class UnlockableInline(admin.TabularInline):
-	model = Unlockable  # type: ignore
-	fields = (
-		'name',
-		'hunt',
-		'slug',
-	)
-	extra = 2
-
-
-class AttemptInline(admin.TabularInline):
-	model = Attempt  # type: ignore
+class AttemptInline(admin.TabularInline[Attempt, Token]):
+	model = Attempt
 	fields = (
 		'unlockable',
 		'status',
@@ -80,7 +70,7 @@ class PuzzleAdmin(MarkdownxModelAdmin):
 
 
 @admin.register(TestSolveSession)
-class TestSolveSessionAdmin(admin.ModelAdmin):
+class TestSolveSessionAdmin(admin.ModelAdmin[TestSolveSession]):
 	list_display = ('uuid', 'expires', 'puzzle')
 	search_fields = ('puzzle__name', )
 	autocomplete_fields = ('puzzle', )
