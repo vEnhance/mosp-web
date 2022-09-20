@@ -133,7 +133,7 @@ class DiscordHandler(logging.Handler):
 			if request.FILES is not None and len(request.FILES) > 0:
 				s += 'Files included\n'
 				for name, fileobj in request.FILES.items():
-					s += f'> `{name}` ({fileobj.size} bytes, { fileobj.content_type })\n'
+					s += f'> `{name}` ({fileobj.size} bytes, { fileobj.content_type })\n'  # type: ignore
 			description_parts[':blue_heart: REQUEST :blue_heart:'] = s
 
 		embed = {'title': title, 'color': color, 'fields': fields}

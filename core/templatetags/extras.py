@@ -110,12 +110,7 @@ def can_unlock(token: models.Token, u: models.Unlockable) -> bool:
 
 @register.filter
 def can_cheat(token: models.Token, hunt: models.Hunt) -> bool:
-	if hunt.has_ended:
-		return True
-	elif token is None:
-		return False
-	else:
-		return token.is_omniscient
+	return hunt.can_cheat(token)
 
 
 @register.filter

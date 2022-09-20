@@ -51,6 +51,14 @@ class Hunt(models.Model):
 	def active(self) -> bool:
 		return self.has_started and not self.has_ended
 
+	def can_cheat(self, token: Optional['Token']) -> bool:
+		if self.has_ended:
+			return True
+		elif token is None:
+			return False
+		else:
+			return token.is_omniscient
+
 
 class Unlockable(models.Model):
 	hunt = models.ForeignKey(

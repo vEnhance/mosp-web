@@ -3,7 +3,6 @@ from typing import Any, Dict
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
-from django.db.models.base import Model
 from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse  # NOQA
@@ -23,7 +22,7 @@ class StaffRequiredMixin(PermissionRequiredMixin):
 	permission_required = 'is_staff'
 
 
-class GeneralizedSingleObjectMixin(SingleObjectMixin[Model]):
+class GeneralizedSingleObjectMixin(SingleObjectMixin[Any]):
 	def get_object(self, queryset: QuerySet[Any] = None):
 		kwargs = self.kwargs  # type: ignore
 		if queryset is None:
@@ -82,12 +81,12 @@ class RoundUnlockableList(ListView):
 		).select_related('round')
 		if self.hunt.active is True:
 			if self.token is None:
-				return None
+				raise PermissionDenied("Need token for an active hunt")
 			return get_viewable(self.hunt, queryset, self.token)
 		return queryset
 
 
-class UnlockableList(ListView):
+class UnlockableList(ListView[Unlockable]):
 	"""List of all the unlockables in a given round"""
 	context_object_name = "unlockable_list"
 	model = Unlockable
@@ -95,6 +94,7 @@ class UnlockableList(ListView):
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
 		self.cheating = self.kwargs.pop('cheating', False)
 		self.round = Round.objects.get(**self.kwargs)
+		assert self.round.unlockable is not None
 		self.hunt = self.round.unlockable.hunt
 		self.token = get_token_from_request(request)
 
@@ -113,12 +113,13 @@ class UnlockableList(ListView):
 			if self.hunt.has_ended:
 				return Unlockable.objects.filter(parent=self.round)
 			else:
-				raise PermissionDenied()
+				raise PermissionDenied("Token None cannot participate in active hunt")
 		else:
 			assert self.round.unlockable is None or self.token.can_unlock(self.round.unlockable)
 			queryset: QuerySet[Unlockable] = Unlockable.objects.filter(parent=self.round)
 			if self.cheating is True and self.round.unlockable is not None:
-				assert self.round.unlockable.hunt.allow_cheat(self.token)
+				if not self.round.unlockable.hunt.can_cheat(self.token):
+					raise PermissionDenied("Cheating not allowed yet")
 			else:
 				queryset = get_viewable(self.hunt, queryset, self.token)
 			queryset = queryset.annotate(round_exists=Count('round'))
@@ -134,48 +135,54 @@ class UnlockableList(ListView):
 		context['token'] = self.token
 		context['round'] = self.round
 		context['cheating'] = self.cheating
-		if self.token is not None:
+		if self.token is not None and self.round.unlockable is not None:
 			context['courage'] = self.token.get_courage(self.round.unlockable.hunt)
 		return context
 
 
-class PuzzleDetail(DetailView):
+class PuzzleDetail(DetailView[Puzzle]):
 	"""Shows a puzzle"""
 	model = Puzzle
 	context_object_name = "puzzle"
+	object: Puzzle
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
-		token = get_token_from_request(self.request)
-		context['token'] = token
-		if token is not None:
-			context['courage'] = token.get_courage(self.object.unlockable.hunt)
+		context['token'] = self.token
+		if self.token is not None and self.object.unlockable is not None:
+			context['courage'] = self.token.get_courage(self.object.unlockable.hunt)
 		return context
 
 	def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
 		ret = super().dispatch(request, *args, **kwargs)
 		self.token = get_token_from_request(self.request)
+		if self.object.unlockable is None:
+			if self.token is not None and not self.token.is_plebian:
+				return ret
+			else:
+				raise PermissionDenied("Puzzle has no unlockable yet, not rendering")
 		hunt = self.object.unlockable.hunt
 		if not hunt.has_started:
 			return render(request, "core/too_early.html", {'token': self.token})
 		if not self.object.unlockable.hunt.has_ended:
 			if self.token is not None:
-				u = self.object.unlockable  # type: ignore
+				u = self.object.unlockable
 				if u.hunt.active is True:
 					assert self.token.has_unlocked(u)
 		return ret
 
 
-class PuzzleDetailTestSolve(DetailView, GeneralizedSingleObjectMixin):
+class PuzzleDetailTestSolve(DetailView[Puzzle], GeneralizedSingleObjectMixin):
 	"""Shows a puzzle, no questions asked"""
 	model = Puzzle
 	context_object_name = "puzzle"
+	object: Puzzle
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		token = get_token_from_request(self.request)
 		context['token'] = token
-		if token is not None:
+		if token is not None and self.object.unlockable is not None:
 			context['courage'] = token.get_courage(self.object.unlockable.hunt)
 		return context
 
@@ -189,17 +196,18 @@ class PuzzleDetailTestSolve(DetailView, GeneralizedSingleObjectMixin):
 		return ret
 
 
-class PuzzleSolutionDetail(DetailView):
+class PuzzleSolutionDetail(DetailView[Puzzle]):
 	"""Shows a solution"""
 	model = Puzzle
 	context_object_name = "puzzle"
 	template_name = 'core/puzzlesolution_detail.html'
+	object: Puzzle
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
 		token = get_token_from_request(self.request)
 		context['token'] = token
-		if token is not None:
+		if token is not None and self.object.unlockable is not None:
 			context['courage'] = token.get_courage(self.object.unlockable.hunt)
 		return context
 
@@ -207,8 +215,13 @@ class PuzzleSolutionDetail(DetailView):
 		ret = super().dispatch(request, *args, **kwargs)
 		self.cheating = kwargs.pop('cheating', False)
 		self.token = get_token_from_request(self.request)
-		u = self.object.unlockable  # type: ignore
-		if u.hunt.active is True:
+		u = self.object.unlockable
+		if u is None:
+			if self.token is not None and not self.token.is_plebian:
+				return ret
+			else:
+				raise PermissionDenied("Puzzle has no unlockable yet, not rendering solution")
+		elif u.hunt.active is True:
 			assert self.token is not None
 			if self.cheating is True:
 				attempt, _ = Attempt.objects.get_or_create(unlockable=u, token=self.token)
@@ -216,13 +229,17 @@ class PuzzleSolutionDetail(DetailView):
 					attempt.status = 1
 					attempt.save()
 			else:
-				assert self.token.has_solved(u)
-		return ret
+				if not self.token.has_solved(u):
+					raise PermissionDenied("Can't view solution to unsolved puzzle")
+			return ret
+		else:
+			return ret
 
 
-class UnlockableDetail(DetailView):
+class UnlockableDetail(DetailView[Unlockable]):
 	model = Unlockable
 	context_object_name = "unlockable"
+	object: Unlockable
 
 	def get_context_data(self, **kwargs: Any) -> Context:
 		context = super().get_context_data(**kwargs)
@@ -348,7 +365,7 @@ class UnlockableUpdate(
 	)
 
 
-class StaffHuntList(ListView, StaffRequiredMixin):
+class StaffHuntList(ListView[Hunt], StaffRequiredMixin):
 	"""Staff view of all the hunts"""
 	context_object_name = "hunt_list"
 	model = Hunt
@@ -363,7 +380,7 @@ class StaffHuntList(ListView, StaffRequiredMixin):
 		return context
 
 
-class StaffPuzzleList(ListView, StaffRequiredMixin):
+class StaffPuzzleList(ListView[Puzzle], StaffRequiredMixin):
 	"""Staff list of the puzzles"""
 	context_object_name = "puzzle_list"
 	model = Puzzle
@@ -375,7 +392,7 @@ class StaffPuzzleList(ListView, StaffRequiredMixin):
 		).order_by('status_progress').select_related('unlockable', 'solution')
 
 
-class StaffUnlockableList(ListView, StaffRequiredMixin):
+class StaffUnlockableList(ListView[Unlockable], StaffRequiredMixin):
 	"""Staff list of unlockables"""
 	context_object_name = "unlockable_list"
 	model = Unlockable
