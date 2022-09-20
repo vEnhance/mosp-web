@@ -37,7 +37,7 @@ class GeneralizedSingleObjectMixin(SingleObjectMixin[Any]):
 Context = Dict[str, Any]
 
 
-class HuntList(ListView):
+class HuntList(ListView[Hunt]):
 	"""Top-level list of all the hunts"""
 	context_object_name = "hunt_list"
 	model = Hunt
@@ -51,7 +51,7 @@ class HuntList(ListView):
 		return context
 
 
-class RoundUnlockableList(ListView):
+class RoundUnlockableList(ListView[Unlockable]):
 	"""List of all the top-level rounds in a given hunt"""
 	context_object_name = "round_unlockable_list"
 	template_name = "core/round_unlockable_list.html"

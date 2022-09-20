@@ -131,7 +131,7 @@ class UnlockableAdmin(MarkdownxModelAdmin):
 
 
 @admin.register(Attempt)
-class AttemptAdmin(admin.ModelAdmin):
+class AttemptAdmin(admin.ModelAdmin[Attempt]):
 	list_display = (
 		'token',
 		'unlockable',
@@ -157,7 +157,7 @@ class AttemptAdmin(admin.ModelAdmin):
 
 
 @admin.register(Token)
-class TokenAdmin(admin.ModelAdmin):
+class TokenAdmin(admin.ModelAdmin[Token]):
 	list_display = (
 		'uuid',
 		'name',
@@ -194,7 +194,7 @@ class SolutionAdmin(MarkdownxModelAdmin):
 
 
 @admin.register(SaltedAnswer)
-class SaltedAnswerAdmin(admin.ModelAdmin):
+class SaltedAnswerAdmin(admin.ModelAdmin[SaltedAnswer]):
 	list_display = (
 		'puzzle',
 		'salt',
