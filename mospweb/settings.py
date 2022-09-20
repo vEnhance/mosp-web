@@ -32,6 +32,9 @@ if ENV_PATH.exists():
 PRODUCTION = bool(os.getenv('IS_PRODUCTION'))
 if PRODUCTION:
 	ALLOWED_HOSTS = ['mosp.evanchen.cc', '.localhost', '127.0.0.1']
+	CSRF_TRUSTED_ORIGINS = [
+		'https://mosp.evanchen.cc',
+	]
 else:
 	INTERNAL_IPS = ['127.0.0.1']
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
