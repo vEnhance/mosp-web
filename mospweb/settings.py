@@ -18,12 +18,12 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import django_stubs_ext
-import dwhandler
+import evans_django_tools
 from dotenv import load_dotenv
 
 django_stubs_ext.monkeypatch()
 
-assert dwhandler is not None
+assert evans_django_tools is not None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -258,7 +258,7 @@ LOGGING = {
 				},
 			'discord':
 				{
-					'class': 'dwhandler.DiscordWebhookHandler',
+					'class': 'evans_django_tools.DiscordWebhookHandler',
 					'level': 'VERBOSE',
 					'filters': ['require_debug_false', 'filter_useless_404'],
 				}
