@@ -1,4 +1,6 @@
-![MOSP-WEB status](https://github.com/vEnhance/mosp-web/actions/workflows/main.yml/badge.svg)
+[<img src="https://img.shields.io/github/license/vEnhance/mosp-web" alt="MIT License">](https://github.com/vEnhance/mosp-web/blob/main/LICENSE.txt)
+[<img src="https://github.com/vEnhance/mosp-web/actions/workflows/ci.yml/badge.svg" alt="MOSP-WEB status">](https://github.com/vEnhance/mosp-web/actions)
+[<img src="https://github.com/vEnhance/mosp-web/actions/workflows/codeql.yml/badge.svg" alt="MOSP-WEB status">](https://github.com/vEnhance/mosp-web/actions)
 
 This is the code base for the MOP puzzle hunt, affectionately called *MOSP*.
 You can play the hunt at any time at [mosp.evanchen.cc](https://mosp.evanchen.cc).
