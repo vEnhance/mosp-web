@@ -23,6 +23,7 @@ python-dotenv = "^0.21.0"
 requests = "^2.26.0"
 
 [tool.poetry.group.dev.dependencies]
+codespell = {git = "https://github.com/codespell-project/codespell.git", rev = "fd1d5c0"}
 coverage = {extras = ["toml"], version = "^6.4"}
 factory-boy = "^3.2.0"
 ipython = "^8.5"
@@ -120,3 +121,9 @@ strictSetInference = false
 [build-system]
 requires = ["poetry-core>=1.2.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.codespell]
+skip = "theme/static_src/package-lock.json,*/fixtures/*.yaml"
+count = ""
+quiet-level = 3
+ignore-words-list="nd,preform"
