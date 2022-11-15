@@ -26,7 +26,6 @@
  * SOFTWARE.
  */
 
-
 div.card {
   width: 12%;
   height: 60px;
@@ -70,7 +69,6 @@ div.card.fresh > svg.symbol {
   visibility: visible;
 }
 
-
 div.card.gotten.ok {
   background: #beecdf;
   border: 3px solid lightgreen;
@@ -86,7 +84,7 @@ div.card.gotten:after {
 }
 div.card.gotten.ok:after {
   content: "✅";
-  }
+}
 div.card.gotten.bad:after {
   content: "⛔";
 }
@@ -119,12 +117,11 @@ div.card:hover span.tooltip {
 }
 
 #tragedy {
-	z-index: -1;
-	opacity: 1.0;
-	position: fixed;
-	top: -1000px;
+  z-index: -1;
+  opacity: 1;
+  position: fixed;
+  top: -1000px;
 }
-
 
 .solved .card {
   transition: 4s all;

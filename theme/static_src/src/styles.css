@@ -6,10 +6,16 @@
   a.emoji-link {
     @apply no-underline;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-serif font-bold m-1;
   }
-  h1, h2 {
+  h1,
+  h2 {
     @apply text-center m-4 mx-auto block;
   }
   h1 {
