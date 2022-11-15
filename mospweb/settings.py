@@ -30,16 +30,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ENV_PATH = BASE_DIR / '.env'
 if ENV_PATH.exists():
-	load_dotenv(ENV_PATH)
+    load_dotenv(ENV_PATH)
 
 PRODUCTION = bool(os.getenv('IS_PRODUCTION'))
 if PRODUCTION:
-	ALLOWED_HOSTS = ['mosp.evanchen.cc', '.localhost', '127.0.0.1']
-	CSRF_TRUSTED_ORIGINS = [
-		'https://mosp.evanchen.cc',
-	]
+    ALLOWED_HOSTS = ['mosp.evanchen.cc', '.localhost', '127.0.0.1']
+    CSRF_TRUSTED_ORIGINS = [
+        'https://mosp.evanchen.cc',
+    ]
 else:
-	INTERNAL_IPS = ['127.0.0.1']
+    INTERNAL_IPS = ['127.0.0.1']
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 # Quick-start development settings - unsuitable for production
@@ -51,65 +51,63 @@ DEBUG = not PRODUCTION
 # Application definition
 
 INSTALLED_APPS = [
-	'django.contrib.admin',
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.humanize',
-	'django.contrib.messages',
-	'django.contrib.sessions',
-	'django.contrib.sites',
-	'django.contrib.staticfiles',
-	'allauth',
-	'allauth.account',
-	'allauth.socialaccount',
-	'allauth.socialaccount.providers.discord',
-	'markdownx',
-	'tailwind',
-	'crispy_forms',
-	'crispy_tailwind',
-	'theme',
-	'core',
-	'info',
-	'typescripts',
-	'data2021',
-	'mospweb',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.humanize',
+    'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.staticfiles',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.discord',
+    'markdownx',
+    'tailwind',
+    'crispy_forms',
+    'crispy_tailwind',
+    'theme',
+    'core',
+    'info',
+    'typescripts',
+    'data2021',
+    'mospweb',
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
-	'markdown.extensions.extra',
-	'markdown.extensions.sane_lists',
-	'markdown.extensions.smarty',
+    'markdown.extensions.extra',
+    'markdown.extensions.sane_lists',
+    'markdown.extensions.smarty',
 ]
 MIDDLEWARE = [
-	'django.middleware.security.SecurityMiddleware',
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'mospweb.urls'
 
 TEMPLATES = [
-	{
-		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [BASE_DIR / 'templates'],
-		'APP_DIRS': True,
-		'OPTIONS':
-			{
-				'context_processors':
-					[
-						'django.template.context_processors.debug',
-						'django.template.context_processors.request',
-						'django.contrib.auth.context_processors.auth',
-						'django.contrib.messages.context_processors.messages',
-						'info.context_processors.pages',
-					],
-			},
-	},
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'info.context_processors.pages',
+            ],
+        },
+    },
 ]
 
 WSGI_APPLICATION = 'mospweb.wsgi.application'
@@ -118,55 +116,58 @@ WSGI_APPLICATION = 'mospweb.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 if os.getenv("DATABASE_NAME"):
-	DATABASES: Dict[str, Any] = {
-		'default':
-			{
-				'ENGINE': 'django.db.backends.mysql',
-				'NAME': os.getenv("DATABASE_NAME"),
-				'USER': os.getenv("DATABASE_USER"),
-				'PASSWORD': os.getenv("DATABASE_PASSWORD"),
-				'HOST': os.getenv("DATABASE_HOST"),
-				'PORT': os.getenv("DATABASE_PORT", '3306'),
-				'OPTIONS': {
-					'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-					'charset': 'utf8mb4'
-				},
-			},
-	}
+    DATABASES: Dict[str, Any] = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv("DATABASE_NAME"),
+            'USER': os.getenv("DATABASE_USER"),
+            'PASSWORD': os.getenv("DATABASE_PASSWORD"),
+            'HOST': os.getenv("DATABASE_HOST"),
+            'PORT': os.getenv("DATABASE_PORT", '3306'),
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                'charset': 'utf8mb4'
+            },
+        },
+    }
 else:
-	DATABASES = {
-		'default': {
-			'ENGINE': 'django.db.backends.sqlite3',
-			'NAME': BASE_DIR / 'db.sqlite3',
-		}
-	}
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-	{
-		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-	},
-	{
-		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-	},
-	{
-		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-	},
-	{
-		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-	},
+    {
+        'NAME':
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 AUTHENTICATION_BACKENDS = [
-	'django.contrib.auth.backends.ModelBackend',
-	'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 if PRODUCTION:
-	ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
@@ -191,14 +192,14 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / 'static'
 
 if PRODUCTION:
-	STATIC_URL = os.getenv("STATIC_URL")
-	assert STATIC_URL is not None
-	SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-	assert SECRET_KEY is not None
+    STATIC_URL = os.getenv("STATIC_URL")
+    assert STATIC_URL is not None
+    SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+    assert SECRET_KEY is not None
 else:
-	STATIC_URL = '/static/'
-	MEDIA_URL = '/media/'
-	SECRET_KEY = 'evan_chen_is_really_cool'
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+    SECRET_KEY = 'evan_chen_is_really_cool'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -207,83 +208,75 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # fking windows
 if platform.system() == 'Windows':
-	NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"  # only for serena
+    NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"  # only for serena
 
 
 def filter_useless_404(record: logging.LogRecord) -> bool:
-	if record.args is None:
-		return True
-	a: List[str] = [str(s) for s in record.args]
-	if len(a) == 2:
-		return not (a[0] == 'Not Found' and ('wp-include' in a[1] or '.php' in a[1]))
-	elif len(a) == 3:
-		return not (a[1] == '404' and ('wp-include' in a[0] or '.php' in a[0]))
-	else:
-		return True
+    if record.args is None:
+        return True
+    a: List[str] = [str(s) for s in record.args]
+    if len(a) == 2:
+        return not (a[0] == 'Not Found' and
+                    ('wp-include' in a[1] or '.php' in a[1]))
+    elif len(a) == 3:
+        return not (a[1] == '404' and ('wp-include' in a[0] or '.php' in a[0]))
+    else:
+        return True
 
 
 LOGGING = {
-	'version': 1,
-	'disable_existing_loggers': False,
-	'formatters':
-		{
-			'stream_format':
-				{
-					'format': '[{levelname}] {asctime} {module} {name}\n{message}\n',
-					'style': '{',
-				},
-		},
-	'filters':
-		{
-			'filter_useless_404':
-				{
-					'()': 'django.utils.log.CallbackFilter',
-					'callback': filter_useless_404,
-				},
-			'require_debug_false': {
-				'()': 'django.utils.log.RequireDebugFalse',
-			},
-			'require_debug_true': {
-				'()': 'django.utils.log.RequireDebugTrue',
-			}
-		},
-	'handlers':
-		{
-			'console':
-				{
-					'class': 'logging.StreamHandler',
-					'level': 'VERBOSE',
-					'formatter': 'stream_format',
-					'filters': ['filter_useless_404'],
-				},
-			'discord':
-				{
-					'class': 'evans_django_tools.DiscordWebhookHandler',
-					'level': 'VERBOSE',
-					'filters': ['require_debug_false', 'filter_useless_404'],
-				}
-		},
-	'root': {
-		'handlers': ['console', 'discord'],
-		'level': 'INFO',
-	},
-	'loggers':
-		{
-			'django': {
-				'handlers': ['console', 'discord'],
-				'level': 'INFO',
-				'propagate': False,
-			},
-			'django.db.backends':
-				{
-					'handlers': ['console'],
-					'level': 'DEBUG',
-					'filters': ['require_debug_true'],
-				},
-			'django.server': {
-				'handlers': ['console'],
-				'level': 'DEBUG',
-				'propagate': False,
-			},
-		},
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'stream_format': {
+            'format': '[{levelname}] {asctime} {module} {name}\n{message}\n',
+            'style': '{',
+        },
+    },
+    'filters': {
+        'filter_useless_404': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': filter_useless_404,
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'VERBOSE',
+            'formatter': 'stream_format',
+            'filters': ['filter_useless_404'],
+        },
+        'discord': {
+            'class': 'evans_django_tools.DiscordWebhookHandler',
+            'level': 'VERBOSE',
+            'filters': ['require_debug_false', 'filter_useless_404'],
+        }
+    },
+    'root': {
+        'handlers': ['console', 'discord'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'discord'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+        },
+        'django.server': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
 }

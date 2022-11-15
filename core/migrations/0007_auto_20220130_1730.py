@@ -18,7 +18,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='hunt',
             name='end_date',
-            field=models.DateTimeField(default=django.utils.timezone.now, help_text='Show solutions after this date'),
+            field=models.DateTimeField(
+                default=django.utils.timezone.now,
+                help_text='Show solutions after this date'),
             preserve_default=False,
         ),
     ]

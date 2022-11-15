@@ -5,23 +5,27 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-	initial = True
+    initial = True
 
-	dependencies = []
+    dependencies = []
 
-	operations = [
-		migrations.CreateModel(
-			name='Page',
-			fields=[
-				(
-					'id',
-					models.BigAutoField(
-						auto_created=True, primary_key=True, serialize=False, verbose_name='ID'
-					)
-				),
-				('title', models.CharField(help_text='Title of the page', max_length=255)),
-				('content', models.TextField(help_text='Markdown content for the page')),
-				('slug', models.SlugField(help_text='The slug for the page', unique=True)),
-			],
-		),
-	]
+    operations = [
+        migrations.CreateModel(
+            name='Page',
+            fields=[
+                ('id',
+                 models.BigAutoField(auto_created=True,
+                                     primary_key=True,
+                                     serialize=False,
+                                     verbose_name='ID')),
+                ('title',
+                 models.CharField(help_text='Title of the page',
+                                  max_length=255)),
+                ('content',
+                 models.TextField(help_text='Markdown content for the page')),
+                ('slug',
+                 models.SlugField(help_text='The slug for the page',
+                                  unique=True)),
+            ],
+        ),
+    ]

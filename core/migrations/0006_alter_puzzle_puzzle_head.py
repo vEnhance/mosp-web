@@ -13,6 +13,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='puzzle',
             name='puzzle_head',
-            field=models.TextField(blank=True, help_text="Extra HTML code for dynamic puzzles. Leave this blank for a standard 'static' puzzle."),
+            field=models.TextField(
+                blank=True,
+                help_text=
+                "Extra HTML code for dynamic puzzles. Leave this blank for a standard 'static' puzzle."
+            ),
         ),
     ]

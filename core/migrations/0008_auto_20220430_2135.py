@@ -17,6 +17,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='token',
             name='name',
-            field=models.CharField(blank=True, help_text='Who are you?', max_length=128),
+            field=models.CharField(blank=True,
+                                   help_text='Who are you?',
+                                   max_length=128),
         ),
     ]
