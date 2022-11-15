@@ -34,6 +34,7 @@ toml = "^0.10.2"
 types-Markdown = "^3.4.2"
 types-requests = "^2.28.10"
 yapf = "^0.32"
+pyright = "^1.1.279"
 
 [tool.yapf]
 based_on_style = "facebook"
