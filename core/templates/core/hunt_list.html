@@ -2,23 +2,22 @@
 {% load static %}
 {% load extras %}
 {% block title %}MOSP: A Light Novel{% endblock %}
-
 {% block content %}
-<h1>MOSP: A Light Novel</h1>
-
-<div class="text-center">
-	{% for hunt in hunt_list %}
-	<div class="inline-block w-48 h-48 mb-2 text-center rounded-lg group ring-8 ring-gray-200 drop-shadow-2xl">
-		<a href="{{ hunt.get_absolute_url }}" class="text-white">
-			<div class="absolute z-0 w-48 h-48 rounded-lg group-hover:brightness-50 group-hover:grayscale" style="background-image: url({% static hunt.thumbnail_path %}); background-size: cover;">
-			</div>
-			<div class="absolute z-10 hidden w-48 h-48 p-1 align-middle group-hover:block">
-				<h1 class="align-center">Volume {{ hunt.volume_number }}</h1>
-				<h2 class="text-xl align-center">{{ hunt.name }}</h2>
-			</div>
-		</a>
-	</div>
-	{% endfor %}
-</div>
-
+    <h1>MOSP: A Light Novel</h1>
+    <div class="text-center">
+        {% for hunt in hunt_list %}
+            <div class="inline-block w-48 h-48 mb-2 text-center rounded-lg group ring-8 ring-gray-200 drop-shadow-2xl">
+                <a href="{{ hunt.get_absolute_url }}" class="text-white">
+                    <div class="absolute z-0 w-48 h-48 rounded-lg group-hover:brightness-50 group-hover:grayscale"
+                         style="background-image: url({% static hunt.thumbnail_path %});
+                                background-size: cover">
+                    </div>
+                    <div class="absolute z-10 hidden w-48 h-48 p-1 align-middle group-hover:block">
+                        <h1 class="align-center">Volume {{ hunt.volume_number }}</h1>
+                        <h2 class="text-xl align-center">{{ hunt.name }}</h2>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

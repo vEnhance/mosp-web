@@ -1,46 +1,45 @@
 {% extends "layout.html" %}
 {% load crispy_forms_tags %}
-
 {% load i18n %}
 {% load account socialaccount %}
-
-{% block head_title %}{% trans "Log In" %}{% endblock %}
-
+{% block head_title %}
+    {% trans "Log In" %}
+{% endblock %}
 {% block content %}
-{% get_providers as socialaccount_providers %}
-
-<h2>Login via Discord</h2>
-<div class="socialaccount_ballot">
-	<ul class="socialaccount_providers">
-		{% include "socialaccount/snippets/provider_list.html" with process="login" %}
-	</ul>
-</div>
-
-<h2>Login via username and password</h2>
-<form class="login" method="POST" action="{% url 'account_login' %}">
-	{% csrf_token %}
-	{{ form|crispy }}
-	{% if redirect_field_value %}
-	<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-	{% endif %}
-	<button class="btn btn-gray" type="submit">{% trans "Sign In" %}</button>
-</form>
-
-<hr />
-
-<h2>Register</h2>
-<div id="collapseConnect" class="accordion-collapse collapse" aria-labelledby="headingConnect">
-	<div class="accordion-body">
-		<p>Select an option below to link your account to MOSP-WEB.</p>
-		<div class="socialaccount_ballot">
-			<ul class="socialaccount_providers">
-				{% include "socialaccount/snippets/provider_list.html" with process="login" %}
-			</ul>
-		</div>
-		<p>Alternatively,
-			<a href="{% url "account_signup" %}">create a username and password</a>.
-		</p>
-	</div>
-</div>
-
+    {% get_providers as socialaccount_providers %}
+    <h2>Login via Discord</h2>
+    <div class="socialaccount_ballot">
+        <ul class="socialaccount_providers">
+            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+        </ul>
+    </div>
+    <h2>Login via username and password</h2>
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        {% if redirect_field_value %}
+            <input type="hidden"
+                   name="{{ redirect_field_name }}"
+                   value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button class="btn btn-gray" type="submit">{% trans "Sign In" %}</button>
+    </form>
+    <hr />
+    <h2>Register</h2>
+    <div id="collapseConnect"
+         class="accordion-collapse collapse"
+         aria-labelledby="headingConnect">
+        <div class="accordion-body">
+            <p>Select an option below to link your account to MOSP-WEB.</p>
+            <div class="socialaccount_ballot">
+                <ul class="socialaccount_providers">
+                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                </ul>
+            </div>
+            <p>
+                Alternatively,
+                <a href="{% url "account_signup" %}">create a username and password</a>.
+            </p>
+        </div>
+    </div>
 {% endblock %}

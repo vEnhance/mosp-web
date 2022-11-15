@@ -1,128 +1,118 @@
 {% extends 'base.html' %}
 {% load extras %}
 {% block body %}
-
-<body class="px-2 text-gray-900{% if cheating %} bg-red-200{% endif %}">
-	<div id="container" class="container flex flex-col max-w-3xl min-h-screen py-2 mx-auto lg:max-w-4xl">
-		<div id="content" class="flex-1">
-			<nav class="flex justify-between text-xl shadow-lg">
-				{% block leftnav %}
-				<span id="back" class="font-size-md">
-					{% block backnav %}
-					<a class="emoji-link" href="/">🔝</a>
-					{% endblock %}
-
-					{# Now for the token black magic #}
-					{% with request|get_token as token %}
-					{% if token %}
-					{% spaceless %}
-					<a id="setname" href="#">
-						<span id="tokenname" class="italic text-yellow-600">{{ token }}</span>
-					</a>
-					{% endspaceless %}
-					<a href="{% url "account_logout" %}">(logout)</a>
-					{% if request.user.is_staff %}
-					<a class=" emoji-link" href="{% url "staff-hunt-list" %}">🥆</a>
-					<a class="emoji-link" href="{% url "staff-puzzle-list" %}">🧩</a>
-					<a class="emoji-link" href="/admin">🏸</a>
-					{% endif %}
-					{% else %}
-					<a href="{% url "account_login" %}">Login/register</a>
-					{% endif %}
-					{% endwith %}
-
-					{% block leftnav-more %}
-					{% endblock %}
-				</span>
-				{% endblock %}
-
-				<span id="status">
-					{% if request.user.is_staff %}
-					{% block editlink %}
-					{% endblock %}
-					{% endif %}
-					{% block rightnav %}
-					{% if token is not None %}
-					{% if request.user.is_staff or not token.is_plebian %}
-					<span class="relative ml-2 group navitem">
-						{% spaceless %}
-						💚<span>{{ token.permission }}</span>
-						<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
-							<div class="font-bold text-black">Strength</div>
-							<div class="text-green-900">
-								Gain 💚 by joining<br>
-								the writing team.
-							</div>
-						</div>
-						{% endspaceless %}
-					</span>
-					{% endif %}
-					{% endif %}
-
-					{% if courage is not None %}
-					<span class="relative ml-2 group navitem" id="courage">
-						{% spaceless %}
-						💜<span id="courage_value">{{ courage }}</span>
-						<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
-							<div class="font-bold text-black">Courage</div>
-							<div class="text-purple-900">
-								Gain 💜 with <br>solved puzzles.
-							</div>
-						</div>
-						{% endspaceless %}
-					</span>
-					{% endif %}
-					{% if token.get_patience is not None %}
-					<span class="relative ml-2 group navitem" id="patience">
-						{% spaceless %}
-						💛<span id="patience_value">{{ token.get_patience }}</span>
-						<div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md ">
-							<div class="font-bold text-black">Patience</div>
-							<div class="text-yellow-900">
-								Gain 💛 over time.
-							</div>
-						</div>
-						{% endspaceless %}
-					</span>
-					{% endif %}
-					{% endblock %}
-					<span class="relative pl-1 ml-2 group navitem" id="info-pages">
-						{% spaceless %}
-						🛈
-						<div class="absolute hidden p-3 px-5 text-base bg-indigo-100 rounded-lg group-hover:inline -right-4 top-3 w-36 max-w-max drop-shadow-md">
-							{% for page in pages %}
-							<div class="py-1"><a href="{{ page.get_absolute_url }}">{{ page }}</a></div>
-							{% endfor %}
-						</div>
-						{% endspaceless %}
-					</span>
-				</span>
-			</nav>
-
-			<div class="max-w-2xl mx-auto">
-				{% for message in messages %}
-				<div class="max-w-md p-1 mx-auto my-2 text-sm border-2 w-max drop-shadow-xl rounded-lg {{ message|tailwind_message_classes }}" role="alert">
-					{{ message }}
-				</div>
-				{% endfor %}
-				{% block content %}
-				{% endblock %}
-			</div>
-		</div> {# end content #}
-
-		<div class="container bottom-0 max-w-3xl mx-auto mt-2 italic text-gray-400 lg:max-w-4xl font-lg">
-			<hr />
-			<div class="flex justify-between">
-				<span>
-					&copy; 2021, MOP Puzzle Hunt
-				</span>
-				<span>
-					{% block southeast %}
-					{% endblock %}
-				</span>
-			</div>
-		</div>
-
-	</div>
-</body>
+    <body class="px-2 text-gray-900{% if cheating %} bg-red-200{% endif %}">
+        <div id="container"
+             class="container flex flex-col max-w-3xl min-h-screen py-2 mx-auto lg:max-w-4xl">
+            <div id="content" class="flex-1">
+                <nav class="flex justify-between text-xl shadow-lg">
+                    {% block leftnav %}
+                        <span id="back" class="font-size-md">
+                            {% block backnav %}<a class="emoji-link" href="/">🔝</a>{% endblock %}
+                            {# Now for the token black magic #}
+                            {% with request|get_token as token %}
+                                {% if token %}
+                                    {% spaceless %}
+                                        <a id="setname" href="#">
+                                            <span id="tokenname" class="italic text-yellow-600">{{ token }}</span>
+                                        </a>
+                                    {% endspaceless %}
+                                    <a href="{% url "account_logout" %}">(logout)</a>
+                                    {% if request.user.is_staff %}
+                                        <a class=" emoji-link" href="{% url "staff-hunt-list" %}">🥆</a>
+                                        <a class="emoji-link" href="{% url "staff-puzzle-list" %}">🧩</a>
+                                        <a class="emoji-link" href="/admin">🏸</a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url "account_login" %}">Login/register</a>
+                                {% endif %}
+                            {% endwith %}
+                            {% block leftnav-more %}{% endblock %}
+                        </span>
+                    {% endblock %}
+                    <span id="status">
+                        {% if request.user.is_staff %}
+                            {% block editlink %}{% endblock %}
+                        {% endif %}
+                        {% block rightnav %}
+                            {% if token is not None %}
+                                {% if request.user.is_staff or not token.is_plebian %}
+                                    <span class="relative ml-2 group navitem">
+                                        {% spaceless %}
+                                            💚<span>{{ token.permission }}</span>
+                                            <div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
+                                                <div class="font-bold text-black">Strength</div>
+                                                <div class="text-green-900">
+                                                    Gain 💚 by joining
+                                                    <br>
+                                                    the writing team.
+                                                </div>
+                                            </div>
+                                        {% endspaceless %}
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                            {% if courage is not None %}
+                                <span class="relative ml-2 group navitem" id="courage">
+                                    {% spaceless %}
+                                        💜<span id="courage_value">{{ courage }}</span>
+                                        <div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md">
+                                            <div class="font-bold text-black">Courage</div>
+                                            <div class="text-purple-900">
+                                                Gain 💜 with
+                                                <br>
+                                                solved puzzles.
+                                            </div>
+                                        </div>
+                                    {% endspaceless %}
+                                </span>
+                            {% endif %}
+                            {% if token.get_patience is not None %}
+                                <span class="relative ml-2 group navitem" id="patience">
+                                    {% spaceless %}
+                                        💛<span id="patience_value">{{ token.get_patience }}</span>
+                                        <div class="absolute hidden p-1 text-sm bg-green-300 rounded-lg group-hover:inline right-1 top-9 w-36 max-w-max drop-shadow-md ">
+                                            <div class="font-bold text-black">Patience</div>
+                                            <div class="text-yellow-900">Gain 💛 over time.</div>
+                                        </div>
+                                    {% endspaceless %}
+                                </span>
+                            {% endif %}
+                        {% endblock %}
+                        <span class="relative pl-1 ml-2 group navitem" id="info-pages">
+                            {% spaceless %}
+                                🛈
+                                <div class="absolute hidden p-3 px-5 text-base bg-indigo-100 rounded-lg group-hover:inline -right-4 top-3 w-36 max-w-max drop-shadow-md">
+                                    {% for page in pages %}
+                                        <div class="py-1">
+                                            <a href="{{ page.get_absolute_url }}">{{ page }}</a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endspaceless %}
+                        </span>
+                    </span>
+                </nav>
+                <div class="max-w-2xl mx-auto">
+                    {% for message in messages %}
+                        <div class="max-w-md p-1 mx-auto my-2 text-sm border-2 w-max drop-shadow-xl rounded-lg {{ message|tailwind_message_classes }}"
+                             role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            {# end content #}
+            <div class="container bottom-0 max-w-3xl mx-auto mt-2 italic text-gray-400 lg:max-w-4xl font-lg">
+                <hr />
+                <div class="flex justify-between">
+                    <span>&copy; 2021, MOP Puzzle Hunt</span>
+                    <span>
+                        {% block southeast %}{% endblock %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </body>
 {% endblock %}

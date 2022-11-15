@@ -1,85 +1,71 @@
 {% extends 'layout.html' %}
 {% load extras %}
 {% load static %}
-
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{% static "dark.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "dark.css" %}">
 {% endblock %}
-
 {% block header %}
-{{ puzzle.puzzle_head|safe }}
-<script type="text/javascript">
+    {{ puzzle.puzzle_head|safe }}
+    <script type="text/javascript">
 	const puzzle_slug = "{{ puzzle.slug }}";
 	const hashes = [
-		{% for hash in puzzle.target_hashes %} "{{ hash }}",
-		{% endfor %}
+		{% for hash in puzzle.target_hashes %} "{{ hash }}",{% endfor %}
 	];
-</script>
+    </script>
 {% endblock %}
-
 {% block title %}{{ puzzle.name }}{% endblock %}
-
-{% block backnav %}
-<a class="emoji-link" href="{{ puzzle.unlockable.parent.get_absolute_url }}">🗺️</a>
-{% endblock %}
-
-{% block editlink %}
-<a class="emoji-link" href="{{ puzzle.get_editor_url }}">✏️</a>
-{% endblock %}
-
+{% block backnav %}<a class="emoji-link"
+   href="{{ puzzle.unlockable.parent.get_absolute_url }}">🗺️</a>{% endblock %}
+{% block editlink %}<a class="emoji-link" href="{{ puzzle.get_editor_url }}">✏️</a>{% endblock %}
 {% block leftnav-more %}
-{% if token|has_solved:puzzle.unlockable %}
-<a class="emoji-link" href="{{ puzzle.get_solution_url }}">🔑</a>
-{% endif %}
+    {% if token|has_solved:puzzle.unlockable %}
+        <a class="emoji-link" href="{{ puzzle.get_solution_url }}">🔑</a>
+    {% endif %}
 {% endblock %}
-
 {% block content %}
-{% if token.is_omniscient %}
-<div class="p-1 mx-auto font-sans text-sm text-blue-900 border-blue-100 rounded-lg bg-indigo-50 border-1 w-max">
-	{{ puzzle.get_status_progress_display }}
-</div>
-{% endif %}
-<h1 class="w-full text-center">{{ puzzle.name }}</h1>
-
-{% if is_testsolve_session %}
-<div class="p-2 mx-auto italic text-blue-900 bg-blue-200 border-2 border-green-300 ring-2 ring-blue-100 w-max">
-	You are <b>testsolving</b> this puzzle.
-</div>
-{% endif %}
-
-{% if token|has_solved:puzzle.unlockable or puzzle.unlockable.hunt.has_ended %}
-<div class="text-sm">
-	<a href="{{ puzzle.get_solution_url }}">View solution</a>
-</div>
-{% endif %}
-<div class="text-sm italic">
-	{{ puzzle.flavor_text|mkd }}
-</div>
-<div id="puzzlehead">
-	<div id="answerchecker">
-		<div class="icons">
-			<span class="icon-placeholder">❌</span>
-			<span class="icon" id="thinking">🤔</span>
-			<span class="icon" id="wrong">❌</span>
-			<span class="icon" id="correct">✅</span>
-			<span class="icon-placeholder">❌</span>
-		</div>
-		<p><input id="answer" type="text" /></p>
-		<div class="percentholder">
-			<span id="percent">0%</span>
-		</div>
-		<div class="prizeholder">
-			<a id="prize" href="">🔑</a>
-		</div>
-	</div>
-</div>
-<div id="puzzlecontent">
-	{{ puzzle.content|mkd }}
-</div>
+    {% if token.is_omniscient %}
+        <div class="p-1 mx-auto font-sans text-sm text-blue-900 border-blue-100 rounded-lg bg-indigo-50 border-1 w-max">
+            {{ puzzle.get_status_progress_display }}
+        </div>
+    {% endif %}
+    <h1 class="w-full text-center">{{ puzzle.name }}</h1>
+    {% if is_testsolve_session %}
+        <div class="p-2 mx-auto italic text-blue-900 bg-blue-200 border-2 border-green-300 ring-2 ring-blue-100 w-max">
+            You are <b>testsolving</b> this puzzle.
+        </div>
+    {% endif %}
+    {% if token|has_solved:puzzle.unlockable or puzzle.unlockable.hunt.has_ended %}
+        <div class="text-sm">
+            <a href="{{ puzzle.get_solution_url }}">View solution</a>
+        </div>
+    {% endif %}
+    <div class="text-sm italic">{{ puzzle.flavor_text|mkd }}</div>
+    <div id="puzzlehead">
+        <div id="answerchecker">
+            <div class="icons">
+                <span class="icon-placeholder">❌</span>
+                <span class="icon" id="thinking">🤔</span>
+                <span class="icon" id="wrong">❌</span>
+                <span class="icon" id="correct">✅</span>
+                <span class="icon-placeholder">❌</span>
+            </div>
+            <p>
+                <input id="answer" type="text" />
+            </p>
+            <div class="percentholder">
+                <span id="percent">0%</span>
+            </div>
+            <div class="prizeholder">
+                <a id="prize" href="">🔑</a>
+            </div>
+        </div>
+    </div>
+    <div id="puzzlecontent">{{ puzzle.content|mkd }}</div>
 {% endblock %}
-
 {% block southeast %}
-{% if token|can_cheat:puzzle.unlockable.hunt %}
-<a id="cheat-show-answer" class="text-red-500 opacity-50" href="{{ puzzle.get_cheating_url }}">Bypass puzzle</a>
-{% endif %}
+    {% if token|can_cheat:puzzle.unlockable.hunt %}
+        <a id="cheat-show-answer"
+           class="text-red-500 opacity-50"
+           href="{{ puzzle.get_cheating_url }}">Bypass puzzle</a>
+    {% endif %}
 {% endblock %}

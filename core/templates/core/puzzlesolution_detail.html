@@ -1,77 +1,65 @@
 {% extends 'layout.html' %}
 {% load extras %}
 {% load static %}
-
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{% static "bright.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "bright.css" %}">
 {% endblock %}
-
 {% block title %}Solved: {{ puzzle.name }}{% endblock %}
-
 {% block editlink %}
-{% if puzzle.solution %}
-<a class="emoji-link" href="{{ puzzle.solution.get_editor_url }}">✏️</a>
-{% else %}
-<a class="emoji-link" href="{% url "admin:core_solution_add" %}">➕</a>
-{% endif %}
+    {% if puzzle.solution %}
+        <a class="emoji-link" href="{{ puzzle.solution.get_editor_url }}">✏️</a>
+    {% else %}
+        <a class="emoji-link" href="{% url "admin:core_solution_add" %}">➕</a>
+    {% endif %}
 {% endblock %}
-
-{% block backnav %}
-<a class="emoji-link" href="{{ puzzle.get_absolute_url }}">🔙</a>
-{% endblock %}
-
+{% block backnav %}<a class="emoji-link" href="{{ puzzle.get_absolute_url }}">🔙</a>{% endblock %}
 {% block content %}
-{% with solution=puzzle.solution %}
-<h1>{{ puzzle.name }}</h1>
-
-{% if cheating %}
-<h3 class="p-2 font-sans text-xl text-center text-red-700 bg-yellow-100 ring-2 ring-red-300 rounded-3xl">
-	Skipped! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
-</h3>
-{% else %}
-<h3 class="p-2 font-sans text-2xl text-center text-green-700 bg-green-100 ring-2 ring-green-300 rounded-3xl">
-	Solved! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
-</h3>
-{% endif %}
-
-{% if solution %}
-<div class="container">
-	<div class="mx-auto text-left md:w-11/12">
-		{{ solution.post_solve_story|default:"No story yet."|mkd }}
-	</div>
-	<hr />
-
-	<div class="container text-center">
-		<div class="text-sm italic text-purple-700">Click the image to continue.</div>
-		{% if solution.post_solve_image_path %}
-		<a id="door" class="img-link" {% if puzzle.unlockable %} href="{{ token|get_finished_url:puzzle.unlockable }}" {% else %} href="{{ puzzle.get_absolute_url }}" {% endif %} title="{{ solution.post_solve_image_alt }}">
-			<img src="{% static solution.post_solve_image_path %}" alt="{{solution.post_solve_image_alt}}" class="w-11/12">
-		</a>
-		{% else %}
-		{% if puzzle.unlockable %}
-		<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>
-		{% endif %}
-		{% endif %}
-	</div>
-
-	<hr>
-
-	<div id="solution" class="px-5 py-2 mx-auto ring-2 rounded-xl ring-green-700 bg-green-50 md:w-11/12">
-		<h1>Solution to {{ puzzle.name }}</h1>
-		{{ solution.solution_text|default:"No solution."|mkd }}
-	</div>
-
-	{% if solution.author_notes %}
-	<div id="notes" class="px-5 py-2 mx-auto mt-8 ring-2 rounded-xl ring-indigo-700 bg-blue-50 md:w-11/12">
-		<h2>Author Notes</h2>
-		{{ solution.author_notes|mkd }}
-	</div>
-	{% endif %}
-	{% else %}
-	<h3>Solution to be written later.</h3>
-	{% if puzzle.unlockable %}
-	<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>
-	{% endif %}
-	{% endif %}
-	{% endwith %}
-	{% endblock %}
+    {% with solution=puzzle.solution %}
+        <h1>{{ puzzle.name }}</h1>
+        {% if cheating %}
+            <h3 class="p-2 font-sans text-xl text-center text-red-700 bg-yellow-100 ring-2 ring-red-300 rounded-3xl">
+                Skipped! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
+            </h3>
+        {% else %}
+            <h3 class="p-2 font-sans text-2xl text-center text-green-700 bg-green-100 ring-2 ring-green-300 rounded-3xl">
+                Solved! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
+            </h3>
+        {% endif %}
+        {% if solution %}
+            <div class="container">
+                <div class="mx-auto text-left md:w-11/12">{{ solution.post_solve_story|default:"No story yet."|mkd }}</div>
+                <hr />
+                <div class="container text-center">
+                    <div class="text-sm italic text-purple-700">Click the image to continue.</div>
+                    {% if solution.post_solve_image_path %}
+                        <a id="door"
+                           class="img-link"
+                           {% if puzzle.unlockable %} href="{{ token|get_finished_url:puzzle.unlockable }}" {% else %} href="{{ puzzle.get_absolute_url }}" {% endif %}
+                           title="{{ solution.post_solve_image_alt }}">
+                            <img src="{% static solution.post_solve_image_path %}"
+                                 alt="{{ solution.post_solve_image_alt }}"
+                                 class="w-11/12">
+                        </a>
+                    {% else %}
+                        {% if puzzle.unlockable %}<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
+                    {% endif %}
+                </div>
+                <hr>
+                <div id="solution"
+                     class="px-5 py-2 mx-auto ring-2 rounded-xl ring-green-700 bg-green-50 md:w-11/12">
+                    <h1>Solution to {{ puzzle.name }}</h1>
+                    {{ solution.solution_text|default:"No solution."|mkd }}
+                </div>
+                {% if solution.author_notes %}
+                    <div id="notes"
+                         class="px-5 py-2 mx-auto mt-8 ring-2 rounded-xl ring-indigo-700 bg-blue-50 md:w-11/12">
+                        <h2>Author Notes</h2>
+                        {{ solution.author_notes|mkd }}
+                    </div>
+                {% endif %}
+            {% else %}
+                <h3>Solution to be written later.</h3>
+                {% if puzzle.unlockable %}<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
+            {% endif %}
+        {% endwith %}
+    {% endblock %}

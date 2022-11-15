@@ -1,17 +1,21 @@
 <div class="md:flex md:justify-center space-x-1 markdownx">
-	<div class="w-full md:w-5/12">
-		{% include 'django/forms/widgets/textarea.html' %}
-	</div>
-	<div id="ace_container_{{widget.name}}" class="relative hidden w-full md:w-6/12 lg:w-7/12">
-		{%spaceless%}<div id="ace_{{widget.name}}" class="absolute top-0 bottom-0 left-0 right-0" style="resize:vertical; overflow:auto;">{{ widget.value|default_if_none:"" }}</div>{% endspaceless %}
-	</div>
-	<div class="w-full p-1 md:w-6/12 lg:w-5/12">
-		<div class="p-2 text-sm bg-blue-100 border-2 border-blue-600 markdownx-preview rounded-xl">
-		</div>
-	</div>
+    <div class="w-full md:w-5/12">{% include 'django/forms/widgets/textarea.html' %}</div>
+    <div id="ace_container_{{ widget.name }}"
+         class="relative hidden w-full md:w-6/12 lg:w-7/12">
+        {% spaceless %}
+            <div id="ace_{{ widget.name }}"
+                 class="absolute top-0 bottom-0 left-0 right-0"
+                 style="resize:vertical;
+                        overflow:auto">
+                {{ widget.value|default_if_none:"" }}
+            </div>
+        {% endspaceless %}
+    </div>
+    <div class="w-full p-1 md:w-6/12 lg:w-5/12">
+        <div class="p-2 text-sm bg-blue-100 border-2 border-blue-600 markdownx-preview rounded-xl"></div>
+    </div>
 </div>
 <hr />
-
 <script type="text/javascript">
 	$(() => {
 		if (ace !== undefined) {

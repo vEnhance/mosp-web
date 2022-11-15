@@ -2,14 +2,10 @@
 {% load static %}
 {% load extras %}
 {% block title %}Not Registered!{% endblock %}
-
-{% block backnav %}
-{% endblock %}
+{% block backnav %}{% endblock %}
 {% block content %}
-<h1>Not registered!</h1>
-
-<span class="block w-full p-4 mx-auto text-red-900 bg-red-100 border-red-800 rounded-lg sm:w-3/4 md:w-2/3 drop-shadow-2xl max-w-max">
-	You need to <a href="#" class="login">login/register</a> to proceed.
-</span>
-
+    <h1>Not registered!</h1>
+    <span class="block w-full p-4 mx-auto text-red-900 bg-red-100 border-red-800 rounded-lg sm:w-3/4 md:w-2/3 drop-shadow-2xl max-w-max">
+        You need to <a href="#" class="login">login/register</a> to proceed.
+    </span>
 {% endblock %}

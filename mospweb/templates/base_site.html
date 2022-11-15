@@ -1,9 +1,10 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
-
 {% block extrastyle %}
-{% if not debug %}
-{% else %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/admin-purple.css' %}" />
-{% endif %}
+    {% if not debug %}
+    {% else %}
+        <link rel="stylesheet"
+              type="text/css"
+              href="{% static 'css/admin-purple.css' %}"/>
+    {% endif %}
 {% endblock %}
