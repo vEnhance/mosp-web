@@ -173,6 +173,7 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
 TAILWIND_APP_NAME = 'theme'
+VALIDATE_TEMPLATES_IGNORE_APPS = 'crispy_tailwind'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
