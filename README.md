@@ -2,7 +2,7 @@
 [<img src="https://github.com/vEnhance/mosp-web/actions/workflows/ci.yml/badge.svg" alt="MOSP-WEB status">](https://github.com/vEnhance/mosp-web/actions)
 [<img src="https://github.com/vEnhance/mosp-web/actions/workflows/codeql-analysis.yml/badge.svg" alt="MOSP-WEB status">](https://github.com/vEnhance/mosp-web/actions)
 
-This is the code base for the MOP puzzle hunt, affectionately called *MOSP*.
+This is the code base for the MOP puzzle hunt, affectionately called _MOSP_.
 You can play the hunt at any time at [mosp.evanchen.cc](https://mosp.evanchen.cc).
 Check the about page for more info.
 
