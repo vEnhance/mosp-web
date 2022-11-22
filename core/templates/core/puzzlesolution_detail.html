@@ -2,7 +2,7 @@
 {% load extras %}
 {% load static %}
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static "bright.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "bright.css" %}" />
 {% endblock %}
 {% block title %}Solved: {{ puzzle.name }}{% endblock %}
 {% block editlink %}
@@ -38,13 +38,13 @@
                            title="{{ solution.post_solve_image_alt }}">
                             <img src="{% static solution.post_solve_image_path %}"
                                  alt="{{ solution.post_solve_image_alt }}"
-                                 class="w-11/12">
+                                 class="w-11/12" />
                         </a>
                     {% else %}
                         {% if puzzle.unlockable %}<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
                     {% endif %}
                 </div>
-                <hr>
+                <hr />
                 <div id="solution"
                      class="px-5 py-2 mx-auto ring-2 rounded-xl ring-green-700 bg-green-50 md:w-11/12">
                     <h1>Solution to {{ puzzle.name }}</h1>
@@ -57,9 +57,10 @@
                         {{ solution.author_notes|mkd }}
                     </div>
                 {% endif %}
-            {% else %}
-                <h3>Solution to be written later.</h3>
-                {% if puzzle.unlockable %}<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
-            {% endif %}
-        {% endwith %}
-    {% endblock %}
+            </div>
+        {% else %}
+            <h3>Solution to be written later.</h3>
+            {% if puzzle.unlockable %}<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
+        {% endif %}
+    {% endwith %}
+{% endblock %}
