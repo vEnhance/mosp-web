@@ -11,7 +11,8 @@
         <a class="emoji-link"
            href="{{ round.unlockable.parent.get_absolute_url }}">🗺️</a>
     {% else %}
-        <a class="emoji-link" href="{{ round.unlockable.hunt.get_absolute_url }}">🌍</a>
+        <a class="emoji-link"
+           href="{{ round.unlockable.hunt.get_absolute_url }}">🌍</a>
     {% endif %}
 {% endblock %}
 {% block editlink %}<a class="emoji-link" href="{{ round.get_editor_url }}">✏️</a>{% endblock %}
