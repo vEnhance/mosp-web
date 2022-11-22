@@ -1,11 +1,11 @@
 {% extends 'core/editor_form.html' %}
 {% block postform %}
-    <div id="ace_container_puzzle_head" class="relative w-full h-64">
-        <div id="ace_puzzle_head" class="absolute top-0 bottom-0 left-0 right-0">{{ puzzle.puzzle_head }}</div>
-    </div>
-    <script type="text/javascript">
-	$(() => {
-		setupEditor("puzzle_head", "html");
-	});
-    </script>
+  <div id="ace_container_puzzle_head" class="relative w-full h-64">
+    <div id="ace_puzzle_head" class="absolute top-0 bottom-0 left-0 right-0">{{ puzzle.puzzle_head }}</div>
+  </div>
+  <script type="text/javascript">
+    $(() => {
+        setupEditor("puzzle_head", "html");
+    });
+  </script>
 {% endblock %}

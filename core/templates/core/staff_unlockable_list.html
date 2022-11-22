@@ -2,31 +2,31 @@
 {% load extras %}
 {% block title %}{{ hunt.name }} Unlockables{% endblock %}
 {% block content %}
-    <h1>{{ hunt.volume_number }}. {{ hunt.name }} - Unlockables</h1>
-    <table class="w-full mx-auto table-fixed">
-        <thead>
-            <tr>
-                <th class="w-6/12 text-left">Unlockable</th>
-                <th class="w-6/12 text-left">Puzzle</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in unlockable_list %}
-                {% spaceless %}
-                    <tr class="{% if p.round %} bg-blue-200 {% else %} bg-red-100 {% endif %}">
-                    {% endspaceless %}
-                    <td class="w-6/12">
-                        <a href="{{ p.get_absolute_url }}">{{ p.icon }} {{ p.name }}</a>
-                    </td>
-                    <td class="w-6/12">
-                        {% if p.puzzle %}
-                            <a href="{{ p.puzzle.get_absolute_url }}">{{ p.puzzle.name }}</a>
-                        {% else %}
-                            ❌
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <h1>{{ hunt.volume_number }}. {{ hunt.name }} - Unlockables</h1>
+  <table class="w-full mx-auto table-fixed">
+    <thead>
+      <tr>
+        <th class="w-6/12 text-left">Unlockable</th>
+        <th class="w-6/12 text-left">Puzzle</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in unlockable_list %}
+        {% spaceless %}
+          <tr class="{% if p.round %} bg-blue-200 {% else %} bg-red-100 {% endif %}">
+          {% endspaceless %}
+          <td class="w-6/12">
+            <a href="{{ p.get_absolute_url }}">{{ p.icon }} {{ p.name }}</a>
+          </td>
+          <td class="w-6/12">
+            {% if p.puzzle %}
+              <a href="{{ p.puzzle.get_absolute_url }}">{{ p.puzzle.name }}</a>
+            {% else %}
+              ❌
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
