@@ -21,6 +21,7 @@ django-tailwind = "^3.3.0"
 mysqlclient = "^2.1.1"
 python-dotenv = "^0.21.0"
 requests = "^2.26.0"
+django-extensions = "^3.2.1"
 
 [tool.poetry.group.dev.dependencies]
 codespell = {git = "https://github.com/codespell-project/codespell.git", rev = "fd1d5c0"}
