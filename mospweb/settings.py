@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.discord',
+    'django_extensions',
     'markdownx',
     'tailwind',
     'crispy_forms',
