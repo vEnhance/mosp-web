@@ -4,19 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0005_testsolvesession'),
+        ("core", "0005_testsolvesession"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='puzzle',
-            name='puzzle_head',
+            model_name="puzzle",
+            name="puzzle_head",
             field=models.TextField(
                 blank=True,
-                help_text=
-                "Extra HTML code for dynamic puzzles. Leave this blank for a standard 'static' puzzle."
+                help_text="Extra HTML code for dynamic puzzles. Leave this blank for a standard 'static' puzzle.",
             ),
         ),
     ]

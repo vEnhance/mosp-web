@@ -5,22 +5,22 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0006_alter_puzzle_puzzle_head'),
+        ("core", "0006_alter_puzzle_puzzle_head"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='hunt',
-            name='allow_skip',
+            model_name="hunt",
+            name="allow_skip",
         ),
         migrations.AddField(
-            model_name='hunt',
-            name='end_date',
+            model_name="hunt",
+            name="end_date",
             field=models.DateTimeField(
                 default=django.utils.timezone.now,
-                help_text='Show solutions after this date'),
+                help_text="Show solutions after this date",
+            ),
             preserve_default=False,
         ),
     ]

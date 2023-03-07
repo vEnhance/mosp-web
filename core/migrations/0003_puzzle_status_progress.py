@@ -4,22 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0002_auto_20210724_0407'),
+        ("core", "0002_auto_20210724_0407"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='puzzle',
-            name='status_progress',
+            model_name="puzzle",
+            name="status_progress",
             field=models.SmallIntegerField(
-                choices=[(0, 'Initialized'), (1, 'Writing'), (2, 'Testsolving'),
-                         (3, 'Revising'), (4, 'Needs Solution'),
-                         (5, 'Check and polish'), (6, 'Finished'),
-                         (7, 'Published')],
+                choices=[
+                    (0, "Initialized"),
+                    (1, "Writing"),
+                    (2, "Testsolving"),
+                    (3, "Revising"),
+                    (4, "Needs Solution"),
+                    (5, "Check and polish"),
+                    (6, "Finished"),
+                    (7, "Published"),
+                ],
                 default=7,
-                help_text='How far this puzzle is in the development process'),
+                help_text="How far this puzzle is in the development process",
+            ),
             preserve_default=False,
         ),
     ]

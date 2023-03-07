@@ -5,16 +5,16 @@ import markdownx.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('info', '0002_auto_20210720_0624'),
+        ("info", "0002_auto_20210720_0624"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='page',
-            name='content',
+            model_name="page",
+            name="content",
             field=markdownx.models.MarkdownxField(
-                help_text='Markdown content for the page'),
+                help_text="Markdown content for the page"
+            ),
         ),
     ]

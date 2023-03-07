@@ -19,26 +19,28 @@ from django.urls import include, path
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
-    path('info/', include('info.urls')),
-    path('markdownx/', include('markdownx.urls')),
-    path('', include('core.urls')),
-    path('static/<path:f>',
-         RedirectView.as_view(url=(settings.STATIC_URL or '') + '%(f)s')),
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
+    path("info/", include("info.urls")),
+    path("markdownx/", include("markdownx.urls")),
+    path("", include("core.urls")),
     path(
-        'favicon.ico',
-        RedirectView.as_view(url='https://web.evanchen.cc/favicon.ico'),
+        "static/<path:f>",
+        RedirectView.as_view(url=(settings.STATIC_URL or "") + "%(f)s"),
+    ),
+    path(
+        "favicon.ico",
+        RedirectView.as_view(url="https://web.evanchen.cc/favicon.ico"),
     ),
 ]
 if settings.DEBUG is True or settings.STATIC_URL is None:
     urlpatterns.pop()
 
 if settings.DEBUG:
-    admin.site.site_header = '127.0.0.1'
-    admin.site.index_title = 'Switchboard'
-    admin.site.site_title = 'mosp@localhost'
+    admin.site.site_header = "127.0.0.1"
+    admin.site.index_title = "Switchboard"
+    admin.site.site_title = "mosp@localhost"
 else:
-    admin.site.site_header = 'MOSP Headquarters'
-    admin.site.index_title = 'GM Panel'
-    admin.site.site_title = 'MOSP HQ'
+    admin.site.site_header = "MOSP Headquarters"
+    admin.site.index_title = "GM Panel"
+    admin.site.site_title = "MOSP HQ"

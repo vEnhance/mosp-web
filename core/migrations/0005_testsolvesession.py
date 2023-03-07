@@ -6,30 +6,37 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0004_alter_puzzle_status_progress'),
+        ("core", "0004_alter_puzzle_status_progress"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TestSolveSession',
+            name="TestSolveSession",
             fields=[
-                ('uuid',
-                 models.UUIDField(default=uuid.uuid4,
-                                  editable=False,
-                                  primary_key=True,
-                                  serialize=False)),
-                ('expires',
-                 models.DateTimeField(
-                     verbose_name=
-                     'When the test solve session (and hence this link) expires'
-                 )),
-                ('puzzle',
-                 models.ForeignKey(
-                     help_text='The puzzle this is a test solve session for',
-                     on_delete=django.db.models.deletion.CASCADE,
-                     to='core.puzzle')),
+                (
+                    "uuid",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "expires",
+                    models.DateTimeField(
+                        verbose_name="When the test solve session (and hence this link) expires"
+                    ),
+                ),
+                (
+                    "puzzle",
+                    models.ForeignKey(
+                        help_text="The puzzle this is a test solve session for",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="core.puzzle",
+                    ),
+                ),
             ],
         ),
     ]

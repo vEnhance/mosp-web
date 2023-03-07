@@ -4,33 +4,33 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0001_squashed_0053_auto_20210724_0009'),
+        ("core", "0001_squashed_0053_auto_20210724_0009"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='hunt',
-            name='volume_number',
+            model_name="hunt",
+            name="volume_number",
             field=models.CharField(
-                help_text='The volume number corresponding to this hunt',
+                help_text="The volume number corresponding to this hunt",
                 max_length=80,
-                unique=True),
+                unique=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='puzzle',
-            name='slug',
-            field=models.SlugField(help_text='The slug for the puzzle'),
+            model_name="puzzle",
+            name="slug",
+            field=models.SlugField(help_text="The slug for the puzzle"),
         ),
         migrations.AlterField(
-            model_name='token',
-            name='name',
-            field=models.CharField(help_text='Who are you?', max_length=128),
+            model_name="token",
+            name="name",
+            field=models.CharField(help_text="Who are you?", max_length=128),
         ),
         migrations.AlterField(
-            model_name='unlockable',
-            name='slug',
-            field=models.SlugField(help_text='The slug for the unlockable'),
+            model_name="unlockable",
+            name="slug",
+            field=models.SlugField(help_text="The slug for the unlockable"),
         ),
     ]

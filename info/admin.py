@@ -8,16 +8,16 @@ from .models import Page
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin[Page]):
     list_display = (
-        'title',
-        'slug',
-        'published',
-        'listed',
+        "title",
+        "slug",
+        "published",
+        "listed",
     )
     list_display_links = (
-        'title',
-        'slug',
+        "title",
+        "slug",
     )
     list_filter = (
-        'published',
-        'listed',
+        "published",
+        "listed",
     )

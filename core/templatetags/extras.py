@@ -17,14 +17,17 @@ def convert_to_markdown(s: str) -> str:
     return markdown.markdown(
         s,
         extensions=(
-            'extra',
-            'sane_lists',
-            'smarty',
-            'codehilite',
+            "extra",
+            "sane_lists",
+            "smarty",
+            "codehilite",
         ),
-        extension_configs={'codehilite': {
-            'linenums': False,
-        }})
+        extension_configs={
+            "codehilite": {
+                "linenums": False,
+            }
+        },
+    )
 
 
 MESSAGE_LEVEL_CLASSES = {
@@ -72,9 +75,10 @@ def emoji_link(href: str, emoji: str) -> str:
 
 @register.filter()
 def admin_url(obj: Any) -> str:
-    return reverse('admin:%s_%s_change' %
-                   (obj._meta.app_label, obj._meta.model_name),
-                   args=[obj.id])
+    return reverse(
+        "admin:%s_%s_change" % (obj._meta.app_label, obj._meta.model_name),
+        args=[obj.id],
+    )
 
 
 @register.filter

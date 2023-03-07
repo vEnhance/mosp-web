@@ -6,4 +6,4 @@ from .models import Page
 
 
 def pages(request: HttpRequest) -> Dict[str, Any]:
-    return {'pages': Page.objects.filter(listed=True)}
+    return {"pages": Page.objects.filter(listed=True)}
