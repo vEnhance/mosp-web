@@ -13,8 +13,6 @@ from markdownx.models import MarkdownxField
 
 from .utils import normalize, sha
 
-# Create your models here.
-
 
 class Hunt(models.Model):
     volume_number = models.CharField(
