@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mospweb"
-version = "0.9.0"
+version = "1.0.0"
 description = "MOSP Puzzle Hunt website"
 authors = ["Evan Chen <evan@evanchen.cc>"]
 license = "MIT"
