@@ -1,4 +1,5 @@
 #!/bin/sh
 
-python manage.py dumpdata core --format json -o "fixtures/core.$(date +"%Y%m%d").json"
-python manage.py dumpdata info --format json -o "fixtures/info.$(date +"%Y%m%d").json"
+mkdir -p fixtures
+python manage.py dumpdata core --format json -o "fixtures/core.$(date +"%Y%m%d").json" --indent 2
+python manage.py dumpdata info --format json -o "fixtures/info.$(date +"%Y%m%d").json" --indent 2
