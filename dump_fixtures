@@ -1,4 +1,4 @@
 #!/bin/sh
 
-python manage.py dumpdata core -e core.Attempt -e core.Token -e core.TestSolveSession --format yaml -o core/fixtures/$(date +"%Y%m%d").yaml
-python manage.py dumpdata info --format yaml -o info/fixtures/$(date +"%Y%m%d").yaml
+python manage.py dumpdata core --format json -o "fixtures/core.$(date +"%Y%m%d").json"
+python manage.py dumpdata info --format json -o "fixtures/info.$(date +"%Y%m%d").json"
