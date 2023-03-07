@@ -1,5 +1,6 @@
 from typing import Any, Dict
 
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
@@ -125,8 +126,14 @@ class PuzzleDetail(DetailView[Puzzle]):
         set_courage(self.request)
         ret = super().dispatch(request, *args, **kwargs)
         if not check_unlocked(request, self.object.unlockable):
-            raise PermissionDenied("This puzzle cannot be unlocked yet")
-        mark_opened(request, self.object.unlockable)
+            if is_staff(request.user):
+                messages.warning(
+                    request, "Viewing as staff. You don't have this unlocked yet."
+                )
+            else:
+                raise PermissionDenied("This puzzle cannot be unlocked yet")
+        else:
+            mark_opened(request, self.object.unlockable)
         return ret
 
 
@@ -145,9 +152,19 @@ class PuzzleSolutionDetail(DetailView[Puzzle]):
         ret = super().dispatch(request, *args, **kwargs)
         u = self.object.unlockable
         if not check_unlocked(request, u):
-            raise PermissionDenied("This puzzle cannot be unlocked yet")
+            if is_staff(request.user):
+                messages.warning(
+                    request, "Viewing as staff. You don't have this unlocked yet."
+                )
+            else:
+                raise PermissionDenied("This puzzle cannot be unlocked yet")
         if u.hunt.active and not self.object.unlockable.pk in get_solved_pks(request):
-            raise PermissionDenied("This solution cannot be viewed yet")
+            if is_staff(request.user):
+                messages.warning(
+                    request, "Viewing as staff. You haven't solved this yet."
+                )
+            else:
+                raise PermissionDenied("This puzzle has not been solved yet.")
         return ret
 
 

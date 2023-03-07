@@ -27,6 +27,8 @@
     • <a href="{{ puzzle.unlockable.get_absolute_url }}">Back to story</a>
     {% if request|has_solved:puzzle.unlockable or puzzle.unlockable.hunt.has_ended %}
       • <a href="{{ puzzle.get_solution_url }}">View solution</a>
+    {% elif request.user.is_staff %}
+      • <a href="{{ puzzle.get_solution_url }}">Sneak peak at solution</a>
     {% endif %}
   </div>
   <div class="text-sm italic">{{ puzzle.flavor_text|mkd }}</div>

@@ -24,7 +24,7 @@
   {% else %}
     <h1>{{ round.name }}</h1>
   {% endif %}
-  <a href="{{ round.unlockable.get_absolute_url }}">Back to story</a>
+  <a href="{{ round.unlockable.get_absolute_url }}">↩️  Back to story</a>
   <hr />
   <div class="container">{{ round.round_text|mkd }}</div>
   {% if unlockable_list|length > 0 %}
@@ -50,7 +50,7 @@
               <td class="w-3/12 text-sm md:text-base">
                 <a href="{{ u.get_absolute_url }}">{{ u.icon }}{{ u.name }}</a>
               </td>
-              {% if request|has_opened:u %}
+              {% if request|has_opened:u or u.hunt.has_ended %}
                 {% if u.is_puzzle %}
                   <td class="w-3/12 text-sm md:text-base">
                     <a href="{{ u.puzzle.get_absolute_url }}">{{ u.puzzle.name }}</a>
@@ -74,10 +74,6 @@
               {% if request|has_solved:u %}
                 <td class="w-5/12 font-mono text-xs md:text-sm">
                   <a href="{{ u.puzzle.get_solution_url }}">{{ u.puzzle.answer }}</a>
-                </td>
-              {% elif round.unlockable.hunt.has_ended %}
-                <td class="w-5/12">
-                  <a href="{{ u.puzzle.get_solution_url }}">View solution</a>
                 </td>
               {% else %}
                 <td class="w-5/12">

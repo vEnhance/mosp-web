@@ -16,15 +16,10 @@
 {% block content %}
   {% with solution=puzzle.solution %}
     <h1>{{ puzzle.name }}</h1>
-    {% if cheating %}
-      <h3 class="p-2 font-sans text-xl text-center text-red-700 bg-yellow-100 ring-2 ring-red-300 rounded-3xl">
-        Skipped! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
-      </h3>
-    {% else %}
-      <h3 class="p-2 font-sans text-2xl text-center text-green-700 bg-green-100 ring-2 ring-green-300 rounded-3xl">
-        Solved! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
-      </h3>
-    {% endif %}
+    <a href="{{ puzzle.get_absolute_url }}">↩️  Back to puzzle</a>
+    <h3 class="p-2 font-sans text-2xl text-center text-green-700 bg-green-100 ring-2 ring-green-300 rounded-3xl">
+      Solved! 💜 += {{ puzzle.unlockable.courage_bounty|default:"0" }};
+    </h3>
     {% if solution %}
       <div class="container">
         <div class="mx-auto text-left md:w-11/12">{{ solution.post_solve_story|default:"No story yet."|mkd }}</div>
