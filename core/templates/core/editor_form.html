@@ -3,13 +3,21 @@
 {% load extras %}
 {% block title %}Editing {{ object }}{% endblock %}
 {% block header %}
-  <script src="https://pagecdn.io/lib/ace/1.4.12/ace.min.js" crossorigin="anonymous" integrity="sha256-T5QdmsCQO5z8tBAXMrCZ4f3RX8wVdiA0Fu17FGnU1vU="></script>
-  <script src="https://pagecdn.io/lib/ace/1.4.12/theme-github.min.js" crossorigin="anonymous"></script>
-  <script src="https://pagecdn.io/lib/ace/1.4.12/snippets/markdown.min.js" crossorigin="anonymous"></script>
-  <script src="https://pagecdn.io/lib/ace/1.4.12/snippets/html.min.js" crossorigin="anonymous"></script>
-  <script src="https://pagecdn.io/lib/ace/1.4.12/worker-html.min.js" crossorigin="anonymous"></script>
-  <script src="https://pagecdn.io/lib/ace/1.4.12/mode-markdown.min.js" crossorigin="anonymous"></script>
-  <script src="https://pagecdn.io/lib/ace/1.4.12/mode-html.min.js" crossorigin="anonymous"></script>
+  <script src="https://pagecdn.io/lib/ace/1.4.12/ace.min.js"
+          crossorigin="anonymous"
+          integrity="sha256-T5QdmsCQO5z8tBAXMrCZ4f3RX8wVdiA0Fu17FGnU1vU="></script>
+  <script src="https://pagecdn.io/lib/ace/1.4.12/theme-github.min.js"
+          crossorigin="anonymous"></script>
+  <script src="https://pagecdn.io/lib/ace/1.4.12/snippets/markdown.min.js"
+          crossorigin="anonymous"></script>
+  <script src="https://pagecdn.io/lib/ace/1.4.12/snippets/html.min.js"
+          crossorigin="anonymous"></script>
+  <script src="https://pagecdn.io/lib/ace/1.4.12/worker-html.min.js"
+          crossorigin="anonymous"></script>
+  <script src="https://pagecdn.io/lib/ace/1.4.12/mode-markdown.min.js"
+          crossorigin="anonymous"></script>
+  <script src="https://pagecdn.io/lib/ace/1.4.12/mode-html.min.js"
+          crossorigin="anonymous"></script>
   <script>
     function setupEditor(name, mode) {
         $("#id_" + name).hide();
