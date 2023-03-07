@@ -25,7 +25,6 @@
     <h1>{{ round.name }}</h1>
   {% endif %}
   <a href="{{ round.unlockable.get_absolute_url }}">↩️  Back to story</a>
-  <hr />
   <div class="container">{{ round.round_text|mkd }}</div>
   {% if unlockable_list|length > 0 %}
     <hr />
