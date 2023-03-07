@@ -7,10 +7,11 @@ export function setCookie(name: string, val: string) {
   const value = val;
 
   // Set it expire in 1000 weeks
-  date.setTime(date.getTime() + (1000 * 7 * 24 * 60 * 60 * 1000));
+  date.setTime(date.getTime() + 1000 * 7 * 24 * 60 * 60 * 1000);
 
   // Set it
-  document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/";
+  document.cookie =
+    name + "=" + value + "; expires=" + date.toUTCString() + "; path=/";
 }
 
 export function getCookie(name: string) {
@@ -28,8 +29,8 @@ export function deleteCookie(name: string) {
   const date = new Date();
 
   // Set it expire in -1 days
-  date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
+  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000);
 
   // Set it
-  document.cookie = name+"=; expires="+date.toUTCString()+"; path=/";
+  document.cookie = name + "=; expires=" + date.toUTCString() + "; path=/";
 }
