@@ -6,7 +6,7 @@ Dependencies:
 - Git
 - Node.JS
 
-All of these are *extremely standard*, so if you search "install X windows",
+All of these are _extremely standard_, so if you search "install X windows",
 "install X mac", you should get usable results. I actually think Python is
 pre-installed on Mac's these days. (If you're on Linux, then you should be able
 to figure it out yourself.)
@@ -42,6 +42,7 @@ and [Tailwind CSS](https://duckduckgo.com/?q=tailwindcss) for these.
 ## Compiling Typescript
 
 To get Typescript working, do the following:
+
 ```shell
 cd ~/Documents/MOSP/mosp-web/
 sudo npm install -g typescript
