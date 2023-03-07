@@ -96,5 +96,5 @@ def get_finished_url(request: HttpRequest, u: Unlockable) -> str:
 
 def get_name(request: HttpRequest) -> str:
     if not "name" in request.session:
-        request.session["name"] = "(Anonymous)"
+        request.session["name"] = "Frisk"
     return request.session["name"]
