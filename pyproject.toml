@@ -7,40 +7,35 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-Django = "^4.1.1"
+Django = "^4.1.7"
 Markdown = "^3.3.4"
 PyMySQL = "^1.0.2"
 PyYAML = "^6.0"
 crispy-tailwind = "^0.5.0"
-django-allauth = "^0.51.0"
+django-allauth = "^0.52.0"
 django-markdownx = { git = "https://github.com/neutronX/django-markdownx", rev = "adcaa9e" }
 django-reversion = "^5.0.2"
-django-stubs = "^1.12.0"
-django-stubs-ext = "^0.5.0"
+django-stubs = "^1.15.0"
+django-stubs-ext = "^0.7.0"
 django-tailwind = "^3.3.0"
 mysqlclient = "^2.1.1"
-python-dotenv = "^0.21.0"
+python-dotenv = "^1.0.0"
 requests = "^2.26.0"
 django-extensions = "^3.2.1"
 
 [tool.poetry.group.dev.dependencies]
-codespell = {git = "https://github.com/codespell-project/codespell.git", rev = "fd1d5c0"}
-coverage = {extras = ["toml"], version = "^6.4"}
+black = "^23.1.0"
+codespell = "^2.2.2"
+coverage = {extras = ["toml"], version = "^7.1.0"}
 factory-boy = "^3.2.0"
-ipython = "^8.5"
-jedi = "^0.18"
-pdbpp = "^0.10"
+ipython = "^8.10.0"
+jedi = "^0.18.0"
+pdbpp = "^0.10.3"
 tblib = "^1.7.0"
 toml = "^0.10.2"
-types-Markdown = "^3.4.2"
-types-requests = "^2.28.10"
-yapf = "^0.32"
-pyright = "^1.1.279"
-
-[tool.yapf]
-based_on_style = "google"
-column_limit = 80
-use_tabs = false
+types-Markdown = "^3.4.2.5"
+types-requests = "^2.28.11.14"
+pyright = "^1.1.296"
 
 [tool.coverage.run]
 branch = true
@@ -130,3 +125,6 @@ indent = 2
 ignore = "D018,H006,H013,H021"
 format_css = true
 format_js = true
+
+[tool.isort]
+profile = "black"
