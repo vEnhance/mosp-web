@@ -8,9 +8,6 @@
     <a class="emoji-link" href="{{ unlockable.hunt.get_absolute_url }}">🌍</a>
   {% endif %}
 {% endblock %}
-{% block css %}
-  <link rel="stylesheet" type="text/css" href="{% static "bright.css" %}" />
-{% endblock %}
 {% block title %}{{ unlockable.name }}{% endblock %}
 {% block editlink %}<a class="emoji-link" href="{{ unlockable.get_editor_url }}">✏️</a>{% endblock %}
 {% block content %}
