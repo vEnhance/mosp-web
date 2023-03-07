@@ -11,47 +11,21 @@ urlpatterns = [
         name="puzzle-detail",
     ),
     path(
-        r"testsolve/<str:slug>/<str:testsolvesession__uuid>/",
-        views.PuzzleDetailTestSolve.as_view(),
-        name="puzzle-testsolve",
-    ),
-    path(
         r"<str:unlockable__hunt__volume_number>/solution/<str:slug>",
         views.PuzzleSolutionDetail.as_view(),
-        kwargs={"cheating": False},
         name="solution-detail",
-    ),
-    path(
-        r"<str:unlockable__hunt__volume_number>/solution/<str:slug>/spoil",
-        views.PuzzleSolutionDetail.as_view(),
-        kwargs={"cheating": True},
-        name="solution-detail-cheating",
     ),
     # -- chapter --
     path(
         r"chapter/<str:chapter_number>",
         views.UnlockableList.as_view(),
-        kwargs={"cheating": False},
         name="unlockable-list",
-    ),
-    path(
-        r"chapter/<str:chapter_number>/spoil",
-        views.UnlockableList.as_view(),
-        kwargs={"cheating": True},
-        name="unlockable-list-cheating",
     ),
     # -- volume --
     path(
         r"volume/<str:volume_number>",
         views.RoundUnlockableList.as_view(),
-        kwargs={"cheating": False},
         name="round-unlockable-list",
-    ),
-    path(
-        r"volume/<str:volume_number>/spoil",
-        views.RoundUnlockableList.as_view(),
-        kwargs={"cheating": True},
-        name="round-unlockable-list-cheating",
     ),
     # -- edit --
     path(

@@ -1,19 +1,7 @@
 from django.contrib import admin
-from django.db.models.query import QuerySet
-from django.http.request import HttpRequest
 from markdownx.admin import MarkdownxModelAdmin
 
-from .models import (  # NOQA
-    Attempt,
-    Hunt,
-    Puzzle,
-    Round,
-    SaltedAnswer,
-    Solution,
-    TestSolveSession,
-    Token,
-    Unlockable,
-)
+from .models import Hunt, Puzzle, Round, SaltedAnswer, Solution, Unlockable  # NOQA
 
 
 @admin.register(Hunt)
@@ -38,21 +26,11 @@ class SaltedAnswerInline(admin.TabularInline[SaltedAnswer, Puzzle]):
     extra = 2
 
 
-class AttemptInline(admin.TabularInline[Attempt, Token]):
-    model = Attempt
-    fields = (
-        "unlockable",
-        "status",
-    )
-    extra = 0
-
-
 @admin.register(Puzzle)
 class PuzzleAdmin(MarkdownxModelAdmin):
     list_display = (
         "name",
         "slug",
-        "status_progress",
         "is_meta",
         "unlockable",
     )
@@ -65,25 +43,9 @@ class PuzzleAdmin(MarkdownxModelAdmin):
         "name",
         "slug",
     )
-    list_filter = ("is_meta", "unlockable__hunt", "status_progress")
+    list_filter = ("is_meta", "unlockable__hunt")
     inlines = (SaltedAnswerInline,)
     autocomplete_fields = ("unlockable",)
-    actions = ["mark_deferred", "mark_published"]
-
-    @admin.action(description="Mark deferred")  # type: ignore
-    def mark_deferred(self, request: HttpRequest, queryset: QuerySet[Puzzle]):
-        queryset.update(status_progress=-1)
-
-    @admin.action(description="Mark published")  # type: ignore
-    def mark_published(self, request: HttpRequest, queryset: QuerySet[Puzzle]):
-        queryset.update(status_progress=7)
-
-
-@admin.register(TestSolveSession)
-class TestSolveSessionAdmin(admin.ModelAdmin[TestSolveSession]):
-    list_display = ("uuid", "expires", "puzzle")
-    search_fields = ("puzzle__name",)
-    autocomplete_fields = ("puzzle",)
 
 
 @admin.register(Round)
@@ -134,53 +96,6 @@ class UnlockableAdmin(MarkdownxModelAdmin):
         "unlock_needs",
         "on_solve_link_to",
     )
-
-
-@admin.register(Attempt)
-class AttemptAdmin(admin.ModelAdmin[Attempt]):
-    list_display = (
-        "token",
-        "unlockable",
-        "status",
-    )
-    list_display_links = (
-        "token",
-        "unlockable",
-    )
-    search_fields = (
-        "token__name",
-        "unlockable__name",
-    )
-    list_filter = (
-        "unlockable__hunt",
-        "status",
-        "token__permission",
-    )
-    autocomplete_fields = (
-        "token",
-        "unlockable",
-    )
-
-
-@admin.register(Token)
-class TokenAdmin(admin.ModelAdmin[Token]):
-    list_display = (
-        "uuid",
-        "name",
-        "enabled",
-        "permission",
-    )
-    search_fields = (
-        "uuid",
-        "name",
-    )
-    inlines = (AttemptInline,)
-    list_display_links = (
-        "uuid",
-        "name",
-    )
-    list_filter = ("permission",)
-    autocomplete_fields = ("user",)
 
 
 @admin.register(Solution)

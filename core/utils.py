@@ -1,6 +1,7 @@
 from hashlib import sha256
 
-from django.http import HttpRequest
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import AnonymousUser, User
 
 
 def normalize(s: str) -> str:
@@ -11,11 +12,7 @@ def sha(s: str) -> str:
     return sha256(("MOSP_LIGHT_NOVEL_" + s).encode("UTF-8")).hexdigest()
 
 
-def get_token_from_request(request: HttpRequest):  # -> Optional[Token]
-    from .models import Token
-
-    if not request.user.is_authenticated:
-        return None
-
-    token, _ = Token.objects.get_or_create(user=request.user)
-    return token
+def is_staff(user: AbstractBaseUser | AnonymousUser) -> bool:
+    if not isinstance(user, User):
+        return False
+    return user.is_staff

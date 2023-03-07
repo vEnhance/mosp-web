@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
 from factory import Faker
-from factory.declarations import LazyAttribute, SubFactory
 from factory.django import DjangoModelFactory
 
-from core.models import Hunt, Token
+from core.models import Hunt
 from evans_django_tools.testsuite import UniqueFaker
 
 User = get_user_model()
@@ -27,16 +26,3 @@ class HuntFactory(DjangoModelFactory):
     authors = Faker("company")
     start_date = Faker("date_time")
     visible = False
-    allow_skip = False
-
-
-# ... Sanjana should write other factories here
-
-
-class TokenFactory(DjangoModelFactory):
-    class Meta:
-        model = Token
-
-    user = SubFactory(UserFactory)
-    name = LazyAttribute(lambda o: o.user.first_name + " " + o.user.last_name)
-    reduced_name = LazyAttribute(lambda o: Token.reduce(o.name))

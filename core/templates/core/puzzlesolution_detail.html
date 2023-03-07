@@ -34,14 +34,14 @@
           {% if solution.post_solve_image_path %}
             <a id="door"
                class="img-link"
-               {% if puzzle.unlockable %} href="{{ token|get_finished_url:puzzle.unlockable }}" {% else %} href="{{ puzzle.get_absolute_url }}" {% endif %}
+               {% if puzzle.unlockable %} href="{{ request|get_finished_url:puzzle.unlockable }}" {% else %} href="{{ puzzle.get_absolute_url }}" {% endif %}
                title="{{ solution.post_solve_image_alt }}">
               <img src="{% static solution.post_solve_image_path %}"
                    alt="{{ solution.post_solve_image_alt }}"
                    class="w-11/12"/>
             </a>
           {% else %}
-            {% if puzzle.unlockable %}<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
+            {% if puzzle.unlockable %}<h1>{{ request|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
           {% endif %}
         </div>
         <hr />
@@ -60,7 +60,7 @@
       </div>
     {% else %}
       <h3>Solution to be written later.</h3>
-      {% if puzzle.unlockable %}<h1>{{ token|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
+      {% if puzzle.unlockable %}<h1>{{ request|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}
     {% endif %}
   {% endwith %}
 {% endblock %}

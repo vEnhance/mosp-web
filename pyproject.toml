@@ -124,7 +124,7 @@ profile = "django"
 indent = 2
 ignore = "D018,H006,H013,H021"
 format_css = true
-format_js = true
+format_js = false
 
 [tool.isort]
 profile = "black"

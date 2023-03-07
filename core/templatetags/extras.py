@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 import markdown
 from django import template
@@ -8,7 +8,8 @@ from django.http import HttpRequest
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
-from .. import models, utils
+import core.progresso
+from core.models import Unlockable
 
 register = template.Library()
 
@@ -81,46 +82,55 @@ def admin_url(obj: Any) -> str:
     )
 
 
-@register.filter
-def has_found(token: models.Token, u: models.Unlockable) -> bool:
-    if u.hunt.has_ended:
-        return True
-    elif token is not None:
-        return token.has_found(u)
+@register.filter()
+def get_courage(request: HttpRequest):
+    return core.progresso.get_courage(request)
+
+
+@register.filter()
+def get_name(request: HttpRequest):
+    return core.progresso.get_name(request)
+
+
+@register.filter()
+def has_unlocked(request: HttpRequest, u: Unlockable):
+    return core.progresso.check_unlocked(request, u)
+
+
+@register.filter()
+def has_solved(request: HttpRequest, u: Unlockable):
+    return core.progresso.has_solved(request, u)
+
+
+@register.filter()
+def has_opened(request: HttpRequest, u: Unlockable):
+    return core.progresso.has_opened(request, u)
+
+
+@register.filter()
+def get_tr_class(request: HttpRequest, u: Unlockable):
+    if core.progresso.has_opened(request, u):
+        if u.is_puzzle:
+            if core.progresso.has_solved(request, u):
+                s = "bg-blue-50"
+            else:
+                s = "Bg-yellow-100"
+        elif u.story_only:
+            s = "bg-gray-100"
+        else:
+            s = ""
+    elif core.progresso.check_unlocked(request, u):
+        s = "bg-green-200"
+    elif u.story_only:
+        s = "Bg-gray-200 opacity-50"
     else:
-        return False
+        s = "opacity-50"
+
+    if (puzzle := getattr(u, "puzzle", None)) is not None and puzzle.is_meta:
+        s += " font-bold"
+    return s
 
 
-@register.filter
-def has_unlocked(token: models.Token, u: models.Unlockable) -> bool:
-    if u.hunt.has_ended:
-        return True
-    elif token is not None:
-        return token.has_unlocked(u)
-    else:
-        return False
-
-
-@register.filter
-def has_solved(token: models.Token, u: models.Unlockable) -> bool:
-    return token is not None and token.has_solved(u)
-
-
-@register.filter
-def can_unlock(token: models.Token, u: models.Unlockable) -> bool:
-    return token is not None and token.can_unlock(u)
-
-
-@register.filter
-def can_cheat(token: models.Token, hunt: models.Hunt) -> bool:
-    return hunt.can_cheat(token)
-
-
-@register.filter
-def get_finished_url(token: models.Token, u: models.Unlockable) -> str:
-    return u.get_finished_url(token)
-
-
-@register.filter
-def get_token(request: HttpRequest) -> Optional[models.Token]:
-    return utils.get_token_from_request(request)
+@register.filter()
+def get_finished_url(request: HttpRequest, u: Unlockable):
+    return core.progresso.get_finished_url(request, u)

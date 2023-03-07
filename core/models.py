@@ -1,13 +1,8 @@
 import random
-import re
-import uuid
-from typing import Any, List, Optional
 
-from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, Q
 from django.db.models.query import QuerySet
-from django.urls import reverse_lazy
+from django.urls import reverse
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 
@@ -24,6 +19,7 @@ class Hunt(models.Model):
         max_length=80, help_text="The name of this hunt", blank=True
     )
     authors = models.CharField(max_length=255, help_text="The credits for this hunt")
+
     start_date = models.DateTimeField(help_text="When the hunt can be started")
     end_date = models.DateTimeField(help_text="Show solutions after this date")
     visible = models.BooleanField(
@@ -31,6 +27,7 @@ class Hunt(models.Model):
         "use false if you're just testing",
         default=False,
     )
+
     thumbnail_path = models.CharField(
         max_length=80, help_text="Static argument for thumbnail image", blank=True
     )
@@ -39,7 +36,7 @@ class Hunt(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse_lazy("round-unlockable-list", args=(self.volume_number,))
+        return reverse("round-unlockable-list", args=(self.volume_number,))
 
     @property
     def has_started(self) -> bool:
@@ -52,14 +49,6 @@ class Hunt(models.Model):
     @property
     def active(self) -> bool:
         return self.has_started and not self.has_ended
-
-    def can_cheat(self, token: Optional["Token"]) -> bool:
-        if self.has_ended:
-            return True
-        elif token is None:
-            return False
-        else:
-            return token.is_omniscient
 
 
 class Unlockable(models.Model):
@@ -111,7 +100,7 @@ class Unlockable(models.Model):
     )
     unlock_needs = models.ForeignKey(
         "Unlockable",
-        help_text="If this is nonempty, " "then unlock only when the target is done",
+        help_text="If this is nonempty, then unlock only when the target is done",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -138,19 +127,6 @@ class Unlockable(models.Model):
         on_delete=models.SET_NULL,
         related_name="redirected_by",
     )
-
-    def get_finished_url(self, token: "Token") -> str:
-        if self.on_solve_link_to is None:
-            if self.parent is None:
-                return self.hunt.get_absolute_url()
-            else:
-                return self.parent.get_absolute_url()
-        elif self.on_solve_link_to.unlockable is None:
-            return self.hunt.get_absolute_url()  # wtf
-        elif token is not None and token.has_unlocked(self.on_solve_link_to.unlockable):
-            return self.on_solve_link_to.unlockable.get_absolute_url()
-        else:
-            return self.on_solve_link_to.get_absolute_url()
 
     @property
     def is_puzzle(self) -> bool:
@@ -190,21 +166,15 @@ class Unlockable(models.Model):
         return self.slug
 
     def get_absolute_url(self):
-        return reverse_lazy(
+        return reverse(
             "unlockable-detail",
-            args=(
-                self.hunt.volume_number,
-                self.slug,
-            ),
+            args=(self.hunt.volume_number, self.slug),
         )
 
     def get_editor_url(self):
-        return reverse_lazy(
+        return reverse(
             "unlockable-update",
-            args=(
-                self.hunt.volume_number,
-                self.slug,
-            ),
+            args=(self.hunt.volume_number, self.slug),
         )
 
     class Meta:
@@ -223,12 +193,9 @@ class Puzzle(models.Model):
         on_delete=models.SET_NULL,
     )
     name = models.CharField(max_length=80)
-    slug = models.SlugField(
-        help_text="The slug for the puzzle",
-    )
-    is_meta = models.BooleanField(
-        help_text="Whether this is a metapuzzle", default=False
-    )
+    slug = models.SlugField(help_text="The slug for the puzzle")
+    is_meta = models.BooleanField(help_text="Is this a metapuzzle?", default=False)
+
     flavor_text = MarkdownxField(
         help_text="Markdown for puzzle flavor text",
         blank=True,
@@ -242,64 +209,23 @@ class Puzzle(models.Model):
         "Leave this blank for a standard 'static' puzzle.",
         blank=True,
     )
-    status_progress = models.SmallIntegerField(
-        help_text="How far this puzzle is in the development process",
-        choices=(
-            (-1, "Deferred"),
-            (0, "Initialized"),
-            (1, "Writing"),
-            (2, "Testsolving"),
-            (3, "Revising"),
-            (4, "Needs Soln"),
-            (5, "Polish"),
-            (6, "Finished"),
-            (7, "Published"),
-        ),
-        default=0,
-    )
     salted_answers: QuerySet["SaltedAnswer"]
 
     @property
     def hunt_volume_number(self) -> str:
-        return (
-            self.unlockable.hunt.volume_number if self.unlockable is not None else "-"
-        )
+        if self.unlockable is not None:
+            return self.unlockable.hunt.volume_number
+        else:
+            return "-"
 
     def get_absolute_url(self):
-        return reverse_lazy(
-            "puzzle-detail",
-            args=(
-                self.hunt_volume_number,
-                self.slug,
-            ),
-        )
+        return reverse("puzzle-detail", args=(self.hunt_volume_number, self.slug))
 
     def get_editor_url(self):
-        return reverse_lazy(
-            "puzzle-update",
-            args=(
-                self.hunt_volume_number,
-                self.slug,
-            ),
-        )
+        return reverse("puzzle-update", args=(self.hunt_volume_number, self.slug))
 
     def get_solution_url(self):
-        return reverse_lazy(
-            "solution-detail",
-            args=(
-                self.hunt_volume_number,
-                self.slug,
-            ),
-        )
-
-    def get_cheating_url(self):
-        return reverse_lazy(
-            "solution-detail-cheating",
-            args=(
-                self.hunt_volume_number,
-                self.slug,
-            ),
-        )
+        return reverse("solution-detail", args=(self.hunt_volume_number, self.slug))
 
     def get_parent_url(self) -> str:
         if self.unlockable is None:
@@ -313,7 +239,7 @@ class Puzzle(models.Model):
         return self.name
 
     @property
-    def target_hashes(self) -> List[str]:
+    def target_hashes(self) -> list[str]:
         return [sa.hash for sa in self.salted_answers.all()]
 
     @property
@@ -345,21 +271,13 @@ class Solution(models.Model):
     )
 
     def get_absolute_url(self):
-        return reverse_lazy(
-            "solution-detail",
-            args=(
-                self.puzzle.hunt_volume_number,
-                self.puzzle.slug,
-            ),
+        return reverse(
+            "solution-detail", args=(self.puzzle.hunt_volume_number, self.puzzle.slug)
         )
 
     def get_editor_url(self):
-        return reverse_lazy(
-            "solution-update",
-            args=(
-                self.puzzle.hunt_volume_number,
-                self.puzzle.slug,
-            ),
+        return reverse(
+            "solution-update", args=(self.puzzle.hunt_volume_number, self.puzzle.slug)
         )
 
     def __str__(self):
@@ -417,27 +335,6 @@ class SaltedAnswer(models.Model):
         return self.display_answer
 
 
-class TestSolveSession(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    puzzle = models.ForeignKey(
-        Puzzle,
-        help_text="The puzzle this is a test solve session for",
-        on_delete=models.CASCADE,
-    )
-    expires = models.DateTimeField(
-        "When the test solve session (and hence this link) expires"
-    )
-
-    def get_absolute_url(self):
-        return reverse_lazy(
-            "puzzle-testsolve",
-            args=(
-                self.puzzle.slug,
-                self.uuid,
-            ),
-        )
-
-
 class Round(models.Model):
     unlockable = models.OneToOneField(
         Unlockable,
@@ -453,10 +350,7 @@ class Round(models.Model):
     show_chapter_number = models.BooleanField(
         help_text="Whether the chapter should be numbered on screen", default=True
     )
-    slug = models.SlugField(
-        help_text="The slug for the round",
-        unique=True,
-    )
+    slug = models.SlugField(help_text="The slug for the round", unique=True)
     thumbnail_path = models.CharField(
         max_length=80, help_text="Static argument for thumbnail image", blank=True
     )
@@ -465,215 +359,10 @@ class Round(models.Model):
     )
 
     def get_absolute_url(self):
-        return reverse_lazy("unlockable-list", args=(self.chapter_number,))
+        return reverse("unlockable-list", args=(self.chapter_number,))
 
     def get_editor_url(self):
-        return reverse_lazy("round-update", args=(self.chapter_number,))
-
-    def get_cheating_url(self):
-        return reverse_lazy("unlockable-list-cheating", args=(self.chapter_number,))
+        return reverse("round-update", args=(self.chapter_number,))
 
     def __str__(self) -> str:
         return self.name
-
-
-class Hint(models.Model):
-    cost = models.PositiveSmallIntegerField(help_text="The cost of the hint (patience)")
-    question = models.CharField(
-        max_length=120, help_text="The question that the hint is for"
-    )
-    answer = models.CharField(max_length=120, help_text="The content of the hint")
-    minutes_until_unlock = models.PositiveSmallIntegerField(
-        help_text="Minutes until the hint is visible"
-    )
-
-
-class Attempt(models.Model):
-    token = models.ForeignKey(
-        "Token", help_text="The token this attempt is for", on_delete=models.CASCADE
-    )
-    unlockable = models.ForeignKey(Unlockable, on_delete=models.CASCADE)
-    status = models.SmallIntegerField(
-        choices=(
-            (-1, "Found"),
-            (0, "Unlocked"),
-            (1, "Solved"),
-        ),
-        default=-1,
-    )
-    found_on = models.DateTimeField(
-        help_text="When the unlockable is found", blank=True, null=True
-    )
-    unlocked_on = models.DateTimeField(
-        help_text="When the unlockable is unlocked", blank=True, null=True
-    )
-    solved_on = models.DateTimeField(
-        help_text="When the unlockable is unlocked", blank=True, null=True
-    )
-
-    def save(self, *args: Any, **kwargs: Any):
-        if self.status >= -1 and self.found_on is None:
-            self.found_on = timezone.now()
-        if self.status >= 0 and self.unlocked_on is None:
-            self.unlocked_on = timezone.now()
-        if self.status >= 1 and self.unlocked_on is None:
-            self.solved_on = timezone.now()
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        verb: str = self.get_status_display().lower()  # type: ignore
-        return f"{self.token.pk} {verb}"
-
-    class Meta:
-        unique_together = (
-            "token",
-            "unlockable",
-        )
-
-
-class Token(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
-    name = models.CharField(max_length=128, help_text="Who are you?", blank=True)
-    permission = models.PositiveSmallIntegerField(
-        help_text="Whether this token has any elevated permissions",
-        choices=(
-            (0, "Normal user"),
-            (20, "Testsolver"),
-            (40, "Bestsolver"),
-            (60, "Editor"),
-            (80, "Admin"),
-            (100, "Evan Chen"),
-        ),
-        default=0,
-    )
-    enabled = models.BooleanField(
-        help_text="Turn off to prevent the token from being used",
-        default=True,
-    )
-    hints_obtained = models.ManyToManyField(
-        Hint, help_text="Hints purchased by this token", blank=True
-    )
-    attempts = models.ManyToManyField(
-        Unlockable, through=Attempt, help_text="Attempts attached to this token"
-    )
-
-    @staticmethod
-    def reduce(s: str):
-        return re.sub(r"\W+", "", s.lower())
-
-    def __str__(self) -> str:
-        if self.name == "":
-            if self.user is not None:
-                return self.user.username
-            else:
-                return "???"
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse_lazy("token-detail", args=(self.uuid,))
-
-    def __init__(self, *args: Any, **kwargs: Any):
-        super().__init__(*args, **kwargs)
-
-    def get_courage(self, hunt: Hunt):
-        return (
-            Attempt.objects.filter(
-                unlockable__hunt=hunt, token=self, status=1
-            ).aggregate(courage=models.Sum("unlockable__courage_bounty"))["courage"]
-            or 0
-        )
-
-    def can_unlock(self, u: Unlockable) -> bool:
-        if self.is_plebian and u is not None:
-            assert u.hunt.has_started, "plebs can't access hunt early"
-        if u is None:
-            return self.is_omniscient
-        if u.unlock_date is not None and u.unlock_date > timezone.now():
-            return False
-        if u.unlock_needs is not None:
-            if hasattr(u, "rstatus"):
-                if u.rstatus != 1:  # type: ignore
-                    return False
-            else:
-                if not self.has_solved(u.unlock_needs):
-                    return False
-        return self.get_courage(u.hunt) >= u.unlock_courage_threshold
-
-    @property
-    def is_omniscient(self) -> bool:
-        return self.permission >= 40
-
-    @property
-    def is_plebian(self) -> bool:
-        return self.permission == 0
-
-    def can_view(self, u: Optional[Unlockable]) -> bool:
-        if self.is_plebian and u is not None:
-            assert u.hunt.has_started, "plebs can't access hunt early"
-        if u is None:
-            return self.is_omniscient
-        elif u.force_visibility is True:
-            return True
-        elif u.force_visibility is False:
-            return False
-        else:
-            return self.can_unlock(u)
-
-    def has_found(self, u: Optional[Unlockable]) -> bool:
-        if self.is_plebian and u is not None:
-            assert u.hunt.has_started, "plebs can't access hunt early"
-        if u is None:
-            return self.is_omniscient
-        elif hasattr(u, "ustatus"):
-            return u.ustatus is not None  # type: ignore
-        return Attempt.objects.filter(
-            token=self,
-            unlockable=u,
-        ).exists()
-
-    def has_unlocked(self, u: Optional[Unlockable]) -> bool:
-        if self.is_plebian and u is not None:
-            assert u.hunt.has_started, "plebs can't access hunt early"
-        if u is None:
-            return self.is_omniscient
-        elif hasattr(u, "ustatus"):
-            return u.ustatus == 0 or u.ustatus == 1  # type: ignore
-        return Attempt.objects.filter(token=self, unlockable=u, status__gte=0).exists()
-
-    def has_solved(self, u: Unlockable) -> bool:
-        if self.is_plebian and u is not None:
-            assert u.hunt.has_started, "plebs can't access hunt early"
-        if u is None:
-            return self.is_omniscient
-        elif hasattr(u, "ustatus"):
-            return u.ustatus == 1  # type: ignore
-        return Attempt.objects.filter(token=self, unlockable=u, status=1).exists()
-
-
-def get_viewable(
-    hunt: Hunt,
-    queryset: QuerySet[Unlockable],
-    token: Token,
-) -> QuerySet[Unlockable]:
-    courage = token.get_courage(hunt)
-    queryset = queryset.select_related("puzzle", "round", "unlock_needs")
-    # TODO maybe rewrite this with sql utils since it worked way better in otis web
-    queryset = queryset.annotate(
-        ustatus=Max("attempt__status", filter=Q(attempt__token=token)),
-        rstatus=Max(
-            "unlock_needs__attempt__status",
-            filter=Q(unlock_needs__attempt__token=token),
-        ),
-    )
-    queryset = queryset.exclude(Q(force_visibility=False), Q(ustatus__isnull=True))
-    queryset = queryset.exclude(
-        Q(force_visibility__isnull=True),
-        Q(ustatus__isnull=True),
-        Q(unlock_date__gt=timezone.now())
-        | Q(unlock_courage_threshold__gt=courage)
-        | (
-            Q(unlock_needs__isnull=False) & (Q(rstatus__isnull=True) | Q(rstatus__lt=1))
-        ),
-    )
-    return queryset
