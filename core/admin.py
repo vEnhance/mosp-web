@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 from markdownx.admin import MarkdownxModelAdmin
 
-from .models import (
+from .models import (  # NOQA
     Attempt,
     Hunt,
     Puzzle,
@@ -13,7 +13,7 @@ from .models import (
     TestSolveSession,
     Token,
     Unlockable,
-)  # NOQA
+)
 
 
 @admin.register(Hunt)

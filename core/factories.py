@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
-from evans_django_tools.testsuite import UniqueFaker
 from factory import Faker
 from factory.declarations import LazyAttribute, SubFactory
 from factory.django import DjangoModelFactory
 
 from core.models import Hunt, Token
+from evans_django_tools.testsuite import UniqueFaker
 
 User = get_user_model()
 

@@ -14,7 +14,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView
 
-from .models import (
+from .models import (  # NOQA
     Attempt,
     Hunt,
     Puzzle,
@@ -24,7 +24,7 @@ from .models import (
     TestSolveSession,
     Unlockable,
     get_viewable,
-)  # NOQA
+)
 from .utils import get_token_from_request
 
 
