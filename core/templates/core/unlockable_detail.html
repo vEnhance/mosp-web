@@ -18,11 +18,44 @@
     <h1>{{ u.name }}</h1>
     {% if u.parent %}<a href="{{ u.parent.get_absolute_url }}">↩️ Back to round page</a>{% endif %}
     <hr />
-    {{ u.intro_story_text|mkd }}
-    <h1>
-      <a id="door"
-         class="text-9xl emoji-link"
-         href="{% spaceless %} {% if u.story_only %} {{ request|get_finished_url:u }} {% elif u.puzzle %} {{ u.puzzle.get_absolute_url }} {% elif u.round %} {{ u.round.get_absolute_url }} {% else %} /TODO {% endif %} {% endspaceless %}">🚪</a>
-    </h1>
+    {% if locked %}
+      <h1>
+        {% if u.parent %}
+          <a id="door"
+             class="text-6xl emoji-link"
+             href="{{ u.parent.get_absolute_url }}">🔒</a>
+        {% else %}
+          <a id="door"
+             class="text-6xl emoji-link"
+             href="{{ u.hunt.get_absolute_url }}">🔒</a>
+        {% endif %}
+      </h1>
+      <p class="p-2 mx-auto text-sm border-2 border-red-600 max-w-3/4 w-max rounded-2xl bg-red-50">
+        This item will unlock
+        {% if u.unlock_date %}on {{ u.unlock_date|date }}{% endif %}
+        if
+        {% if u.unlock_needs %}
+          <span class="font-bold text-red-900">{{ u.unlock_needs.puzzle.name }}</span>
+          is completed
+          {% spaceless %}
+            {% if u.unlock_courage_threshold > 0 %}
+              and you
+              have at least {{ u.unlock_courage_threshold }}💜
+            {% else %}
+              .
+            {% endif %}
+          {% endspaceless %}
+        {% else %}
+          you have at least {{ u.unlock_courage_threshold }}💜.
+        {% endif %}
+      </p>
+    {% else %}
+      {{ u.intro_story_text|mkd }}
+      <h1>
+        <a id="door"
+           class="text-9xl emoji-link"
+           href="{% spaceless %} {% if u.story_only %} {{ request|get_finished_url:u }} {% elif u.puzzle %} {{ u.puzzle.get_absolute_url }} {% elif u.round %} {{ u.round.get_absolute_url }} {% else %} /TODO {% endif %} {% endspaceless %}">🚪</a>
+      </h1>
+    {% endif %}
   {% endwith %}
 {% endblock %}

@@ -58,9 +58,11 @@ def get_courage(request: HttpRequest) -> int:
 
 
 def check_unlocked(request: HttpRequest, u: Unlockable) -> bool:
-    if u.hunt.has_ended:
+    if not u.hunt.visible and not is_staff(request.user):
+        return False
+    elif u.hunt.has_ended:
         return True
-    elif not u.hunt.has_started:
+    elif not u.hunt.has_started and not is_staff(request.user):
         return False
     elif u.force_visibility is True:
         return True

@@ -173,13 +173,19 @@ class UnlockableDetail(DetailView[Unlockable]):
     context_object_name = "unlockable"
     object: Unlockable
 
+    def get_context_data(self, **kwargs: Any) -> Context:
+        context = super().get_context_data(**kwargs)
+        context["locked"] = not check_unlocked(self.request, self.object)
+        return context
+
     def dispatch(
         self, request: HttpRequest, *args: Any, **kwargs: Any
     ) -> HttpResponseBase:
-        set_courage(self.request)
         ret = super().dispatch(request, *args, **kwargs)
-        if not check_unlocked(request, self.object):
+        hunt = self.object.hunt
+        if not hunt.has_started or not hunt.visible:
             raise PermissionDenied("This unlockable cannot be unlocked yet")
+        set_courage(self.request)
         return ret
 
 
