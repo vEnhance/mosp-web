@@ -24,10 +24,22 @@
   {% else %}
     <h1>{{ round.name }}</h1>
   {% endif %}
-  <a href="{{ round.unlockable.get_absolute_url }}">↩️  Back to story</a>
+  <p class="text-blue-400">
+    ↩️
+    {% if round.unlockable.parent %}
+      <a class="text-blue-400"
+         href="{{ round.unlockable.parent.get_absolute_url }}">Back to previous round</a>
+    {% else %}
+      <a class="text-blue-400"
+         href="{{ round.unlockable.hunt.get_absolute_url }}">Back to chapter listing</a>
+    {% endif %}
+  </p>
   <div class="container">{{ round.round_text|mkd }}</div>
+  <hr />
+  <p>
+    <a href="{{ round.unlockable.get_absolute_url }}">View story for this round</a>
+  </p>
   {% if unlockable_list|length > 0 %}
-    <hr />
     <table class="w-full mx-auto table-fixed">
       <thead>
         <tr>
@@ -91,15 +103,4 @@
       </tbody>
     </table>
   {% endif %}
-  <hr />
-  <p class="text-blue-400">
-    ↩️
-    {% if round.unlockable.parent %}
-      <a class="text-blue-400"
-         href="{{ round.unlockable.parent.get_absolute_url }}">Back to previous round</a>
-    {% else %}
-      <a class="text-blue-400"
-         href="{{ round.unlockable.hunt.get_absolute_url }}">Back to chapter listing</a>
-    {% endif %}
-  </p>
 {% endblock %}
