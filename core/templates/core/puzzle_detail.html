@@ -12,8 +12,10 @@
   </script>
 {% endblock %}
 {% block title %}{{ puzzle.name }}{% endblock %}
-{% block backnav %}<a class="emoji-link"
-   href="{{ puzzle.unlockable.parent.get_absolute_url }}">🗺️</a>{% endblock %}
+{% block backnav %}
+  <a class="emoji-link"
+     href="{{ puzzle.unlockable.parent.get_absolute_url }}">🗺️</a>
+{% endblock %}
 {% block editlink %}<a class="emoji-link" href="{{ puzzle.get_editor_url }}">✏️</a>{% endblock %}
 {% block leftnav-more %}
   {% if request|has_solved:puzzle.unlockable %}

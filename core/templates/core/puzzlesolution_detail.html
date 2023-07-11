@@ -30,7 +30,7 @@
                title="{{ solution.post_solve_image_alt }}">
               <img src="{% static solution.post_solve_image_path %}"
                    alt="{{ solution.post_solve_image_alt }}"
-                   class="w-11/12"/>
+                   class="w-11/12" />
             </a>
           {% else %}
             {% if puzzle.unlockable %}<h1>{{ request|get_finished_url:puzzle.unlockable|emoji_link:"🏆" }}</h1>{% endif %}

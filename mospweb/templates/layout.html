@@ -58,9 +58,7 @@
         <div class="max-w-2xl mx-auto">
           {% for message in messages %}
             <div class="max-w-md p-1 mx-auto my-2 text-sm border-2 w-max drop-shadow-xl rounded-lg {{ message|tailwind_message_classes }}"
-                 role="alert">
-              {{ message }}
-            </div>
+                 role="alert">{{ message }}</div>
           {% endfor %}
           {% block content %}{% endblock %}
         </div>

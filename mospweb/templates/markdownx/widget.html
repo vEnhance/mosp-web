@@ -6,9 +6,7 @@
       <div id="ace_{{ widget.name }}"
            class="absolute top-0 bottom-0 left-0 right-0"
            style="resize:vertical;
-                  overflow:auto">
-        {{ widget.value|default_if_none:"" }}
-      </div>
+                  overflow:auto">{{ widget.value|default_if_none:"" }}</div>
     {% endspaceless %}
   </div>
   <div class="w-full p-1 md:w-6/12 lg:w-5/12">
