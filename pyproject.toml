@@ -13,14 +13,14 @@ PyMySQL = "^1.0.2"
 PyYAML = "^6.0"
 crispy-tailwind = "^0.5.0"
 django-allauth = "^0.52.0"
-django-markdownx = { git = "https://github.com/neutronX/django-markdownx", rev = "adcaa9e" }
+django-markdownx = "^4.0.2"
 django-reversion = "^5.0.2"
 django-stubs = "^1.15.0"
 django-stubs-ext = "^0.7.0"
 django-tailwind = "^3.3.0"
 mysqlclient = "^2.1.1"
 python-dotenv = "^1.0.0"
-requests = "^2.26.0"
+requests = "^2.31.0"
 django-extensions = "^3.2.1"
 
 [tool.poetry.group.dev.dependencies]
