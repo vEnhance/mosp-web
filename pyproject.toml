@@ -27,6 +27,7 @@ django-extensions = "^3.2.1"
 black = "^23.1.0"
 codespell = "^2.2.2"
 coverage = {extras = ["toml"], version = "^7.1.0"}
+djlint = "^1.31.1"
 factory-boy = "^3.2.0"
 ipython = "^8.10.0"
 jedi = "^0.18.0"
