@@ -6,7 +6,7 @@ declare const puzzle_slug: string;
 declare const hashes: [hash: string];
 
 const audio = new Audio(
-  "https://github.com/vEnhance/dotfiles/blob/main/noisemaker/S3-fanfare.mp3?raw=true"
+  "https://github.com/vEnhance/dotfiles/blob/main/noisemaker/S3-fanfare.mp3?raw=true",
 );
 audio.volume = 0.6;
 
@@ -67,7 +67,7 @@ $(function () {
             judge();
             return;
           },
-          "json"
+          "json",
         ).fail(err);
       }
     }

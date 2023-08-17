@@ -13,7 +13,7 @@ function setName(name: string) {
       if (result.success == 1) {
         $("#tokenname").html(name);
       }
-    }
+    },
   );
 }
 

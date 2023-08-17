@@ -83,7 +83,7 @@ export function SetCard(value: string, month: string, day: number): string {
   function Symbol(
     arg_color: number,
     arg_shape: number,
-    arg_shade: number
+    arg_shade: number,
   ): string {
     const COLORS = [
       theme.setCard.purple,
@@ -130,7 +130,7 @@ export function SetCard(value: string, month: string, day: number): string {
 }
 
 const progress: number[][] = JSON.parse(
-  localStorage.getItem("setClicks") || "[[],[],[],[],[],[],[],[],[],[],[]]"
+  localStorage.getItem("setClicks") || "[[],[],[],[],[],[],[],[],[],[],[]]",
 );
 
 const initialized: boolean[] = Array(10).fill(false);
@@ -143,7 +143,7 @@ export function createEmptyBoards() {
   $("#puzzlecontent").append(
     `<div id="taskselect">&bullet; </div>` +
       `<h2 id="boardtitle"></h2>` +
-      `<div id="boards"></div>`
+      `<div id="boards"></div>`,
   );
   $("#taskselect").css("text-align", "center");
 
@@ -151,7 +151,7 @@ export function createEmptyBoards() {
   for (let i = 0; i < 10; ++i) {
     const month = i == 2 ? "September" : "July";
     $("#taskselect").append(
-      `<a href="#${i + 1}" id="${i + 1}">#` + (i + 1) + `</a> &bullet; `
+      `<a href="#${i + 1}" id="${i + 1}">#` + (i + 1) + `</a> &bullet; `,
     );
     $("#boards").append(`<div id="board${i}" class="board"></div>`);
     // Trigger when board link is clicked
@@ -165,9 +165,12 @@ export function createEmptyBoards() {
         let j = 0; // time delay
         for (const x of progress[i]) {
           j++;
-          window.setTimeout(() => {
-            $(`#board${i} > div.card[data-day=${x}]`).trigger("click");
-          }, 100 + Math.round(300 * Math.pow(j, 0.6)));
+          window.setTimeout(
+            () => {
+              $(`#board${i} > div.card[data-day=${x}]`).trigger("click");
+            },
+            100 + Math.round(300 * Math.pow(j, 0.6)),
+          );
         }
       }
     });
@@ -179,7 +182,7 @@ export function createEmptyBoards() {
       `<a href="javascript:void(0)" id="shift">Shift</a>` +
       ` &bullet; ` +
       `<a href="javascript:void(0)" id="reset">Reset progress</a>` +
-      ` &bullet;</p>`
+      ` &bullet;</p>`,
   );
   $("#shift").on("click ", function () {
     $("div.board.showing").prepend(FAKE_CARD);
