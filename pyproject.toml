@@ -114,7 +114,7 @@ requires = ["poetry-core>=1.2.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.codespell]
-skip = "theme/static_src/package-lock.json,fixtures/*.json,poetry.lock"
+skip = "theme/static_src/package-lock.json,fixtures/*.json,poetry.lock,package-lock.json"
 count = ""
 quiet-level = 3
 ignore-words-list="nd,preform"
