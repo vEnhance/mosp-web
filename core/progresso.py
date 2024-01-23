@@ -7,14 +7,14 @@ from .utils import is_staff
 
 
 def mark_solved(request: HttpRequest, u: Unlockable):
-    if not type(request.session.get("solved", None)) == list:
+    if isinstance(request.session.get("solved", None), list):
         request.session["solved"] = []
     if u.pk not in request.session["solved"]:
         request.session["solved"] += [u.pk]
 
 
 def get_solved_pks(request: HttpRequest) -> list[int]:
-    if not type(request.session.get("solved", None)) == list:
+    if isinstance(request.session.get("solved", None), list):
         request.session["solved"] = []
     return request.session["solved"]
 
@@ -24,14 +24,14 @@ def has_solved(request: HttpRequest, u: Unlockable) -> bool:
 
 
 def mark_opened(request: HttpRequest, u: Unlockable):
-    if not type(request.session.get("opened", None)) == list:
+    if isinstance(request.session.get("opened", None), list):
         request.session["opened"] = []
     if u.pk not in request.session["opened"]:
         request.session["opened"] += [u.pk]
 
 
 def get_opened_pks(request: HttpRequest) -> list[int]:
-    if not type(request.session.get("opened", None)) == list:
+    if isinstance(request.session.get("opened", None), list):
         request.session["opened"] = []
     return request.session["opened"]
 
@@ -52,7 +52,7 @@ def set_courage(request: HttpRequest):
 
 
 def get_courage(request: HttpRequest) -> int:
-    if not type(request.session.get("courage", None)) == int:
+    if isinstance(request.session.get("courage", None), int):
         set_courage(request)
     return request.session["courage"] or 0
 
@@ -74,7 +74,7 @@ def check_unlocked(request: HttpRequest, u: Unlockable) -> bool:
         return False
     if u.unlock_date is not None and timezone.now() < u.unlock_date:
         return False
-    if (needed := u.unlock_needs) is not None and not needed.pk in solved_pks:
+    if (needed := u.unlock_needs) is not None and needed.pk not in solved_pks:
         return False
 
     return True
@@ -95,6 +95,6 @@ def get_finished_url(request: HttpRequest, u: Unlockable) -> str:
 
 
 def get_name(request: HttpRequest) -> str:
-    if not "name" in request.session:
+    if "name" not in request.session:
         request.session["name"] = "Frisk"
     return request.session["name"]

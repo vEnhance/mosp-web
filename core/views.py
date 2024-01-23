@@ -158,7 +158,7 @@ class PuzzleSolutionDetail(DetailView[Puzzle]):
                 )
             else:
                 raise PermissionDenied("This puzzle cannot be unlocked yet")
-        if u.hunt.active and not self.object.unlockable.pk in get_solved_pks(request):
+        if u.hunt.active and self.object.unlockable.pk not in get_solved_pks(request):
             if is_staff(request.user):
                 messages.warning(
                     request, "Viewing as staff. You haven't solved this yet."
