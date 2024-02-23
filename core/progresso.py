@@ -7,14 +7,14 @@ from .utils import is_staff
 
 
 def mark_solved(request: HttpRequest, u: Unlockable):
-    if isinstance(request.session.get("solved", None), list):
+    if not isinstance(request.session.get("solved", None), list):
         request.session["solved"] = []
     if u.pk not in request.session["solved"]:
         request.session["solved"] += [u.pk]
 
 
 def get_solved_pks(request: HttpRequest) -> list[int]:
-    if isinstance(request.session.get("solved", None), list):
+    if not isinstance(request.session.get("solved", None), list):
         request.session["solved"] = []
     return request.session["solved"]
 
@@ -24,14 +24,14 @@ def has_solved(request: HttpRequest, u: Unlockable) -> bool:
 
 
 def mark_opened(request: HttpRequest, u: Unlockable):
-    if isinstance(request.session.get("opened", None), list):
+    if not isinstance(request.session.get("opened", None), list):
         request.session["opened"] = []
     if u.pk not in request.session["opened"]:
         request.session["opened"] += [u.pk]
 
 
 def get_opened_pks(request: HttpRequest) -> list[int]:
-    if isinstance(request.session.get("opened", None), list):
+    if not isinstance(request.session.get("opened", None), list):
         request.session["opened"] = []
     return request.session["opened"]
 
@@ -52,7 +52,7 @@ def set_courage(request: HttpRequest):
 
 
 def get_courage(request: HttpRequest) -> int:
-    if isinstance(request.session.get("courage", None), int):
+    if not isinstance(request.session.get("courage", None), int):
         set_courage(request)
     return request.session["courage"] or 0
 
