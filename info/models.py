@@ -1,5 +1,5 @@
 from django.db import models
-from django.urls import reverse_lazy
+from django.urls import reverse
 from markdownx.models import MarkdownxField
 
 # Create your models here.
@@ -18,7 +18,7 @@ class Page(models.Model):
         return self.title
 
     def get_absolute_url(self) -> str:
-        return reverse_lazy("page-detail", args=(self.slug,))
+        return reverse("page-detail", args=(self.slug,))
 
     def get_editor_url(self) -> str:
-        return reverse_lazy("page-update", args=(self.slug,))
+        return reverse("page-update", args=(self.slug,))
