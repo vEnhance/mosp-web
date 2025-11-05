@@ -25,7 +25,7 @@ function getName() {
     icon: "info",
     confirmButtonText: "Set name",
   }).then((result) => {
-    if (result.isConfirmed) {
+    if (result.isConfirmed && result.value) {
       setName(result.value);
     }
   });
