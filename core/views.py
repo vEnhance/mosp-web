@@ -219,6 +219,8 @@ def ajax(request: HttpRequest) -> JsonResponse:
             return JsonResponse({"correct": 0.5, "message": sa.message})
 
     elif action == "set_name":
+        if not request.POST["name"]:
+            raise PermissionDenied("Name can't be blank")
         request.session["name"] = request.POST["name"]
         return JsonResponse({"success": 1})
 
