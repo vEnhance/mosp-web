@@ -39,7 +39,7 @@ class PageUpdateView(UpdateView[Page, BaseModelForm[Page]]):
     def dispatch(
         self, request: HttpRequest, *args: Any, **kwargs: Any
     ) -> HttpResponseBase:
-        assert (
-            isinstance(request.user, User) and request.user.is_staff
-        ), "no permission to edit"
+        assert isinstance(request.user, User) and request.user.is_staff, (
+            "no permission to edit"
+        )
         return super().dispatch(request, *args, **kwargs)
