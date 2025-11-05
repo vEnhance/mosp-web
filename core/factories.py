@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from factory import Faker
 from factory.django import DjangoModelFactory
+from factory.faker import Faker
 
 from core.models import Hunt
 from evans_django_tools.testsuite import UniqueFaker
